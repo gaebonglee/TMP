@@ -1,0 +1,43 @@
+@import "../../common.scss";
+@import "../../defult.scss";
+
+.header_container {
+  margin: 0 50px;
+  display: flex;
+  padding-top: 30px;
+}
+
+.find_container {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  gap: 30px;
+  font-weight: $font-weight-2;
+}
+
+.account_container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  justify-content: right;
+  background-color: $green1;
+  border-radius: $border-radius-4;
+}
+
+.account_container button {
+  margin: 10px 20px;
+  background-color: $green1;
+  color: $green2;
+  border: none;
+  font-size: 15px;
+  font-weight: $font-weight-2;
+}
+
+.account_container > span {
+  display: block;
+  margin: 10px 8px;
+  width: 2px;
+  height: 25px;
+  background-color: $green3;
+  position: relative;
+}
