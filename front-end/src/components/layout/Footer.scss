@@ -1,0 +1,54 @@
+@import "../../common.scss";
+@import "../../defult.scss";
+
+footer {
+  width: 100%;
+  background-color: $green3;
+}
+
+footer > div {
+  width: 1200px;
+  height: 100%;
+  margin: 0px auto;
+  padding: 0px 10px;
+}
+
+.footer_container {
+  padding: 50px 0;
+  font-size: 14px;
+}
+
+.cs_section .top {
+  font-weight: 700;
+  font-size: 20px;
+}
+.cs_section {
+  padding-bottom: 10px;
+}
+
+.menu_list {
+  display: flex;
+  padding: 5px 0 50px 0;
+  gap: 150px;
+}
+
+.menu_list > li > a {
+  font-weight: 700;
+}
+
+.documentation_section {
+  padding: 5px 0 30px 0;
+}
+
+.documentation_section > a {
+  padding-right: 50px;
+}
+.info_section .top,
+.info_section .bottom {
+  padding: 5px 0;
+}
+
+.info_section .top > span,
+.info_section .bottom > span {
+  padding-right: 30px;
+}
