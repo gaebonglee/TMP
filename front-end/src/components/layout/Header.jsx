@@ -7,11 +7,11 @@ const Header = () => {
       <div className="header_container">
         <div className="main_logo">
           <Link to="/">
-            <img src="../../../public/image/luks_logo.jpg" />
+            {/* <img src="../../../public/image/luks_logo.jpg" /> */}
           </Link>
         </div>
         <div className="find_container">
-          <Link to="#" className="find_trainer">
+          <Link to="/trainermap" className="find_trainer">
             트레이너 찾기
           </Link>
           <Link to="#" className="find_center">
