@@ -1,5 +1,5 @@
 import React from "react";
-import TrainerMap from "./components/mainpage/trainermap/TrainerMap";
+import TrainerMap from "./components/trainermap/TrainerMap";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
 import MainPage from "./components/mainpage/MainPage";
