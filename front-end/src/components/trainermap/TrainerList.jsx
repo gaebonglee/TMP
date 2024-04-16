@@ -5,7 +5,7 @@ import SearchInput from "./SearchInput";
 import FilterList from "./FilterList";
 
 const TrainerList = () => {
-  const [filter, setFilter] = useState(false);
+  const [filter, setFilter] = useState(true);
   return (
     <div className="listWrap">
       <SearchInput setFilter={setFilter} />

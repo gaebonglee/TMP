@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TrainerList from "./TrainerList";
 import { NavermapsProvider } from "react-naver-maps";
 import UndongMap from "./UndongMap";
-import Header from "../../layout/Header";
+import Header from "../layout/Header";
 import { Router } from "react-router-dom";
 
 const TrainerMap = () => {
@@ -38,7 +38,6 @@ const TrainerMap = () => {
       <NavermapsProvider ncpClientId="0dfie9x7ty" submodules={["geocoder"]}>
         <UndongMap address={address} />
       </NavermapsProvider>
-      {/* <DaumPostcode onComplete={handleComplete} />; */}
     </>
   );
 };

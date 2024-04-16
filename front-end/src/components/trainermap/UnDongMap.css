@@ -1,0 +1,142 @@
+.markerWrap {
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 4px;
+  border: 2px solid #00491e;
+  padding: 6px 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  max-width: 110px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  color: rgb(61, 69, 77);
+}
+
+.markerPin {
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  bottom: -11px;
+  left: calc(50% - 8px);
+  width: 16px;
+  height: 0px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 11px solid #00491e;
+}
+.markerPin::before {
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  bottom: 1.5px;
+  left: -8px;
+  width: 16px;
+  height: 0px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 11.5px solid #fff;
+}
+.markerPin::after {
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 5px;
+  bottom: -3px;
+  z-index: -1;
+  left: calc(50% - 5px);
+  border-radius: 50%;
+  background: gray;
+  filter: blur(2px);
+}
+
+.btn {
+  z-index: 300;
+  top: 16px;
+  left: 30px;
+  position: absolute;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 12px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  border: none;
+  box-shadow: rgba(108, 118, 128, 0.16) 0px 2px 4px,
+    rgba(108, 118, 128, 0.16) 0px 4px 8px;
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
+}
+
+.research {
+  z-index: 300;
+  top: 16px;
+  left: calc(50% - 95px);
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.rBtn {
+  border-radius: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  transition-duration: 0s;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  text-transform: none;
+  overflow: visible;
+  height: 48px;
+  min-width: 180px;
+  background-color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: rgb(61, 69, 77);
+  border: 1px solid #fff;
+  margin: 0px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.loading-spinner {
+  display: flex;
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.158);
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

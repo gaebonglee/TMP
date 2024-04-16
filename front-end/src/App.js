@@ -1,8 +1,9 @@
 import React from "react";
-import TrainerMap from "./components/mainpage/trainermap/TrainerMap";
+import TrainerMap from "./components/trainermap/TrainerMap";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
 import MainPage from "./components/mainpage/MainPage";
+import TotalCenter from "./components/centermap/TotalCenter";
 
 function App() {
   const router = createBrowserRouter([
@@ -13,6 +14,7 @@ function App() {
       children: [
         { index: true, element: <MainPage /> },
         { path: "/trainermap", element: <TrainerMap /> },
+        { path: "/centermap", element: <TotalCenter /> },
       ],
     },
   ]);

@@ -7,14 +7,14 @@ const Header = () => {
       <div className="header_container">
         <div className="main_logo">
           <Link to="/">
-            {/* <img src="../../../public/image/luks_logo.jpg" /> */}
+            {/* <img src="/image/tmp_mainlogo.png" alt="" /> */}
           </Link>
         </div>
         <div className="find_container">
           <Link to="/trainermap" className="find_trainer">
             트레이너 찾기
           </Link>
-          <Link to="#" className="find_center">
+          <Link to="/centermap" className="find_center">
             센터 찾기
           </Link>
         </div>
