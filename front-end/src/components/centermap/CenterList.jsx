@@ -9,7 +9,7 @@ const CenterList = () => {
       <div
         style={{
           width: "515px",
-          height: "calc(-242px + 100vh)",
+          height: "calc(-122px + 100vh)",
           overflowY: "auto",
         }}
       >
