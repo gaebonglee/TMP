@@ -1,5 +1,5 @@
 import React from "react";
-import "./FilterList.css";
+import "./FilterList.scss";
 
 const FilterList = (props) => {
   return (
