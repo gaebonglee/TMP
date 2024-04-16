@@ -4,12 +4,26 @@ import CenterListItem from "./CenterListItem";
 
 const CenterList = () => {
   return (
-    <div>
+    <>
       <SearchInput />
-      <CenterListItem />
-      <CenterListItem />
-      <CenterListItem />
-    </div>
+      <div
+        style={{
+          width: "515px",
+          height: "calc(-242px + 100vh)",
+          overflowY: "auto",
+        }}
+      >
+        <CenterListItem />
+        <CenterListItem />
+        <CenterListItem />
+        <CenterListItem />
+        <CenterListItem />
+        <CenterListItem />
+        <CenterListItem />
+        <CenterListItem />
+        <CenterListItem />
+      </div>
+    </>
   );
 };
 

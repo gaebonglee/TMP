@@ -70,7 +70,7 @@ const CenterMap = (props) => {
   }, [props.address]);
 
   const mapStyle = {
-    width: "calc(100% - 512px)",
+    width: "calc(100% - 530px)",
     height: "calc(100px + 100vh)",
     top: "80px",
     right: "0px",
