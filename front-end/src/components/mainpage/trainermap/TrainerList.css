@@ -1,0 +1,47 @@
+.listWrap {
+  margin-left: 10px;
+}
+
+.searchTab {
+  border: 2px solid rgba(162, 238, 148, 1);
+  border-radius: 24px;
+  width: 491px;
+  height: 164px;
+  margin-bottom: 48px;
+}
+
+.searchTab-Title {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  margin: 24px;
+}
+.searchTab-Title > div {
+  display: flex;
+  gap: 10px;
+}
+.titleSvg {
+  align-self: flex-end;
+}
+.searchInput {
+  position: relative;
+}
+.searchInput > input {
+  box-sizing: border-box;
+  width: 450px;
+  height: 40px;
+  border-radius: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  margin: 0px 19px 0px 23px;
+  padding-left: 20px;
+  /* background: url("../public/img/pencil-line.svg") no-repeat right; */
+}
+
+.btn_search {
+  position: absolute;
+  right: 24px;
+  top: 8px;
+  cursor: pointer;
+}
