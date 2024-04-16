@@ -12,8 +12,7 @@ const TrainerCard = () => {
               <div className="ai_contents">
                 <a href="#" className="ai_contents_a">
                   <div className="ai_contents_img">
-                    <img src="사진1.jpg"
-                    alt="MainLogo" />
+                    <img src="사진1.jpg" alt="MainLogo" />
                   </div>
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">

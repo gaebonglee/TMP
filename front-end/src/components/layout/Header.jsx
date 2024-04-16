@@ -14,7 +14,7 @@ const Header = () => {
           <Link to="/trainermap" className="find_trainer">
             트레이너 찾기
           </Link>
-          <Link to="#" className="find_center">
+          <Link to="/centermap" className="find_center">
             센터 찾기
           </Link>
         </div>
