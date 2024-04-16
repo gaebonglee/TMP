@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./UnDongMap.css";
+import "./UnDongMap.scss";
 
 const UndongMap = (props) => {
   const [latitude, setLatitude] = useState(37.5665);
@@ -85,7 +85,7 @@ const UndongMap = (props) => {
 
   const mapStyle = {
     width: "calc(100% - 512px)",
-    height: "calc(100px + 100vh)",
+    height: "calc(100vh)",
     top: "80px",
     right: "0px",
     position: "absolute",

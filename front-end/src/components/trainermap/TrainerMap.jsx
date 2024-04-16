@@ -35,9 +35,7 @@ const TrainerMap = () => {
   return (
     <>
       <TrainerList />
-      <NavermapsProvider ncpClientId="0dfie9x7ty" submodules={["geocoder"]}>
-        <UndongMap address={address} />
-      </NavermapsProvider>
+      <UndongMap address={address} />
     </>
   );
 };

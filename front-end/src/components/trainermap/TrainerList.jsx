@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TrainerListItem from "./TrainerListItem";
-import "./TrainerList.css";
+import "./TrainerList.scss";
 import SearchInput from "./SearchInput";
 import FilterList from "./FilterList";
 
