@@ -15,7 +15,7 @@ const TrainerListItem = () => {
         background: "white",
         borderRadius: 24,
         overflow: "hidden",
-        border: "2px #00491e solid",
+        border: "1px  #a2ee94 solid",
       }}
     >
       <div
