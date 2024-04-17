@@ -19,7 +19,7 @@
 
 .find_trainer,
 .find_center {
-  color: #6b7580;
+  color: $gray;
   &:hover {
     color: #003817;
   }
@@ -31,7 +31,7 @@
   margin-left: auto;
   justify-content: right;
   overflow: hidden;
-  color: $darkgray;
+  color: $black;
   font-weight: $font-weight-2;
 }
 

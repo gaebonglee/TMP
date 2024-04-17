@@ -15,11 +15,15 @@ footer > div {
 .footer_container {
   padding: 50px 0;
   font-size: 14px;
+  color: $black;
 }
 
 .cs_section .top {
   font-weight: 700;
   font-size: 20px;
+}
+.cs_section .bottom {
+  color: $darkgray;
 }
 .cs_section {
   padding-bottom: 10px;
