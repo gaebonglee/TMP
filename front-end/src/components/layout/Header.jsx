@@ -6,9 +6,7 @@ const Header = () => {
     <header>
       <div className="header_container">
         <div className="main_logo">
-          <Link to="/">
-            
-          </Link>
+          <Link to="/"></Link>
         </div>
         <div className="find_container">
           <Link to="/trainermap" className="find_trainer">
@@ -27,7 +25,7 @@ const Header = () => {
           <span></span>
           <button>
             <Link to="#" className="join_btn">
-              로그인
+              회원가입
             </Link>
           </button>
         </div>
