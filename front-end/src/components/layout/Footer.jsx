@@ -8,8 +8,8 @@ const Footer = () => {
         <div className="footer_container">
           <div className="footer_top">
             <div className="cs_section">
-              <p class="top">고객센터 1588-1588</p>
-              <p class="bottom">
+              <p className="top">고객센터 1588-1588</p>
+              <p className="bottom">
                 운영시간 : 평일 09:00 ~ 17 : 30 (점심시간 12:00 ~ 13:00 제외)
               </p>
             </div>
