@@ -4,7 +4,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root";
 import MainPage from "./components/mainpage/MainPage";
 import TotalCenter from "./components/centermap/TotalCenter";
-import "./default.scss"
 
 function App() {
   const router = createBrowserRouter([
