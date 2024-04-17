@@ -1,9 +1,11 @@
 import React from "react";
 import TrainerMap from "./components/trainermap/TrainerMap";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Root from "./Root";
+import Root from "./pages/Root";
 import MainPage from "./components/mainpage/MainPage";
 import TotalCenter from "./components/centermap/TotalCenter";
+import Userinfo from "./components/mypage/Userinfo"
+import "./default.scss"
 
 function App() {
   const router = createBrowserRouter([
