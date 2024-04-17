@@ -7,7 +7,7 @@ const Header = () => {
       <div className="header_container">
         <div className="main_logo">
           <Link to="/">
-            
+            <img src="/image/tmp_mainlogo.png" />
           </Link>
         </div>
         <div className="find_container">
@@ -27,7 +27,7 @@ const Header = () => {
           <span></span>
           <button>
             <Link to="#" className="join_btn">
-              로그인
+              회원가입
             </Link>
           </button>
         </div>
