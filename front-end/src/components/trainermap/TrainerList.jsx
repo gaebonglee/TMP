@@ -12,7 +12,7 @@ const TrainerList = () => {
       <div
         style={{
           width: "515px",
-          height: "calc(-122px + 100vh)",
+          height: "calc(-285px + 100vh)",
           overflowY: "auto",
         }}
       >

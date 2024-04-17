@@ -87,42 +87,44 @@ const UndongMap = (props) => {
 
   const mapStyle = {
     width: "calc(100% - 528px)",
-    height: "calc(88px + 100vh)",
-    top: "80px",
+    height: "calc(100vh - 90px)",
+    top: "90px",
     right: "0px",
     position: "absolute",
   };
 
   return (
-    <div ref={mapRef} style={mapStyle}>
-      <div>
-        <div className="myLocation">
-          <div
-            className="btn"
-            onClick={() => {
-              if (map) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                  const { latitude, longitude } = position.coords;
-                  setLatitude(latitude);
-                  setLongitude(longitude);
-                  const newLocation = new window.naver.maps.LatLng(
-                    latitude,
-                    longitude
-                  );
-                  map.setCenter(newLocation);
-                });
-              }
-            }}
-          >
-            <BiTargetLock size={27} color="#00491e" />
+    <div className="mapWrap">
+      <div ref={mapRef} style={mapStyle}>
+        <div>
+          <div className="myLocation">
+            <div
+              className="btn"
+              onClick={() => {
+                if (map) {
+                  navigator.geolocation.getCurrentPosition((position) => {
+                    const { latitude, longitude } = position.coords;
+                    setLatitude(latitude);
+                    setLongitude(longitude);
+                    const newLocation = new window.naver.maps.LatLng(
+                      latitude,
+                      longitude
+                    );
+                    map.setCenter(newLocation);
+                  });
+                }
+              }}
+            >
+              <BiTargetLock size={27} color="#00491e" />
+            </div>
           </div>
-        </div>
-        <div className="research">
-          <div className="researchBtn">
-            <button size="48" color="#fff" className="rBtn">
-              <TbRestore size={25} color="#00491e" />
-              <span>이 지역 다시 검색</span>
-            </button>
+          <div className="research">
+            <div className="researchBtn">
+              <button size="48" color="#fff" className="rBtn">
+                <TbRestore size={25} color="#00491e" />
+                <span>이 지역 다시 검색</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

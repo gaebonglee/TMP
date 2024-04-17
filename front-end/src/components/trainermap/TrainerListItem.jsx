@@ -1,4 +1,7 @@
 import React from "react";
+import { TbMapPin } from "react-icons/tb";
+import { BsFillStarFill } from "react-icons/bs";
+import "../../common.scss";
 
 const TrainerListItem = () => {
   return (
@@ -12,7 +15,7 @@ const TrainerListItem = () => {
         background: "white",
         borderRadius: 24,
         overflow: "hidden",
-        border: "2px #A2EE94 solid",
+        border: "2px #00491e solid",
       }}
     >
       <div
@@ -85,8 +88,8 @@ const TrainerListItem = () => {
         className="Pt10"
         style={{
           height: 19,
-          left: 200,
-          top: 135,
+          left: 178,
+          top: 145,
           position: "absolute",
           color: "#6D6D6D",
           fontSize: 15,
@@ -96,13 +99,14 @@ const TrainerListItem = () => {
           wordWrap: "break-word",
         }}
       >
+        <TbMapPin size={17} />
         서울 PT샵 강남점 - 강남역 보도 10분
       </div>
       <div
         className="Nn"
         style={{
           height: 23,
-          left: 398,
+          left: 380,
           top: 24,
           position: "absolute",
           color: "black",
@@ -113,6 +117,7 @@ const TrainerListItem = () => {
           wordWrap: "break-word",
         }}
       >
+        <BsFillStarFill size={20} color="rgb(255,187,51)" />
         후기 NN개
       </div>
       <img
@@ -126,30 +131,6 @@ const TrainerListItem = () => {
         }}
         src="img/morae.jpg"
         alt="1"
-      />
-      <img
-        className="MapPin"
-        style={{
-          width: 20,
-          height: 19,
-          left: 178,
-          top: 140,
-          position: "absolute",
-        }}
-        src="img/map-pin-line.svg"
-        alt="2"
-      />
-      <img
-        className="StarFill"
-        style={{
-          width: 22,
-          height: 21,
-          left: 370,
-          top: 24,
-          position: "absolute",
-        }}
-        src="img/star-fill.svg"
-        alt="3"
       />
     </div>
   );
