@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const session = require('express-session');
 const authRouter = require('./routes/auth');
+const sessionRouter = require('./routes/session');
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use(
 
 // router 추가
 app.use('/auth', authRouter);
+app.use('/session', sessionRouter);
 
 app.listen(5000, () => {
   console.log('server is running...');

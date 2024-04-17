@@ -3,12 +3,13 @@
 .header_container {
   margin: 0 50px;
   display: flex;
-  padding-top: 30px;
+  padding: 20px 0px;
 }
 
 .main_logo {
   width: 120px;
 }
+
 .find_container {
   display: flex;
   align-items: center;
@@ -22,17 +23,18 @@
   align-items: center;
   margin-left: auto;
   justify-content: right;
-  background-color: $green1;
-  border-radius: $border-radius-4;
+  overflow: hidden;
 }
 
-.account_container button {
-  margin: 10px 20px;
+.account_container > button {
+  padding: 10px 20px;
   background-color: $green1;
   color: $green2;
   border: none;
   font-size: 15px;
+  border-radius: $border-radius-4;
   font-weight: $font-weight-2;
+  cursor: pointer;
 }
 
 .account_container > span {

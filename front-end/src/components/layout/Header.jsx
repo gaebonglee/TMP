@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
+import LoginModal from "../loginModal/LoginModal";
+import axios from "axios";
+
 const Header = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [loginInfo, setLoginInfo] = useState({});
+  const handleModalOpen = (value) => {
+    setModalOpen(value);
+  };
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios.get("http://localhost:5000/session/checkSession");
+      const result = res.data;
+      setLoginInfo(result);
+    }
+    fetchData();
+  }, []);
+
+  console.log("login info:", loginInfo.user_id);
   return (
     <header>
       <div className="header_container">
         <div className="main_logo">
           <Link to="/">
-            <img src="/image/tmp_mainlogo.png" />
+            <img alt="mainlogo" src="/image/tmp_mainlogo.png" />
           </Link>
         </div>
         <div className="find_container">
@@ -19,18 +37,17 @@ const Header = () => {
           </Link>
         </div>
         <div className="account_container">
-          <button>
-            <Link to="#" className="login_btn">
-              로그인
-            </Link>
-          </button>
-          <span></span>
-          <button>
-            <Link to="#" className="join_btn">
-              회원가입
-            </Link>
-          </button>
+          {!!loginInfo.user_id === true ? (
+            <div>로그인됨</div>
+          ) : (
+            <button className="account_btn" onClick={() => setModalOpen(true)}>
+              회원가입 / 로그인
+            </button>
+          )}
         </div>
+        {modalOpen && (
+          <LoginModal modalOpen={modalOpen} handleModalOpen={handleModalOpen} />
+        )}
       </div>
     </header>
   );
