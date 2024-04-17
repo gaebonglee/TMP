@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./CenterMap.css";
+import "./CenterMap.scss";
+import { TbRestore } from "react-icons/tb";
+import { BiTargetLock } from "react-icons/bi";
 
 const CenterMap = (props) => {
   const [latitude, setLatitude] = useState(37.5665);
@@ -112,26 +114,14 @@ const CenterMap = (props) => {
               }
             }}
           >
-            <img src="img/crosshair-line.svg" alt="" />
+            <BiTargetLock size={27} color="#00491e" />
           </div>
         </div>
         <div className="research">
           <div className="researchBtn">
             <button size="48" color="#fff" className="rBtn">
-              <image
-                src="img/arrow-go-back-fill.svg"
-                alt=""
-                style={{
-                  boxSizing: "border-box",
-                  width: "24px",
-                  height: "24px",
-                  marginRight: "8px",
-                  borderStyle: "none",
-                  objectFit: "cover",
-                  objectPosition: "center center",
-                  zIndex: 999,
-                }}
-              />
+              <TbRestore size={25} color="#00491e" />
+
               <span>이 지역 다시 검색</span>
             </button>
           </div>

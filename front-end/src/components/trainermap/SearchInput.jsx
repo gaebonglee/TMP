@@ -1,4 +1,6 @@
 import React from "react";
+import { TbAdjustmentsAlt } from "react-icons/tb";
+import { FaPencilAlt } from "react-icons/fa";
 
 const SearchInput = (props) => {
   function filterHandler() {
@@ -13,14 +15,9 @@ const SearchInput = (props) => {
           <div>헬스</div>
         </div>
         <div className="titleSvg" onClick={filterHandler}>
-          <img
-            alt="equalizer-line"
-            src="img/equalizer-line.svg"
-            style={{
-              width: "22px",
-              cursor: "pointer",
-            }}
-          />
+          {!props.centerList ? (
+            <TbAdjustmentsAlt size={20} color="#00491e" />
+          ) : null}
         </div>
       </div>
       <div className="searchInput">
@@ -30,11 +27,7 @@ const SearchInput = (props) => {
           placeholder="지역,지하철역,센터,선생님 검색하기"
         />
         <div className="btn_search">
-          <img
-            src="img/pencil-line.svg"
-            alt="search"
-            style={{ width: "24px", cursor: "pointer" }}
-          />
+          <FaPencilAlt size={20} color="#00491e" />
         </div>
       </div>
       <div></div>

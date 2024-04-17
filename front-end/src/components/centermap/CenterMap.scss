@@ -40,7 +40,6 @@
   border-top: 11.5px solid #fff;
 }
 .markerPin::after {
-  box-sizing: border-box;
   content: "";
   position: absolute;
   width: 10px;
@@ -60,7 +59,7 @@
   position: absolute;
   background-color: #fff;
   border-radius: 50%;
-  padding: 12px;
+  padding: 11px;
   width: 48px;
   height: 48px;
   cursor: pointer;
