@@ -1,0 +1,60 @@
+.steps {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  .circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 500;
+    border-radius: 50%;
+    background-color: #eee6c6;
+    border: 4px solid #fff;
+    transition: all 200ms ease;
+    transition-delay: 0s;
+  }
+  .circle.active {
+    transition-delay: 100ms;
+    border-color: #8fa9f1;
+    color: #8fa9f1;
+  }
+  .progress-bar .indicator {
+    position: absolute;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: #8fa9f1;
+    transition: all 300ms ease;
+    z-index: -1; // 안해주면 circle 부분 위에 배경이 표시된다.
+  }
+}
+.buttons {
+  display: flex;
+  gap: 20px;
+  button {
+    padding: 8px 25px;
+    background: #8fa9f1;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-size: 16px;
+    font-weight: 400px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+    transition: all 200ms linear;
+  }
+  button:active {
+    transform: scale(0.97);
+  }
+  button:disabled {
+    background: #87a5f8;
+    cursor: not-allowed;
+  }
+}

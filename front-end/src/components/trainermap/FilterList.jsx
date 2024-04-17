@@ -1,7 +1,16 @@
 import React from "react";
 import "./FilterList.scss";
+import { RiArrowGoBackLine } from "react-icons/ri";
+import MultiStepProgress from "./MultiStepProgress";
 
 const FilterList = (props) => {
+  let roundBox = document.querySelectorAll(".round_box");
+  roundBox.forEach((box) => {
+    box.addEventListener("click", () => {
+      box.classList.toggle("active");
+    });
+  });
+
   return (
     <div className="FilterList">
       <div className="searchHelper">
@@ -10,10 +19,7 @@ const FilterList = (props) => {
             props.setFilter(true);
           }}
         >
-          <img
-            src="img/arrow-go-back-fill.svg"
-            style={{ width: "24px", cursor: "pointer" }}
-          />
+          <RiArrowGoBackLine size={20} color="#00491e" cursor={"pointer"} />
         </div>
         <div
           style={{ fontSize: "15px", fontWeight: "bolder", cursor: "pointer" }}
@@ -44,7 +50,7 @@ const FilterList = (props) => {
           <div>NNNm 이내</div>
         </div>
         <div>
-          <progress value="50" max="100"></progress>
+          <MultiStepProgress />
         </div>
         <div className="meter">
           <div>NNNm</div>
@@ -84,9 +90,9 @@ const FilterList = (props) => {
       <div className="comfort">
         <div>이용편의</div>
         <div className="comfortBox">
-          <div>운동복 대여</div>
-          <div>무료주차</div>
-          <div>개인 락커</div>
+          <div className="round_box">운동복 대여</div>
+          <div className="round_box">무료주차</div>
+          <div className="round_box">개인 락커</div>
         </div>
       </div>
       <div className="btn_area">
