@@ -26,7 +26,7 @@ const CenterListItem = () => {
               color: "rgb(152,165,179)",
             }}
           >
-            <FaStar size={17} color="yellowgreen" />
+            <FaStar size={17} color="rgb(255,187,51)" />
             후기 ?개{" "}
           </span>
         </div>
