@@ -3,9 +3,9 @@ import React from "react";
 const TrainerListItem = () => {
   return (
     <div
-      className="TrainerCenter2"
+      className="TrainerListItem"
       style={{
-        marginTop: 17,
+        marginBottom: 17,
         width: 491,
         height: 198,
         position: "relative",

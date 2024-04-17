@@ -1,5 +1,8 @@
 import React from "react";
-import "./CenterListItem.css";
+import "./CenterListItem.scss";
+import { FaStar } from "react-icons/fa";
+
+import { TbMapPin } from "react-icons/tb";
 
 const CenterListItem = () => {
   return (
@@ -23,13 +26,7 @@ const CenterListItem = () => {
               color: "rgb(152,165,179)",
             }}
           >
-            <img
-              src="img/star-fill.svg"
-              alt=""
-              style={{
-                width: "18px",
-              }}
-            />
+            <FaStar size={17} color="yellowgreen" />
             후기 ?개{" "}
           </span>
         </div>
@@ -66,13 +63,7 @@ const CenterListItem = () => {
             </div>
           </div>
           <div className="locationInfoWrap">
-            <img
-              src="img/map-pin-line.svg"
-              alt=""
-              style={{
-                width: "18px",
-              }}
-            />
+            <TbMapPin />
             선생님 ?명 - 신논현역 도보 ?분
           </div>
         </div>

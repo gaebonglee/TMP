@@ -9,9 +9,18 @@ const TrainerList = () => {
   return (
     <div className="listWrap">
       <SearchInput setFilter={setFilter} />
-      <div>
+      <div
+        style={{
+          width: "515px",
+          height: "calc(-122px + 100vh)",
+          overflowY: "auto",
+        }}
+      >
         {filter ? (
           <>
+            <TrainerListItem />
+            <TrainerListItem />
+            <TrainerListItem />
             <TrainerListItem />
             <TrainerListItem />
             <TrainerListItem />
