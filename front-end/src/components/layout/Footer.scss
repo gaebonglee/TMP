@@ -9,7 +9,6 @@ footer > div {
   width: 1200px;
   height: 100%;
   margin: 0px auto;
-  padding: 0px 10px;
 }
 
 .footer_container {
@@ -25,18 +24,20 @@ footer > div {
 .cs_section .bottom {
   color: $darkgray;
 }
-.cs_section {
+
+.cs_section > p {
   padding-bottom: 10px;
 }
 
 .menu_list {
   display: flex;
   padding: 5px 0 50px 0;
-  gap: 150px;
+  gap: 25px;
+  font-weight: $font-weight-2;
 }
 
-.menu_list > li > a {
-  font-weight: 700;
+.menu_list > span {
+  border: 1px solid rgb(61, 69, 77);
 }
 
 .documentation_section {
