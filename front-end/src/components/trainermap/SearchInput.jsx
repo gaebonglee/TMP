@@ -16,7 +16,7 @@ const SearchInput = (props) => {
         </div>
         <div className="titleSvg" onClick={filterHandler}>
           {!props.centerList ? (
-            <TbAdjustmentsAlt size={20} color="#00491e" />
+            <TbAdjustmentsAlt size={20} color="#00491e" cursor={"pointer"} />
           ) : null}
         </div>
       </div>

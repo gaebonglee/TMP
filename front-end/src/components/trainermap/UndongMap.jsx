@@ -87,8 +87,8 @@ const UndongMap = (props) => {
 
   const mapStyle = {
     width: "calc(100% - 528px)",
-    height: "calc(100px + 100vh)",
-    top: "80px",
+    height: "calc(100vh - 90px)",
+    top: "90px",
     right: "0px",
     position: "absolute",
   };

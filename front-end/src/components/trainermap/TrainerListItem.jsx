@@ -1,6 +1,8 @@
 import React from "react";
 import { TbMapPin } from "react-icons/tb";
 import { BsFillStarFill } from "react-icons/bs";
+import "../../common.scss";
+
 const TrainerListItem = () => {
   return (
     <div
@@ -13,7 +15,7 @@ const TrainerListItem = () => {
         background: "white",
         borderRadius: 24,
         overflow: "hidden",
-        border: "2px #A2EE94 solid",
+        border: "2px #00491e solid",
       }}
     >
       <div
