@@ -1,0 +1,110 @@
+@import "../../../../common.scss";
+
+.review_wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.star_review_wrap {
+  display: flex;
+}
+
+.star_review_wrap > span {
+  font-size: 50px;
+  font-weight: $font-weight-2;
+}
+
+.star_wrap {
+  color: $star;
+}
+.review_summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  margin-left: 12px;
+  font-size: 14px;
+  font-weight: $font-weight-2;
+  color: $gray;
+}
+
+.review_btn > button {
+  height: 60px;
+  min-width: 180px;
+  border-radius: $border-radius-1;
+  padding: 12px 24px;
+  color: $green2;
+  border: 3px solid $green2;
+  background-color: $white;
+}
+
+.review_btn > button > i {
+  font-size: $h1;
+  padding-right: 10px;
+}
+
+.review_btn > button > a {
+  font-size: $h3;
+  font-weight: $font-weight-2;
+}
+
+.review_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid $lightgray;
+}
+
+.review_title > p {
+  font-size: $h3;
+  font-weight: $font-weight-2;
+  color: $darkgray;
+}
+
+.review_li {
+  padding: 25px 0;
+}
+
+.review_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review_userName {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reviewDate {
+  color: $gray;
+}
+.review_context {
+  margin-left: 58px;
+  font-size: 16px;
+  display: block;
+  color: $darkgray;
+}
+
+.review_context_photo,
+.review_context_text {
+  margin-top: 20px;
+}
+
+.reviewAll_btn > button {
+  border: 2px solid $green1;
+  height: 48px;
+  width: 100%;
+  background-color: $white;
+  border-radius: $border-radius-4;
+  padding: 12px 24px;
+  margin: 0px;
+}
+
+.reviewAll_btn > button > span {
+  font-size: 16px;
+  font-weight: $font-weight-2;
+  color: $green2;
+}

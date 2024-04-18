@@ -1,0 +1,92 @@
+@import "../../../common.scss";
+
+.intro_right_container {
+  width: 100%;
+  position: sticky;
+  top: calc(134px);
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(108, 118, 128, 0.16) 0px 4px 8px;
+  border: 3px solid rgb(162, 238, 148);
+  border-radius: $border-radius-3;
+}
+
+.intro_right_wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 20px;
+  padding: 20px;
+  color: $black;
+}
+.trainer_name_star {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trainer_star {
+  display: flex;
+  gap: 5px;
+}
+.star_wrap {
+  display: flex;
+  color: rgb(255, 174, 0);
+  gap: -10px;
+}
+
+.review_average_score {
+  font-weight: $font-weight-1;
+}
+
+.review_num {
+  color: $gray;
+}
+
+.center_name,
+.trainer_intro_oneline {
+  padding: 5px 0;
+}
+
+.center_name {
+  color: $gray;
+  font: $font-weight-2;
+}
+.middle_wrap {
+  font-size: 14px;
+}
+
+.certificate .left,
+.specialized_field .left,
+.bottom_wrap > h3 {
+  font-weight: $font-weight-2;
+  color: $green2;
+}
+
+.trainer_class_price_info {
+  display: flex;
+  gap: 15px;
+  font-weight: $font-weight-2;
+}
+
+.class_discountrate {
+  color: $red;
+}
+
+.class_price {
+  color: $gray;
+  text-decoration: line-through;
+}
+
+.reservation_btn {
+  padding: 20px 0px;
+  text-align: center;
+}
+.reservation_btn > button {
+  padding: 10px 100px;
+  border-radius: $border-radius-1;
+  border: none;
+  background-color: $green2;
+  color: $white;
+  font-size: $h3;
+  font-weight: $font-weight-2;
+}

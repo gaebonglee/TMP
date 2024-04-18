@@ -1,0 +1,24 @@
+@import "../../../../common.scss";
+
+.intro_hashtag {
+  text-align: start;
+  background-color: $green2;
+  color: $white;
+  border-radius: $border-radius-3;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 6px 12px;
+}
+
+.program_title {
+  color: $darkgray;
+  padding: 16px 0px;
+  font-size: $h3;
+  font-weight: $font-weight-2;
+  border-bottom: 1px solid $lightgray;
+}
+
+.program_photo {
+  margin-top: 20px;
+}
