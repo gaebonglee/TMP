@@ -182,16 +182,15 @@ router.get("/naver/trainer", async (req, res, next) => {
     const res2 = await axios.get("https://openapi.naver.com/v1/nid/me", {
       headers: { Authorization: header },
     });
-    console.log("user Info data :", res2.data);
+
     req.session.user_id = res2.data.response.id + "_naver";
     req.session.role = "trainer";
     req.session.gender = res2.data.response.gender.toLowerCase();
     req.session.email = res2.data.response.email;
     req.session.phonenumber = res2.data.response.mobile.replaceAll("-", "");
     req.session.user_name = res2.data.response.name;
-    console.log("req.session:", req.session);
     req.session.save(() => {});
-    console.log("trainer info:", req.session);
+
     res.redirect("http://localhost:3000/");
   } catch (e) {
     console.log(e);
@@ -210,9 +209,6 @@ router.get("/google/user", async (req, res, next) => {
   let client_secret = process.env.GOOGLE_CLIENT_SECRET;
   let redirect_uri = process.env.GOOGLE_REDIRECT_URI_USER;
 
-  console.log("client_id->", client_id);
-  console.log("client_secret->", client_secret);
-  console.log("redirect_uri->", redirect_uri);
   try {
     // get token
     const token = await axios.post(
@@ -232,23 +228,28 @@ router.get("/google/user", async (req, res, next) => {
       }
     );
 
-    //https://www.googleapis.com/userinfo/v2/me
+    const res2 = await axios.post(
+      "https://www.googleapis.com/userinfo/v2/me",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: "Bearer " + token.data.access_token,
+        },
+      }
+    );
 
-    console.log("token:", token);
-    let access_token = token.data.access_token;
-    var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
-    const res2 = await axios.get("https://openapi.naver.com/v1/nid/me", {
-      headers: { Authorization: header },
-    });
+    // let access_token = token.data.access_token;
+
     console.log("user Info data :", res2.data);
-    req.session.user_id = res2.data.response.id + "_naver";
-    req.session.role = "trainer";
-    req.session.gender = res2.data.response.gender.toLowerCase();
-    req.session.email = res2.data.response.email;
-    req.session.phonenumber = res2.data.response.mobile.replaceAll("-", "");
-    req.session.user_name = res2.data.response.name;
+    // req.session.user_id = res2.data.response.id + "_google";
+    // req.session.role = "user";
+    // req.session.gender = res2.data.response.gender.toLowerCase();
+    // req.session.email = res2.data.response.email;
+    // req.session.phonenumber = res2.data.response.mobile.replaceAll("-", "");
+    // req.session.user_name = res2.data.response.name;
     console.log("req.session:", req.session);
-    req.session.save(() => {});
+    // req.session.save(() => {});
 
     console.log("session info:", req.session);
     // res.redirect("http://localhost:3000/");
