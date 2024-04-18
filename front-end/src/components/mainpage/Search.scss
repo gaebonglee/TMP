@@ -18,6 +18,7 @@
   border: 3px solid $green1;
   background-color: $white;
 }
+
 .searchType {
   font-size: 18px;
   width: 180px;
@@ -26,36 +27,63 @@
   display: inline-block;
   position: relative;
   text-align: left;
-}
+  cursor: pointer;
 
-.searchType .bar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  .bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .searchTypeDropdown {
+    display: none;
+    position: absolute;
+    background-color: $white;
+    width: 70%;
+    z-index: 1;
+    border: 1px solid $lightgray;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    .option {
+      padding: 10px 20px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $lightgray;
+      }
+    }
+  }
+
+  &:hover .searchTypeDropdown {
+    display: block;
+  }
 }
 
 .searchKeyword {
-  width: calc(60% + 232px);
+  width: calc(60% + 230px);
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-}
 
-.searchKeyword input {
-  width: 100%;
-  padding: 10px 15px;
-  border: none;
-  font-size: 18px;
-  background-color: $white;
-  outline: none;
+  input {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    font-size: 18px;
+    background-color: $white;
+    outline: none;
+  }
 }
 
 .cancel_icon {
   padding: 10px;
   font-size: $h3;
   font-weight: $font-weight-2;
+  color: $lightgray;
+  cursor: pointer;
 }
+
 .search_icon {
   display: flex;
   flex-direction: row;
