@@ -36,9 +36,7 @@ const FilterList = (props) => {
         </div>
         <div
           style={{ fontSize: "15px", fontWeight: "bolder", cursor: "pointer" }}
-          onClick={() => {
-      
-          }}
+          onClick={() => {}}
         >
           필터 초기화
         </div>

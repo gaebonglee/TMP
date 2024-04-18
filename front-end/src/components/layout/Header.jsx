@@ -38,7 +38,7 @@ const Header = () => {
         </div>
         <div className="account_container">
           {!!loginInfo.user_id === true ? (
-            <div>로그인됨</div>
+            <div className="setLogin">로그인됨</div>
           ) : (
             <button className="account_btn" onClick={() => setModalOpen(true)}>
               회원가입 / 로그인

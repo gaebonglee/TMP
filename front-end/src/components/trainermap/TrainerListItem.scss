@@ -18,7 +18,7 @@
   color: black;
   font-size: 16px;
   font-weight: 600;
-  
+
   word-wrap: break-word;
 }
 
@@ -33,12 +33,15 @@
 .moraeTitleText {
   font-size: 18px;
   font-weight: 600;
-  
+
   word-wrap: break-word;
 }
 
 .moraeTitleTextPT {
   font-size: 15px;
+  font-family: Inter;
+  font-weight: 600;
+  color: rgb(108, 118, 128);
 }
 .moraePrice {
   font-weight: 800;
@@ -46,11 +49,13 @@
 }
 
 .moraeLocation {
+  font-weight: 600;
+  font-family: Inter;
   height: 19px;
   left: 178px;
-  top: 145px;
+  top: 155px;
   position: absolute;
-  color: #6d6d6d;
+  color: rgb(108, 118, 128);
   font-size: 15px;
   margin-top: 5px;
   word-wrap: break-word;
@@ -59,6 +64,7 @@
   height: 23px;
   left: 380px;
   top: 24px;
+  color: rgb(108, 118, 128);
   position: absolute;
   font-size: 16px;
   font-weight: 600;

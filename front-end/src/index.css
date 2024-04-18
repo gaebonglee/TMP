@@ -9,10 +9,10 @@
 }
 
 body {
+  font-family: Spoqa Han Sans Neo, "sans-serif";
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
-  color: black;
   background-color: white;
 }
 

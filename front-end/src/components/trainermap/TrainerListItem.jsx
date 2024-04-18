@@ -25,15 +25,10 @@ const TrainerListItem = () => {
         서울 PT샵 강남점 - 강남역 보도 10분
       </div>
       <div className="moraeReview">
-        <BsFillStarFill size={20} color="rgb(255,187,51)" />
+        <BsFillStarFill size={18} color="rgb(255,187,51)" />
         후기 NN개
       </div>
-      <img
-        className="trainerImg"
-        
-        src="img/morae.jpg"
-        alt="1"
-      />
+      <img className="trainerImg" src="img/morae.jpg" alt="1" />
     </div>
   );
 };
