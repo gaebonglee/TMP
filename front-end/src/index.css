@@ -9,10 +9,10 @@
 }
 
 body {
+  font-family: Spoqa Han Sans Neo, "sans-serif";
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
-  color: black;
   background-color: white;
 }
 
@@ -37,4 +37,22 @@ table {
 
 input::placeholder {
   font: inherit;
+}
+/* 웹킷 기반 브라우저 (Chrome, Safari, Opera) */
+::-webkit-scrollbar {
+  width: 12px; /* 스크롤바의 너비 */
+}
+
+::-webkit-scrollbar-track {
+  background: #e1e7e5;
+  border-radius: 10px; /* 스크롤바 트랙의 색상 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: darkgray; /* 스크롤바 색상 */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: gray; /* 스크롤바에 마우스를 올렸을 때의 색상 */
 }

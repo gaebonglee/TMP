@@ -1,9 +1,8 @@
 @import "../../common.scss";
 
 .header_container {
-  margin: 0 50px;
   display: flex;
-  padding: 20px 0px;
+  padding: 20px 50px 20px 30px;
 }
 
 .main_logo {
@@ -18,12 +17,22 @@
   font-weight: $font-weight-2;
 }
 
+.find_trainer,
+.find_center {
+  color: $gray;
+  &:hover {
+    color: #003817;
+  }
+}
+
 .account_container {
   display: flex;
   align-items: center;
   margin-left: auto;
   justify-content: right;
   overflow: hidden;
+  color: $black;
+  font-weight: $font-weight-2;
 }
 
 .account_container > button {

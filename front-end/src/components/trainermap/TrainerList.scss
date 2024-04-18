@@ -4,10 +4,11 @@
 
 .searchTab {
   border: 2px solid rgba(162, 238, 148, 1);
+  box-shadow: 0px 3px 8px 3px rgba(0, 74, 31, 0.15);
   border-radius: 24px;
   width: 491px;
   height: 164px;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 }
 
 .searchTab-Title {
@@ -36,7 +37,6 @@
   border: 2px solid rgba(0, 0, 0, 0.06);
   margin: 0px 19px 0px 23px;
   padding-left: 20px;
-  /* background: url("../public/img/pencil-line.svg") no-repeat right; */
 }
 
 .btn_search {
