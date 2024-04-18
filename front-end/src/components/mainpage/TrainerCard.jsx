@@ -12,7 +12,7 @@ const TrainerCard = () => {
               <div className="ai_contents">
                 <a href="#" className="ai_contents_a">
                   <div className="ai_contents_img">
-                    <img src="사진1.jpg" alt="MainLogo" />
+                    <img src="/image/사진1.jpg" alt="ai_photo" />
                   </div>
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">
@@ -34,7 +34,7 @@ const TrainerCard = () => {
               <div className="ai_contents">
                 <a href="#" className="ai_contents_a">
                   <div className="ai_contents_img">
-                    <img src="사진1.jpg" />
+                    <img src="/image/사진1.jpg" alt="ai_photo" />
                   </div>
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">
@@ -56,7 +56,7 @@ const TrainerCard = () => {
               <div className="ai_contents">
                 <a href="#" className="ai_contents_a">
                   <div className="ai_contents_img">
-                    <img src="사진1.jpg" />
+                    <img src="/image/사진1.jpg" alt="ai_photo" />
                   </div>
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">
@@ -78,7 +78,7 @@ const TrainerCard = () => {
               <div className="ai_contents">
                 <a href="#" className="ai_contents_a">
                   <div className="ai_contents_img">
-                    <img src="사진1.jpg" />
+                    <img src="/image/사진1.jpg" alt="ai_photo" />
                   </div>
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">
