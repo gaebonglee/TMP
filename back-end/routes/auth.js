@@ -177,7 +177,7 @@ router.get("/naver/trainer", async (req, res, next) => {
     );
 
     let access_token = token.data.access_token;
-    var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+    let header = "Bearer " + access_token; // Bearer 다음에 공백 추가
 
     const res2 = await axios.get("https://openapi.naver.com/v1/nid/me", {
       headers: { Authorization: header },
@@ -228,34 +228,37 @@ router.get("/google/user", async (req, res, next) => {
       }
     );
 
-    const res2 = await axios.post(
-      "https://www.googleapis.com/userinfo/v2/me",
-      {},
+    console.log("token:", token);
+    let access_token = token.data.access_token;
+
+    const res1 = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo`,
       {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: "Bearer " + token.data.access_token,
+        params: {
+          access_token,
         },
       }
     );
+    console.log("res111111 data :", res1.data);
 
-    // let access_token = token.data.access_token;
+    const res2 = await axios.get(
+      `https://people.googleapis.com/v1/people/me?personFields=genders,phoneNumbers&access_token=${access_token}`
+    );
 
-    console.log("user Info data :", res2.data);
+    console.log("res222222 data :", res2);
     // req.session.user_id = res2.data.response.id + "_google";
     // req.session.role = "user";
     // req.session.gender = res2.data.response.gender.toLowerCase();
     // req.session.email = res2.data.response.email;
     // req.session.phonenumber = res2.data.response.mobile.replaceAll("-", "");
     // req.session.user_name = res2.data.response.name;
-    console.log("req.session:", req.session);
+    // console.log("req.session:", req.session);
     // req.session.save(() => {});
 
-    console.log("session info:", req.session);
     // res.redirect("http://localhost:3000/");
   } catch (e) {
     console.log(e);
-    res.status(400).end("Sorry, Login Error");
+    res.status(400).end("Sorry, Google Login Error");
   }
 });
 
