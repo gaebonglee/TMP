@@ -1,0 +1,27 @@
+.DetailMainContents {
+  background-color: #f7f9fa;
+}
+.DetailMain {
+  max-width: 1136px;
+  margin: auto;
+}
+.DetailMainPadding {
+  padding: 64px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.LeftSection {
+  flex: 0 0 60%;
+  max-width: 60%;
+  position: relative;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.RightIntro {
+  flex: 0 0 34.5%;
+  max-width: 34.5%;
+  position: relative;
+  padding-right: 15px;
+  padding-left: 15px;
+}
