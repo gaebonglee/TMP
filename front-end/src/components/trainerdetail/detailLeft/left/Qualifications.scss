@@ -1,0 +1,35 @@
+@import "../../../../common.scss";
+
+.title_wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trainer_check_btn {
+  background-color: $green1;
+  color: $green2;
+  padding: 5px 10px;
+  border-radius: $border-radius-3;
+}
+
+.check_btn_wrap {
+  font-size: 14px;
+}
+
+.check_btn_wrap > a {
+  font-weight: 600;
+}
+
+.carrer_wrap {
+  display: flex;
+  align-items: center;
+}
+
+.carrer_wrap_img {
+  font-size: $h1;
+}
+
+.carrer_wrap_text {
+  padding: 0 0 5px 10px;
+}
