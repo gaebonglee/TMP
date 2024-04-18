@@ -1,56 +1,76 @@
 @import "../../common.scss";
-// @import "../../defult.scss";
 
 .search_container {
-  width: 100%;
-  padding: 40px 0px;
-}
-
-.search_container > div {
-  width: 1200px;
-  height: 50px;
-  position: relative;
-  margin: 0px auto;
-  padding: 0px 10px;
+  max-width: 1100px;
+  margin: auto;
+  color: $black;
 }
 
 .search_contents {
-  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 60px;
+  margin-top: 20px;
   border-radius: $border-radius-1;
   border: 3px solid $green1;
   background-color: $white;
-  overflow: hidden;
-  transition: box-shadow 300ms ease-in-out 0s;
-  position: absolute;
-  top: 0px;
-  left: 10px;
-  right: 10px;
-  z-index: 500;
 }
-
-.search_label {
-  display: block;
-  width: 100%;
-  height: 50px;
+.searchType {
+  font-size: 18px;
+  width: 180px;
+  padding-left: 20px;
+  font-weight: $font-weight-2;
+  display: inline-block;
   position: relative;
-  overflow: hidden;
+  text-align: left;
 }
 
-.search_icon {
-  font-size: $h1;
-  color: $green2;
-  position: absolute;
-  top: 50%;
-  left: 24px;
-  transform: translateY(-50%);
+.searchType .bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.search_input {
-  width: 92%;
-  padding: 13px 23px 11px 70px;
-  color: $gray;
+.searchKeyword {
+  width: calc(60% + 232px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.searchKeyword input {
+  width: 100%;
+  padding: 10px 15px;
+  border: none;
+  font-size: 18px;
+  background-color: $white;
+  outline: none;
+}
+
+.cancel_icon {
+  padding: 10px;
   font-size: $h3;
-  line-height: 26px;
-  border: 0px;
-  background-color: transparent;
+  font-weight: $font-weight-2;
+}
+.search_icon {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  margin-right: 10px;
+  position: relative;
+  font-size: $h3;
+  font-weight: $font-weight-2;
+  border: none;
+  min-width: 170px;
+  background-color: $green2;
+  color: $white;
+  border-radius: $border-radius-2;
 }
