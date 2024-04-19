@@ -1,8 +1,12 @@
 import React from "react";
-import RightIntro from "../components/trainerdetail/reservation/Calendar";
+import Calendar from "../components/trainerdetail/reservation/Calendar";
 
 const reservation = () => {
-  return <div></div>;
+  return (
+    <div>
+      <Calendar />
+    </div>
+  );
 };
 
 export default reservation;

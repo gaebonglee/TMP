@@ -27,7 +27,13 @@ const RightIntro = () => {
             </div>
           </div>
           <div className="center_name">서울PT샵 강남점</div>
-          <div className="trainer_intro_oneline">한줄소개입니다.</div>
+          <div className="trainer_intro_oneline">
+            <p>
+              테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
+              내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
+              내용입니다.
+            </p>
+          </div>
         </div>
         <div className="middle_wrap">
           <div className="certificate">
