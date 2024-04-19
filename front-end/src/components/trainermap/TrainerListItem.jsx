@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TbMapPin } from "react-icons/tb";
 import { BsFillStarFill } from "react-icons/bs";
 import "./TrainerListItem.scss";
 
 const TrainerListItem = () => {
+  const [trainers, setTrainers] = useState([]);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/trainermap")
+      .then((res) => res.json())
+      .then((data) => setTrainers(data[0]));
+
+    fetch("http://localhost:5000/user")
+      .then((res) => res.json())
+      .then((data) => setUsers(data[0]));
+  }, []);
+  console.log(trainers);
+
+
   return (
     <div className="TrainerListItem">
-      <div className="morae">@@@ 선생님</div>
+      <div className="morae">{users.user_name} 선생님</div>
       <div className="moraeTitle">
         <span className="moraeTitleText">
           [서울 피티 대표] <br />

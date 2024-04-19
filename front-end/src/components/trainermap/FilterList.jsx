@@ -5,7 +5,6 @@ import { RiArrowGoBackLine } from "react-icons/ri";
 const FilterList = (props) => {
   const [value, setValue] = useState(500);
   const [priceValue, setPriceValue] = useState(4);
-
   const [comfort, setComfort] = useState([
     "운동복 대여",
     "무료주차",
@@ -15,6 +14,7 @@ const FilterList = (props) => {
   const handleChange = (event) => {
     setValue(Number(event.target.value));
   };
+
   function handleChangePrice(event) {
     setPriceValue(Number(event.target.value));
   }
@@ -24,19 +24,26 @@ const FilterList = (props) => {
     console.log(e.target.textContent);
   }
 
+  // 필터 초기화 함수
+  const handleReset = () => {
+    setValue(500);
+    setPriceValue(4);
+    setComfort(["운동복 대여", "무료주차", "개인 락커"]);
+    document.getElementById("defaultSort").checked = true;
+    document.getElementById("all").checked = true;
+    const comfortBoxes = document.querySelectorAll(".round_box");
+    comfortBoxes.forEach((box) => box.classList.remove("active"));
+  };
+
   return (
     <div className="FilterList">
       <div className="searchHelper">
-        <div
-          onClick={() => {
-            props.setFilter(true);
-          }}
-        >
+        <div onClick={() => props.setFilter(true)}>
           <RiArrowGoBackLine size={20} color="#00491e" cursor={"pointer"} />
         </div>
         <div
           style={{ fontSize: "15px", fontWeight: "bolder", cursor: "pointer" }}
-          onClick={() => {}}
+          onClick={handleReset} // 필터 초기화 버튼에 onClick 이벤트 연결
         >
           필터 초기화
         </div>
