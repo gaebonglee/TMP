@@ -239,23 +239,91 @@ router.get("/google/user", async (req, res, next) => {
         },
       }
     );
-    console.log("res111111 data :", res1.data);
 
     const res2 = await axios.get(
       `https://people.googleapis.com/v1/people/me?personFields=genders,phoneNumbers&access_token=${access_token}`
     );
 
-    console.log("res222222 data :", res2);
-    // req.session.user_id = res2.data.response.id + "_google";
-    // req.session.role = "user";
-    // req.session.gender = res2.data.response.gender.toLowerCase();
-    // req.session.email = res2.data.response.email;
-    // req.session.phonenumber = res2.data.response.mobile.replaceAll("-", "");
-    // req.session.user_name = res2.data.response.name;
-    // console.log("req.session:", req.session);
-    // req.session.save(() => {});
+    let googlePhoneNumber =
+      !!res2.data.phoneNumbers === true
+        ? res2.data.phoneNumbers[0].value.replaceAll("-", "")
+        : "";
 
-    // res.redirect("http://localhost:3000/");
+    req.session.user_id = res1.data.id + "_google";
+    req.session.role = "user";
+    req.session.gender = res2.data.genders[0].value.substring(0, 1);
+    req.session.email = res1.data.email;
+    req.session.phonenumber = googlePhoneNumber;
+    req.session.user_name = res1.data.name;
+    console.log("req.session:", req.session);
+    req.session.save(() => {});
+
+    res.redirect("http://localhost:3000/");
+  } catch (e) {
+    console.log(e);
+    res.status(400).end("Sorry, Google Login Error");
+  }
+});
+
+// google trainer
+router.get("/google/trainer", async (req, res, next) => {
+  const code = req.query.code;
+
+  let client_id = process.env.GOOGLE_CLIENT_ID;
+  let client_secret = process.env.GOOGLE_CLIENT_SECRET;
+  let redirect_uri = process.env.GOOGLE_REDIRECT_URI_TRAINER;
+
+  try {
+    // get token
+    const token = await axios.post(
+      "https://oauth2.googleapis.com/token",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        params: {
+          code,
+          client_id,
+          client_secret,
+          redirect_uri,
+          grant_type: "authorization_code",
+        },
+      }
+    );
+
+    console.log("token:", token);
+    let access_token = token.data.access_token;
+
+    const res1 = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo`,
+      {
+        params: {
+          access_token,
+        },
+      }
+    );
+    console.log("res1 data :", res1.data);
+
+    const res2 = await axios.get(
+      `https://people.googleapis.com/v1/people/me?personFields=genders,phoneNumbers&access_token=${access_token}`
+    );
+
+    let googlePhoneNumber =
+      !!res2.data.phoneNumbers === true
+        ? res2.data.phoneNumbers[0].value.replaceAll("-", "")
+        : "";
+
+    req.session.user_id = res1.data.id + "_google";
+    req.session.role = "trainer";
+    req.session.gender = res2.data.genders[0].value.substring(0, 1);
+    req.session.email = res1.data.email;
+    req.session.phonenumber = googlePhoneNumber;
+    req.session.user_name = res1.data.name;
+    console.log("req.session:", req.session);
+    req.session.save(() => {});
+
+    res.redirect("http://localhost:3000/");
   } catch (e) {
     console.log(e);
     res.status(400).end("Sorry, Google Login Error");
