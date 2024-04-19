@@ -1,7 +1,7 @@
-const mysql = require('mysql2');
-const dotenv = require('dotenv');
+const mysql = require("mysql2");
+const dotenv = require("dotenv");
 
-dotenv.config({ path: '../../.env' });
+dotenv.config();
 
 // 데이터베이스 연결 정보
 const connection = mysql.createConnection({
@@ -14,10 +14,10 @@ const connection = mysql.createConnection({
 // 데이터베이스 연결
 connection.connect((err) => {
   if (err) {
-    console.error('Error connecting to database: ' + err.stack);
+    console.error("Error connecting to database: " + err.stack);
     return;
   }
-  console.log('Connected to database as id ' + connection.threadId);
+  console.log("Connected to database as id " + connection.threadId);
 });
 
 module.exports = connection;
