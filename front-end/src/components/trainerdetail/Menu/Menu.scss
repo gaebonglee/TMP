@@ -19,6 +19,21 @@
   display: flex;
   justify-content: space-evenly;
   color: $black;
+
+  .top_tab {
+    position: relative;
+
+    &:active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: $green2;
+      margin: 0 auto;
+    }
+  }
 }
 
 .detail_menu_bottom {
@@ -34,38 +49,14 @@
   padding: 0px 12px;
 }
 
-.detail_menu_bottom_flex > a {
+.bottom_tab {
   display: inline-block;
   font-size: 14px;
   margin: 0px 8px;
   cursor: pointer;
   color: $green2;
   background-color: $white;
-  border: 2px solid $green1;
+  border: 3px solid $green1;
   border-radius: 16px;
   padding: 4px 12px;
 }
-
-/*
-.detail_menu_bottom_flex > a :hover {
-  color:$white;
-  background-color: $green2;
-}
-
-.trainer_intro_page {
-  background-color: $white;
-}
-
-.trainer_intro_page > div {
-  max-width: 1150px;
-  margin: auto;
-  font-size: 16px;
-}
-
-.trainer_intro_page_container {
-  padding: 64px 0;
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}*/
