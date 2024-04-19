@@ -2,12 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import "./UnDongMap.scss";
 import { TbRestore } from "react-icons/tb";
 import { BiTargetLock } from "react-icons/bi";
+import LoadingSpinner from "./LoadingSpinner";
 
 const UndongMap = (props) => {
   const [latitude, setLatitude] = useState(37.5665);
   const [longitude, setLongitude] = useState(126.978);
+  const [trainers, setTrainers] = useState([]);
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadNaverMapsScript = () => {
@@ -42,6 +45,26 @@ const UndongMap = (props) => {
           content: `<div class="markerWrap">현재 위치 HPE 교육센터</div> <div class="markerPin"></div>`,
         },
       });
+
+      fetch("http://localhost:5000/center")
+        .then((res) => res.json())
+        .then((data) => {
+          setTrainers(data[0]);
+
+          const markerLatitude = data[0].latitude;
+          const markerLongitude = data[0].longitude;
+          const markerLocation = new naver.maps.LatLng(
+            markerLatitude,
+            markerLongitude
+          );
+          const marker2 = new naver.maps.Marker({
+            position: markerLocation,
+            map: newMap,
+            icon: {
+              content: `<div class="markerWrap">${data[0].center_name}</div> <div class="markerPin"></div>`,
+            },
+          });
+        });
 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -80,6 +103,8 @@ const UndongMap = (props) => {
           }
         );
       }
+
+      setIsLoading(false);
     };
 
     loadNaverMapsScript();
@@ -95,6 +120,7 @@ const UndongMap = (props) => {
 
   return (
     <div className="mapWrap">
+      {isLoading && <LoadingSpinner />}
       <div ref={mapRef} style={mapStyle}>
         <div>
           <div className="myLocation">
