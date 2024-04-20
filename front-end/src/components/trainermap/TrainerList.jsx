@@ -4,8 +4,11 @@ import "./TrainerList.scss";
 import SearchInput from "./SearchInput";
 import FilterList from "./FilterList";
 
-const TrainerList = () => {
+const TrainerList = (props) => {
   const [filter, setFilter] = useState(true);
+
+  const { trainers } = props;
+
   return (
     <div className="listWrap">
       <SearchInput setFilter={setFilter} />

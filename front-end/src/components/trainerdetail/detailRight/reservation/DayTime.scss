@@ -1,0 +1,93 @@
+@import "../../../../common.scss";
+
+.react-calendar {
+  width: 500px;
+  max-width: 100%;
+  background-color: $white;
+  border: 1px solid $lightgray;
+  border-radius: 8px;
+  padding: 10px;
+
+  .react-calendar__month-view__weekdays {
+    text-align: center;
+    border-bottom: none; // 점선 제거
+  }
+
+  .react-calendar__month-view__days__day:nth-child(7n-1) {
+    color: rgb(0, 0, 156); // 토요일만 파란색으로 변경
+  }
+
+  .react-calendar__navigation {
+    display: flex;
+    justify-content: center;
+    button {
+      min-width: 45px;
+      background: none;
+      border: none;
+      font-size: $h3;
+      color: #666;
+
+      &:hover {
+        background-color: $white;
+      }
+    }
+
+    .react-calendar__navigation__label {
+      font-weight: $font-weight-2;
+      color: $black;
+    }
+  }
+
+  .react-calendar__month-view__days__day {
+    padding: 10px;
+    border-radius: $border-radius-4;
+  }
+
+  .react-calendar__tile--now {
+    background-color: $white;
+    border: 1px solid $green1;
+  }
+
+  .react-calendar__tile--active {
+    background-color: $green2;
+    color: white;
+    font-weight: $font-weight-2;
+
+    &:hover {
+      background-color: $green2;
+    }
+  }
+}
+
+.booking_title {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+
+  svg {
+    font-size: 28px;
+  }
+}
+
+.booking_page .time-button {
+  font-size: 16px;
+  padding: 10px;
+  margin: 3px;
+  border: 2px solid $green2;
+  border-radius: $border-radius-3;
+  background-color: $white;
+  cursor: pointer;
+}
+
+.booking_page .time-button.selected {
+  background-color: $green2;
+  color: $white;
+}
+
+.booking_page .time-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px 0;
+}

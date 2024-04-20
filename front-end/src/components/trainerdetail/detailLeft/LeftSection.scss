@@ -1,0 +1,31 @@
+@import "../../../common.scss";
+
+#wrap_container {
+  padding: 24px;
+  background-color: $white;
+  border: 3px solid $green1;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+#intro_page_contents_wrap {
+  font-size: 16px;
+  color: $black;
+  margin-bottom: 64px;
+  position: relative;
+  width: 100%;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+#intro_page_contents_wrap > h1,
+.title_wrap > h1 {
+  font-size: 24px;
+  color: $black;
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+

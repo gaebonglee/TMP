@@ -1,0 +1,12 @@
+@import "../../../../common.scss";
+
+.purpose_title {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+
+  svg {
+    font-size: 28px;
+  }
+}

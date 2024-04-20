@@ -26,7 +26,6 @@ const Review = () => {
       .then((res) => res.json())
       .then((data) => setReviewList(data[0]));
   }, []);
-
   return (
     <div className="review" id="intro_page_contents_wrap">
       <h1>후기</h1>
