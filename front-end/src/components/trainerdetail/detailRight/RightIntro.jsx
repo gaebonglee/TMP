@@ -83,7 +83,8 @@ const RightIntro = () => {
                 >
                   {currentPage === 1 && (
                     <>
-                      <p><Date/></p>
+                      <p>리액트로 모달 구현하기</p>
+
                       <button
                         className="reservation_close_btn"
                         onClick={handleClose}
@@ -100,7 +101,9 @@ const RightIntro = () => {
                   )}
                   {currentPage === 2 && (
                     <>
-                      <p><Purpose/></p>
+
+                      <p>2번페이지</p>
+
                       <button
                         className="reservation_close_btn"
                         onClick={handleClose}

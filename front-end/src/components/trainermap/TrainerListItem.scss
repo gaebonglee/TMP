@@ -1,0 +1,80 @@
+@import "../../common.scss";
+
+.TrainerListItem {
+  margin-bottom: 17px;
+  width: 491px;
+  height: 198px;
+  position: relative;
+  background-color: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 2px solid #00491e;
+}
+
+.morae {
+  left: 178px;
+  top: 24px;
+  position: absolute;
+  color: black;
+  font-size: 16px;
+  font-weight: 600;
+
+  word-wrap: break-word;
+}
+
+.moraeTitle {
+  width: 283px;
+  height: 57px;
+  left: 178px;
+  top: 54px;
+  position: absolute;
+}
+
+.moraeTitleText {
+  font-size: 18px;
+  font-weight: 600;
+
+  word-wrap: break-word;
+}
+
+.moraeTitleTextPT {
+  font-size: 15px;
+  font-family: Inter;
+  font-weight: 600;
+  color: rgb(108, 118, 128);
+}
+.moraePrice {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.moraeLocation {
+  font-weight: 600;
+  font-family: Inter;
+  height: 19px;
+  left: 178px;
+  top: 155px;
+  position: absolute;
+  color: rgb(108, 118, 128);
+  font-size: 15px;
+  margin-top: 5px;
+  word-wrap: break-word;
+}
+.moraeReview {
+  height: 23px;
+  left: 380px;
+  top: 24px;
+  color: rgb(108, 118, 128);
+  position: absolute;
+  font-size: 16px;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.trainerImg {
+  width: 160px;
+  height: 199px;
+  left: 0;
+  top: 0;
+  position: absolute;
+}

@@ -1,10 +1,9 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root";
-import MainPage from "./pages/Mainpage";
-import TrainerDetail from "./pages/TrainerDetail";
-import TotalCenter from "./components/centermap/TotalCenter";
-import TrainerMap from "./components/trainermap/TrainerMap";
+import Mainpage from "./pages/Mainpage";
+import TotalTrainerMap from "./pages/TotalTrainerMap";
+import TotalCenterMap from "./pages/TotalCenterMap";
 
 function App() {
   const router = createBrowserRouter([
@@ -13,10 +12,9 @@ function App() {
       element: <Root />,
       errorElement: <div>Not Found</div>,
       children: [
-        { index: true, element: <MainPage /> },
-        { path: "/TrainerDetail", element: <TrainerDetail /> },
-        { path: "/trainermap", element: <TrainerMap /> },
-        { path: "/centermap", element: <TotalCenter /> },
+        { index: true, element: <Mainpage /> },
+        { path: "/trainermap", element: <TotalTrainerMap /> },
+        { path: "/centermap", element: <TotalCenterMap /> },
       ],
     },
   ]);
