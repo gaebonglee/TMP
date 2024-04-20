@@ -1,26 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Review.scss";
 import { LuPencilLine } from "react-icons/lu";
 import { FaStar } from "react-icons/fa6";
 
 const Review = () => {
+  const [reviewList, setReviewList] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/review")
+      .then((res) => res.json())
+      .then((data) => setReviewList(data[0]));
+  }, []);
   return (
     <div className="review" id="intro_page_contents_wrap">
       <h1>후기</h1>
       <div id="wrap_container">
         <div className="review_wrap">
           <div className="star_review_wrap">
-            <span>5.0</span>
+            <span>{reviewList.point}</span>
             <div className="review_summary">
               <div className="star_wrap">
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
+                {[...Array(reviewList.point)].map((n, index) => (
+                  <FaStar key={index} />
+                ))}
               </div>
               <div className="review_num">
-                <span>N</span>
+                <span>{reviewList.total_review}</span>
                 <span>개의 후기</span>
               </div>
             </div>
@@ -44,44 +49,27 @@ const Review = () => {
                 <div>
                   <div className="review_header">
                     <div>
-                      <span className="review_userName"></span>
-                      <span className="reviewDate">2024.04.15</span>
+                      <span className="review_userName">
+                        {reviewList.user_name}
+                      </span>
+                      <span className="reviewDate">
+                        {reviewList.register_date}
+                      </span>
                     </div>
                     <div className="reviewStar">
                       <div className="star_wrap">
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
+                        {[...Array(reviewList.point)].map((n, index) => (
+                          <FaStar key={index} />
+                        ))}
                       </div>
                     </div>
                   </div>
                   <div className="review_context">
-                    <div className="review_context_photo"></div>
+                    <div className="review_context_photo">
+                      {reviewList.review_img}
+                    </div>
                     <div className="review_context_text">
-                      <p>
-                        테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다. 테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다. 테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-                        내용입니다.
-                      </p>
+                      <p>{reviewList.review}</p>
                     </div>
                   </div>
                 </div>

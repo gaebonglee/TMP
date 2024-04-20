@@ -3,7 +3,7 @@ const mysql = require("../../connection/mysqlConnection");
 function selectReviewAll(callback) {
   mysql.query(
     `SELECT 
-    *
+    * ,count(*) as 'total_review'
   FROM 
     review r
     
@@ -16,6 +16,7 @@ function selectReviewAll(callback) {
         callback(err, null);
       } else {
         callback(null, result);
+        
       }
     }
   );

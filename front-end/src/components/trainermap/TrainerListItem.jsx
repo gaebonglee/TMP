@@ -5,23 +5,16 @@ import "./TrainerListItem.scss";
 
 const TrainerListItem = () => {
   const [trainers, setTrainers] = useState([]);
-  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/trainermap")
+    fetch("http://localhost:5000/center")
       .then((res) => res.json())
       .then((data) => setTrainers(data[0]));
-
-    fetch("http://localhost:5000/user")
-      .then((res) => res.json())
-      .then((data) => setUsers(data[0]));
   }, []);
-  console.log(trainers);
-
 
   return (
     <div className="TrainerListItem">
-      <div className="morae">{users.user_name} 선생님</div>
+      <div className="morae">{trainers.user_name} 선생님</div>
       <div className="moraeTitle">
         <span className="moraeTitleText">
           [서울 피티 대표] <br />
@@ -29,15 +22,15 @@ const TrainerListItem = () => {
           <br />
           <br />
         </span>
-        <span className="moraeTitleTextPT">30회 기준 회당 </span>
+        <span className="moraeTitleTextPT">{trainers.count}회 기준 회당 </span>
         <span className="moraePrice">
-          50,000원
+          {trainers.total_price / trainers.count}원
           <br />
         </span>
       </div>
       <div className="moraeLocation">
         <TbMapPin size={17} />
-        서울 PT샵 강남점 - 강남역 보도 10분
+        {trainers.center_name} - {trainers.center_address}
       </div>
       <div className="moraeReview">
         <BsFillStarFill size={18} color="rgb(255,187,51)" />

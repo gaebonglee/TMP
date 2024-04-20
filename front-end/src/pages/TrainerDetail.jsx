@@ -1,5 +1,5 @@
 import React from "react";
-import Menu from "../components/trainerdetail/menu/Menu";
+import Menu from "../components/trainerdetail/Menu/Menu";
 import DetailMainContents from "../components/trainerdetail/DetailMainContents";
 
 const TrainerDetail = () => {
