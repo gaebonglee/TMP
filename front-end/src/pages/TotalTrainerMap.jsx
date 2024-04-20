@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import TrainerList from "./TrainerList";
+import React, { useEffect, useState } from "react";
+import TrainerList from "../components/trainermap/TrainerList";
 import { NavermapsProvider } from "react-naver-maps";
-import UndongMap from "./UndongMap";
-import Header from "../layout/Header";
+import UndongMap from "../components/trainermap/UndongMap";
+import Header from "../components/layout/Header";
 import { Router } from "react-router-dom";
 
-const TrainerMap = () => {
-  const [searchPosition, setSearchPosition] = useState({
+const TotalTrainer = () => {
+    const [searchPosition, setSearchPosition] = useState({
     lat: 37.3595704,
     lng: 127.105399,
   }); // [latitude, longitude
@@ -32,6 +32,7 @@ const TrainerMap = () => {
     setAddress(fullAddress);
   };
 
+  
   return (
     <>
       <TrainerList />
@@ -40,4 +41,4 @@ const TrainerMap = () => {
   );
 };
 
-export default TrainerMap;
+export default TotalTrainer;

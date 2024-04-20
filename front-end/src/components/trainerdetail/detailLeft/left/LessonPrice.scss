@@ -1,0 +1,29 @@
+@import "../../../../common.scss";
+
+.lesson_title {
+  color: $darkgray;
+  font-size: $h3;
+  padding-bottom: 12px;
+  text-overflow: ellipsis;
+  line-height: 40px;
+  font-weight: bold;
+  border-bottom: 1px solid $lightgray;
+}
+.lesson_li {
+  border-bottom: 1px solid $lightgray;
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  padding: 0px 32px;
+  align-items: center;
+  height: 72px;
+}
+
+.price {
+  display: flex;
+  gap: 30px;
+}
+
+.lesson_text {
+  color: $darkgray;
+}
