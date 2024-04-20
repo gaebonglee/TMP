@@ -4,6 +4,7 @@ import Root from "./pages/Root";
 import Mainpage from "./pages/Mainpage";
 import TotalTrainerMap from "./pages/TotalTrainerMap";
 import TotalCenterMap from "./pages/TotalCenterMap";
+import TrainerDetail from "./pages/TrainerDetail";
 
 function App() {
   const router = createBrowserRouter([
@@ -15,6 +16,7 @@ function App() {
         { index: true, element: <Mainpage /> },
         { path: "/trainermap", element: <TotalTrainerMap /> },
         { path: "/centermap", element: <TotalCenterMap /> },
+        { path: "/trainerdetail", element: <TrainerDetail /> },
       ],
     },
   ]);

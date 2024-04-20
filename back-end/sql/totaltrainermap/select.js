@@ -23,6 +23,7 @@ function selectCenterAll(callback) {
         callback(err, null);
       } else {
         callback(null, result);
+        console.log(result);
       }
     }
   );
