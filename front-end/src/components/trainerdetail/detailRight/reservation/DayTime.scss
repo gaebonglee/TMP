@@ -1,0 +1,84 @@
+// React Calendar Custom Styles
+@import "../../../../common.scss";
+
+.react-calendar {
+  width: 500px;
+  max-width: 100%;
+  background-color: #fff;
+  border: 1px solid $lightgray;
+  border-radius: 8px;
+  padding: 10px;
+
+  // 캘린더 헤더 스타일
+  .react-calendar__navigation {
+    display: flex;
+    justify-content: center;
+    button {
+      min-width: 45px;
+      background: none;
+      border: none;
+      font-size: $h3;
+      color: #666;
+
+      &:hover {
+        background-color: $white;
+      }
+    }
+
+    .react-calendar__navigation__label {
+      font-weight: bold;
+      color: $black;
+    }
+  }
+
+  // 날짜 타일 스타일
+  .react-calendar__month-view__days__day {
+    padding: 10px;
+    border-radius: $border-radius-4;
+    font-weight: normal;
+  }
+
+  // 오늘 날짜 스타일
+  .react-calendar__tile--now {
+    background-color: $white;
+    border: 1px solid $green2;
+  }
+
+  // 선택된 날짜 스타일
+  .react-calendar__tile--active {
+    background-color: $green2;
+    color: white;
+    font-weight: bold;
+
+    &:hover {
+      background-color: $green2;
+    }
+  }
+}
+
+.booking_title {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.booking-page .time-button {
+  font-size: 16px;
+  padding: 10px 15px;
+  margin: 3px;
+  border: 1px solid $green2;
+  border-radius: $border-radius-4;
+  background-color: $white;
+  cursor: pointer;
+}
+
+.booking-page .time-button.selected {
+  background-color: $green2; /* 선택된 버튼은 녹색으로 표시 */
+  color: $white;
+}
+
+.booking-page .time-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px 0;
+}

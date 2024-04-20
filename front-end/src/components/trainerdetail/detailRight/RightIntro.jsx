@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import "./RightIntro.scss";
+import Date from "./reservation/DayTime"
+import Purpose from "./reservation/Purpose";
 import { FaStar } from "react-icons/fa6";
 
 const RightIntro = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const modalBackground = useRef();
+
+  const handleClose = () => {
+    setModalOpen(false);
+    setCurrentPage(1); // 모달을 닫을 때 페이지도 초기화
+  };
+
+  const handleNext = () => {
+    setCurrentPage(2); // 현재 페이지를 2로 설정
+  };
+
   return (
     <div className="intro_right_container">
       <img
@@ -30,8 +45,7 @@ const RightIntro = () => {
           <div className="trainer_intro_oneline">
             <p>
               테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-              내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-              내용입니다.
+              내용입니다.테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.
             </p>
           </div>
         </div>
@@ -52,8 +66,58 @@ const RightIntro = () => {
             <a className="discount_price">35,000</a>
             <a className="class_price">70,000</a>
           </div>
-          <div className="reservation_btn">
-            <button>예약하기</button>
+          <div className={"reservation_btn_wrapper"}>
+            {modalOpen && (
+              <div
+                className="reservation_container"
+                ref={modalBackground}
+                onClick={(e) => {
+                  if (e.target === modalBackground.current) {
+                    handleClose();
+                  }
+                }}
+              >
+                <div
+                  className="reservation_content"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {currentPage === 1 && (
+                    <>
+                      <p><Date/></p>
+                      <button
+                        className="reservation_close_btn"
+                        onClick={handleClose}
+                      >
+                        닫기
+                      </button>
+                      <button
+                        className="reservation_next_btn"
+                        onClick={handleNext}
+                      >
+                        다음
+                      </button>
+                    </>
+                  )}
+                  {currentPage === 2 && (
+                    <>
+                      <p><Purpose/></p>
+                      <button
+                        className="reservation_close_btn"
+                        onClick={handleClose}
+                      >
+                        닫기
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+            <button
+              className={"reservation_btn"}
+              onClick={() => setModalOpen(true)}
+            >
+              예약하기
+            </button>
           </div>
         </div>
       </div>
