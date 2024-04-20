@@ -109,25 +109,27 @@
   box-sizing: border-box;
 }
 
-.loading-spinner {
+// LoadingSpinner.scss
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
-  position: absolute;
-  top: 1%;
-  left: 50%;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.158);
+  z-index: 9999;
 }
 
-.spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
+.loading-spinner {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
+  border: 3px solid #00ff00;
+  border-top-color: transparent;
+  animation: spin 1s infinite linear;
 }
 
 @keyframes spin {
