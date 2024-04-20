@@ -96,7 +96,6 @@ const UndongMap = (props) => {
               console.error("Failed to find address");
               return;
             }
-<<<<<<< Updated upstream
             const result = response.v2.addresses[0];
             const newLocation = new naver.maps.LatLng(result.y, result.x);
             setLatitude(result.y);
@@ -106,55 +105,6 @@ const UndongMap = (props) => {
           }
         );
       }
-=======
-          );
-        }
-      };
-
-      const initGeolocation = async () => {
-        try {
-          const { latitude, longitude } = await getCurrentLocation();
-          setLatitude(latitude);
-          setLongitude(longitude);
-          const newLocation = new naver.maps.LatLng(latitude, longitude);
-          newMap.setCenter(newLocation);
-          marker.setPosition(newLocation);
-          searchAddress();
-        } catch (error) {
-          console.error("Error initializing geolocation:", error);
-          const defaultLocation = new naver.maps.LatLng(37.5665, 126.978);
-          newMap.setCenter(defaultLocation);
-          marker.setPosition(defaultLocation);
-          searchAddress();
-        }
-      };
-
-      fetch("http://localhost:5000/center")
-        .then((res) => res.json())
-        .then((data) => {
-          setTrainers(data[0]);
-
-          const markerLatitude = data[0].latitude;
-          const markerLongitude = data[0].longitude;
-          const markerLocation = new naver.maps.LatLng(
-            markerLatitude,
-            markerLongitude
-          );
-          const marker2 = new naver.maps.Marker({
-            position: markerLocation,
-            map: newMap,
-            icon: {
-              content: `<div class="markerWrap">${data[0].center_name}</div> <div class="markerPin"></div>`,
-            },
-          });
-
-          initGeolocation();
-        })
-        .catch((error) => {
-          console.error("Error fetching center data:", error);
-          initGeolocation();
-        });
->>>>>>> Stashed changes
     };
 
     loadNaverMapsScript();
@@ -182,7 +132,6 @@ const UndongMap = (props) => {
 
   return (
     <div className="mapWrap">
-<<<<<<< Updated upstream
       <div ref={mapRef} style={mapStyle}>
         <div>
           <div className="myLocation">
@@ -204,17 +153,6 @@ const UndongMap = (props) => {
               }}
             >
               <BiTargetLock size={27} color="#00491e" />
-=======
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <div ref={mapRef} style={mapStyle}>
-          <div>
-            <div className="myLocation">
-              <div className="btn" onClick={handleMyLocationClick}>
-                <BiTargetLock size={27} color="#00491e" />
-              </div>
->>>>>>> Stashed changes
             </div>
           </div>
           <div className="research">
