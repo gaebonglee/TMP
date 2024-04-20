@@ -12,6 +12,31 @@ const UndongMap = (props) => {
   const [map, setMap] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const getCurrentLocation = () => {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            resolve({ latitude, longitude });
+          },
+          (error) => {
+            console.error("Error getting current location:", error);
+            reject(error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+        reject(new Error("Geolocation is not supported"));
+      }
+    });
+  };
+
   useEffect(() => {
     const loadNaverMapsScript = () => {
       const script = document.createElement("script");
@@ -136,6 +161,18 @@ const UndongMap = (props) => {
     top: "90px",
     right: "0px",
     position: "absolute",
+  };
+
+  const handleMyLocationClick = async () => {
+    try {
+      const { latitude, longitude } = await getCurrentLocation();
+      setLatitude(latitude);
+      setLongitude(longitude);
+      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
+      map.setCenter(newLocation);
+    } catch (error) {
+      console.error("Error getting current location:", error);
+    }
   };
 
   return (
