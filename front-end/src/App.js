@@ -7,6 +7,10 @@ import TotalCenterMap from "./pages/TotalCenterMap";
 import TrainerDetail from "./pages/TrainerDetail";
 
 function App() {
+  fetch("http://localhost:5000/trainermap")
+    .then((res) => res.json())
+    .then((data) => console.log(data[0]));
+
   const router = createBrowserRouter([
     {
       path: "/",

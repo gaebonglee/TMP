@@ -5,7 +5,22 @@ import { FaStar } from "react-icons/fa6";
 
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  function handleReview() {
+    setIsModalOpen(true);
+    document.body.classList.add("modal-open");
+  }
+
+  function handleCloseModal(event) {
+    if (event.target === event.currentTarget) {
+      setIsModalOpen(false);
+      document.body.classList.remove("modal-open");
+    }
+  }
+  function handleModalClick(event) {
+    event.stopPropagation();
+  }
   useEffect(() => {
     fetch("http://localhost:5000/review")
       .then((res) => res.json())
@@ -31,7 +46,7 @@ const Review = () => {
             </div>
           </div>
           <div className="review_btn">
-            <button>
+            <button onClick={handleReview}>
               <LuPencilLine />
               <a class="create_review">리뷰 남기기</a>
             </button>
@@ -90,30 +105,28 @@ const Review = () => {
           zIndex: 1050,
           display: "block",
         }}
+        onClick={handleCloseModal}
       >
         <div>
           <div
-            className="modal fade show"
+            className={`modal ${isModalOpen ? "show fade" : ""}`}
             role="dialog"
             tabIndex={-1}
-            style={{
-              display: "block",
-            }}
+            onClick={handleModalClick}
           >
-            <button className="close">X</button>
-          </div>
-          <div className="modal-backdrop fade show">
-            <div className="modal-dialog wideModal FullModal">
+            <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-body">
                   <div className="modal-component">
                     <h5 className="headerTitle">
-                      "솔직한 후기를 남겨주세요!"
-                      <div className="exitButton">엑스아이콘</div>
+                      솔직한 후기를 남겨주세요!
+                      <div className="exitButton" onClick={handleCloseModal}>
+                        X
+                      </div>
                     </h5>
                     <div className="reviewWrap">
                       <label className="reviewTitle">
-                        "일반이용 후기" "작성 요령"
+                        일반이용 후기 "작성 요령"
                       </label>
                     </div>
                     <ul className="help">
@@ -154,7 +167,7 @@ const Review = () => {
                             증빙사진을 올려주세요 (최대 3개)
                           </label>
                           <div className="flexBox">
-                            <input type="checkbox" name="" id="" checked />
+                            <input type="checkbox" name="" id="check_photo" />
                             <label for="check_photo"></label>
                             <label
                               for="check_photo"
@@ -174,7 +187,12 @@ const Review = () => {
                         />
                       </div>
                       <div style={{ margin: "24px 0px" }}>
-                        <div className="reviewWrap">
+                        <div
+                          className="reviewWrap"
+                          style={{
+                            paddingBottom: "8px",
+                          }}
+                        >
                           <label className="reviewTitle">
                             내용을 작성해주세요.
                             <div
@@ -189,6 +207,7 @@ const Review = () => {
                           </label>
                         </div>
                         <textarea
+                          id="review_content"
                           name="content"
                           maxLength={400}
                           placeholder="내용을 입력해주세요"
@@ -196,7 +215,10 @@ const Review = () => {
                         ></textarea>
                       </div>
                       <div className="button_Div">
-                        <button className="button_Basic">
+                        <button
+                          className="button_Basic"
+                          onClick={handleCloseModal}
+                        >
                           <span>리뷰 작성 완료</span>
                         </button>
                       </div>
@@ -206,6 +228,10 @@ const Review = () => {
               </div>
             </div>
           </div>
+          <div
+            className={`modal-backdrop ${isModalOpen ? "show fade" : ""}`}
+            onClick={console.log("backdrop")}
+          ></div>
         </div>
       </div>
     </div>

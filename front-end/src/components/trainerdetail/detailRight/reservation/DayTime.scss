@@ -1,15 +1,22 @@
-// React Calendar Custom Styles
 @import "../../../../common.scss";
 
 .react-calendar {
   width: 500px;
   max-width: 100%;
-  background-color: #fff;
+  background-color: $white;
   border: 1px solid $lightgray;
   border-radius: 8px;
   padding: 10px;
 
-  // 캘린더 헤더 스타일
+  .react-calendar__month-view__weekdays {
+    text-align: center;
+    border-bottom: none; // 점선 제거
+  }
+
+  .react-calendar__month-view__days__day:nth-child(7n-1) {
+    color: rgb(0, 0, 156); // 토요일만 파란색으로 변경
+  }
+
   .react-calendar__navigation {
     display: flex;
     justify-content: center;
@@ -26,29 +33,25 @@
     }
 
     .react-calendar__navigation__label {
-      font-weight: bold;
+      font-weight: $font-weight-2;
       color: $black;
     }
   }
 
-  // 날짜 타일 스타일
   .react-calendar__month-view__days__day {
     padding: 10px;
     border-radius: $border-radius-4;
-    font-weight: normal;
   }
 
-  // 오늘 날짜 스타일
   .react-calendar__tile--now {
     background-color: $white;
-    border: 1px solid $green2;
+    border: 1px solid $green1;
   }
 
-  // 선택된 날짜 스타일
   .react-calendar__tile--active {
     background-color: $green2;
     color: white;
-    font-weight: bold;
+    font-weight: $font-weight-2;
 
     &:hover {
       background-color: $green2;
@@ -57,26 +60,32 @@
 }
 
 .booking_title {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+
+  svg {
+    font-size: 28px;
+  }
 }
-.booking-page .time-button {
+
+.booking_page .time-button {
   font-size: 16px;
-  padding: 10px 15px;
+  padding: 10px;
   margin: 3px;
-  border: 1px solid $green2;
-  border-radius: $border-radius-4;
+  border: 2px solid $green2;
+  border-radius: $border-radius-3;
   background-color: $white;
   cursor: pointer;
 }
 
-.booking-page .time-button.selected {
-  background-color: $green2; /* 선택된 버튼은 녹색으로 표시 */
+.booking_page .time-button.selected {
+  background-color: $green2;
   color: $white;
 }
 
-.booking-page .time-selection {
+.booking_page .time-selection {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
