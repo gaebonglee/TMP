@@ -6,6 +6,10 @@ import MainPage from "./components/mainpage/MainPage";
 import TotalCenter from "./components/centermap/TotalCenter";
 
 function App() {
+  fetch("http://localhost:5000/trainermap")
+    .then((res) => res.json())
+    .then((data) => console.log(data[0]));
+
   const router = createBrowserRouter([
     {
       path: "/",

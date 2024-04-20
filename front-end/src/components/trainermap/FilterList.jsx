@@ -94,6 +94,7 @@ const FilterList = (props) => {
             max={20}
             step={1}
             onChange={handleChangePrice}
+            defaultValue={4}
           />
         </div>
         <div className="price">
