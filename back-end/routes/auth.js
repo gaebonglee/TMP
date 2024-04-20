@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const login = require("../sql/login/login");
 const router = express.Router();
 
 // ------------------------------------------------
@@ -36,16 +37,41 @@ router.get("/kakao/user", async (req, res, next) => {
       }
     );
 
-    req.session.user_id = res2.data.id + "_kakao";
-    req.session.role = "user";
-    req.session.gender = res2.data.kakao_account.gender.substring(0, 1);
-    req.session.email = res2.data.kakao_account.email;
     let charIndex = res2.data.kakao_account.phone_number.indexOf(" ");
-    req.session.phonenumber =
+    let ph =
       "0" +
       res2.data.kakao_account.phone_number
         .substring(charIndex + 1)
         .replaceAll("-", "");
+    login.selectUser(res2.data.id + "_kakaos", (err, result) => {
+      if (err) {
+        console.log("error!!");
+      } else {
+        if (result.length == 0) {
+          const data = {
+            user_id: res2.data.id + "_kakao",
+            gender: res2.data.kakao_account.gender.substring(0, 1),
+            email: res2.data.kakao_account.email,
+            phonenumber: ph,
+            user_roles: "user",
+            user_name: res2.data.kakao_account.name,
+          };
+          login.insertUser(data, (err, result) => {
+            if (err) {
+              console.log("insert user error...");
+            } else {
+              console.log("insertUser result : ", result);
+            }
+          });
+        }
+      }
+    });
+
+    req.session.user_id = res2.data.id + "_kakao";
+    req.session.role = "user";
+    req.session.gender = res2.data.kakao_account.gender.substring(0, 1);
+    req.session.email = res2.data.kakao_account.email;
+    req.session.phonenumber = ph;
     req.session.user_name = res2.data.kakao_account.name;
     req.session.save(() => {});
 
