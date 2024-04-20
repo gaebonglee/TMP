@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import "./RightIntro.scss";
-import Date from "./reservation/DayTime"
+import DayTime from "./reservation/DayTime";
 import Purpose from "./reservation/Purpose";
 import { FaStar } from "react-icons/fa6";
 
@@ -83,7 +83,9 @@ const RightIntro = () => {
                 >
                   {currentPage === 1 && (
                     <>
-                      <p>리액트로 모달 구현하기</p>
+                      <p>
+                        <DayTime />
+                      </p>
 
                       <button
                         className="reservation_close_btn"
@@ -101,8 +103,9 @@ const RightIntro = () => {
                   )}
                   {currentPage === 2 && (
                     <>
-
-                      <p>2번페이지</p>
+                      <p>
+                        <Purpose />
+                      </p>
 
                       <button
                         className="reservation_close_btn"
