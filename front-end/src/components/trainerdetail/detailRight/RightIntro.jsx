@@ -66,6 +66,8 @@ const RightIntro = () => {
             <a className="discount_price">35,000</a>
             <a className="class_price">70,000</a>
           </div>
+
+          {/* 예약하기 버튼 */}
           <div className={"reservation_btn_wrapper"}>
             {modalOpen && (
               <div
@@ -82,38 +84,40 @@ const RightIntro = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   {currentPage === 1 && (
-                    <>
+                    <div style={{ flexGrow: 1 }}>
                       <p>
                         <DayTime />
                       </p>
-
-                      <button
-                        className="reservation_close_btn"
-                        onClick={handleClose}
-                      >
-                        닫기
-                      </button>
-                      <button
-                        className="reservation_next_btn"
-                        onClick={handleNext}
-                      >
-                        다음
-                      </button>
-                    </>
+                      <div className="button_wrapper">
+                        <button
+                          className="reservation_close_btn"
+                          onClick={handleClose}
+                        >
+                          닫기
+                        </button>
+                        <button
+                          className="reservation_next_btn"
+                          onClick={handleNext}
+                        >
+                          다음
+                        </button>
+                      </div>
+                    </div>
                   )}
                   {currentPage === 2 && (
-                    <>
+                    <div style={{ flexGrow: 1 }}>
                       <p>
                         <Purpose />
                       </p>
-
-                      <button
-                        className="reservation_close_btn"
-                        onClick={handleClose}
-                      >
-                        닫기
-                      </button>
-                    </>
+                      <div className="button_wrapper">
+                        <button
+                          className="reservation_close_btn"
+                          onClick={handleClose}
+                        >
+                          닫기
+                        </button>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
