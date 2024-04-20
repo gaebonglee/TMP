@@ -16,8 +16,7 @@ function App() {
         { index: true, element: <Mainpage /> },
         { path: "/trainermap", element: <TotalTrainerMap /> },
         { path: "/centermap", element: <TotalCenterMap /> },
-
-        { path: "/TrainerDetail", element: <TrainerDetail /> },
+        { path: "/trainerDetail", element: <TrainerDetail /> },
       ],
     },
   ]);
