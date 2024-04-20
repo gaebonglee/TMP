@@ -66,6 +66,8 @@ const RightIntro = () => {
             <a className="discount_price">35,000</a>
             <a className="class_price">70,000</a>
           </div>
+
+          {/* 예약하기 버튼 */}
           <div className={"reservation_btn_wrapper"}>
             {modalOpen && (
               <div
@@ -86,7 +88,6 @@ const RightIntro = () => {
                       <p>
                         <DayTime />
                       </p>
-
                       <button
                         className="reservation_close_btn"
                         onClick={handleClose}
