@@ -28,15 +28,17 @@ const DayTime = () => {
   };
 
   return (
-    <div className="booking-page">
+    <div className="booking_page">
       <div className="booking_title">
         <FaRegCalendarCheck />
         <h2>날짜 및 시간 선택</h2>
       </div>
+      <br />
       <Calendar
         onChange={onDateChange}
         value={date}
-        minDate={new Date()} // 오늘 날짜 이전은 선택 불가
+        minDate={new Date()}
+        formatDay={(locale, date) => date.getDate()}
       />
       <div className="time-selection">
         {availableTimes.map((availableTime, index) => (
@@ -51,13 +53,12 @@ const DayTime = () => {
           </button>
         ))}
       </div>
-      {time && (
-        <div className="selected-time">
-          선택한 날짜: {date.toLocaleDateString()}
-          <br />
-          선택한 시간: {time}
-        </div>
-      )}
+      <div className="selected-time">
+        <strong>선택한 날짜 :</strong>{" "}
+        {date ? date.toLocaleDateString() : "선택되지 않음"}
+        <br />
+        <strong>선택한 시간 :</strong> {time || "선택되지 않음"}
+      </div>
     </div>
   );
 };
