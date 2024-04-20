@@ -1,0 +1,339 @@
+@import "../../../../common.scss";
+
+.review_wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.star_review_wrap {
+  display: flex;
+}
+
+.star_review_wrap > span {
+  font-size: 50px;
+  font-weight: $font-weight-2;
+}
+
+.star_wrap {
+  color: $star;
+}
+
+.review_summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  margin-left: 12px;
+  font-size: 14px;
+  font-weight: $font-weight-2;
+  color: $gray;
+}
+
+.review_btn > button {
+  height: 60px;
+  min-width: 180px;
+  border-radius: $border-radius-1;
+  padding: 12px 24px;
+  color: $green2;
+  border: 3px solid $green2;
+  background-color: $white;
+  cursor: pointer;
+}
+
+.review_btn > button > i {
+  font-size: $h1;
+  padding-right: 10px;
+}
+
+.review_btn > button > a {
+  font-size: $h3;
+  font-weight: $font-weight-2;
+}
+
+.review_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid $lightgray;
+}
+
+.review_title > p {
+  font-size: $h3;
+  font-weight: $font-weight-2;
+  color: $darkgray;
+}
+
+.review_li {
+  padding: 25px 0;
+}
+
+.review_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review_userName {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reviewDate {
+  color: $gray;
+}
+
+.review_context {
+  margin-left: 58px;
+  font-size: 16px;
+  display: block;
+  color: $darkgray;
+}
+
+.review_context_photo,
+.review_context_text {
+  margin-top: 20px;
+}
+
+.reviewAll_btn > button {
+  border: 2px solid $green1;
+  height: 48px;
+  width: 100%;
+  background-color: $white;
+  border-radius: $border-radius-4;
+  padding: 12px 24px;
+  margin: 0px;
+}
+
+.reviewAll_btn > button > span {
+  font-size: 16px;
+  font-weight: $font-weight-2;
+  color: $green2;
+}
+
+.close {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.5;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+
+  &.show {
+    display: block;
+  }
+
+  &.fade {
+    .modal-dialog {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease-out;
+    }
+
+    &.show {
+      .modal-dialog {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  opacity: 0;
+  transition: opacity 0.15s linear;
+
+  &.show {
+    display: block;
+    opacity: 1;
+  }
+}
+
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 0.5rem;
+  pointer-events: none;
+  height: 765px;
+
+  @media (min-width: 576px) {
+    max-width: 500px;
+    margin: 1.75rem auto;
+  }
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+.modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 1rem;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: rgb(41, 46, 51);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgb(218, 224, 230);
+}
+
+.exitButton {
+  cursor: pointer;
+}
+
+.reviewWrap {
+  padding-bottom: 24px;
+}
+
+.reviewTitle {
+  margin: 0;
+  font-weight: 700;
+  color: rgb(61, 69, 77);
+  display: block;
+}
+
+.help {
+  margin: 0;
+  padding: 24px;
+  background-color: rgb(247, 248, 251);
+  border-radius: 4px;
+
+  li {
+    font-size: 14px;
+    color: rgb(113, 113, 113);
+  }
+}
+
+.flexBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ReviewEditModal {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#check_photo {
+}
+
+label[for="check_photo"] {
+}
+
+.reviewPhotoAuth {
+  cursor: pointer;
+}
+
+.addPhotoButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  transition-duration: 0s;
+  height: 48px;
+
+  background-color: rgb(255, 255, 255);
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: $green2;
+  border: 1px solid rgb(218, 224, 230);
+  cursor: pointer;
+}
+
+#review_filename {
+  display: none;
+}
+
+.review_filename {
+  display: inline-block;
+  width: 100%;
+}
+
+.button_Basic {
+  overflow: visible;
+  text-transform: none;
+  appearance: button;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  transition-duration: 0s;
+  height: 48px;
+  width: 100%;
+  background-color: rgb(237, 241, 245);
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: rgb(152, 165, 179);
+  border: 1px solid rgb(237, 241, 245);
+  margin: 0;
+  cursor: pointer;
+}
+
+#review_content {
+  resize: vertical;
+  color: #3d454d;
+  padding: 16px;
+  border: 1px solid #e4eaf0;
+  border-radius: 6px;
+  width: 93%;
+  display: block;
+  background-color: #fff;
+  background-clip: padding-box;
+  line-height: 1.5 !important;
+  font-size: 100%;
+  margin: 0;
+  overflow: auto;
+}

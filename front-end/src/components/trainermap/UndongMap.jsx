@@ -9,6 +9,31 @@ const UndongMap = (props) => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
 
+  const getCurrentLocation = () => {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            resolve({ latitude, longitude });
+          },
+          (error) => {
+            console.error("Error getting current location:", error);
+            reject(error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+        reject(new Error("Geolocation is not supported"));
+      }
+    });
+  };
+
   useEffect(() => {
     const loadNaverMapsScript = () => {
       const script = document.createElement("script");
@@ -71,6 +96,7 @@ const UndongMap = (props) => {
               console.error("Failed to find address");
               return;
             }
+<<<<<<< Updated upstream
             const result = response.v2.addresses[0];
             const newLocation = new naver.maps.LatLng(result.y, result.x);
             setLatitude(result.y);
@@ -80,6 +106,55 @@ const UndongMap = (props) => {
           }
         );
       }
+=======
+          );
+        }
+      };
+
+      const initGeolocation = async () => {
+        try {
+          const { latitude, longitude } = await getCurrentLocation();
+          setLatitude(latitude);
+          setLongitude(longitude);
+          const newLocation = new naver.maps.LatLng(latitude, longitude);
+          newMap.setCenter(newLocation);
+          marker.setPosition(newLocation);
+          searchAddress();
+        } catch (error) {
+          console.error("Error initializing geolocation:", error);
+          const defaultLocation = new naver.maps.LatLng(37.5665, 126.978);
+          newMap.setCenter(defaultLocation);
+          marker.setPosition(defaultLocation);
+          searchAddress();
+        }
+      };
+
+      fetch("http://localhost:5000/center")
+        .then((res) => res.json())
+        .then((data) => {
+          setTrainers(data[0]);
+
+          const markerLatitude = data[0].latitude;
+          const markerLongitude = data[0].longitude;
+          const markerLocation = new naver.maps.LatLng(
+            markerLatitude,
+            markerLongitude
+          );
+          const marker2 = new naver.maps.Marker({
+            position: markerLocation,
+            map: newMap,
+            icon: {
+              content: `<div class="markerWrap">${data[0].center_name}</div> <div class="markerPin"></div>`,
+            },
+          });
+
+          initGeolocation();
+        })
+        .catch((error) => {
+          console.error("Error fetching center data:", error);
+          initGeolocation();
+        });
+>>>>>>> Stashed changes
     };
 
     loadNaverMapsScript();
@@ -93,8 +168,21 @@ const UndongMap = (props) => {
     position: "absolute",
   };
 
+  const handleMyLocationClick = async () => {
+    try {
+      const { latitude, longitude } = await getCurrentLocation();
+      setLatitude(latitude);
+      setLongitude(longitude);
+      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
+      map.setCenter(newLocation);
+    } catch (error) {
+      console.error("Error getting current location:", error);
+    }
+  };
+
   return (
     <div className="mapWrap">
+<<<<<<< Updated upstream
       <div ref={mapRef} style={mapStyle}>
         <div>
           <div className="myLocation">
@@ -116,6 +204,17 @@ const UndongMap = (props) => {
               }}
             >
               <BiTargetLock size={27} color="#00491e" />
+=======
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div ref={mapRef} style={mapStyle}>
+          <div>
+            <div className="myLocation">
+              <div className="btn" onClick={handleMyLocationClick}>
+                <BiTargetLock size={27} color="#00491e" />
+              </div>
+>>>>>>> Stashed changes
             </div>
           </div>
           <div className="research">

@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root";
 import MainPage from "./components/mainpage/MainPage";
 import TotalCenter from "./components/centermap/TotalCenter";
+import TrainerDetail from "./pages/TrainerDetail";
 
 function App() {
   const router = createBrowserRouter([
@@ -15,6 +16,7 @@ function App() {
         { index: true, element: <MainPage /> },
         { path: "/trainermap", element: <TrainerMap /> },
         { path: "/centermap", element: <TotalCenter /> },
+        { path: "/trainerdetail", element: <TrainerDetail /> },
       ],
     },
   ]);

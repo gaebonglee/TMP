@@ -1,4 +1,5 @@
 import React from "react";
+<<<<<<< Updated upstream
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import Menu from "../components/trainerdetail/Menu";
@@ -10,6 +11,10 @@ import Review from "../components/trainerdetail/left/Review";
 import LessonPrice from "../components/trainerdetail/left/LessonPrice";
 import CenterPlace from "../components/trainerdetail/left/CenterPlace";
 import RightIntro from "../components/trainerdetail/right/RightIntro";
+=======
+import Menu from "../components/trainerdetail/menu/Menu";
+import DetailMainContents from "../components/trainerdetail/DetailMainContents";
+>>>>>>> Stashed changes
 
 const TrainerDetail = () => {
   return (
