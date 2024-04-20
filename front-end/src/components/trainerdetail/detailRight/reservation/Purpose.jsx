@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./Purpose.scss";
+// 아이콘
+import { BiSelectMultiple } from "react-icons/bi";
 
 const Purpose = () => {
-  const [mainCategory, setMainCategory] = useState("");
+  const [mainCategory, setMainCategory] = useState("다이어트 및 식단관리"); // 초기값 설정
   const [subCategories, setSubCategories] = useState([]);
-  const [description, setDescription] = useState("");
 
   const mainCategories = [
     "다이어트 및 식단관리",
@@ -14,7 +15,7 @@ const Purpose = () => {
   const subCategoriesOptions = {
     "다이어트 및 식단관리": ["스태미나", "근력 강화"],
     "건강 및 체력관리": ["다이어트", "바디 슬림"],
-    "체형개선": ["근육토닝", "바디라인"],
+    체형개선: ["근육토닝", "바디라인"],
   };
 
   const descriptions = {
@@ -32,26 +33,27 @@ const Purpose = () => {
 
   const handleMainCategoryClick = (category) => {
     setMainCategory(category);
-    setSubCategories([]); 
-    setDescription(""); 
+    setSubCategories([]); // Reset subcategories when main category changes
   };
 
   const handleSubCategoryChange = (event) => {
     const { value, checked } = event.target;
     if (checked) {
       setSubCategories([...subCategories, value]);
-      setDescription(descriptions[value]);
     } else {
       setSubCategories(
         subCategories.filter((subCategory) => subCategory !== value)
       );
-      setDescription(""); 
     }
   };
 
   return (
-    <div>
-      <h2>운동 목적 선택</h2>
+    <div className="purpose_page">
+      <div className="purpose_title">
+        <BiSelectMultiple />
+        <h2>운동 목적 선택</h2>
+      </div>
+
       <div>
         {mainCategories.map((category, index) => (
           <button
@@ -65,19 +67,21 @@ const Purpose = () => {
       </div>
       {mainCategory && (
         <div>
-          <h3>소분류 선택</h3>
+          <h3>소분류 선택 및 상세 정보</h3>
           {subCategoriesOptions[mainCategory].map((subCategory) => (
-            <label key={subCategory}>
-              <input
-                type="checkbox"
-                value={subCategory}
-                checked={subCategories.includes(subCategory)}
-                onChange={handleSubCategoryChange}
-              />
-              {subCategory}
-            </label>
+            <div key={subCategory}>
+              <label>
+                <input
+                  type="checkbox"
+                  value={subCategory}
+                  checked={subCategories.includes(subCategory)}
+                  onChange={handleSubCategoryChange}
+                />
+                {subCategory}
+              </label>
+              <p>{descriptions[subCategory]}</p>
+            </div>
           ))}
-          {description && <p>{description}</p>}
         </div>
       )}
     </div>
