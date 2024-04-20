@@ -62,10 +62,12 @@ const Search = () => {
           )}
           <div className="searchListbox"></div>
         </div>
-        <button className="search_icon">
-          <FiSearch />
-          <a>검색하기</a>
-        </button>
+        <div className="search_icon">
+          <button>
+            <FiSearch style={{paddingTop:'5px'}}/>
+            <a>검색하기</a>
+          </button>
+        </div>
       </div>
     </div>
   );

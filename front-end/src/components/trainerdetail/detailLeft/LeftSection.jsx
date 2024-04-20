@@ -9,7 +9,7 @@ import CenterPlace from "./left/CenterPlace";
 import "./LeftSection.scss";
 const leftSection = () => {
   return (
-    <>
+    <div className="leftSection">
       <LeftIntro />
       <Qualifications />
       <TrainerSchedule />
@@ -17,7 +17,7 @@ const leftSection = () => {
       <Review />
       <LessonPrice />
       <CenterPlace />
-    </>
+    </div>
   );
 };
 

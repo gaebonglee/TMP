@@ -13,6 +13,9 @@
   color: $black;
   margin-bottom: 64px;
   position: relative;
+  width: 100%;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 #intro_page_contents_wrap > h1,
@@ -25,3 +28,4 @@
   justify-content: space-between;
   align-items: center;
 }
+

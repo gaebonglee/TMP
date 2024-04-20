@@ -84,7 +84,7 @@
   cursor: pointer;
 }
 
-.search_icon {
+/*.search_icon {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -100,5 +100,32 @@
   min-width: 170px;
   background-color: $green2;
   color: $white;
-  border-radius: $border-radius-2;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: $border-radius-3;
+  border-bottom-right-radius: $border-radius-3;
+}*/
+.search_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 170px;
+  height: 60px;
+  background-color: $green2;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 22px;
+  border-bottom-right-radius: 22px;
+}
+
+.search_icon > button {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-right: 10px;
+  position: relative;
+  font-size: $h2;
+  background-color: $green2;
+  border: none;
+  color: $white;
 }
