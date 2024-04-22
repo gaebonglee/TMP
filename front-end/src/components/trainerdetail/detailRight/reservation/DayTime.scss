@@ -14,7 +14,11 @@
   }
 
   .react-calendar__month-view__days__day:nth-child(7n-1) {
-    color: rgb(0, 0, 156); // 토요일만 파란색으로 변경
+    color: rgb(
+      0,
+      0,
+      156
+    ); // 토요일만 파란색으로 변경할지 아니면 일요일만 빨간색으로 할지 물어보기
   }
 
   .react-calendar__navigation {
@@ -45,7 +49,7 @@
 
   .react-calendar__tile--now {
     background-color: $white;
-    border: 1px solid $green1;
+    color: $green2;
   }
 
   .react-calendar__tile--active {
@@ -71,18 +75,23 @@
 }
 
 .booking_page .time-button {
-  font-size: 16px;
-  padding: 10px;
+  font-size: 14px;
+  padding: 12px;
   margin: 3px;
-  border: 2px solid $green2;
+  border: 2px solid $lightgray;
+
   border-radius: $border-radius-3;
   background-color: $white;
+  color: $black;
   cursor: pointer;
 }
 
 .booking_page .time-button.selected {
   background-color: $green2;
   color: $white;
+  font-weight: $font-weight-2;
+  border: 2px solid $green2;
+  
 }
 
 .booking_page .time-selection {
