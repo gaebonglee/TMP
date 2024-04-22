@@ -3,58 +3,83 @@ import "./Purpose.scss";
 // 아이콘
 import { BiSelectMultiple } from "react-icons/bi";
 
-const Purpose = () => {
+const Purpose = ({ setSubCategories }) => {
   const [mainCategory, setMainCategory] = useState("다이어트 및 식단관리"); // 초기값 설정
-  const [subCategories, setSubCategories] = useState([]);
+  const [subCategories, setSelectedSubCategories] = useState([]);
 
   const mainCategories = [
     "다이어트 및 식단관리",
     "건강 및 체력관리",
-    "체형개선",
+    "체형 개선",
   ];
   const subCategoriesOptions = {
-    "다이어트 및 식단관리": ["스태미나", "근력 강화"],
-    "건강 및 체력관리": ["다이어트", "바디 슬림"],
-    체형개선: ["근육토닝", "바디라인"],
+    "다이어트 및 식단관리": [
+      "다이어트",
+      "식단관리",
+      "바디 프로필",
+      "대회 준비",
+    ],
+    "건강 및 체력관리": [
+      "기초체력 강화",
+      "근력향상",
+      "통증케어",
+      "산전산후 케어",
+    ],
+    "체형 개선": ["하체라인 개선", "바른체형 유지"],
   };
 
   const descriptions = {
-    스태미나:
-      "스태미나 향상을 위한 운동은 장시간 지속되는 유산소 운동을 포함합니다.",
-    "근력 강화":
-      "근력을 강화하기 위해 저항성 운동을 사용하며, 이는 근육의 크기와 힘을 증가시킵니다.",
-    다이어트: "체중 감소를 목표로 하는 다양한 운동 프로그램을 포함합니다.",
-    "바디 슬림": "전신을 슬림하게 만드는데 초점을 맞춘 운동 방법입니다.",
-    근육토닝:
-      "특정 근육 그룹을 타겟팅하여 더욱 뚜렷하게 근육을 강조하는 운동입니다.",
-    바디라인:
-      "아름다운 바디 라인을 만드는 데 도움이 되는 운동을 통해 몸매를 조각합니다.",
+    다이어트:
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    식단관리:
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    "바디 프로필":
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    "대회 준비":
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    "기초체력 강화":
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    근력향상:
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    통증케어:
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    "산전산후 케어":
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    "하체라인 개선":
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
+    "바른체형 유지":
+      "트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/트레이너 작성 상세내용 테스트/",
   };
 
   const handleMainCategoryClick = (category) => {
     setMainCategory(category);
     setSubCategories([]); // Reset subcategories when main category changes
   };
-
   const handleSubCategoryChange = (event) => {
     const { value, checked } = event.target;
-    if (checked) {
-      setSubCategories([...subCategories, value]);
-    } else {
-      setSubCategories(
-        subCategories.filter((subCategory) => subCategory !== value)
-      );
-    }
+    setSelectedSubCategories((prevSubCategories) => {
+      let updatedSubCategories;
+      if (checked) {
+        updatedSubCategories = [...prevSubCategories, value];
+      } else {
+        updatedSubCategories = prevSubCategories.filter(
+          (subCategory) => subCategory !== value
+        );
+      }
+      setSubCategories(updatedSubCategories); // 업데이트된 서브카테고리 리스트를 상위 컴포넌트로 전달
+      return updatedSubCategories;
+    });
   };
 
   return (
     <div className="purpose_page">
       <div className="purpose_title">
         <BiSelectMultiple />
-        <h2>운동 목적 선택</h2>
+        <h2>운동 목적</h2>
       </div>
+      <br />
 
-      <div>
+      <div className="purpose_mainCategories_btn">
         {mainCategories.map((category, index) => (
           <button
             key={index}
@@ -66,8 +91,7 @@ const Purpose = () => {
         ))}
       </div>
       {mainCategory && (
-        <div>
-          <h3>소분류 선택 및 상세 정보</h3>
+        <div className="subCategories_wrap">
           {subCategoriesOptions[mainCategory].map((subCategory) => (
             <div key={subCategory}>
               <label>
@@ -79,7 +103,9 @@ const Purpose = () => {
                 />
                 {subCategory}
               </label>
-              <p>{descriptions[subCategory]}</p>
+              <p className="purpose_subCategory_text">
+                {descriptions[subCategory]}
+              </p>
             </div>
           ))}
         </div>

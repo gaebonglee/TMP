@@ -4,7 +4,16 @@ import "react-calendar/dist/Calendar.css";
 import "./DayTime.scss";
 import { FaRegCalendarCheck } from "react-icons/fa";
 
-const DayTime = () => {
+const isToday = (someDate) => {
+  const today = new Date();
+  return (
+    someDate.getDate() === today.getDate() &&
+    someDate.getMonth() === today.getMonth() &&
+    someDate.getFullYear() === today.getFullYear()
+  );
+};
+
+const DayTime = (props) => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
 
@@ -20,11 +29,14 @@ const DayTime = () => {
 
   const onDateChange = (newDate) => {
     setDate(newDate);
-    setTime(""); // 날짜를 변경하면 시간 선택을 리셋합니다.
+    props.setDate(newDate); // 상태 업데이트
+    setTime("");
+    props.setTime("");
   };
 
   const onTimeSelect = (selectedTime) => {
     setTime(selectedTime);
+    props.setTime(selectedTime);
   };
 
   return (
@@ -39,6 +51,11 @@ const DayTime = () => {
         value={date}
         minDate={new Date()}
         formatDay={(locale, date) => date.getDate()}
+        tileContent={({ date, view }) =>
+          view === "month" && isToday(date) ? (
+            <p style={{ fontSize: "12px" }}>오늘</p>
+          ) : null
+        }
       />
       <div className="time-selection">
         {availableTimes.map((availableTime, index) => (

@@ -35,6 +35,10 @@ table {
   border-spacing: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
 input::placeholder {
   font: inherit;
 }
