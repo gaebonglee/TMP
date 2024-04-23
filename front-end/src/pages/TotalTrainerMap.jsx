@@ -13,6 +13,7 @@ const TotalTrainer = () => {
 
   const [trainers, setTrainers] = useState([]);
   const [address, setAddress] = useState("");
+  const [trainerIndex, setTrainerIndex] = useState(null);
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -40,8 +41,16 @@ const TotalTrainer = () => {
   }, []);
   return (
     <>
-      <TrainerList trainers={trainers} />
-      <UndongMap address={address} trainers={trainers} />
+      {trainerIndex !== null ? (
+        <TrainerList trainers={[trainers[trainerIndex]]} />
+      ) : (
+        <TrainerList trainers={trainers} />
+      )}
+      <UndongMap
+        address={address}
+        trainers={trainers}
+        setTrainerIndex={setTrainerIndex}
+      />
     </>
   );
 };

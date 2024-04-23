@@ -5,12 +5,12 @@ import { BiTargetLock } from "react-icons/bi";
 import LoadingSpinner from "./LoadingSpinner";
 
 const UndongMap = (props) => {
-  const [latitude, setLatitude] = useState(37.5665);
-  const [longitude, setLongitude] = useState(126.978);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { trainers } = props;
+  const { trainers, setTrainerIndex } = props;
 
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
@@ -96,8 +96,13 @@ const UndongMap = (props) => {
             wrap.classList.remove("markerActiveWrap");
             pin.classList.remove("markerActivePin");
           });
-          markerWrap.classList.add("markerActiveWrap");
-          markerPin.classList.add("markerActivePin");
+          if (markerWrap.classList.contains("markerActiveWrap")) {
+            markerWrap.classList.remove("markerActiveWrap");
+            markerPin.classList.remove("markerActivePin");
+          } else {
+            markerWrap.classList.add("markerActiveWrap");
+            markerPin.classList.add("markerActivePin");
+          }
         }
         marker.setAnimation(naver.maps.Animation.BOUNCE);
         setTimeout(() => {
@@ -197,14 +202,21 @@ const UndongMap = (props) => {
               wrap.classList.remove("markerActiveWrap");
               pin.classList.remove("markerActivePin");
             });
-            markerWrap.classList.add("markerActiveWrap");
-            markerPin.classList.add("markerActivePin");
+            if (markerWrap.classList.contains("markerActiveWrap")) {
+              markerWrap.classList.remove("markerActiveWrap");
+              markerPin.classList.remove("markerActivePin");
+            } else {
+              markerWrap.classList.add("markerActiveWrap");
+              markerPin.classList.add("markerActivePin");
+            }
           }
           marker.setAnimation(naver.maps.Animation.BOUNCE);
           setTimeout(() => {
             marker.setAnimation(null);
           }, 700);
           newMap.panTo(markerLocation);
+
+          setTrainerIndex(index);
         });
       });
 
@@ -228,7 +240,7 @@ const UndongMap = (props) => {
       setLatitude(latitude);
       setLongitude(longitude);
       const newLocation = new window.naver.maps.LatLng(latitude, longitude);
-      map.setCenter(newLocation);
+      map.panTo(newLocation);
     } catch (error) {
       console.error("Error getting current location:", error);
     }
