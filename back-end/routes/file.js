@@ -43,4 +43,52 @@ router.get("/download/:filename(*)", (req, res) => {
   }
 });
 
+// const storage = multerGoogleStorage.storageEngine({
+//   projectId: "balmy-elf-420205", // GCP 프로젝트 ID
+//   keyFilename: "./secure/balmy-elf-420205-381e2cb85c55.json", // GCP 계정 키 파일 경로
+//   bucket: "cda_file", // Google Cloud Storage 버킷 이름
+//   filename: function (req, file, cb) {
+//     cb(null, "/test/" + file.originalname); // 파일 이름
+//   },
+// });
+
+// const upload = multer({ storage: storage });
+
+// app.post("/api/upload", upload.single("image"), (req, res) => {
+//   console.log("파일이 Google Cloud Storage로 업로드되었습니다:", req.file);
+//   res.send("파일이 Google Cloud Storage로 업로드되었습니다.");
+// });
+
+// front 부분
+// function ImageUploader() {
+//   const [selectedFile, setSelectedFile] = useState(null);
+
+//   const handleFileChange = (event) => {
+//     setSelectedFile(event.target.files[0]);
+//   };
+
+//   const handleSubmit = async () => {
+//     const formData = new FormData();
+//     formData.append('image', selectedFile);
+
+//     try {
+//       await axios.post('http://localhost:3003/api/upload', formData, {
+//         headers: {
+//           'Content-Type': 'multipart/form-data',
+//         },
+//       });
+//       console.log('이미지 업로드 성공.');
+//     } catch (error) {
+//       console.error('이미지 업로드 실패:', error);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <input type='file' onChange={handleFileChange} />
+//       <button onClick={handleSubmit}>업로드</button>
+//     </div>
+//   );
+// }
+
 module.exports = router;
