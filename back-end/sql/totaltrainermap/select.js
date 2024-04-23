@@ -15,9 +15,7 @@ function selectCenterAll(callback) {
     trainer t
     JOIN center c ON t.center_id = c.center_id
     JOIN trainer_price tp ON t.user_id = tp.user_id
-    JOIN user u ON t.user_id=u.user_id 
-  WHERE 
-    t.user_id = '0123_test';`,
+    JOIN user u ON t.user_id=u.user_id;`,
     (err, result) => {
       if (err) {
         callback(err, null);

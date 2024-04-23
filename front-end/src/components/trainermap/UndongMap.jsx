@@ -5,12 +5,12 @@ import { BiTargetLock } from "react-icons/bi";
 import LoadingSpinner from "./LoadingSpinner";
 
 const UndongMap = (props) => {
-  const [latitude, setLatitude] = useState(37.5665);
-  const [longitude, setLongitude] = useState(126.978);
-  const [trainers, setTrainers] = useState([]);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { trainers, setTrainerIndex } = props;
 
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
@@ -45,7 +45,7 @@ const UndongMap = (props) => {
       script.async = true;
       script.onload = initializeMap;
       document.head.appendChild(script);
-      setIsLoading(false); // 로딩 상태 변경
+      setIsLoading(false);
     };
 
     const initializeMap = () => {
@@ -64,12 +64,51 @@ const UndongMap = (props) => {
       const newMap = new naver.maps.Map(mapRef.current, mapOptions);
       setMap(newMap);
 
+      const markers = [];
+
+      const markerElement = document.createElement("div");
+      markerElement.innerHTML = `
+        <div class="markerWrap" data-marker-id="currentLocation">현재 위치 HPE 교육센터</div>
+        <div class="markerPin" data-marker-id="currentLocation"></div>
+      `;
+
       const marker = new naver.maps.Marker({
         position: location,
         map: newMap,
         icon: {
-          content: `<div class="markerWrap">현재 위치 HPE 교육센터</div> <div class="markerPin"></div>`,
+          content: markerElement,
         },
+      });
+
+      markers.push(marker);
+
+      naver.maps.Event.addListener(marker, "click", function () {
+        const markerWrap = markerElement.querySelector(
+          '.markerWrap[data-marker-id="currentLocation"]'
+        );
+        const markerPin = markerElement.querySelector(
+          '.markerPin[data-marker-id="currentLocation"]'
+        );
+        if (markerWrap && markerPin) {
+          markers.forEach((m) => {
+            const wrap = m.icon.content.querySelector(".markerWrap");
+            const pin = m.icon.content.querySelector(".markerPin");
+            wrap.classList.remove("markerActiveWrap");
+            pin.classList.remove("markerActivePin");
+          });
+          if (markerWrap.classList.contains("markerActiveWrap")) {
+            markerWrap.classList.remove("markerActiveWrap");
+            markerPin.classList.remove("markerActivePin");
+          } else {
+            markerWrap.classList.add("markerActiveWrap");
+            markerPin.classList.add("markerActivePin");
+          }
+        }
+        marker.setAnimation(naver.maps.Animation.BOUNCE);
+        setTimeout(() => {
+          marker.setAnimation(null);
+        }, 700);
+        newMap.panTo(location);
       });
 
       const searchAddress = () => {
@@ -125,35 +164,67 @@ const UndongMap = (props) => {
         }
       };
 
-      fetch("http://localhost:5000/center")
-        .then((res) => res.json())
-        .then((data) => {
-          setTrainers(data[0]);
+      trainers.forEach((trainer, index) => {
+        const markerLatitude = trainer.latitude;
+        const markerLongitude = trainer.longitude;
+        const markerLocation = new naver.maps.LatLng(
+          markerLatitude,
+          markerLongitude
+        );
 
-          const markerLatitude = data[0].latitude;
-          const markerLongitude = data[0].longitude;
-          const markerLocation = new naver.maps.LatLng(
-            markerLatitude,
-            markerLongitude
-          );
-          const marker2 = new naver.maps.Marker({
-            position: markerLocation,
-            map: newMap,
-            icon: {
-              content: `<div class="markerWrap">${data[0].center_name}</div> <div class="markerPin"></div>`,
-            },
-          });
+        const markerElement = document.createElement("div");
+        markerElement.innerHTML = `
+          <div class="markerWrap" data-marker-id="${index}">${trainer.center_name}</div>
+          <div class="markerPin" data-marker-id="${index}"></div>
+        `;
 
-          initGeolocation();
-        })
-        .catch((error) => {
-          console.error("Error fetching center data:", error);
-          initGeolocation();
+        const marker = new naver.maps.Marker({
+          position: markerLocation,
+          map: newMap,
+          icon: {
+            content: markerElement,
+          },
         });
+
+        markers.push(marker);
+
+        naver.maps.Event.addListener(marker, "click", function () {
+          const markerWrap = markerElement.querySelector(
+            `.markerWrap[data-marker-id="${index}"]`
+          );
+          const markerPin = markerElement.querySelector(
+            `.markerPin[data-marker-id="${index}"]`
+          );
+          if (markerWrap && markerPin) {
+            markers.forEach((m) => {
+              const wrap = m.icon.content.querySelector(".markerWrap");
+              const pin = m.icon.content.querySelector(".markerPin");
+              wrap.classList.remove("markerActiveWrap");
+              pin.classList.remove("markerActivePin");
+            });
+            if (markerWrap.classList.contains("markerActiveWrap")) {
+              markerWrap.classList.remove("markerActiveWrap");
+              markerPin.classList.remove("markerActivePin");
+            } else {
+              markerWrap.classList.add("markerActiveWrap");
+              markerPin.classList.add("markerActivePin");
+            }
+          }
+          marker.setAnimation(naver.maps.Animation.BOUNCE);
+          setTimeout(() => {
+            marker.setAnimation(null);
+          }, 700);
+          newMap.panTo(markerLocation);
+
+          setTrainerIndex(index);
+        });
+      });
+
+      initGeolocation();
     };
 
     loadNaverMapsScript();
-  }, []);
+  }, [trainers]);
 
   const mapStyle = {
     width: "calc(100% - 528px)",
@@ -169,7 +240,7 @@ const UndongMap = (props) => {
       setLatitude(latitude);
       setLongitude(longitude);
       const newLocation = new window.naver.maps.LatLng(latitude, longitude);
-      map.setCenter(newLocation);
+      map.panTo(newLocation);
     } catch (error) {
       console.error("Error getting current location:", error);
     }
@@ -183,33 +254,7 @@ const UndongMap = (props) => {
         <div ref={mapRef} style={mapStyle}>
           <div>
             <div className="myLocation">
-              <div
-                className="btn"
-                onClick={() => {
-                  if (map) {
-                    navigator.geolocation.getCurrentPosition(
-                      (position) => {
-                        const { latitude, longitude } = position.coords;
-                        setLatitude(latitude);
-                        setLongitude(longitude);
-                        const newLocation = new window.naver.maps.LatLng(
-                          latitude,
-                          longitude
-                        );
-                        map.setCenter(newLocation);
-                      },
-                      (error) => {
-                        console.error("Error getting current location:", error);
-                      },
-                      {
-                        enableHighAccuracy: true,
-                        timeout: 5000,
-                        maximumAge: 0,
-                      }
-                    );
-                  }
-                }}
-              >
+              <div className="btn" onClick={handleMyLocationClick}>
                 <BiTargetLock size={27} color="#00491e" />
               </div>
             </div>
