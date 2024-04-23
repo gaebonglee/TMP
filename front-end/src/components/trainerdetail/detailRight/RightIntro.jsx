@@ -31,7 +31,7 @@ const RightIntro = () => {
   return (
     <div className="intro_right_container">
       <img
-        className="trainer_right_photo"
+        className="trainer_right_img"
         src="/image/사진1.jpg"
         alt="trainer_right_photo"
       />
