@@ -10,31 +10,30 @@ const UndongMap = (props) => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { trainers, setTrainerIndex } = props;
+  const { trainers, setTrainerIndex, setCurrentLatitude, setCurrentLongitude } =
+    props;
 
-  const getCurrentLocation = () => {
-    return new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            resolve({ latitude, longitude });
-          },
-          (error) => {
-            console.error("Error getting current location:", error);
-            reject(error);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0,
-          }
-        );
-      } else {
-        console.error("Geolocation is not supported by this browser.");
-        reject(new Error("Geolocation is not supported"));
-      }
-    });
+  const getCurrentLocation = async () => {
+    if (!navigator.geolocation) {
+      console.error("Geolocation is not supported by this browser.");
+      throw new Error("Geolocation is not supported");
+    }
+
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: false, // 정확도 요구를 낮추어 더 넓은 범위에서 위치 정보를 받을 수 있도록 함
+          timeout: 10000, // 타임아웃을 10초로 늘림
+          maximumAge: 60000, // 최대 연령을 1분으로 설정
+        });
+      });
+
+      const { latitude, longitude } = position.coords;
+      return { latitude, longitude };
+    } catch (error) {
+      console.error("Error getting current location:", error);
+      throw error;
+    }
   };
 
   useEffect(() => {
@@ -134,31 +133,44 @@ const UndongMap = (props) => {
       };
 
       const initGeolocation = () => {
+        // 브라우저에서 지오로케이션 기능을 지원하는지 확인
         if (navigator.geolocation) {
+          // 사용자의 현재 위치를 요청
           navigator.geolocation.getCurrentPosition(
             (position) => {
+              // 위치 접근 성공 시
               const { latitude, longitude } = position.coords;
+              // 위도와 경도 상태 업데이트
               setLatitude(latitude);
               setLongitude(longitude);
+              setCurrentLatitude(latitude);
+              setCurrentLongitude(longitude);
+
+              // Naver 맵에 새 위치 설정
               const newLocation = new naver.maps.LatLng(latitude, longitude);
               newMap.setCenter(newLocation);
               marker.setPosition(newLocation);
+              // 주소 검색 함수 실행
               searchAddress();
             },
             (error) => {
+              // 위치 접근 실패 시 오류 처리
               console.error("Error getting current location:", error);
+              // 디폴트 위치 설정
               const defaultLocation = new naver.maps.LatLng(37.5665, 126.978);
               newMap.setCenter(defaultLocation);
               marker.setPosition(defaultLocation);
+              // 주소 검색 함수 실행
               searchAddress();
             },
             {
-              enableHighAccuracy: true,
-              timeout: 5000,
-              maximumAge: 0,
+              enableHighAccuracy: true, // 더 정확한 위치 정보 요청
+              timeout: 10000, // 10초 후 타임아웃
+              maximumAge: 60000, // 캐시된 위치 정보 무시
             }
           );
         } else {
+          // 지오로케이션 기능을 지원하지 않을 경우의 오류 처리
           console.error("Geolocation is not supported by this browser.");
           searchAddress();
         }

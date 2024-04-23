@@ -14,6 +14,8 @@ const TotalTrainer = () => {
   const [trainers, setTrainers] = useState([]);
   const [address, setAddress] = useState("");
   const [trainerIndex, setTrainerIndex] = useState(null);
+  const [currentLatitude, setCurrentLatitude] = useState();
+  const [currentLongitude, setCurrentLongitude] = useState();
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -42,14 +44,26 @@ const TotalTrainer = () => {
   return (
     <>
       {trainerIndex !== null ? (
-        <TrainerList trainers={[trainers[trainerIndex]]} />
+        <TrainerList
+          currentLongitude={currentLongitude}
+          currentLatitude={currentLatitude}
+          setTrainers={setTrainers}
+          trainers={[trainers[trainerIndex]]}
+        />
       ) : (
-        <TrainerList trainers={trainers} />
+        <TrainerList
+          currentLatitude={currentLatitude}
+          currentLongitude={currentLongitude}
+          setTrainers={setTrainers}
+          trainers={trainers}
+        />
       )}
       <UndongMap
         address={address}
         trainers={trainers}
         setTrainerIndex={setTrainerIndex}
+        setCurrentLatitude={setCurrentLatitude}
+        setCurrentLongitude={setCurrentLongitude}
       />
     </>
   );
