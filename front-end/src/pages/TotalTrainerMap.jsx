@@ -6,11 +6,12 @@ import Header from "../components/layout/Header";
 import { Router } from "react-router-dom";
 
 const TotalTrainer = () => {
-    const [searchPosition, setSearchPosition] = useState({
+  const [searchPosition, setSearchPosition] = useState({
     lat: 37.3595704,
     lng: 127.105399,
   }); // [latitude, longitude
 
+  const [trainers, setTrainers] = useState([]);
   const [address, setAddress] = useState("");
 
   const handleComplete = (data) => {
@@ -32,11 +33,15 @@ const TotalTrainer = () => {
     setAddress(fullAddress);
   };
 
-  
+  useEffect(() => {
+    fetch("http://localhost:5000/center")
+      .then((res) => res.json())
+      .then((data) => setTrainers(data));
+  }, []);
   return (
     <>
-      <TrainerList />
-      <UndongMap address={address} />
+      <TrainerList trainers={trainers} />
+      <UndongMap address={address} trainers={trainers} />
     </>
   );
 };
