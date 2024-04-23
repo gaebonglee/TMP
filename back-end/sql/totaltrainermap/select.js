@@ -56,10 +56,10 @@ function selectFilter(filter, callback) {
      WHERE c.latitude BETWEEN ${filter.latitude - lat} AND ${
       filter.latitude + lat
     }
-      AND c.longitude BETWEEN ${filter.longitude - long} AND ${
+  AND c.longitude BETWEEN ${filter.longitude - long} AND ${
       filter.longitude + long
     }
-    AND tp.total_price <= ${filter.price * 10000}
+    AND tp.total_price / tp.count <= ${filter.price * 10000}
     AND (u.gender IN ('m', 'f') OR '${filter.gender}' = 'all')
 
       
@@ -69,7 +69,7 @@ function selectFilter(filter, callback) {
         callback(err, null);
       } else {
         callback(null, result);
-        console.log(lat, long);
+        console.log(filter.price);
         console.log(result);
       }
     }
