@@ -1,0 +1,81 @@
+@import "../../common.scss";
+
+.paymentComplete_page {
+  color: $black;
+  max-width: 1136px;
+  margin: auto;
+}
+
+.paymentComplete_message {
+  h2 {
+    padding: 20px 0;
+  }
+  p {
+    margin: 0 auto;
+    padding: 30px;
+    border-top: 1px solid $lightgray;
+    border-bottom: 1px solid $lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $h2;
+  }
+}
+
+.reservation_complete_container {
+  padding: 30px 0;
+  h2 {
+    padding: 20px 0;
+  }
+}
+
+.complete_trainer_info {
+  padding: 20px;
+}
+
+.reservation_complete_contents {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid $lightgray;
+  border-bottom: 1px solid $lightgray;
+}
+
+.reservaton_info_wrap,
+.payment_info_wrap {
+  padding: 50px;
+  width: 50%;
+
+  h3 {
+    font-size: 18px;
+    font-weight: $font-weight-2;
+    padding-bottom: 30px;
+  }
+}
+
+.reservaton_info_detail,
+.payment_info_detail {
+  display: flex;
+  gap: 100px;
+
+  .left,
+  .right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.paymentComplete_btn_wrap {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+  gap: 15px;
+  button {
+    padding: 10px 20px;
+    background-color: $green2;
+    color: $white;
+    border: none;
+    border-radius: $border-radius-3;
+    font-size: 18px;
+  }
+}
