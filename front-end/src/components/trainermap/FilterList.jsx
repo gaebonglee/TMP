@@ -78,7 +78,7 @@ const FilterList = (props) => {
       .then((data) => {
         console.log(data);
         setTrainers(data);
-        alert(data[0].center_name);
+        alert(data);
       });
   };
 
@@ -191,6 +191,7 @@ const FilterList = (props) => {
         <div className="genderCheck">
           <label>
             <input
+              defaultChecked
               type="radio"
               name="gender"
               checked={filterData.gender === "all"}
