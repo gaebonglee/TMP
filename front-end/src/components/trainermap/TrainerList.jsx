@@ -6,7 +6,7 @@ import FilterList from "./FilterList";
 
 const TrainerList = (props) => {
   const [filter, setFilter] = useState(true);
-  const { trainers } = props;
+  const { trainers, currentLatitude, currentLongitude, setTrainers } = props;
 
   return (
     <div className="listWrap">
@@ -25,7 +25,12 @@ const TrainerList = (props) => {
             ))}
           </>
         ) : (
-          <FilterList setFilter={setFilter} />
+          <FilterList
+            currentLatitude={currentLatitude}
+            currentLongitude={currentLongitude}
+            setTrainers={setTrainers}
+            setFilter={setFilter}
+          />
         )}
       </div>
     </div>
