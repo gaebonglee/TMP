@@ -54,3 +54,29 @@
   background-color: $green3;
   position: relative;
 }
+
+.setLogin {
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.loginMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.loginTitle {
+  color: $green2;
+  font-weight: $font-weight-1;
+}
+.loginIcon {
+  color: $green2;
+  font-size: 32px;
+  line-height: 10px;
+}
