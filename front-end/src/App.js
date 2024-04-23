@@ -5,6 +5,7 @@ import Mainpage from "./pages/Mainpage";
 import TotalTrainerMap from "./pages/TotalTrainerMap";
 import TotalCenterMap from "./pages/TotalCenterMap";
 import TrainerDetail from "./pages/TrainerDetail";
+import Complete from "./pages/Complete";
 
 function App() {
   fetch("http://localhost:5000/trainermap")
@@ -22,6 +23,7 @@ function App() {
         { path: "/centermap", element: <TotalCenterMap /> },
         { path: "/trainerDetail", element: <TrainerDetail /> },
         { path: "/login/roleError/:role", element: <Mainpage /> },
+        { path: "/complete", element: <Complete /> },
       ],
     },
   ]);
