@@ -22,6 +22,7 @@ function App() {
         { path: "/trainermap", element: <TotalTrainerMap /> },
         { path: "/centermap", element: <TotalCenterMap /> },
         { path: "/trainerDetail", element: <TrainerDetail /> },
+        { path: "/login/roleError/:role", element: <Mainpage /> },
         { path: "/complete", element: <Complete /> },
       ],
     },
