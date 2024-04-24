@@ -187,7 +187,6 @@ async function handleNaverLogin(req, res, role) {
     const userId = res2.data.response.id + "_naver";
 
     login.selectUser(userId, (err, result) => {
-      console.log("결과값 ::", result);
       if (err) {
         console.log("로그인 오류!!");
         res.status(400).end("로그인 오류!!");
@@ -221,7 +220,6 @@ async function handleNaverLogin(req, res, role) {
       req.session.email = res2.data.response.email;
       req.session.phonenumber = res2.data.response.mobile.replaceAll("-", "");
       req.session.user_name = res2.data.response.name;
-      console.log("req.session:", req.session);
       req.session.save(() => {});
 
       // 리디렉션
@@ -294,7 +292,6 @@ async function handleGoogleLogin(req, res, role) {
         : "";
 
     login.selectUser(userId, (err, result) => {
-      console.log("결과값 ::", result);
       if (err) {
         console.log("로그인 오류!!");
         res.status(400).end("로그인 오류!!");
@@ -328,7 +325,6 @@ async function handleGoogleLogin(req, res, role) {
       req.session.email = res1.data.email;
       req.session.phonenumber = googlePhoneNumber;
       req.session.user_name = res1.data.name;
-      console.log("req.session:", req.session);
       req.session.save(() => {});
 
       // 리디렉션
