@@ -12,6 +12,7 @@ const Review = () => {
   const fileInputRef = useRef(null);
   const [reviewContent, setReviewContent] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
+  const [sessionUserId, setSessionUserId] = useState("");
 
   const handleStarClick = (rating) => {
     setSelectedRating(rating);
@@ -30,22 +31,16 @@ const Review = () => {
 
   const handleFileChange = (e) => {
     const files = e.target.files;
-    const previewImagesArray = [...previewImages];
+    if (files.length + previewImages.length > 3) {
+      alert("최대 3개의 사진까지만 등록할 수 있습니다.");
+      return;
+    }
 
-    for (let i = 0; i < files.length; i++) {
-      if (previewImagesArray.length >= 3) {
-        alert("최대 3개의 사진까지만 등록할 수 있습니다.");
-        break;
-      }
-
-      const file = files[i];
+    for (let file of files) {
       const reader = new FileReader();
-
-      reader.onload = () => {
-        previewImagesArray.push(reader.result);
-        setPreviewImages(previewImagesArray);
+      reader.onload = (e) => {
+        setPreviewImages((prevImages) => [...prevImages, e.target.result]);
       };
-
       reader.readAsDataURL(file);
     }
   };
@@ -60,10 +55,46 @@ const Review = () => {
     setReviewContent(e.target.value);
   };
 
+  const handleFetchReview = async () => {
+    console.log(sessionUserId);
+    try {
+      const response = await fetch("http://localhost:5000/review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: sessionUserId,
+          point: selectedRating,
+          review: reviewContent,
+          review_img: previewImages,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok && data.message === "SUCCESS") {
+        alert("리뷰가 등록되었습니다.");
+        handleCloseModal();
+      } else {
+        throw new Error(data.message || "리뷰 등록에 실패했습니다.");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   useEffect(() => {
-    fetch("http://localhost:5000/review")
+    fetch("http://localhost:5000/review", {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => setReviewList(data[0]));
+
+    fetch("http://localhost:5000/session/checkSession", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSessionUserId(data.user_id);
+      });
   }, []);
 
   return (
@@ -108,7 +139,7 @@ const Review = () => {
                         {reviewList.user_name}
                       </span>
                       <span className="reviewDate">
-                        {reviewList.register_date}
+                        {reviewList.register_date?.slice(0, 10) || ""}
                       </span>
                     </div>
                     <div className="reviewStar">
@@ -188,7 +219,7 @@ const Review = () => {
                           {[...Array(5)].map((_, index) => (
                             <FaStar
                               key={index}
-                              size={50}
+                              size={36}
                               className="gostar"
                               onClick={() => handleStarClick(index + 1)}
                               style={{
@@ -274,6 +305,7 @@ const Review = () => {
                     </div>
                     <div className="button_Div">
                       <button
+                        onClick={handleFetchReview}
                         className={`button_Basic ${
                           reviewContent.length > 0 ? "active" : ""
                         }`}
