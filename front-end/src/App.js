@@ -36,7 +36,11 @@ function App() {
           <Route
             path="/trainerProfileEdit"
             element={
-              <PrivateRoute component={<TrainerProfileEdit />} token={data} />
+              <PrivateRoute
+                component={<TrainerProfileEdit />}
+                token={data}
+                role={"trainer"}
+              />
             }
           />
         </Route>
