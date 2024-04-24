@@ -8,11 +8,6 @@ const centerRouter = require("./routes/center");
 const reviewRouter = require("./routes/review");
 const fileRouter = require("./routes/file");
 const filterRouter = require("./routes/filter");
-const fileRouter = require("./routes/file");
-const filterRouter = require("./routes/filter");
-const fileRouter = require("./routes/file");
-const filterRouter = require("./routes/filter");
-const fileRouter = require("./routes/file");
 
 dotenv.config();
 const app = express();
@@ -39,11 +34,7 @@ app.use("/center", centerRouter);
 app.use("/review", reviewRouter);
 app.use("/file", fileRouter);
 app.use("/filter", filterRouter);
-app.use("/file", fileRouter);
-app.use("/filter", filterRouter);
-app.use("/file", fileRouter);
-app.use("/filter", filterRouter);
-app.use("/file", fileRouter);
+
 
 app.listen(5000, () => {
   console.log("server is running...");
