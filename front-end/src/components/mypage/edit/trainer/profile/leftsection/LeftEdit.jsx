@@ -1,6 +1,8 @@
-// LeftEdit.jsx
 import React from "react";
-import TrainerProfileEdit from "./TrainerProfileEdit";
+import TrainerProfileEdit from "../TrainerProfileEdit";
+import IntroEdit from "../leftsection/left/IntroEdit";
+import QualificationsEdit from "./left/CertificationEdit";
+import ScheduleEdit from "./left/ScheduleEdit";
 import axios from "axios";
 
 function LeftEdit() {
@@ -71,51 +73,55 @@ function LeftEdit() {
         title="사진"
         content={introimg}
         onSave={handleIntroImgSave}
-        useTextarea={true}
       />
       <TrainerProfileEdit
         title="자기소개"
         content={intro}
         onSave={handleIntroSave}
-        useTextarea={true}
+        inputComponent={(editedContent, setEditedContent) => (
+          <IntroEdit content={editedContent} setContent={setEditedContent} />
+        )}
       />
 
       <TrainerProfileEdit
         title="검증된 자격 사항"
         content={qualifications}
         onSave={handleQualificationsSave}
-        useTextarea={true}
+        inputComponent={(editedContent, setEditedContent) => (
+          <QualificationsEdit
+            content={editedContent}
+            setContent={setEditedContent}
+          />
+        )}
       />
 
       <TrainerProfileEdit
         title="레슨스케줄"
         content={schedule}
         onSave={handleScheduleSave}
-        useTextarea={false} // 체크박스 사용
+        inputComponent={(editedContent, setEditedContent) => (
+          <ScheduleEdit content={editedContent} setContent={setEditedContent} />
+        )}
       />
       <TrainerProfileEdit
         title="프로그램"
         content={program}
         onSave={handleProgramSave}
-        useTextarea={true}
       />
       <TrainerProfileEdit
         title="레슨 이용 가격"
         content={lessonprice}
         onSave={handleLessonPriceSave}
-        useTextarea={true}
       />
       <TrainerProfileEdit
         title="한줄 소개"
         content={shortintro}
         onSave={handleShortIntroSave}
-        useTextarea={true}
       />
       <TrainerProfileEdit
         title="위치"
         content={location}
         onSave={handleLocationSave}
-        useTextarea={true}
       />
     </div>
   );
