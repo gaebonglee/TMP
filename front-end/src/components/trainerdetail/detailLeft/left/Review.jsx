@@ -24,9 +24,9 @@ const Review = () => {
 
   function handleCloseModal() {
     setIsModalOpen(false);
-    setPreviewImages([]); // 모달 닫힐 때 사진 미리보기 초기화
-    setReviewContent(""); // 모달 닫힐 때 리뷰 내용 초기화
-    setSelectedRating(0); // 모달 닫힐 때 별점 초기화
+    setPreviewImages([]);
+    setReviewContent("");
+    setSelectedRating(0);
   }
 
   const handleFileChange = (e) => {
@@ -56,7 +56,11 @@ const Review = () => {
   };
 
   const handleFetchReview = async () => {
-    console.log(sessionUserId);
+    if (selectedRating === 0) {
+      alert("별점을 선택해주세요.");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:5000/review", {
         method: "POST",
@@ -86,7 +90,9 @@ const Review = () => {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => setReviewList(data[0]));
+      .then((data) => {
+        setReviewList(data);
+      });
 
     fetch("http://localhost:5000/session/checkSession", {
       credentials: "include",
@@ -97,31 +103,52 @@ const Review = () => {
       });
   }, []);
 
+  // 평균 점수 계산 함수
+  const calculateAveragePoint = () => {
+    if (reviewList.length === 0) {
+      return 0;
+    }
+
+    const totalPoint = reviewList.reduce(
+      (sum, review) => sum + review.point,
+      0
+    );
+    return totalPoint / reviewList.length;
+  };
+
   return (
     <div className="review" id="intro_page_contents_wrap">
       <h1>후기</h1>
       <div id="wrap_container">
         <div className="review_wrap">
-          <div className="star_review_wrap">
-            <span>{reviewList.point}</span>
-            <div className="review_summary">
-              <div className="star_wrap">
-                {[...Array(reviewList.point)].map((n, index) => (
-                  <FaStar key={index} />
-                ))}
+          {reviewList.length > 0 ? (
+            <>
+              <div className="star_review_wrap">
+                <span>{calculateAveragePoint().toFixed(1)}</span>
+                <div className="review_summary">
+                  <div className="star_wrap">
+                    {[...Array(Math.round(calculateAveragePoint()))].map(
+                      (n, index) => (
+                        <FaStar key={index} />
+                      )
+                    )}
+                  </div>
+                  <div className="review_num">
+                    <span>{reviewList.length}</span>
+                    <span>개의 후기</span>
+                  </div>
+                </div>
               </div>
-              <div className="review_num">
-                <span>{reviewList.total_review}</span>
-                <span>개의 후기</span>
+              <div className="review_btn">
+                <button onClick={handleReview}>
+                  <LuPencilLine />
+                  <a className="create_review">리뷰 남기기</a>
+                </button>
               </div>
-            </div>
-          </div>
-          <div className="review_btn">
-            <button onClick={handleReview}>
-              <LuPencilLine />
-              <a className="create_review">리뷰 남기기</a>
-            </button>
-          </div>
+            </>
+          ) : (
+            <div>등록된 리뷰가 없습니다.</div>
+          )}
         </div>
       </div>
       <div id="wrap_container">
@@ -131,35 +158,43 @@ const Review = () => {
           </div>
           <div className="review_list">
             <ul>
-              <li className="review_li">
-                <div>
-                  <div className="review_header">
+              {reviewList.length > 0 ? (
+                reviewList.map((review, index) => (
+                  <li key={index} className="review_li">
                     <div>
-                      <span className="review_userName">
-                        {reviewList.user_name}
-                      </span>
-                      <span className="reviewDate">
-                        {reviewList.register_date?.slice(0, 10) || ""}
-                      </span>
-                    </div>
-                    <div className="reviewStar">
-                      <div className="star_wrap">
-                        {[...Array(reviewList.point)].map((n, index) => (
-                          <FaStar key={index} />
-                        ))}
+                      <div className="review_header">
+                        <div>
+                          <span className="review_userName">
+                            {review.user_name}
+                          </span>
+                          <span className="reviewDate">
+                            {review.register_date?.slice(0, 10) || ""}
+                          </span>
+                        </div>
+                        <div className="reviewStar">
+                          <div className="star_wrap">
+                            {[...Array(Math.round(review.point))].map(
+                              (n, index) => (
+                                <FaStar key={index} />
+                              )
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="review_context">
+                        <div className="review_context_photo">
+                          {review.review_img}
+                        </div>
+                        <div className="review_context_text">
+                          <p>{review.review}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="review_context">
-                    <div className="review_context_photo">
-                      {reviewList.review_img}
-                    </div>
-                    <div className="review_context_text">
-                      <p>{reviewList.review}</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
+                  </li>
+                ))
+              ) : (
+                <li>등록된 리뷰가 없습니다.</li>
+              )}
             </ul>
             <div className="reviewAll_btn">
               <button>
