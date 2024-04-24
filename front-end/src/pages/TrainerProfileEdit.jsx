@@ -1,5 +1,5 @@
 import React from "react";
-import TrainerEditForm from "../components/mypage/TrainerEditForm";
+import TrainerEditForm from "../components/mypage/edit/trainer/TrainerEditForm";
 const TrainerProfileEdit = () => {
   return (
     <div>
