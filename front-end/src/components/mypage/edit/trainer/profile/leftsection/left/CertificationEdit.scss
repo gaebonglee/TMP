@@ -1,0 +1,85 @@
+.certificationEdit_container {
+  .subtitle {
+    margin-bottom: 20px;
+  }
+
+  .precautions_wrap {
+    margin-bottom: 20px;
+  }
+
+  .add_certification_btn {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .tableWrap {
+    .certificationEdit_table {
+      margin-bottom: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+
+      .certificationEdit_status {
+        margin-bottom: 10px;
+
+        button {
+          margin-right: 10px;
+          padding: 5px 10px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+
+          &.black {
+            background-color: #333;
+            color: #fff;
+          }
+
+          &.green {
+            background-color: #28a745;
+            color: #fff;
+          }
+        }
+      }
+
+      .certificationEdit_input {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        select,
+        input {
+          flex: 1;
+          padding: 10px;
+          margin-right: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+
+        .certificationEdit_add_photo {
+          display: inline-block;
+          padding: 10px;
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        input[type="file"] {
+          display: none;
+        }
+
+        .certificationEdit_preview {
+          max-width: 200px;
+          margin-top: 10px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
