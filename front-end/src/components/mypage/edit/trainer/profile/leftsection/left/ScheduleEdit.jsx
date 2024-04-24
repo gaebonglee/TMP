@@ -1,4 +1,5 @@
 import React from "react";
+import "./ScheduleEdit.scss";
 
 const ScheduleEdit = ({ content, setContent }) => {
   const handleInputChange = (e) => {
@@ -12,89 +13,64 @@ const ScheduleEdit = ({ content, setContent }) => {
       </div>
       <div className="precautions_wrap">
         <ul>
-          <li>24시간 기준으로 입력해주세요. (예:오후 8시 = 20시)</li>
-          <li>브레이크 타임이 있는 경우 참고사항에 작성 해주세요.</li>
+          <li>
+            • 24시간 기준으로 입력해주세요. (예시 : 오후8시는 20시로 입력)
+          </li>
+          <li>• 브레이크 타임이 있는 경우 참고사항에 작성 해주세요.</li>
         </ul>
       </div>
-      <div className="Edit_content_wrap">
-        <div>
-          <div className="scheduleEdit_input_wrap">
-            <label>
-              <input
-                type="checkbox"
-                checked={content.includes("평일")}
-                onChange={() =>
-                  setContent((prevContent) =>
-                    prevContent.includes("평일")
-                      ? prevContent.replace("평일", "").trim()
-                      : `${prevContent} 평일`.trim()
-                  )
-                }
-              />
-              평일
-              <div className="scheduleEdit_input_timeWrap">
-                <input type="text" placeholder="시간" maxLength={5} />
-                <label />~
-                <input type="text" placeholder="시간" maxLength={5} />
-              </div>
-            </label>
-          </div>
-          <div className="scheduleEdit_input_wrap">
-            <label>
-              <input
-                type="checkbox"
-                checked={content.includes("토요일")}
-                onChange={() =>
-                  setContent((prevContent) =>
-                    prevContent.includes("토요일")
-                      ? prevContent.replace("토요일", "").trim()
-                      : `${prevContent} 토요일`.trim()
-                  )
-                }
-              />
-              토요일
-              <div className="scheduleEdit_input_timeWrap">
-                <input type="text" placeholder="시간" maxLength={5} />
-                <label />~
-                <input type="text" placeholder="시간" maxLength={5} />
-              </div>
-            </label>
-          </div>
-          <div className="scheduleEdit_input_wrap">
-            <label>
-              <input
-                type="checkbox"
-                checked={content.includes("일요일")}
-                onChange={() =>
-                  setContent((prevContent) =>
-                    prevContent.includes("일요일")
-                      ? prevContent.replace("일요일", "").trim()
-                      : `${prevContent} 일요일`.trim()
-                  )
-                }
-              />
-              일요일
-              <div className="scheduleEdit_input_timeWrap">
-                <input type="text" placeholder="시간" maxLength={5} />
-                <label />~
-                <input type="text" placeholder="시간" maxLength={5} />
-              </div>
-            </label>
-          </div>
-          <div className="scheduleEdit_input_wrap">
-            <textarea
-              placeholder="휴무일을 입력해주세요."
-              value={content}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="scheduleEdit_input_wrap">
-            <textarea
-              placeholder="스케줄 참고 사항을 알려주세요 (40자 이내)"
-              value={content}
-              onChange={handleInputChange}
-              maxLength={40}
-            />
+      <div className="scheduleEdit_content">
+        <div className="scheduleEdit_container">
+          <div className="scheduleEdit_table_wrap">
+            <table className="trainerScheduleTable">
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="weekdayCheck" />
+                  </td>
+                  <td>평일</td>
+                  <td>
+                    <input type="text" maxLength="5" placeholder="시작 시간" />
+                    ~
+                    <input type="text" maxLength="5" placeholder="종료 시간" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="saturdayCheck" />
+                  </td>
+                  <td>토요일</td>
+                  <td>
+                    <input type="text" maxLength="5" placeholder="시작 시간" />
+                    ~
+                    <input type="text" maxLength="5" placeholder="종료 시간" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="sundayCheck" />
+                  </td>
+                  <td>일요일</td>
+                  <td>
+                    <input type="text" maxLength="5" placeholder="시작 시간" />
+                    ~
+                    <input type="text" maxLength="5" placeholder="종료 시간" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>휴무일</td>
+                  <td colSpan="2">
+                    <input type="text" placeholder="휴무일 입력" />
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="3">
+                    <p>스케줄 참고사항</p>
+                    <input type="text" placeholder="스케줄 참고사항 입력" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

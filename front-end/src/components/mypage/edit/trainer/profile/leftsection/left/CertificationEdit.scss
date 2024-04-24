@@ -1,12 +1,31 @@
 @import "../../../../../../../common.scss";
 
-.programEdit_container {
+.certificationEdit_container {
   font-size: 16px;
   color: $black;
   margin-bottom: 50px;
 }
 
-.add_program_btn {
+//subtitle, precautions_wrap 공통
+.subtitle {
+  font-weight: $font-weight-2;
+  padding-bottom: 25px;
+}
+
+.precautions_wrap {
+  padding: 25px;
+  background-color: rgb(237, 241, 245);
+  border-radius: $border-radius-4;
+  margin-bottom: 25px;
+  ul {
+    li {
+      font-size: 15px;
+      padding-top: 5px;
+    }
+  }
+}
+
+.add_certification_btn {
   width: 100%;
   padding: 15px;
   font-size: $h3;
@@ -17,7 +36,7 @@
   border-radius: $border-radius-4;
 }
 
-.programEdit_table {
+.certificationEdit_table {
   padding: 25px;
   margin-top: 25px;
   border: 1px solid rgb(228, 234, 240);
@@ -25,7 +44,7 @@
   border-radius: $border-radius-4;
 }
 
-.programEdit_status {
+.certificationEdit_status {
   display: flex;
   justify-content: end;
   gap: 10px;
@@ -45,20 +64,27 @@
   }
 }
 
-.programEdit_input_title,
-.programEdit_speciality,
-.programEdit_add_photo,
-.programEdit_text {
-  p {
-    padding: 10px 0;
-    font-size: 18px;
-    font-weight: $font-weight-2;
-  }
-}
+.certificationEdit_input {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
 
-.programEdit_input_title {
+  .certification_type {
+    width: 30%;
+    padding: 15px 10px;
+    flex-grow: 0.1;
+    display: inline;
+    outline: none;
+    font-size: 16px;
+    border: 1px solid $lightgray;
+    border-radius: $border-radius-4;
+
+    & option {
+      font-size: 16px;
+    }
+  }
   input {
-    width: 96%;
+    width: 70%;
     padding: 15px 10px;
     font-size: 16px;
     border: 1px solid $lightgray;
@@ -66,31 +92,17 @@
   }
 }
 
-.programEdit_speciality {
-  padding: 15px 0;
-  .speciality_btn {
-    display: inline-block;
-    margin: 6px 6px 0 0;
-    padding: 6px 12px;
-    background-color: $white;
-    border-radius: 16px;
-    border: 1px solid $green2;
-    font-size: 14px;
-    font-weight: $font-weight-2;
-    cursor: pointer;
-  }
-}
+.certificationEdit_btn {
+  border: 2px solid $green2;
+  padding: 10px 10px;
+  border-radius: $border-radius-4;
+  margin: 15px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 
-.programEdit_add_photo {
-  .photoInput_wrap {
-    display: flex;
-    justify-content: center;
-    padding: 10px 10px;
-    margin: 15px;
-    border-radius: $border-radius-4;
-    border: 2px solid $green2;
-  }
-  label {
+  .certificationEdit_add_photo,
+  .certificationEdit_change_photo {
     font-size: 18px;
     font-weight: $font-weight-2;
     background-color: $white;

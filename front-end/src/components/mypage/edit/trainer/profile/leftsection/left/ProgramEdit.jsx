@@ -61,8 +61,8 @@ const ProgramEdit = ({ content, setContent }) => {
       </div>
       <div className="precautions_wrap">
         <ul>
-          <li>자세한 프로그램 및 전문분야 내용이 큰 신뢰를 줄 수 있어요.</li>
-          <li>사진 변경 후 '사진 저장하기' 버튼을 눌러 저장해주세요.</li>
+          <li>• 자세한 프로그램 및 전문분야 내용이 큰 신뢰를 줄 수 있어요.</li>
+          <li>• 사진 변경 후 '사진 저장하기' 버튼을 눌러 저장해주세요.</li>
         </ul>
       </div>
       <button className="add_program_btn" onClick={handleAddProgram}>
@@ -105,34 +105,37 @@ const ProgramEdit = ({ content, setContent }) => {
             </div>
             <div className="programEdit_add_photo">
               <p>참고 사진을 올릴 수 있어요.</p>
-              <label
-                htmlFor={`photoInput-${programIndex}`}
-                className="upload-photo-label"
-              >
-                사진 등록하기
-                <input
-                  id={`photoInput-${programIndex}`}
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  style={{ display: "none" }}
-                  onChange={(e) =>
-                    handlePhotoUpload(programIndex, e.target.files)
-                  }
-                />
-              </label>
+              <div className="photoInput_wrap">
+                <label
+                  htmlFor={`photoInput-${programIndex}`}
+                  className="upload-photo-label"
+                >
+                  사진 등록하기
+                  <input
+                    id={`photoInput-${programIndex}`}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    style={{ display: "none" }}
+                    onChange={(e) =>
+                      handlePhotoUpload(programIndex, e.target.files)
+                    }
+                  />
+                </label>
+              </div>
+
               {program.photos.map((photo, photoIndex) => (
-                <div className="photo-preview" key={photoIndex}>
+                <div className="photo_preview" key={photoIndex}>
                   {photo && program.showPhotos[photoIndex] && (
                     <>
                       <img
                         src={photo}
                         alt={`프로그램 사진 ${photoIndex + 1}`}
-                        className="photo-preview-image"
+                        className="photo_preview_image"
                         style={{ maxWidth: "150px", maxHeight: "150px" }}
                       />
                       <button
-                        className="remove-photo-btn"
+                        className="remove_photo_btn"
                         onClick={() =>
                           handleRemovePhoto(programIndex, photoIndex)
                         }
