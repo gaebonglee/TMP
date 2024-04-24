@@ -1,4 +1,4 @@
-@import "../../../../common.scss";
+@import "../../../../../common.scss";
 
 .left_edit_container {
   padding-bottom: 50px;
@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
   h2 {
     color: $black;
   }

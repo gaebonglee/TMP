@@ -1,7 +1,7 @@
 import React from "react";
-import LeftEdit from "./trainer/profile/LeftEdit";
-import RightEdit from "./trainer/profile/RightEdit";
-import "../trainerdetail/DetailMainContents.scss";
+import LeftEdit from "../trainer/profile/leftsection/LeftEdit";
+import RightEdit from "../trainer/profile/rightsection/RightEdit";
+import "../../../trainerdetail/DetailMainContents.scss";
 
 const TrainerEditForm = () => {
   return (
