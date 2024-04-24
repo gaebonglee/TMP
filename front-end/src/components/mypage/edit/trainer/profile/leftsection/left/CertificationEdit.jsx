@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./CertificationEdit.scss";
 
 const CertificationEdit = ({ content, setContent }) => {
   const [certifications, setCertifications] = useState([]);
@@ -28,7 +29,7 @@ const CertificationEdit = ({ content, setContent }) => {
   const handleCertificationPhotoChange = (index, photo) => {
     const updatedCertifications = [...certifications];
     updatedCertifications[index].photo = photo;
-    updatedCertifications[index].showPhoto = true; 
+    updatedCertifications[index].showPhoto = true;
     setCertifications(updatedCertifications);
   };
 
@@ -46,13 +47,13 @@ const CertificationEdit = ({ content, setContent }) => {
       </div>
       <div className="precautions_wrap">
         <ul>
-          <li>증명서 또는 관련 사진이 확인된 후 게시됩니다.</li>
-          <li>항목 작성 후 게시요청 버튼을 꼭 눌러주세요.</li>
+          <li>• 증명서 또는 관련 사진이 확인된 후 게시됩니다.</li>
+          <li>• 항목 작성 후 게시요청 버튼을 꼭 눌러주세요.</li>
           <li>
-            승인 또는 반려 관련하여 트레이너님께 직접 연락드릴 수 있습니다.
+            • 승인 또는 반려 관련하여 트레이너님께 직접 연락드릴 수 있습니다.
           </li>
           <li>
-            항목 하나에 여러 장의 사진을 선택하더라도 사진 맨 첫 장만 보입니다.
+            • 도용방지 차원으로 TMP워터마크가 사진에 추가됩니다.
           </li>
         </ul>
       </div>
@@ -96,7 +97,7 @@ const CertificationEdit = ({ content, setContent }) => {
               />
             </div>
             {certification.showPhoto && (
-              <div className="certificationEdit_buttons">
+              <div className="certificationEdit_btn">
                 <button
                   className="certificationEdit_change_photo"
                   onClick={() => handleHidePhoto(index)}
@@ -113,7 +114,7 @@ const CertificationEdit = ({ content, setContent }) => {
               />
             )}
             {!certification.showPhoto && (
-              <div className="certificationEdit_buttons">
+              <div className="certificationEdit_btn">
                 <label className="certificationEdit_add_photo">
                   증명서 사진 업로드
                   <input

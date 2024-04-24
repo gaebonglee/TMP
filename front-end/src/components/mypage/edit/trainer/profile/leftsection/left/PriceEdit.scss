@@ -1,0 +1,68 @@
+@import "../../../../../../../common.scss";
+
+.priceEdit_container {
+  font-size: 16px;
+  color: $black;
+  margin-bottom: 50px;
+}
+.priceEdit_table {
+  padding: 25px;
+  margin-top: 25px;
+  border: 1px solid rgb(228, 234, 240);
+  background-color: $white;
+  border-radius: $border-radius-4;
+}
+
+.priceEdit_content {
+  width: 100%;
+  thead {
+    th {
+      font-size: 16px;
+      font-weight: $font-weight-2;
+      color: $black;
+      text-align: center;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      border-image: initial;
+      border-bottom: 1px solid $lightgray;
+      padding: 15px;
+    }
+  }
+  tbody {
+    tr {
+      td {
+        position: relative; 
+        border: none;
+        padding: 8px;
+
+        &:first-child {
+          padding-left: 0px;
+        }
+
+        &:last-child {
+          padding-right: 0px;
+        }
+
+        input {
+          padding: 15px;
+          border: 1px solid $lightgray;
+          box-sizing: border-box;
+          border-radius: $border-radius-4;
+          width: 100%;
+          display: block;
+          background-color: $white;
+          font-size: 16px;
+          outline: none;
+        }
+
+        .priceEdit_won {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 10px;
+        }
+      }
+    }
+  }
+}

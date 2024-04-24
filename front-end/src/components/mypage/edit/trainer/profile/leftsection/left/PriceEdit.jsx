@@ -1,4 +1,5 @@
 import React from "react";
+import "./PriceEdit.scss";
 
 const PriceEdit = () => {
   return (
@@ -9,14 +10,14 @@ const PriceEdit = () => {
         </div>
         <div className="precautions_wrap">
           <ul>
-            <li>가격이 낮을수록 더 많은 회원이 상담을 신청합니다.</li>
-            <li>다양한 가격대를 입력해주세요. (ex. 10, 20, 30회)</li>
-            <li>30회 기준으로 대표가격이 설정됩니다.</li>
-            <li>부가세 포함 금액 기준으로 작성해주세요.</li>
+            <li>• 가격이 낮을수록 더 많은 회원이 상담을 신청합니다.</li>
+            <li>• 다양한 가격대를 입력해주세요. (ex. 10, 20, 30회)</li>
+            <li>• 30회 기준으로 대표가격이 설정됩니다.</li>
+            <li>• 부가세 포함 금액 기준으로 작성해주세요.</li>
           </ul>
         </div>
         <div className="tableWrap">
-          <div className="priceEdit_content">
+          <div className="priceEdit_table">
             <table className="priceEdit_content">
               <thead>
                 <tr>
@@ -26,20 +27,80 @@ const PriceEdit = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>10</td>
-                  <td>700000</td>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="숫자만 입력"
+                      name="times"
+                      maxLength={5}
+                    />
+                  </td>
+                  <td>
+                    <div className="priceEdit_won">원</div>
+                    <input
+                      type="text"
+                      placeholder="숫자만 입력"
+                      name="price"
+                      maxLength={9}
+                    />
+                  </td>
                 </tr>
                 <tr>
-                  <td>20</td>
-                  <td>1200000</td>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="숫자만 입력"
+                      name="times"
+                      maxLength={5}
+                    />
+                  </td>
+                  <td>
+                    <div className="priceEdit_won">원</div>
+                    <input
+                      type="text"
+                      placeholder="숫자만 입력"
+                      name="price"
+                      maxLength={9}
+                    />
+                  </td>
                 </tr>
                 <tr>
-                  <td>30</td>
-                  <td>1500000</td>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="숫자만 입력"
+                      name="times"
+                      maxLength={5}
+                    />
+                  </td>
+                  <td>
+                    <div className="priceEdit_won">원</div>
+                    <input
+                      type="text"
+                      placeholder="숫자만 입력"
+                      name="price"
+                      maxLength={9}
+                    />
+                  </td>
                 </tr>
                 <tr>
-                  <td>50</td>
-                  <td>2000000</td>
+                  <td>
+                    <input
+                      type="text"
+                      placeholder="숫자만 입력"
+                      name="times"
+                      maxLength={5}
+                    />
+                  </td>
+                  <td>
+                    <div className="priceEdit_won">원</div>
+                    <input
+                      type="text"
+                      placeholder="숫자만 입력"
+                      name="price"
+                      maxLength={9}
+                    />
+                  </td>
                 </tr>
               </tbody>
             </table>

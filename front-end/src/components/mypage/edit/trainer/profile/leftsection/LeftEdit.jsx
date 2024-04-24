@@ -72,7 +72,6 @@ function LeftEdit() {
 
   return (
     <div>
-      <div></div>
       <TrainerProfileEdit
         title="사진"
         content={introimg}
