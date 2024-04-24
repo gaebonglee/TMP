@@ -5,11 +5,13 @@ import Mainpage from "./pages/Mainpage";
 import TotalTrainerMap from "./pages/TotalTrainerMap";
 import TotalCenterMap from "./pages/TotalCenterMap";
 import TrainerDetail from "./pages/TrainerDetail";
+import Userinfo from "./components/mypage/Userinfo/Userinfo";
+import Coachinfo from "./components/mypage/Coachinfo/Coachinfo";
 
 function App() {
-  fetch("http://localhost:5000/trainermap")
-    .then((res) => res.json())
-    .then((data) => console.log(data[0]));
+  // fetch("http://localhost:5000/trainermap")
+  //   .then((res) => res.json())
+  //   .then((data) => console.log(data[0]));
 
   const router = createBrowserRouter([
     {
@@ -21,6 +23,8 @@ function App() {
         { path: "/trainermap", element: <TotalTrainerMap /> },
         { path: "/centermap", element: <TotalCenterMap /> },
         { path: "/trainerDetail", element: <TrainerDetail /> },
+        { path: "/mypage/userinfo", element: <Userinfo /> },
+        { path: "/mypage/coachinfo", element: <Coachinfo /> },
       ],
     },
   ]);

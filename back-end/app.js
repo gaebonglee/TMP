@@ -6,6 +6,7 @@ const authRouter = require("./routes/auth");
 const sessionRouter = require("./routes/session");
 const centerRouter = require("./routes/center");
 const reviewRouter = require("./routes/review");
+const mypageRouter = require("./routes/mypage")
 
 dotenv.config();
 const app = express();
@@ -30,6 +31,7 @@ app.use("/auth", authRouter);
 app.use("/session", sessionRouter);
 app.use("/center", centerRouter);
 app.use("/review", reviewRouter);
+app.use("/mypage", mypageRouter);
 
 app.listen(5000, () => {
   console.log("server is running...");
