@@ -17,7 +17,11 @@ const InfoNav = (props) => {
 
   window.addEventListener("click", (e) => {
     const loginArr = ["setLogin", "loginMain", "loginIcon", "loginTitle"];
-    if (navInfo && !loginArr.includes(e.target.parentElement.className)) {
+    if (
+      navInfo &&
+      e.target.parentElement &&
+      !loginArr.includes(e.target.parentElement.className)
+    ) {
       setNavInfo(false);
     }
   });
