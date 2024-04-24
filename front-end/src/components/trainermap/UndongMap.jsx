@@ -10,8 +10,15 @@ const UndongMap = (props) => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { trainers, setTrainerIndex, setCurrentLatitude, setCurrentLongitude } =
-    props;
+  const {
+    trainers,
+    setTrainers,
+    setTrainerIndex,
+    setCurrentLatitude,
+    setCurrentLongitude,
+  } = props;
+  const markers = [];
+  const currentLocationMarker = useRef(null);
 
   const getCurrentLocation = async () => {
     if (!navigator.geolocation) {
@@ -22,17 +29,62 @@ const UndongMap = (props) => {
     try {
       const position = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: false, // 정확도 요구를 낮추어 더 넓은 범위에서 위치 정보를 받을 수 있도록 함
-          timeout: 10000, // 타임아웃을 10초로 늘림
-          maximumAge: 60000, // 최대 연령을 1분으로 설정
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
         });
       });
 
       const { latitude, longitude } = position.coords;
       return { latitude, longitude };
     } catch (error) {
-      console.error("Error getting current location:", error);
+      alert("Error getting current location:", error);
       throw error;
+    }
+  };
+
+  const updateCurrentLocation = async () => {
+    try {
+      const { latitude, longitude } = await getCurrentLocation();
+      setLatitude(latitude);
+      setLongitude(longitude);
+      setCurrentLatitude(latitude);
+      setCurrentLongitude(longitude);
+
+      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
+      if (currentLocationMarker.current) {
+        currentLocationMarker.current.setPosition(newLocation);
+      }
+      map.panTo(newLocation);
+    } catch (error) {
+      console.error("Error updating current location:", error);
+    }
+  };
+
+  const fetchTrainers = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/center?lat=${latitude}&lng=${longitude}`
+      );
+      const data = await response.json();
+      setTrainers(data);
+    } catch (error) {
+      console.error("Error fetching trainers:", error);
+    }
+  };
+
+  const handleResearchClick = async () => {
+    try {
+      const { latitude, longitude } = await getCurrentLocation();
+      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
+
+      if (currentLocationMarker.current) {
+        currentLocationMarker.current.setPosition(newLocation);
+      }
+
+      await fetchTrainers(latitude, longitude);
+    } catch (error) {
+      console.error("Error getting current location:", error);
     }
   };
 
@@ -42,7 +94,11 @@ const UndongMap = (props) => {
       script.type = "text/javascript";
       script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0dfie9x7ty&callback=initMap&submodules=geocoder`;
       script.async = true;
-      script.onload = initializeMap;
+      script.onload = () => {
+        initializeMap();
+        setIsLoading(false);
+      };
+
       document.head.appendChild(script);
       setIsLoading(false);
     };
@@ -63,8 +119,6 @@ const UndongMap = (props) => {
       const newMap = new naver.maps.Map(mapRef.current, mapOptions);
       setMap(newMap);
 
-      const markers = [];
-
       const markerElement = document.createElement("div");
       markerElement.innerHTML = `
         <div class="markerWrap" data-marker-id="currentLocation">현재 위치 HPE 교육센터</div>
@@ -79,6 +133,7 @@ const UndongMap = (props) => {
         },
       });
 
+      currentLocationMarker.current = marker;
       markers.push(marker);
 
       naver.maps.Event.addListener(marker, "click", function () {
@@ -129,50 +184,6 @@ const UndongMap = (props) => {
               marker.setPosition(newLocation);
             }
           );
-        }
-      };
-
-      const initGeolocation = () => {
-        // 브라우저에서 지오로케이션 기능을 지원하는지 확인
-        if (navigator.geolocation) {
-          // 사용자의 현재 위치를 요청
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              // 위치 접근 성공 시
-              const { latitude, longitude } = position.coords;
-              // 위도와 경도 상태 업데이트
-              setLatitude(latitude);
-              setLongitude(longitude);
-              setCurrentLatitude(latitude);
-              setCurrentLongitude(longitude);
-
-              // Naver 맵에 새 위치 설정
-              const newLocation = new naver.maps.LatLng(latitude, longitude);
-              newMap.setCenter(newLocation);
-              marker.setPosition(newLocation);
-              // 주소 검색 함수 실행
-              searchAddress();
-            },
-            (error) => {
-              // 위치 접근 실패 시 오류 처리
-              console.error("Error getting current location:", error);
-              // 디폴트 위치 설정
-              const defaultLocation = new naver.maps.LatLng(37.5665, 126.978);
-              newMap.setCenter(defaultLocation);
-              marker.setPosition(defaultLocation);
-              // 주소 검색 함수 실행
-              searchAddress();
-            },
-            {
-              enableHighAccuracy: true, // 더 정확한 위치 정보 요청
-              timeout: 10000, // 10초 후 타임아웃
-              maximumAge: 60000, // 캐시된 위치 정보 무시
-            }
-          );
-        } else {
-          // 지오로케이션 기능을 지원하지 않을 경우의 오류 처리
-          console.error("Geolocation is not supported by this browser.");
-          searchAddress();
         }
       };
 
@@ -232,7 +243,12 @@ const UndongMap = (props) => {
         });
       });
 
-      initGeolocation();
+      updateCurrentLocation();
+      const intervalId = setInterval(updateCurrentLocation, 5000);
+
+      return () => {
+        clearInterval(intervalId);
+      };
     };
 
     loadNaverMapsScript();
@@ -246,18 +262,6 @@ const UndongMap = (props) => {
     position: "absolute",
   };
 
-  const handleMyLocationClick = async () => {
-    try {
-      const { latitude, longitude } = await getCurrentLocation();
-      setLatitude(latitude);
-      setLongitude(longitude);
-      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
-      map.panTo(newLocation);
-    } catch (error) {
-      console.error("Error getting current location:", error);
-    }
-  };
-
   return (
     <div className="mapWrap">
       {isLoading ? (
@@ -266,13 +270,18 @@ const UndongMap = (props) => {
         <div ref={mapRef} style={mapStyle}>
           <div>
             <div className="myLocation">
-              <div className="btn" onClick={handleMyLocationClick}>
+              <div className="btn" onClick={updateCurrentLocation}>
                 <BiTargetLock size={27} color="#00491e" />
               </div>
             </div>
             <div className="research">
               <div className="researchBtn">
-                <button size="48" color="#fff" className="rBtn">
+                <button
+                  size="48"
+                  color="#fff"
+                  className="rBtn"
+                  onClick={handleResearchClick}
+                >
                   <TbRestore size={25} color="#00491e" />
                   <span>이 지역 다시 검색</span>
                 </button>
