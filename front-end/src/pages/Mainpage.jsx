@@ -9,7 +9,6 @@ const Home = () => {
   return (
     <>
       {role && <LoginErrorModal roles={role} />}
-      <PhotoViewer />
       <Search />
       <TrainerCard />
     </>
