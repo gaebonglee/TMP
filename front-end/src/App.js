@@ -30,7 +30,7 @@ function App() {
           <Route index element={<Mainpage />} />
           <Route path="/trainermap" element={<TotalTrainerMap />} />
           <Route path="/centermap" element={<TotalCenterMap />} />
-          <Route path="/trainerDetail/:trainerId" element={<TrainerDetail />} />
+          <Route path="/trainerDetail" element={<TrainerDetail />} />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
           <Route
