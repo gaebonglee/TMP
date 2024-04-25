@@ -143,7 +143,7 @@ const UndongMap = (props) => {
     };
 
     loadNaverMapsScript();
-  }, [trainers]);
+  }, [trainers, latitude, longitude, setCurrentLatitude, setCurrentLongitude]);
 
   const updateCurrentLocation = () => {
     if (map && currentLocationMarker.current) {
@@ -171,7 +171,11 @@ const UndongMap = (props) => {
   };
 
   const handleResearchClick = () => {
-    console.log(latitude, longitude);
+    setLatitude(map.getCenter().y);
+    setLongitude(map.getCenter().x);
+    console.log("currentLatitude", map.getCenter().y);
+    console.log("currentLongitude", map.getCenter().x);
+    console.log(map.getBounds().toString().split(","));
   };
 
   const mapStyle = {
