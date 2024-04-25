@@ -1,8 +1,12 @@
 import React from "react";
 import TrainerProfileEdit from "../TrainerProfileEdit";
+import IntroImgEdit from "../leftsection/left/IntroImgEdit";
 import IntroEdit from "../leftsection/left/IntroEdit";
 import QualificationsEdit from "./left/CertificationEdit";
 import ScheduleEdit from "./left/ScheduleEdit";
+import ProgramEdit from "./left/ProgramEdit";
+import PriceEdit from "./left/PriceEdit";
+import ShortIntroEdit from "./left/ShortIntroEdit";
 import axios from "axios";
 
 function LeftEdit() {
@@ -68,11 +72,13 @@ function LeftEdit() {
 
   return (
     <div>
-      <div></div>
       <TrainerProfileEdit
         title="사진"
         content={introimg}
         onSave={handleIntroImgSave}
+        inputComponent={(editedContent, setEditedContent) => (
+          <IntroImgEdit content={editedContent} setContent={setEditedContent} />
+        )}
       />
       <TrainerProfileEdit
         title="자기소개"
@@ -107,16 +113,28 @@ function LeftEdit() {
         title="프로그램"
         content={program}
         onSave={handleProgramSave}
+        inputComponent={(editedContent, setEditedContent) => (
+          <ProgramEdit content={editedContent} setContent={setEditedContent} />
+        )}
       />
       <TrainerProfileEdit
         title="레슨 이용 가격"
         content={lessonprice}
         onSave={handleLessonPriceSave}
+        inputComponent={(editedContent, setEditedContent) => (
+          <PriceEdit content={editedContent} setContent={setEditedContent} />
+        )}
       />
       <TrainerProfileEdit
         title="한줄 소개"
         content={shortintro}
         onSave={handleShortIntroSave}
+        inputComponent={(editedContent, setEditedContent) => (
+          <ShortIntroEdit
+            content={editedContent}
+            setContent={setEditedContent}
+          />
+        )}
       />
       <TrainerProfileEdit
         title="위치"

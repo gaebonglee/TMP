@@ -78,7 +78,6 @@ const FilterList = (props) => {
       .then((data) => {
         console.log(data);
         setTrainers(data);
-        alert(data[0].center_name);
       });
   };
 

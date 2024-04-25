@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
+import "../../components/trainermap/UnDongMap.scss";
 
 const LittleUndongMap = () => {
   const mapRef = useRef(null);
