@@ -1,2 +1,41 @@
 // .intro_photo {padding-bottom: 15px;}
 
+.image_container {
+  position: relative;
+  width: 25%;
+  float: left;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.intro_photos {
+  display: block;
+  width: 100%;
+  border-radius: 6px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.overlay {
+  position: absolute;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  width: calc(100% - 10px);
+  text-align: center;
+  padding-top: 5px;
+  cursor: pointer;
+  height: 90%;
+}
+
+.intro_photo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
