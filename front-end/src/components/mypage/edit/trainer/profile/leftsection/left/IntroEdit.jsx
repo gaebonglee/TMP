@@ -1,23 +1,27 @@
 import React from "react";
+import "./IntroEdit.scss";
 
-const IntroEdit = () => {
+const IntroEdit = ({ content, setContent }) => {
+  const handleInputChange = (e) => {
+    setContent(e.target.value);
+  };
   return (
-    <div>
-      <div className="introEdit_container">
-        <div className="subtitle">
-          <p>트레이너님 및 레슨방식을 잘 보여주는 사진을 추가해주세요.</p>
-        </div>
-        <div className="precautions_wrap">
-          <ul>
-            <li>맨 첫장이 대표사진(프로필)으로 설정됩니다.</li>
-            <li>최소 3장의 사진이 있어야 페이지 게시 가능합니다.</li>
-          </ul>
-        </div>
-        <div className="Edit_content_wrap">
-          <div className="introEdit_photos"></div>
-          <button className="introEdit_photo_btn">사진 추가하기</button>
-        </div>
+    <div className="IntroEdit_container">
+      <div className="precautions_wrap">
+        <ul>
+          <li>
+            • 선생님으로서 목표, 레슨 방향성 또는 신념, 좋은 트레이닝을 위한
+            노력들, 마음가짐 등 자세한 이야기를 담아주세요.
+          </li>
+        </ul>
       </div>
+      <textarea
+        className="IntroEdit_text"
+        placeholder=" 내용을 입력해주세요. (600자 이내)"
+        value={content}
+        onChange={handleInputChange}
+        maxLength={600}
+      />
     </div>
   );
 };

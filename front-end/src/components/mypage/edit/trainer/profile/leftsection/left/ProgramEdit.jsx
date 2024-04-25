@@ -78,7 +78,6 @@ const ProgramEdit = ({ content, setContent }) => {
               >
                 삭제
               </button>
-              <button className="green">게시요청</button>
             </div>
             <div className="programEdit_input_title">
               <p>프로그램 제목을 작성해주세요.</p>
