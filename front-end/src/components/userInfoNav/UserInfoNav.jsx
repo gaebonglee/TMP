@@ -1,14 +1,14 @@
 import React from "react";
-import "./InfoNav.scss";
+import "./UserInfoNav.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const InfoNav = (props) => {
+const UserInfoNav = (props) => {
   const navigate = useNavigate();
   const { navInfo, setNavInfo } = props;
   const logoutHandler = () => {
     axios.get("http://localhost:5000/session/logout").then((res) => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         navigate("/");
         window.location.reload();
       }
@@ -17,7 +17,11 @@ const InfoNav = (props) => {
 
   window.addEventListener("click", (e) => {
     const loginArr = ["setLogin", "loginMain", "loginIcon", "loginTitle"];
-    if (navInfo && !loginArr.includes(e.target.parentElement.className)) {
+    if (
+      navInfo &&
+      e.target.parentElement &&
+      !loginArr.includes(e.target.parentElement.className)
+    ) {
       setNavInfo(false);
     }
   });
@@ -44,4 +48,4 @@ const InfoNav = (props) => {
   );
 };
 
-export default InfoNav;
+export default UserInfoNav;
