@@ -52,9 +52,7 @@ const CertificationEdit = ({ content, setContent }) => {
           <li>
             • 승인 또는 반려 관련하여 트레이너님께 직접 연락드릴 수 있습니다.
           </li>
-          <li>
-            • 도용방지 차원으로 TMP워터마크가 사진에 추가됩니다.
-          </li>
+          <li>• 도용방지 차원으로 TMP워터마크가 사진에 추가됩니다.</li>
         </ul>
       </div>
       <button
@@ -73,7 +71,6 @@ const CertificationEdit = ({ content, setContent }) => {
               >
                 삭제
               </button>
-              <button className="green">게시요청</button>
             </div>
             <div className="certificationEdit_input">
               <select

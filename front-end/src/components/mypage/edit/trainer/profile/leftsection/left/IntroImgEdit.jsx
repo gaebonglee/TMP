@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import { MdCancel } from "react-icons/md";
+import "./IntroImgEdit.scss";
 
 const IntroImgEdit = () => {
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const handleFileChange = (event) => {
+    setSelectedFiles([...selectedFiles, ...event.target.files]);
+  };
+
+  const handleDelete = (index) => {
+    const updatedFiles = [...selectedFiles];
+    updatedFiles.splice(index, 1);
+    setSelectedFiles(updatedFiles);
+  };
+
   return (
     <div>
-      <div className="introEdit_container">
+      <div className="introImgEdit_container">
         <div className="subtitle">
           <p>트레이너님 및 레슨방식을 잘 보여주는 사진을 추가해주세요.</p>
         </div>
@@ -13,9 +27,42 @@ const IntroImgEdit = () => {
             <li>최소 3장의 사진이 있어야 페이지 게시 가능합니다.</li>
           </ul>
         </div>
-        <div className="Edit_content_wrap">
-          <div className="introEdit_photos"></div>
-          <button className="introEdit_photo_btn">사진 추가하기</button>
+        <div className="introImgEdit_content_wrap">
+          <div
+            className="introImgEdit_photos"
+            style={{ display: "flex", flexWrap: "wrap", overflow: "auto" }}
+          >
+            {selectedFiles.map((file, index) => (
+              <div key={index} className="introImgEdit_photo_wrap">
+                <div className="introImgEdit_photo_container">
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={`사진 ${index + 1}`}
+                    className="introImgEdit_photo"
+                  />
+                  <button
+                    className="introImgEdit_delete_btn"
+                    onClick={() => handleDelete(index)}
+                  >
+                    <MdCancel />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="introImgEdit_btn_wrap">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              multiple
+              style={{ display: "none" }}
+              id="fileInput"
+            />
+            <label htmlFor="fileInput" className="introImgEdit_photo_btn">
+              사진 추가하기
+            </label>
+          </div>
         </div>
       </div>
     </div>
