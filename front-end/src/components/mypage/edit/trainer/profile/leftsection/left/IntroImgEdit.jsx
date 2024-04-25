@@ -23,8 +23,8 @@ const IntroImgEdit = () => {
         </div>
         <div className="precautions_wrap">
           <ul>
-            <li>맨 첫장이 대표사진(프로필)으로 설정됩니다.</li>
-            <li>최소 3장의 사진이 있어야 페이지 게시 가능합니다.</li>
+            <li>• 맨 첫장이 대표사진(프로필)으로 설정됩니다.</li>
+            <li>• 최소 3장의 사진이 있어야 페이지 게시 가능합니다.</li>
           </ul>
         </div>
         <div className="introImgEdit_content_wrap">
