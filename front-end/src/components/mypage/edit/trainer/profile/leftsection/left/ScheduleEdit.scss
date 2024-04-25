@@ -1,0 +1,40 @@
+@import "../../../../../../../common.scss";
+
+.scheduleEdit_table_wrap {
+  padding: 25px;
+  margin-top: 25px;
+  border: 1px solid rgb(228, 234, 240);
+  background-color: $white;
+  border-radius: $border-radius-4;
+}
+
+.trainerScheduleTable {
+  width: 100%;
+
+  tbody {
+    tr {
+      td {
+        input[type="checkbox"] {
+          margin-right: 10px;
+        }
+
+        input[type="text"] {
+          padding: 15px;
+          border: 1px solid $lightgray;
+          box-sizing: border-box;
+          border-radius: $border-radius-4;
+          width: 40%;
+          display: inline-block;
+          background-color: $white;
+          font-size: 16px;
+          outline: none;
+          margin-right: 10px 0;
+
+          p {
+            margin: 10px 0;
+          }
+        }
+      }
+    }
+  }
+}

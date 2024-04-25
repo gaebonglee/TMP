@@ -1,0 +1,102 @@
+@import "../../../../../../../common.scss";
+
+.programEdit_container {
+  font-size: 16px;
+  color: $black;
+  margin-bottom: 50px;
+}
+
+.add_program_btn {
+  width: 100%;
+  padding: 15px;
+  font-size: $h3;
+  font-weight: $font-weight-2;
+  background-color: $white;
+  color: #00491e;
+  border: 2px solid #00491e;
+  border-radius: $border-radius-4;
+}
+
+.programEdit_table {
+  padding: 25px;
+  margin-top: 25px;
+  border: 1px solid rgb(228, 234, 240);
+  background-color: $white;
+  border-radius: $border-radius-4;
+}
+
+.programEdit_status {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  button {
+    background-color: $white;
+    border: none;
+    font-size: 16px;
+    font-weight: $font-weight-2;
+    padding: 5px 10px;
+
+    &.black {
+      color: $gray;
+    }
+    &.green {
+      color: $green2;
+    }
+  }
+}
+
+.programEdit_input_title,
+.programEdit_speciality,
+.programEdit_add_photo,
+.programEdit_text {
+  p {
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: $font-weight-2;
+  }
+}
+
+.programEdit_input_title {
+  input {
+    width: 96%;
+    padding: 15px 10px;
+    font-size: 16px;
+    border: 1px solid $lightgray;
+    border-radius: $border-radius-4;
+  }
+}
+
+.programEdit_speciality {
+  padding: 15px 0;
+  .speciality_btn {
+    display: inline-block;
+    margin: 6px 6px 0 0;
+    padding: 6px 12px;
+    background-color: $white;
+    border-radius: 16px;
+    border: 1px solid $green2;
+    font-size: 14px;
+    font-weight: $font-weight-2;
+    cursor: pointer;
+  }
+}
+
+.programEdit_add_photo {
+  .photoInput_wrap {
+    display: flex;
+    justify-content: center;
+    padding: 10px 10px;
+    margin: 15px;
+    border-radius: $border-radius-4;
+    border: 2px solid $green2;
+  }
+  label {
+    font-size: 18px;
+    font-weight: $font-weight-2;
+    background-color: $white;
+    color: #00491e;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+  }
+}
