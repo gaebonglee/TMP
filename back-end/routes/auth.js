@@ -112,6 +112,16 @@ async function handleKakaoLogin(req, res, role) {
           }
           console.log("사용자 등록 결과 : ", result);
         });
+
+        if (role === "trainer") {
+          login.insertTrainer(userData, (err, result) => {
+            if (err) {
+              console.log("트레이너 등록 오류...");
+              res.status(400).end("트레이너 등록 오류...");
+              return;
+            }
+          });
+        }
       }
 
       // 세션에 사용자 정보 저장
@@ -211,6 +221,16 @@ async function handleNaverLogin(req, res, role) {
           }
           console.log("사용자 등록 결과 : ", result);
         });
+
+        if (role === "trainer") {
+          login.insertTrainer(userData, (err, result) => {
+            if (err) {
+              console.log("트레이너 등록 오류...");
+              res.status(400).end("트레이너 등록 오류...");
+              return;
+            }
+          });
+        }
       }
 
       // 세션에 사용자 정보 저장
@@ -316,6 +336,16 @@ async function handleGoogleLogin(req, res, role) {
           }
           console.log("사용자 등록 결과 : ", result);
         });
+
+        if (role === "trainer") {
+          login.insertTrainer(userData, (err, result) => {
+            if (err) {
+              console.log("트레이너 등록 오류...");
+              res.status(400).end("트레이너 등록 오류...");
+              return;
+            }
+          });
+        }
       }
 
       // 세션에 사용자 정보 저장
