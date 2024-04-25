@@ -14,8 +14,9 @@
   border-radius: $border-radius-4;
 }
 
-.introImgEdit_photo_wrapper {
+.introImgEdit_photo_wrap {
   position: relative;
+  opacity: 1;
 }
 
 .introImgEdit_photo_container {
@@ -32,6 +33,11 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  transition: transform 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    color: red; // 삭제 버튼에 호버 시 색상 변경
+  }
 }
 
 .introImgEdit_photo {
@@ -40,7 +46,9 @@
   object-fit: cover;
   margin: 5px;
   border-radius: $border-radius-4;
+  opacity: 1;
 }
+
 .introImgEdit_btn_wrap {
   display: flex;
   justify-content: center;

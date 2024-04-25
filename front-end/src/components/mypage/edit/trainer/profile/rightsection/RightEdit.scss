@@ -8,10 +8,18 @@
   width: 100%;
   position: sticky;
   top: calc(134px);
-  background-color: rgb(255, 255, 255);
+  background-color: $white;
+  color: $black;
   box-shadow: rgba(108, 118, 128, 0.16) 0px 4px 8px;
-  border: 3px solid rgb(162, 238, 148);
+  border: 3px solid $green1;
   border-radius: $border-radius-3;
+}
+.right_edit_img {
+  margin: 30px 0;
+  border-radius: 50%;
+  width: 250px; /* 이미지의 너비 설정 */
+  height: 250px; /* 이미지의 높이 설정 */
+  object-fit: cover; /* 이미지가 자르거나 찌그러지지 않도록 설정 */
 }
 
 .right_edit_wrap {
@@ -19,12 +27,11 @@
   flex-direction: column;
   gap: 20px;
   padding: 20px 0;
+  font-weight: $font-weight-2;
 }
-
-.right_edit_bottom {
-  p {
-    font-weight: $font-weight-2;
-  }
+.right_edit_top_wrap {
+  display: flex;
+  justify-content: space-between;
 }
 
 .right_edit_bottom_flex {
