@@ -8,6 +8,7 @@ import ProgramEdit from "./left/ProgramEdit";
 import PriceEdit from "./left/PriceEdit";
 import ShortIntroEdit from "./left/ShortIntroEdit";
 import axios from "axios";
+import CenterLocationEdit from "./left/CenterLocationEdit";
 
 function LeftEdit() {
   const [introimg, setIntroImg] = React.useState("");
@@ -140,6 +141,12 @@ function LeftEdit() {
         title="위치"
         content={location}
         onSave={handleLocationSave}
+        inputComponent={(editedContent, setEditedContent) => (
+          <CenterLocationEdit
+            content={editedContent}
+            setContent={setEditedContent}
+          />
+        )}
       />
     </div>
   );

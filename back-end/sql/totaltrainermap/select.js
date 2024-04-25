@@ -20,6 +20,20 @@ function selectCenterAll(callback) {
   );
 }
 
+function selectCenter(callback) {
+  mysql.query(
+    `select * 
+    from center`,
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+}
+
 function selectFilter(filter, callback) {
   let lat = 0;
   let long = 0;
@@ -82,4 +96,5 @@ function selectFilter(filter, callback) {
 module.exports = {
   selectCenterAll,
   selectFilter,
+  selectCenter,
 };

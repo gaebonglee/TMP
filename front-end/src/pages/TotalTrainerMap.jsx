@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TrainerList from "../components/trainermap/TrainerList";
-import { NavermapsProvider } from "react-naver-maps";
 import UndongMap from "../components/trainermap/UndongMap";
-import Header from "../components/layout/Header";
-import { Router } from "react-router-dom";
 
 const TotalTrainer = () => {
   const [searchPosition, setSearchPosition] = useState({
@@ -38,9 +35,19 @@ const TotalTrainer = () => {
 
   useEffect(() => {
     fetch("http://localhost:5000/center")
-      .then((res) => res.json())
-      .then((data) => setTrainers(data));
-  }, []);
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP 에러 ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      setTrainers(data);
+    })
+    .catch(error => {
+      console.error("데이터 가져오기 실패:", error);
+    });
+}, []);
   return (
     <>
       {trainerIndex !== null ? (
