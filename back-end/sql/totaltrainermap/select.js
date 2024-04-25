@@ -2,11 +2,14 @@ const mysql = require("../../connection/mysqlConnection");
 
 function selectCenterAll(callback) {
   mysql.query(
-    `SELECT t.intro_img, c.center_address, c.center_name, c.latitude, c.longitude, tp.count, tp.total_price, u.user_name
-     FROM trainer t
-     JOIN center c ON t.center_id = c.center_id
-     JOIN trainer_price tp ON t.user_id = tp.user_id
-     JOIN user u ON t.user_id = u.user_id;`,
+    `select * 
+    from user u
+    LEFT JOIN review r ON u.user_id = r.user_id
+    LEFT JOIN trainer t ON u.user_id = t.user_id
+    LEFT JOIN center c ON t.center_id = c.center_id
+    LEFT JOIN trainer_price tp ON t.user_id = tp.user_id
+    
+    where user_roles='trainer';`,
     (err, result) => {
       if (err) {
         callback(err, null);
