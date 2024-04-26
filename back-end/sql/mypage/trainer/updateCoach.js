@@ -1,4 +1,4 @@
-const mysql = require("../../connection/mysqlConnection");
+const mysql = require("../../../connection/mysqlConnection");
 
 
 function updateCoach(name, type, email, phonenumber, center_id, user_id) {

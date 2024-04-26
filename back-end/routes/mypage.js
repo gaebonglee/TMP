@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router();
-const searchCenter= require("../sql/mypage/searchCenter")
-const updateUser = require("../sql/mypage/updateUser")
-const updateCoach = require("../sql/mypage/updateCoach")
-const selectUser = require("../sql/mypage/selectUser")
-const selectCoach = require("../sql/mypage/selectCoach")
+const searchCenter= require("../sql/mypage/trainer/searchCenter")
+const updateUser = require("../sql/mypage/user/updateUser")
+const updateCoach = require("../sql/mypage/trainer/updateCoach")
+const selectUser = require("../sql/mypage/user/selectUser")
+const selectCoach = require("../sql/mypage/trainer/selectCoach")
 
 
 router.post('/updateUserinfo', async(req, res) => {

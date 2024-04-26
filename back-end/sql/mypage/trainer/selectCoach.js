@@ -1,4 +1,4 @@
-const mysql = require("../../connection/mysqlConnection");
+const mysql = require("../../../connection/mysqlConnection");
 
 function selectCoach(user_id) {
   // Define the SQL query
