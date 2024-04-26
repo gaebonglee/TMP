@@ -40,7 +40,7 @@ function App() {
                 token={data}
                 role={"user"}
               />}/>
-          <Route path= "/mypage/userinfo" element= {<PrivateRoute
+          <Route path= "/mypage/coachinfo" element= {<PrivateRoute
                 component={<Coachinfo />}
                 token={data}
                 role={"trainer"}
