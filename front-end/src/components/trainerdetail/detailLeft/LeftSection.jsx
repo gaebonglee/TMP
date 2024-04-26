@@ -9,23 +9,27 @@ import CenterPlace from "./left/CenterPlace";
 import "./LeftSection.scss";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../trainermap/LoadingSpinner";
-const leftSection = () => {
+import { useNavigate, useParams } from "react-router-dom";
+
+const LeftSection = () => {
+  const { trainerId } = useParams();
+  const navigate = useNavigate();
   const { isPending, error, data } = useQuery({
-    queryKey: ["loginInfo"],
+    queryKey: ["trainerDetail"],
     queryFn: () =>
-      fetch("http://localhost:5000/session/checkSession", {
+      fetch(`http://localhost:5000/trainerDetail/left/${trainerId}`, {
         method: "GET",
-        credentials: "include",
       }).then((res) => res.json()),
   });
 
   if (isPending) return <LoadingSpinner />;
 
   if (error) return "An error has occurred: " + error.message;
+
   return (
     <div className="leftSection">
-      <LeftIntro />
-      <Qualifications />
+      <LeftIntro data={data.info1} />
+      <Qualifications data={data.info2} />
       <TrainerSchedule />
       <Program />
       <Review />
@@ -35,4 +39,4 @@ const leftSection = () => {
   );
 };
 
-export default leftSection;
+export default LeftSection;

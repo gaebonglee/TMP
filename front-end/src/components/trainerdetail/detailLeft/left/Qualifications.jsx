@@ -4,7 +4,8 @@ import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { HiOutlineTrophy } from "react-icons/hi2";
 import { PiCertificate } from "react-icons/pi";
 
-const Qualifications = () => {
+const Qualifications = ({ data }) => {
+  console.log("qualifications :: ", data);
   return (
     <div id="intro_page_contents_wrap" className="qualifications">
       <div className="title_wrap">
@@ -18,9 +19,7 @@ const Qualifications = () => {
       </div>
       <div id="wrap_container">
         <div className="carrer_wrap">
-          <div className="carrer_wrap_img">
-            <HiOutlineTrophy />
-          </div>
+          <div className="carrer_wrap_img">{/* <HiOutlineTrophy /> */}</div>
           <div className="carrer_wrap_text">
             <p>test 수상경력 내용입니다.</p>
           </div>
