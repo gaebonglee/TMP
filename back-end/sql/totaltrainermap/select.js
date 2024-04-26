@@ -88,7 +88,6 @@ function selectFilter(filter, callback) {
         callback(err, null);
       } else {
         callback(null, result);
-
         console.log(result);
       }
     }

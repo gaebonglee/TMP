@@ -5,6 +5,8 @@ import Mainpage from "./pages/Mainpage";
 import TotalTrainerMap from "./pages/TotalTrainerMap";
 import TotalCenterMap from "./pages/TotalCenterMap";
 import TrainerDetail from "./pages/TrainerDetail";
+import Userinfo from "./components/mypage/userinfo/Userinfo";
+import Coachinfo from "./components/mypage/trainerinfo/Coachinfo";
 import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
@@ -33,6 +35,16 @@ function App() {
           <Route path="/trainerDetail" element={<TrainerDetail />} />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
+          <Route path= "/mypage/userinfo" element= {<PrivateRoute
+                component={<Userinfo />}
+                token={data}
+                role={"user"}
+              />}/>
+          <Route path= "/mypage/coachinfo" element= {<PrivateRoute
+                component={<Coachinfo />}
+                token={data}
+                role={"trainer"}
+              />}/>
           <Route
             path="/trainerProfileEdit"
             element={

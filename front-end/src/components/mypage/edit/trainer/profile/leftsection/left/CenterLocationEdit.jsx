@@ -3,12 +3,7 @@ import "./CenterLocationEdit.scss";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { FaBuilding } from "react-icons/fa";
 
-const CenterLocationEdit = ({
-  content,
-  setContent,
-  onsave,
-  inputComponent,
-}) => {
+const CenterLocationEdit = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isInputDisabled, setIsInputDisabled] = useState(false);

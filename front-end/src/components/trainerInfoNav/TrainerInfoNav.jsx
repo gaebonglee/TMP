@@ -29,13 +29,14 @@ const TrainerInfoNav = (props) => {
       className="btnGroup"
       style={{ visibility: navInfo ? "visible" : "hidden" }}
     >
+      <div className="myInfoHr"></div>
       <div
         className="myInfoBtn"
         onClick={() => {
-          navigate(`/`);
+          navigate(`/mypage/coachinfo`);
         }}
       >
-        트레이너마이페이지
+        기본정보
       </div>
       <div className="myInfoHr"></div>
       <div>
