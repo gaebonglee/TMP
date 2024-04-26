@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Root from "./pages/Root";
 import Mainpage from "./pages/Mainpage";
 import TotalTrainerMap from "./pages/TotalTrainerMap";
@@ -8,32 +9,56 @@ import Userinfo from "./components/mypage/Userinfo/Userinfo";
 import Coachinfo from "./components/mypage/Coachinfo/Coachinfo";
 import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
+import { useQuery } from "@tanstack/react-query";
 
 function App() {
-  // fetch("http://localhost:5000/trainermap")
-  //   .then((res) => res.json())
-  //   .then((data) => console.log(data[0]));
+  const { isPending, error, data } = useQuery({
+    queryKey: ["loginInfo"],
+    queryFn: () =>
+      fetch("http://localhost:5000/session/checkSession", {
+        method: "GET",
+        credentials: "include",
+      }).then((res) => res.json()),
+  });
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Root />,
-      errorElement: <div>Not Found</div>,
-      children: [
-        { index: true, element: <Mainpage /> },
-        { path: "/trainermap", element: <TotalTrainerMap /> },
-        { path: "/centermap", element: <TotalCenterMap /> },
-        { path: "/trainerDetail", element: <TrainerDetail /> },
-        { path: "/mypage/userinfo", element: <Userinfo /> },
-        { path: "/mypage/coachinfo", element: <Coachinfo /> },
-        { path: "/login/roleError/:role", element: <Mainpage />},
-        { path: "/complete", element: <Complete />},
-        { path: "/trainerProfileEdit", element: <TrainerProfileEdit />},
-      ],
-    },
-  ]);
-  return <RouterProvider router={router}/>
+  if (isPending) return <div>Loading...</div>;
+
+  if (error) return "An error has occurred: " + error.message;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Root />}>
+          <Route index element={<Mainpage />} />
+          <Route path="/trainermap" element={<TotalTrainerMap />} />
+          <Route path="/centermap" element={<TotalCenterMap />} />
+          <Route path="/trainerDetail" element={<TrainerDetail />} />
+          <Route path="/login/roleError/:role" element={<Mainpage />} />
+          <Route path="/complete" element={<Complete />} />
+          <Route path= "/mypage/userinfo" element= {<PrivateRoute
+                component={<Userinfo />}
+                token={data}
+                role={"user"}
+              />}/>
+          <Route path= "/mypage/userinfo" element= {<PrivateRoute
+                component={<Coachinfo />}
+                token={data}
+                role={"trainer"}
+              />}/>
+          <Route
+            path="/trainerProfileEdit"
+            element={
+              <PrivateRoute
+                component={<TrainerProfileEdit />}
+                token={data}
+                role={"trainer"}
+              />
+            }
+          />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

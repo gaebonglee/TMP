@@ -7,6 +7,7 @@ const sessionRouter = require("./routes/session");
 const centerRouter = require("./routes/center");
 const reviewRouter = require("./routes/review");
 const mypageRouter = require("./routes/mypage")
+const fileRouter = require("./routes/file");
 const filterRouter = require("./routes/filter");
 
 dotenv.config();
@@ -34,6 +35,9 @@ app.use("/center", centerRouter);
 app.use("/review", reviewRouter);
 app.use("/mypage", mypageRouter);
 app.use("/filter", filterRouter);
+app.use("/file", fileRouter);
+app.use("/filter", filterRouter);
+
 
 app.listen(5000, () => {
   console.log("server is running...");

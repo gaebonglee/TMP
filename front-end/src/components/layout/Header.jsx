@@ -1,26 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import LoginModal from "../loginModal/LoginModal";
-import axios from "axios";
 import { BsPersonCircle } from "react-icons/bs";
-import InfoNav from "../infoNav/InfoNav";
+import { useQuery } from "@tanstack/react-query";
+import TrainerInfoNav from "../trainerInfoNav/TrainerInfoNav";
+import UserInfoNav from "../userInfoNav/UserInfoNav";
 
 const Header = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [loginInfo, setLoginInfo] = useState({});
   const [navInfo, setNavInfo] = useState(false);
   const handleModalOpen = (value) => {
     setModalOpen(value);
   };
-  useEffect(() => {
-    async function fetchData() {
-      const res = await axios.get("http://localhost:5000/session/checkSession");
-      const result = res.data;
-      setLoginInfo(result);
-    }
-    fetchData();
-  }, []);
+
+  const {
+    isPending,
+    error,
+    data: loginInfo,
+  } = useQuery({
+    queryKey: ["loginInfo"],
+    queryFn: () =>
+      fetch("http://localhost:5000/session/checkSession", {
+        method: "GET",
+        credentials: "include",
+      }).then((res) => res.json()),
+  });
+
+  if (isPending) return <div>Loading...</div>;
+
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <header>
@@ -65,7 +74,11 @@ const Header = () => {
         {modalOpen && (
           <LoginModal modalOpen={modalOpen} handleModalOpen={handleModalOpen} />
         )}
-        <InfoNav navInfo={navInfo} setNavInfo={setNavInfo} />
+        {loginInfo.role === "user" ? (
+          <UserInfoNav navInfo={navInfo} setNavInfo={setNavInfo} />
+        ) : (
+          <TrainerInfoNav navInfo={navInfo} setNavInfo={setNavInfo} />
+        )}
       </div>
     </header>
   );

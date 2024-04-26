@@ -1,0 +1,73 @@
+@import "../../../../../../../common.scss";
+
+.introImgEdit_container {
+  font-size: 16px;
+  color: $black;
+  margin-bottom: 50px;
+}
+
+.introImgEdit_content_wrap {
+  padding: 25px;
+  margin-top: 25px;
+  border: 1px solid rgb(228, 234, 240);
+  background-color: $white;
+  border-radius: $border-radius-4;
+}
+
+.introImgEdit_photo_wrap {
+  position: relative;
+  opacity: 1;
+}
+
+.introImgEdit_photo_container {
+  position: relative;
+  display: inline-block;
+}
+
+.introImgEdit_delete_btn {
+  position: absolute;
+  font-size: 22px;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    color: red; // 삭제 버튼에 호버 시 색상 변경
+  }
+}
+
+.introImgEdit_photo {
+  width: 147px;
+  height: 147px;
+  object-fit: cover;
+  margin: 5px;
+  border-radius: $border-radius-4;
+  opacity: 1;
+}
+
+.introImgEdit_btn_wrap {
+  display: flex;
+  justify-content: center;
+  padding: 10px 10px;
+  margin: 15px;
+  border-radius: $border-radius-4;
+  border: 2px solid $green2;
+
+  input,
+  .introImgEdit_photo_btn {
+    cursor: pointer;
+  }
+  .introImgEdit_photo_btn {
+    font-size: 18px;
+    font-weight: $font-weight-2;
+    background-color: $white;
+    color: #00491e;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+  }
+}

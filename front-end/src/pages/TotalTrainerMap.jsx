@@ -61,6 +61,7 @@ const TotalTrainer = () => {
       <UndongMap
         address={address}
         trainers={trainers}
+        setTrainers={setTrainers}
         setTrainerIndex={setTrainerIndex}
         setCurrentLatitude={setCurrentLatitude}
         setCurrentLongitude={setCurrentLongitude}

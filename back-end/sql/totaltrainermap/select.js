@@ -69,7 +69,6 @@ function selectFilter(filter, callback) {
         callback(err, null);
       } else {
         callback(null, result);
-        console.log(filter.price);
         console.log(result);
       }
     }

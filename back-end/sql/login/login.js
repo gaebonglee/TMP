@@ -36,7 +36,22 @@ function insertUser(data, callback) {
   );
 }
 
+function insertTrainer(data, callback) {
+  connection.query(
+    "INSERT INTO trainer(user_id, intro, intro_img, short_intro, center_id, trainning_type) values(?, '', null, null, null, null)",
+    [data.user_id],
+    function (error, results) {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, results);
+      }
+    }
+  );
+}
+
 module.exports = {
   insertUser,
   selectUser,
+  insertTrainer,
 };
