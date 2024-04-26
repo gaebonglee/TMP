@@ -8,6 +8,21 @@
   box-shadow: rgba(108, 118, 128, 0.16) 0px 4px 8px;
   border: 3px solid rgb(162, 238, 148);
   border-radius: $border-radius-3;
+  .reservation_content {
+    position: relative;
+  }
+  .modal_close_btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+
+    &:hover {
+      color: $gray;
+    }
+  }
 }
 
 .intro_right_wrap {
@@ -91,13 +106,14 @@
   font-weight: $font-weight-2;
 }
 
-/*모달창*/
+/*------------모달창---------------*/
 .reservation_btn_wrapper {
   display: flex;
   justify-content: center;
   margin-top: 5rem;
 }
 
+// 예약하기 버튼
 .reservation_btn {
   padding: 10px 70px;
   font-size: $h3;
@@ -108,12 +124,15 @@
   color: $white;
 }
 
-.reservation_close_btn,
-.reservation_next_btn {
-  padding: 10px 20px;
-  background-color: $green2;
-  color: $white;
-  border-radius: $border-radius-3;
+// 다음버튼
+.reservation_next_btn,
+.reservation_prev_btn {
+  padding: 10px 50px;
+  background-color: $green1;
+  color: $green2;
+  font-size: 15px;
+  font-weight: $font-weight-2;
+  border-radius: $border-radius-1;
   border: none;
 }
 
@@ -129,15 +148,10 @@
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
-
-  .reservation_close_btn,
-  .reservation_next_btn {
-    padding: 10px 20px;
-  }
 }
 
 .reservation_content {
-  background-color: #ffffff;
+  background-color: $white;
   width: 500px;
   height: 800px;
   padding: 20px;

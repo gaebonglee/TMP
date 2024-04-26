@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./CenterMap.scss";
+import "./CenterMap.module.scss";
 import { TbRestore } from "react-icons/tb";
 import { BiTargetLock } from "react-icons/bi";
 

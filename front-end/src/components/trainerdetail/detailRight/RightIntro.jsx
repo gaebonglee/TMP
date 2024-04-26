@@ -2,7 +2,9 @@ import React, { useState, useRef } from "react";
 import "./RightIntro.scss";
 import DayTime from "./reservation/DayTime";
 import Purpose from "./reservation/Purpose";
+import Confirmation from "./reservation/Confirmation";
 import { FaStar } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
 
 const RightIntro = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -15,13 +17,21 @@ const RightIntro = () => {
   };
 
   const handleNext = () => {
-    setCurrentPage(2); // 현재 페이지를 2로 설정
+    setCurrentPage(currentPage + 1); // 현재 페이지를 다음 페이지로 설정
   };
+
+  const handlePrev = () => {
+    setCurrentPage(currentPage - 1); // 현재 페이지를 이전 페이지로 설정
+  };
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
 
   return (
     <div className="intro_right_container">
       <img
-        className="trainer_right_photo"
+        className="trainer_right_img"
         src="/image/사진1.jpg"
         alt="trainer_right_photo"
       />
@@ -83,18 +93,18 @@ const RightIntro = () => {
                   className="reservation_content"
                   onClick={(e) => e.stopPropagation()}
                 >
+                  <button className="modal_close_btn" onClick={handleClose}>
+                    <IoClose />
+                  </button>
                   {currentPage === 1 && (
                     <div style={{ flexGrow: 1 }}>
                       <p>
-                        <DayTime />
+                        <DayTime
+                          setDate={setSelectedDate}
+                          setTime={setSelectedTime}
+                        />
                       </p>
                       <div className="button_wrapper">
-                        <button
-                          className="reservation_close_btn"
-                          onClick={handleClose}
-                        >
-                          닫기
-                        </button>
                         <button
                           className="reservation_next_btn"
                           onClick={handleNext}
@@ -107,14 +117,45 @@ const RightIntro = () => {
                   {currentPage === 2 && (
                     <div style={{ flexGrow: 1 }}>
                       <p>
-                        <Purpose />
+                        <Purpose setSubCategories={setSelectedSubCategories} />
                       </p>
                       <div className="button_wrapper">
                         <button
-                          className="reservation_close_btn"
-                          onClick={handleClose}
+                          className="reservation_prev_btn"
+                          onClick={handlePrev}
                         >
-                          닫기
+                          이전
+                        </button>
+                        <button
+                          className="reservation_next_btn"
+                          onClick={handleNext}
+                        >
+                          다음
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  {currentPage === 3 && (
+                    <div style={{ flexGrow: 1 }}>
+                      <p>
+                        <Confirmation
+                          date={selectedDate}
+                          time={selectedTime}
+                          subCategories={selectedSubCategories}
+                        />
+                      </p>
+                      <div className="button_wrapper">
+                        <button
+                          className="reservation_prev_btn"
+                          onClick={handlePrev}
+                        >
+                          이전
+                        </button>
+                        <button
+                          className="reservation_next_btn"
+                          onClick={handleNext}
+                        >
+                          결제 및 예약내역 확인
                         </button>
                       </div>
                     </div>

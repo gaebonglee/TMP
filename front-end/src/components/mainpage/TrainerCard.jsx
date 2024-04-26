@@ -6,7 +6,7 @@ const TrainerCard = () => {
     <section className="ai_container">
       <div>
         <h1 className="ai_container_title">TMP가 @@@기준으로 추천해요</h1>
-        <ul class="ai_contents_wrap">
+        <ul className="ai_contents_wrap">
           <li>
             <div>
               <div className="ai_contents">
@@ -17,8 +17,8 @@ const TrainerCard = () => {
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">
                       <h2 className="trainer_name">@@@선생님</h2>
-                      <p class="review_star">
-                        <i class="ri-star-fill"></i>
+                      <p className="review_star">
+                        <i className="ri-star-fill"></i>
                         (N)
                       </p>
                     </div>
@@ -39,8 +39,8 @@ const TrainerCard = () => {
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">
                       <h2 className="trainer_name">@@@선생님</h2>
-                      <p class="review_star">
-                        <i class="ri-star-fill"></i>
+                      <p className="review_star">
+                        <i className="ri-star-fill"></i>
                         (N)
                       </p>
                     </div>
@@ -61,8 +61,8 @@ const TrainerCard = () => {
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">
                       <h2 className="trainer_name">@@@선생님</h2>
-                      <p class="review_star">
-                        <i class="ri-star-fill"></i>
+                      <p className="review_star">
+                        <i className="ri-star-fill"></i>
                         (N)
                       </p>
                     </div>
@@ -83,8 +83,8 @@ const TrainerCard = () => {
                   <div className="ai_contents_txt">
                     <div className="trainer_name_review">
                       <h2 className="trainer_name">@@@선생님</h2>
-                      <p class="review_star">
-                        <i class="ri-star-fill"></i>
+                      <p className="review_star">
+                        <i className="ri-star-fill"></i>
                         (N)
                       </p>
                     </div>

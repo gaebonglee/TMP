@@ -1,0 +1,33 @@
+@import "../../../../../../common.scss";
+
+.right_edit_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: sticky;
+  top: calc(134px);
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(108, 118, 128, 0.16) 0px 4px 8px;
+  border: 3px solid rgb(162, 238, 148);
+  border-radius: $border-radius-3;
+}
+
+.right_edit_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.right_edit_bottom {
+  p {
+    font-weight: $font-weight-2;
+  }
+}
+
+.right_edit_bottom_flex {
+  display: flex;
+  gap: 10px;
+}

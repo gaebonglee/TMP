@@ -1,5 +1,4 @@
 import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root";
 import Mainpage from "./pages/Mainpage";
 import TotalTrainerMap from "./pages/TotalTrainerMap";
@@ -7,6 +6,9 @@ import TotalCenterMap from "./pages/TotalCenterMap";
 import TrainerDetail from "./pages/TrainerDetail";
 import Userinfo from "./components/mypage/Userinfo/Userinfo";
 import Coachinfo from "./components/mypage/Coachinfo/Coachinfo";
+import Complete from "./pages/Complete";
+import TrainerProfileEdit from "./pages/TrainerProfileEdit";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 function App() {
   // fetch("http://localhost:5000/trainermap")
@@ -25,10 +27,13 @@ function App() {
         { path: "/trainerDetail", element: <TrainerDetail /> },
         { path: "/mypage/userinfo", element: <Userinfo /> },
         { path: "/mypage/coachinfo", element: <Coachinfo /> },
+        { path: "/login/roleError/:role", element: <Mainpage />},
+        { path: "/complete", element: <Complete />},
+        { path: "/trainerProfileEdit", element: <TrainerProfileEdit />},
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router}/>
 }
 
 export default App;

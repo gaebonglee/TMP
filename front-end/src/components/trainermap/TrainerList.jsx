@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TrainerListItem from "./TrainerListItem";
 import "./TrainerList.scss";
 import SearchInput from "./SearchInput";
@@ -6,8 +6,7 @@ import FilterList from "./FilterList";
 
 const TrainerList = (props) => {
   const [filter, setFilter] = useState(true);
-
-  const { trainers } = props;
+  const { trainers, currentLatitude, currentLongitude, setTrainers } = props;
 
   return (
     <div className="listWrap">
@@ -21,15 +20,17 @@ const TrainerList = (props) => {
       >
         {filter ? (
           <>
-            <TrainerListItem />
-            <TrainerListItem />
-            <TrainerListItem />
-            <TrainerListItem />
-            <TrainerListItem />
-            <TrainerListItem />
+            {[...trainers].map((trainer, index) => (
+              <TrainerListItem key={index} trainer={trainer} />
+            ))}
           </>
         ) : (
-          <FilterList setFilter={setFilter} />
+          <FilterList
+            currentLatitude={currentLatitude}
+            currentLongitude={currentLongitude}
+            setTrainers={setTrainers}
+            setFilter={setFilter}
+          />
         )}
       </div>
     </div>
