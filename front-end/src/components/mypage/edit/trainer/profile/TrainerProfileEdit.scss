@@ -1,0 +1,47 @@
+@import "../../../../../common.scss";
+
+.left_edit_container {
+  padding-bottom: 50px;
+  textarea {
+    width: 96%;
+    border: 1px solid $lightgray;
+    border-radius: $border-radius-4;
+    outline: none;
+    padding: 10px;
+    resize: none;
+    font-size: 15px;
+  }
+}
+.edit_title_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  h2 {
+    color: $black;
+  }
+}
+
+.edit_btn_wrap {
+  align-content: center;
+  button {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: $white;
+    color: $green2;
+    border: 2px solid $green2;
+    border-radius: $border-radius-1;
+    font-size: 16px;
+    font-weight: $font-weight-2;
+  }
+}
+
+.written_content {
+  width: 100%;
+  padding: 20px 0px 20px 10px;
+  background-color: $white;
+  border: 2px solid $green1;
+  border-radius: $border-radius-3;
+}

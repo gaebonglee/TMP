@@ -1,0 +1,82 @@
+@import "../../common.scss";
+
+.header_container {
+  display: flex;
+  padding: 20px 50px 20px 30px;
+}
+
+.main_logo {
+  width: 120px;
+}
+
+.find_container {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  gap: 30px;
+  font-weight: $font-weight-2;
+}
+
+.find_trainer,
+.find_center {
+  color: $gray;
+  &:hover {
+    color: #003817;
+  }
+}
+
+.account_container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  justify-content: right;
+  overflow: hidden;
+  color: $black;
+  font-weight: $font-weight-2;
+}
+
+.account_container > button {
+  padding: 10px 20px;
+  background-color: $green1;
+  color: $green2;
+  border: none;
+  font-size: 15px;
+  border-radius: $border-radius-4;
+  font-weight: $font-weight-2;
+  cursor: pointer;
+}
+
+.account_container > span {
+  display: block;
+  margin: 10px 8px;
+  width: 2px;
+  height: 25px;
+  background-color: $green3;
+  position: relative;
+}
+
+.setLogin {
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.loginMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.loginTitle {
+  color: $green2;
+  font-weight: $font-weight-1;
+}
+.loginIcon {
+  color: $green2;
+  font-size: 32px;
+  line-height: 10px;
+}

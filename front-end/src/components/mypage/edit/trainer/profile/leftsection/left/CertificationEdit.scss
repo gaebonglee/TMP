@@ -1,0 +1,114 @@
+@import "../../../../../../../common.scss";
+
+.certificationEdit_container {
+  font-size: 16px;
+  color: $black;
+  margin-bottom: 50px;
+}
+
+//subtitle, precautions_wrap 공통
+.subtitle {
+  font-weight: $font-weight-2;
+  padding-bottom: 25px;
+}
+
+.precautions_wrap {
+  padding: 25px;
+  background-color: rgb(237, 241, 245);
+  border-radius: $border-radius-4;
+  margin-bottom: 25px;
+  ul {
+    li {
+      font-size: 15px;
+      padding-top: 5px;
+    }
+  }
+}
+
+.add_certification_btn {
+  width: 100%;
+  padding: 15px;
+  font-size: $h3;
+  font-weight: $font-weight-2;
+  background-color: $white;
+  color: #00491e;
+  border: 2px solid #00491e;
+  border-radius: $border-radius-4;
+}
+
+.certificationEdit_table {
+  padding: 25px;
+  margin-top: 25px;
+  border: 1px solid rgb(228, 234, 240);
+  background-color: $white;
+  border-radius: $border-radius-4;
+}
+
+.certificationEdit_status {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  button {
+    background-color: $white;
+    border: none;
+    font-size: 16px;
+    font-weight: $font-weight-2;
+    padding: 5px 10px;
+
+    &.black {
+      color: $gray;
+    }
+    &.green {
+      color: $green2;
+    }
+  }
+}
+
+.certificationEdit_input {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+
+  .certification_type {
+    width: 30%;
+    padding: 15px 10px;
+    flex-grow: 0.1;
+    display: inline;
+    outline: none;
+    font-size: 16px;
+    border: 1px solid $lightgray;
+    border-radius: $border-radius-4;
+
+    & option {
+      font-size: 16px;
+    }
+  }
+  input {
+    width: 70%;
+    padding: 15px 10px;
+    font-size: 16px;
+    border: 1px solid $lightgray;
+    border-radius: $border-radius-4;
+  }
+}
+
+.certificationEdit_btn {
+  border: 2px solid $green2;
+  padding: 10px 10px;
+  border-radius: $border-radius-4;
+  margin: 15px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+
+  .certificationEdit_add_photo,
+  .certificationEdit_change_photo {
+    font-size: 18px;
+    font-weight: $font-weight-2;
+    background-color: $white;
+    color: #00491e;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+  }
+}

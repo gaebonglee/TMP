@@ -1,0 +1,197 @@
+@import "./../../common.scss";
+
+.markerWrap {
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 4px;
+  border: 2px solid #00491e;
+  padding: 6px 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  max-width: 110px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  color: rgb(61, 69, 77);
+}
+
+.markerWrap.markerActiveWrap {
+  background-color: $green2;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  padding: 6px 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  color: #fff;
+  max-width: fit-content;
+}
+
+.markerPin {
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  bottom: -11px;
+  left: calc(50% - 8px);
+  width: 16px;
+  height: 0px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 11px solid #00491e;
+}
+.markerPin::before {
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  bottom: 1.5px;
+  left: -8px;
+  width: 16px;
+  height: 0px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 11.5px solid #fff;
+}
+.markerPin::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 5px;
+  bottom: -3px;
+  z-index: -1;
+  left: calc(50% - 5px);
+  border-radius: 50%;
+  background: gray;
+  filter: blur(2px);
+}
+
+.markerPin.markerActivePin {
+  content: "";
+  position: absolute;
+  bottom: -11px;
+  left: calc(50% - 8px);
+  width: 16px;
+  height: 0px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 11px solid #fff;
+}
+
+.markerPin.markerActivePin::before {
+  content: "";
+  position: absolute;
+  bottom: 1.5px;
+  left: -8px;
+  width: 16px;
+  height: 0px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 11.5px solid $green2;
+}
+
+.markerPin.markerActivePin::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 5px;
+  bottom: -3px;
+  z-index: -1;
+  left: calc(50% - 5px);
+  border-radius: 50%;
+  background: gray;
+  filter: blur(2px);
+}
+
+.btn {
+  z-index: 300;
+  top: 16px;
+  left: 30px;
+  position: absolute;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 11px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  border: none;
+  box-shadow: rgba(108, 118, 128, 0.16) 0px 2px 4px,
+    rgba(108, 118, 128, 0.16) 0px 4px 8px;
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
+}
+
+.research {
+  z-index: 300;
+  top: 16px;
+  left: calc(50% - 95px);
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.rBtn {
+  border-radius: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  transition-duration: 0s;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  text-transform: none;
+  overflow: visible;
+  height: 48px;
+  min-width: 180px;
+  background-color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: rgb(61, 69, 77);
+  border: 1px solid #fff;
+  margin: 0px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid #00ff00;
+  border-top-color: transparent;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

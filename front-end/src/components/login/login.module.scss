@@ -1,0 +1,80 @@
+@import "../../common.scss";
+
+.loginBtn {
+  border-radius: $border-radius-4;
+  border: none;
+  width: 260px;
+  height: 43px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.loginBtn:hover {
+  filter: brightness(90%);
+}
+
+.loginBtn1 {
+  background-color: rgb(251, 219, 0);
+}
+.loginBtn2 {
+  background-color: rgb(70, 180, 0);
+  color: $white;
+}
+.loginBtn3 {
+  background-color: rgb(66, 133, 244);
+  color: $white;
+}
+
+.loginName {
+  font-weight: $font-weight-1;
+}
+
+.loginGoogle {
+  background-color: $white;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: $border-radius-4;
+}
+
+.loginTitle {
+  margin-bottom: 1.5rem;
+  font-size: $h1;
+}
+
+.loginBtns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.loginBox {
+  text-align: center;
+  margin: auto;
+}
+
+.memberDivision {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hr {
+  margin: 1.5rem auto;
+  width: 300px;
+}
+.btnDivision {
+  background-color: transparent;
+  border: 1px solid $green2;
+  border-radius: $border-radius-4;
+  color: $green2;
+  font-weight: $font-weight-2;
+  font-size: 16px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
