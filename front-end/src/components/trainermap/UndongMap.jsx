@@ -175,7 +175,8 @@ const UndongMap = (props) => {
     setLongitude(map.getCenter().x);
     console.log("currentLatitude", map.getCenter().y);
     console.log("currentLongitude", map.getCenter().x);
-    console.log(map.getBounds().toString().split(","));
+    let split = map.getBounds().toString().split(",");
+    console.log(split.map((el) => el.split(":")));
   };
 
   const mapStyle = {
