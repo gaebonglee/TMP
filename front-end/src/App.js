@@ -7,12 +7,22 @@ import TotalCenterMap from "./pages/TotalCenterMap";
 import TrainerDetail from "./pages/TrainerDetail";
 import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
+import { useQuery } from "@tanstack/react-query";
 
 function App() {
-  fetch("http://localhost:5000/trainermap")
-    .then((res) => res.json())
-    .then((data) => console.log(data[0]));
+  const { isPending, error, data } = useQuery({
+    queryKey: ["loginInfo"],
+    queryFn: () =>
+      fetch("http://localhost:5000/session/checkSession", {
+        method: "GET",
+        credentials: "include",
+      }).then((res) => res.json()),
+  });
 
+  if (isPending) return <div>Loading...</div>;
+
+  if (error) return "An error has occurred: " + error.message;
   return (
     <Router>
       <Routes>
@@ -23,7 +33,16 @@ function App() {
           <Route path="/trainerDetail" element={<TrainerDetail />} />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
-          <Route path="/trainerProfileEdit" element={<TrainerProfileEdit />} />
+          <Route
+            path="/trainerProfileEdit"
+            element={
+              <PrivateRoute
+                component={<TrainerProfileEdit />}
+                token={data}
+                role={"trainer"}
+              />
+            }
+          />
         </Route>
       </Routes>
     </Router>
