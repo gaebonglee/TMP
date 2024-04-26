@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { FaStar } from "react-icons/fa";
 import "./RightEdit.scss";
 
@@ -7,10 +8,46 @@ const defaultImagePath = "/image/tmp_mainlogo.png";
 
 const RightEdit = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [trainerName, setTrainerName] = useState("");
+
+  const {
+    isLoading,
+    error,
+    data: userInfo,
+  } = useQuery({
+    queryKey: "userInfo", // 문자열 형태로 전달
+    queryFn: async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/session/checkSession",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch user info");
+        }
+        return response.json();
+      } catch (error) {
+        throw new Error("Failed to fetch user info: " + error.message);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (!isLoading && userInfo) {
+      const { user_name } = userInfo;
+      setTrainerName(user_name);
+    }
+  }, [isLoading, userInfo]);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="right_edit_container">
@@ -26,7 +63,7 @@ const RightEdit = () => {
       <div className="right_edit_wrap">
         <div className="right_edit_top">
           <div className="right_edit_top_wrap">
-            <p>@@@트레이너</p>
+            <p>{trainerName} 트레이너</p>
             <label
               htmlFor="fileInput"
               style={{ textDecorationLine: "underline", cursor: "pointer" }}
