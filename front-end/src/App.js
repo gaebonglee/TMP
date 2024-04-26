@@ -9,6 +9,7 @@ import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "./components/trainermap/LoadingSpinner";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -20,7 +21,7 @@ function App() {
       }).then((res) => res.json()),
   });
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <LoadingSpinner />;
 
   if (error) return "An error has occurred: " + error.message;
   return (
