@@ -129,6 +129,24 @@ const Coachinfo = () => {
     }
   }
 
+//   const deleteInfo = () => {
+      
+//     fetch("http://localhost:5000/mypage/deleteInfo")
+//       .then((response)=>{
+//         if(!response.ok){
+//           throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//           return response.json
+//       })
+//       .then((data)=>{
+//         console.log(data)
+//         return console.log("data deleted successfully")
+//       })
+//       .catch(error => {
+//         console.error('There was a problem with your fetch operation:', error);
+// });
+//   }
+
   return (
     <form
       onSubmit={(e) => {
@@ -142,15 +160,6 @@ const Coachinfo = () => {
         <div className="coach_info_hr_container">
           <hr className="coach_info_hr_top" />
         </div>
-        <label htmlFor="coach_info_img_upload" className="coach_info_img">
-          <img alt="coach_info_img" className="coach_info_img_1"></img>
-          <div className="coach_info_img_text">프로필 사진 변경</div>
-          <input
-            id="coach_info_img_upload"
-            type="file"
-            name="coach_img"
-          ></input>
-        </label>
         <div className="coach_info_hr_container">
           <hr className="coach_info_hr" />
         </div>

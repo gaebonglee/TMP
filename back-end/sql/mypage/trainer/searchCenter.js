@@ -1,4 +1,4 @@
-const mysql = require("../../connection/mysqlConnection");
+const mysql = require("../../../connection/mysqlConnection");
 
 function searchCenter(center){
     const sql = `select center_name, center_street_address, center_id from center where center_name like ?`;

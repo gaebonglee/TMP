@@ -5,8 +5,8 @@ import Mainpage from "./pages/Mainpage";
 import TotalTrainerMap from "./pages/TotalTrainerMap";
 import TotalCenterMap from "./pages/TotalCenterMap";
 import TrainerDetail from "./pages/TrainerDetail";
-import Userinfo from "./components/mypage/Userinfo/Userinfo";
-import Coachinfo from "./components/mypage/Coachinfo/Coachinfo";
+import Userinfo from "./components/mypage/userinfo/Userinfo";
+import Coachinfo from "./components/mypage/coachinfo/Coachinfo"
 import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
