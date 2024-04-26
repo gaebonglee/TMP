@@ -4,7 +4,6 @@ const mysql = require("../../connection/mysqlConnection");
 function selectReviewAll(callback) {
   mysql.query(
     `SELECT *
-
     FROM review r 
     JOIN user u ON r.user_id = u.user_id;
     `,
