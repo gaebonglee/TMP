@@ -36,14 +36,6 @@ const UserInfoNav = (props) => {
           navigate(`/mypage/userinfo`);
         }}
       >
-        마이페이지
-      </div>
-      <div
-        className="myInfoBtn"
-        onClick={() => {
-          navigate(`/mypage/userinfo`);
-        }}
-      >
         기본정보
       </div>
       <div className="myInfoHr"></div>
