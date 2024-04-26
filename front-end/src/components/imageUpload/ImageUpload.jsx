@@ -19,7 +19,7 @@ const ImageUpload = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/file/upload/multi",
+        "http://localhost:5000/file/upload",
         formData,
         {
           headers: {
