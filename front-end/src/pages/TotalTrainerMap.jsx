@@ -1,53 +1,33 @@
 import React, { useEffect, useState } from "react";
 import TrainerList from "../components/trainermap/TrainerList";
 import UndongMap from "../components/trainermap/UndongMap";
+import LoadingSpinner from "components/trainermap/LoadingSpinner";
 
 const TotalTrainer = () => {
-  const [searchPosition, setSearchPosition] = useState({
-    lat: 37.3595704,
-    lng: 127.105399,
-  }); // [latitude, longitude
-
   const [trainers, setTrainers] = useState([]);
-  const [address, setAddress] = useState("");
   const [trainerIndex, setTrainerIndex] = useState(null);
   const [currentLatitude, setCurrentLatitude] = useState();
   const [currentLongitude, setCurrentLongitude] = useState();
-
-  const handleComplete = (data) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-
-    console.log(fullAddress);
-    setAddress(fullAddress);
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch("http://localhost:5000/center")
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP 에러 ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      setTrainers(data);
-    })
-    .catch(error => {
-      console.error("데이터 가져오기 실패:", error);
-    });
-}, []);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP 에러 ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setTrainers(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("데이터 가져오기 실패:", error);
+        setIsLoading(false);
+      });
+  }, []);
   return (
     <>
       {trainerIndex !== null ? (
@@ -65,14 +45,20 @@ const TotalTrainer = () => {
           trainers={trainers}
         />
       )}
-      <UndongMap
-        address={address}
-        trainers={trainers}
-        setTrainers={setTrainers}
-        setTrainerIndex={setTrainerIndex}
-        setCurrentLatitude={setCurrentLatitude}
-        setCurrentLongitude={setCurrentLongitude}
-      />
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <UndongMap
+          setIsLoading={setIsLoading}
+          trainers={trainers}
+          setTrainers={setTrainers}
+          setTrainerIndex={setTrainerIndex}
+          currentLatitude={currentLatitude}
+          currentLongitude={currentLongitude}
+          setCurrentLatitude={setCurrentLatitude}
+          setCurrentLongitude={setCurrentLongitude}
+        />
+      )}
     </>
   );
 };

@@ -1,92 +1,92 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import "./UnDongMap.scss";
 import { TbRestore } from "react-icons/tb";
 import { BiTargetLock } from "react-icons/bi";
 import LoadingSpinner from "./LoadingSpinner";
 
 const UndongMap = (props) => {
-  const [latitude, setLatitude] = useState(37.5665);
-  const [longitude, setLongitude] = useState(126.978);
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const {
     trainers,
     setTrainers,
     setTrainerIndex,
     setCurrentLatitude,
     setCurrentLongitude,
+    currentLatitude,
+    currentLongitude,
+    setIsLoading,
   } = props;
   const markers = [];
   const currentLocationMarker = useRef(null);
-  const { naver } = window;
-  useEffect(() => {
-    const loadNaverMapsScript = () => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0dfie9x7ty&callback=initMap&submodules=geocoder`;
-      script.async = true;
-      script.onload = () => {
-        initializeMap();
-        setIsLoading(false);
-      };
-      document.head.appendChild(script);
-      setIsLoading(false);
-    };
+  const coords = useRef({ latitude: 0, longitude: 0 });
+  const [currentLocationSearchData, setCurrentLocationSearchData] = useState(
+    {}
+  );
 
-    const initializeMap = () => {
-      if (!mapRef.current || !naver) return;
-
-      const location = new naver.maps.LatLng(latitude, longitude);
+  const initMap = useCallback(() => {
+    if (mapRef.current && window.naver && window.naver.maps) {
+      const center = new window.naver.maps.LatLng(
+        currentLatitude,
+        currentLongitude
+      );
       const mapOptions = {
-        center: location,
+        center,
         zoom: 15,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: naver.maps.Position.TOP_RIGHT,
-        },
       };
-      const newMap = new naver.maps.Map(mapRef.current, mapOptions);
+      const newMap = new window.naver.maps.Map(mapRef.current, mapOptions);
       setMap(newMap);
 
-      const marker = new naver.maps.Marker({
-        position: location,
+      const markerElement = document.createElement("div");
+      markerElement.innerHTML = `
+        <div class="markerWrap" data-marker-id="currentLocation"></div>
+        <div class="markerPin" data-marker-id="currentLocation"></div>
+      `;
+
+      const marker = new window.naver.maps.Marker({
+        position: center,
         map: newMap,
         icon: {
-          content: `<div class="markerWrap">현재 위치 HPE 교육센터</div> <div class="markerPin"></div>`,
+          content: markerElement,
         },
       });
-      currentLocationMarker.current = marker;
 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setLatitude(latitude);
-            setLongitude(longitude);
-            setCurrentLatitude(latitude);
-            setCurrentLongitude(longitude);
-            const newLocation = new naver.maps.LatLng(latitude, longitude);
-            newMap.setCenter(newLocation);
-            marker.setPosition(newLocation);
-          },
-          (error) => {
-            console.error("Error getting current location:", error);
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0,
-          }
+      currentLocationMarker.current = marker;
+      markers.push(marker);
+
+      window.naver.maps.Event.addListener(marker, "click", function () {
+        const markerWrap = markerElement.querySelector(
+          '.markerWrap[data-marker-id="currentLocation"]'
         );
-      } else {
-        console.error("Geolocation is not supported by this browser.");
-      }
+        const markerPin = markerElement.querySelector(
+          '.markerPin[data-marker-id="currentLocation"]'
+        );
+        if (markerWrap && markerPin) {
+          markers.forEach((m) => {
+            const wrap = m.icon.content.querySelector(".markerWrap");
+            const pin = m.icon.content.querySelector(".markerPin");
+            wrap.classList.remove("markerActiveWrap");
+            pin.classList.remove("markerActivePin");
+          });
+          if (markerWrap.classList.contains("markerActiveWrap")) {
+            markerWrap.classList.remove("markerActiveWrap");
+            markerPin.classList.remove("markerActivePin");
+          } else {
+            markerWrap.classList.add("markerActiveWrap");
+            markerPin.classList.add("markerActivePin");
+          }
+        }
+        marker.setAnimation(window.naver.maps.Animation.BOUNCE);
+        setTimeout(() => {
+          marker.setAnimation(null);
+        }, 700);
+        newMap.panTo(center);
+      });
 
       trainers.forEach((trainer, index) => {
         const markerLatitude = trainer.latitude;
         const markerLongitude = trainer.longitude;
-        const markerLocation = new naver.maps.LatLng(
+        const markerLocation = new window.naver.maps.LatLng(
           markerLatitude,
           markerLongitude
         );
@@ -97,7 +97,7 @@ const UndongMap = (props) => {
           <div class="markerPin" data-marker-id="${index}"></div>
         `;
 
-        const marker = new naver.maps.Marker({
+        const marker = new window.naver.maps.Marker({
           position: markerLocation,
           map: newMap,
           icon: {
@@ -107,7 +107,7 @@ const UndongMap = (props) => {
 
         markers.push(marker);
 
-        naver.maps.Event.addListener(marker, "click", function () {
+        window.naver.maps.Event.addListener(marker, "click", function () {
           const markerWrap = markerElement.querySelector(
             `.markerWrap[data-marker-id="${index}"]`
           );
@@ -129,7 +129,7 @@ const UndongMap = (props) => {
               markerPin.classList.add("markerActivePin");
             }
           }
-          marker.setAnimation(naver.maps.Animation.BOUNCE);
+          marker.setAnimation(window.naver.maps.Animation.BOUNCE);
           setTimeout(() => {
             marker.setAnimation(null);
           }, 700);
@@ -139,44 +139,168 @@ const UndongMap = (props) => {
         });
       });
 
-      setIsLoading(false);
+      updateCurrentLocation();
+      const intervalId = setInterval(updateCurrentLocation, 5000);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [currentLatitude, currentLongitude, trainers, setTrainerIndex]);
+
+  useEffect(() => {
+    const scriptId = "naver-maps-script";
+    const loadNaverMapsScript = () => {
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement("script");
+        script.id = scriptId;
+        script.type = "text/javascript";
+        script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0dfie9x7ty&callback=initMap&submodules=geocoder`;
+        script.async = true;
+        document.head.appendChild(script);
+        script.onload = () => {
+          initMap();
+        };
+      } else {
+        initMap();
+      }
     };
 
     loadNaverMapsScript();
-  }, [trainers, latitude, longitude, setCurrentLatitude, setCurrentLongitude]);
+  }, [initMap]);
 
-  const updateCurrentLocation = () => {
-    if (map && currentLocationMarker.current) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLatitude(latitude);
-          setLongitude(longitude);
-          setCurrentLatitude(latitude);
-          setCurrentLongitude(longitude);
-          const newLocation = new naver.maps.LatLng(latitude, longitude);
-          map.setCenter(newLocation);
-          currentLocationMarker.current.setPosition(newLocation);
-        },
-        (error) => {
-          console.error("Error getting current location:", error);
-        },
-        {
+  useEffect(() => {
+    const getCurrentPosition = () => {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
           timeout: 10000,
           maximumAge: 0,
-        }
-      );
+        });
+      });
+    };
+
+    const initMapAfterLocationUpdate = async () => {
+      try {
+        await getCurrentPosition();
+        initMap();
+      } catch (error) {
+        console.error("Error getting current location:", error);
+        setCurrentLatitude(37.5665);
+        setCurrentLongitude(126.978);
+        initMap();
+      }
+    };
+
+    initMapAfterLocationUpdate();
+  }, [setCurrentLatitude, setCurrentLongitude, initMap]);
+
+  const getCurrentLocation = async () => {
+    if (!navigator.geolocation) {
+      console.error("Geolocation is not supported by this browser.");
+      throw new Error("Geolocation is not supported");
+    }
+
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        });
+      });
+
+      const { latitude, longitude } = position.coords;
+      return { latitude, longitude };
+    } catch (error) {
+      console.log("Error getting current location:", error);
+      throw error;
     }
   };
 
-  const handleResearchClick = () => {
-    setLatitude(map.getCenter().y);
-    setLongitude(map.getCenter().x);
-    console.log("currentLatitude", map.getCenter().y);
-    console.log("currentLongitude", map.getCenter().x);
-    let split = map.getBounds().toString().split(",");
-    console.log(split.map((el) => el.split(":")));
+  const updateCurrentLocation = async () => {
+    try {
+      const { latitude, longitude } = await getCurrentLocation();
+
+      setCurrentLatitude(latitude);
+      setCurrentLongitude(longitude);
+
+      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
+      if (currentLocationMarker.current) {
+        currentLocationMarker.current.setPosition(newLocation);
+      }
+      if (map) {
+        map.setCenter(newLocation);
+      }
+    } catch (error) {
+      console.error("Error updating current location:", error);
+    }
+  };
+
+  const handleResearchClick = async () => {
+    if (!map) {
+      console.error("Map object is not initialized.");
+
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        "http://localhost:5000/center/currentlocation",
+        {
+          credentials: "include",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(currentLocationSearchData),
+        }
+      );
+
+      if (!response.ok) {
+        setIsLoading(false);
+        throw new Error(`HTTP 에러 ${response.status}`);
+      }
+
+      const data = await response.json();
+      setIsLoading(false);
+      setTrainers(data);
+
+      coords.current = {
+        latitude: map.getCenter().y,
+        longitude: map.getCenter().x,
+      };
+      console.log(coords.current.latitude, coords.current.longitude);
+
+      let NEcoords = {
+        NElatitude: map.getBounds().getNE().y,
+        NElongitude: map.getBounds().getNE().x,
+      };
+
+      let SWcoords = {
+        SWlatitude: map.getBounds().getSW().y,
+        SWlongitude: map.getBounds().getSW().x,
+      };
+      console.log(NEcoords, SWcoords);
+      setCurrentLocationSearchData({
+        latitude: coords.current.latitude,
+        longitude: coords.current.longitude,
+        NElatitude: NEcoords.NElatitude,
+        NElongitude: NEcoords.NElongitude,
+        SWlatitude: SWcoords.SWlatitude,
+        SWlongitude: SWcoords.SWlongitude,
+      });
+      console.log(currentLocationSearchData);
+    } catch (error) {
+      console.error("데이터 가져오기 실패:", error);
+    }
+    map.setCenter(
+      new window.naver.maps.LatLng(
+        coords.current.latitude,
+        coords.current.longitude
+      )
+    );
   };
 
   const mapStyle = {
@@ -189,32 +313,28 @@ const UndongMap = (props) => {
 
   return (
     <div className="mapWrap">
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <div className="mapContainer" ref={mapRef} style={mapStyle}>
-          <div>
-            <div className="myLocation">
-              <div className="btn" onClick={updateCurrentLocation}>
-                <BiTargetLock size={27} color="#00491e" />
-              </div>
+      <div ref={mapRef} style={mapStyle}>
+        <div>
+          <div className="myLocation">
+            <div className="btn" onClick={updateCurrentLocation}>
+              <BiTargetLock size={27} color="#00491e" />
             </div>
-            <div className="research">
-              <div className="researchBtn">
-                <button
-                  size="48"
-                  color="#fff"
-                  className="rBtn"
-                  onClick={handleResearchClick}
-                >
-                  <TbRestore size={25} color="#00491e" />
-                  <span>이 지역 다시 검색</span>
-                </button>
-              </div>
+          </div>
+          <div className="research">
+            <div className="researchBtn">
+              <button
+                size="48"
+                color="#fff"
+                className="rBtn"
+                onClick={handleResearchClick}
+              >
+                <TbRestore size={25} color="#00491e" />
+                <span>이 지역 다시 검색</span>
+              </button>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

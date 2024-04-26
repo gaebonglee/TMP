@@ -24,4 +24,14 @@ router.get("/centerall", (req, res) => {
   });
 });
 
+router.post("/currentlocation", (req, res) => {
+  selectCenter.selectCurrentLocation(req.body, (err, result) => {
+    if (err) {
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).send(result);
+    }
+  });
+});
+
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { TbMapPin } from "react-icons/tb";
 import { BsFillStarFill } from "react-icons/bs";
 import "./TrainerListItem.scss";

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import TrainerListItem from "./TrainerListItem";
-import "./TrainerList.scss";
+import "style/TrainerList.scss";
 import SearchInput from "./SearchInput";
 import FilterList from "./FilterList";
 
