@@ -2,7 +2,8 @@ const connection = require("../../connection/mysqlConnection");
 
 function selectUser(data, callback) {
   connection.query(
-    "SELECT user_id, user_name, user_roles from user where user_id = ?"[data],
+    "SELECT user_id, user_name, user_roles from user where user_id = ?",
+    [data],
     function (error, results) {
       if (error) {
         callback(error, null);
