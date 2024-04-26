@@ -31,19 +31,13 @@ const storage = multerGoogleStorage.storageEngine({
   keyFilename: "./secure/balmy-elf-420205-381e2cb85c55.json", // GCP 계정 키 파일 경로
   bucket: "cda_file", // Google Cloud Storage 버킷 이름
   filename: function (req, file, cb) {
-    cb(null, "test/" + file.originalname); // 파일 이름
+    cb(null, "test2/" + file.originalname); // 파일 이름
   },
 });
 
 const upload = multer({ storage: storage });
 
-router.post("/upload/single", upload.single("image"), (req, res) => {
-  console.log("파일이 Google Cloud Storage로 업로드되었습니다:", req.file);
-  res.send("파일이 Google Cloud Storage로 업로드되었습니다.");
-});
-
-router.post("/upload/multi", upload.array("files"), (req, res) => {
-  console.log("multi upload:", req.files);
+router.post("/upload", upload.array("files"), (req, res) => {
   res.send("Files uploaded successfully.");
 });
 
