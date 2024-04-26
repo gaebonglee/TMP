@@ -81,11 +81,6 @@ const UpdateHandler = (e) => {
             <div className='user_info_hr_container'>
             <hr className='user_info_hr_top'/>
             </div >
-            <label htmlFor='user_info_img_upload' className='user_info_img'>
-                <img alt = 'user_info_img' className='user_info_img_1'></img>
-                <div className='user_info_img_text'>프로필 사진 변경</div>
-                <input id='user_info_img_upload' type='file' name='user_img'></input>
-            </label>
             <div className='user_info_hr_container'>
             <hr className='user_info_hr'/>
             </div>
