@@ -1,1 +1,18 @@
+@import "../../../../common.scss";
 
+.trainerScheduleList {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.trainerScheduleList__dayOfWeek {
+  font-size: $h3;
+  font-weight: $font-weight-2;
+  width: 70px;
+  margin: 5px 0;
+}
+
+.trainerScheduleList__time {
+  font-size: $h3;
+  font-weight: 500;
+}
