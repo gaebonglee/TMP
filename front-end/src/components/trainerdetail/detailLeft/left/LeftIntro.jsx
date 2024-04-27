@@ -1,60 +1,58 @@
 import React, { useState } from "react";
 import "./LeftIntro.scss";
-import { useParams } from "react-router-dom";
-import { useQueries } from "@tanstack/react-query";
-import axios from "axios";
-import ImageUpload from "../../../imageUpload/ImageUpload";
 
 const LeftIntro = ({ data }) => {
-  const [visible, setVisible] = useState(8); // 처음에는 8개의 이미지만 보여줌
-  const [seeMore, setSeeMore] = useState(true); // 처음에는 8개의 이미지만 보여줌
+  const [visible, setVisible] = useState(8);
+  const [seeMore, setSeeMore] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
 
-  const fileNames = data.intro_img.split(",");
+  const fileNames = data.intro_img
+    ? data.intro_img.includes(",")
+      ? data.intro_img.split(",")
+      : [data.intro_img]
+    : [];
 
-  // const [selectedFile, setSelectedFile] = useState(null);
-
-  // const handleSubmit = async () => {
-  //   const formData = new FormData();
-  //   formData.append("image", selectedFile);
-
-  //   try {
-  //     await axios.post("http://localhost:5000/file/upload", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-  //     console.log("이미지 업로드 성공.");
-  //   } catch (error) {
-  //     console.error("이미지 업로드 실패:", error);
-  //   }
-  // };
-
-  const showMoreImages = () => {
-    setVisible(fileNames.length); // 모든 이미지를 보여줌
+  const showMoreImages = (e) => {
+    e.stopPropagation();
+    setVisible(fileNames.length);
     setSeeMore(false);
   };
 
-  // const [images, setImages] = useState([]);
+  const openModal = (index) => {
+    setCurrentImage(index);
+    setModalOpen(true);
+  };
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   const imageUrl = URL.createObjectURL(file);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
-  //   // 새 이미지 URL을 기존 이미지 배열에 추가
-  //   setImages((prevImages) => [...prevImages, imageUrl]);
-  // };
+  const showPrevImage = (e) => {
+    e.stopPropagation();
+    setCurrentImage((prev) => (prev === 0 ? fileNames.length - 1 : prev - 1));
+  };
+
+  const showNextImage = (e) => {
+    e.stopPropagation();
+    setCurrentImage((prev) => (prev === fileNames.length - 1 ? 0 : prev + 1));
+  };
+
   return (
     <div className="intro_detail" id="intro_page_contents_wrap">
       <h1>선생님 소개</h1>
       <div id="wrap_container">
         <div className="intro_photo">
           {fileNames.slice(0, visible).map((result, index) => (
-            <div className="image_container" key={index}>
+            <div
+              className="image_container"
+              key={index}
+              onClick={() => openModal(index)}
+            >
               <img
-                src={`https://storage.googleapis.com/cda_file/trainer/${data.user_id}/${result}`}
+                src={`${process.env.REACT_APP_FILE_SERVER_URL}/trainer/${data.user_id}/${result}`}
                 alt={`Loaded file ${index}`}
                 className="intro_photos"
-                onClick={index === 7 ? showMoreImages : undefined}
               />
               {index === 7 && seeMore && (
                 <div className="overlay" onClick={showMoreImages}>
@@ -69,6 +67,29 @@ const LeftIntro = ({ data }) => {
           <p>{data.intro}</p>
         </div>
       </div>
+      {modalOpen && (
+        <div className="intro_modal" onClick={closeModal}>
+          {fileNames.map((img, index) => (
+            <img
+              key={index}
+              src={`${process.env.REACT_APP_FILE_SERVER_URL}/trainer/${data.user_id}/${img}`}
+              alt={`Modal file ${index}`}
+              className={`intro_modal_image ${
+                currentImage === index ? "active" : ""
+              }`}
+            />
+          ))}
+          <button className="intro_arrow intro_left" onClick={showPrevImage}>
+            &#60;
+          </button>
+          <button className="intro_arrow intro_right" onClick={showNextImage}>
+            &#62;
+          </button>
+          <p className="intro_image_page" style={{ textAlign: "center" }}>
+            {currentImage + 1} / {fileNames.length}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
