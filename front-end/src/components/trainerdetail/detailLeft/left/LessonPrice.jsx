@@ -1,7 +1,6 @@
 import React from "react";
 import "./LessonPrice.scss";
 const LessonPrice = ({ data }) => {
-  console.log("lesson ::", data);
   return (
     <div className="trainer_lesson_price" id="intro_page_contents_wrap">
       <h1>레슨 이용 가격</h1>
