@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LeftIntro from "./left/LeftIntro";
 import Qualifications from "./left/Qualifications";
 import TrainerSchedule from "./left/TrainerSchedule";
@@ -22,19 +22,30 @@ const LeftSection = () => {
       }).then((res) => res.json()),
   });
 
+  useEffect(() => {
+    if (!isPending && (!data || !data.info1)) {
+      navigate("/");
+    }
+  }, [data, isPending, navigate]);
+
   if (isPending) return <LoadingSpinner />;
 
   if (error) return "An error has occurred: " + error.message;
 
+  if (!data || !data.info1) {
+    return null;
+  }
+
+  console.log(data);
   return (
     <div className="leftSection">
       <LeftIntro data={data.info1} />
       <Qualifications data={data.info2} />
-      <TrainerSchedule />
-      <Program />
+      <TrainerSchedule data={data.info1} />
+      <Program data={data.info3} />
       <Review />
-      <LessonPrice />
-      <CenterPlace />
+      <LessonPrice data={data.info4} />
+      <CenterPlace data={data.info1} />
     </div>
   );
 };
