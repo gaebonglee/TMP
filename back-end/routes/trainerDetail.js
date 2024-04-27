@@ -3,7 +3,7 @@ const axios = require("axios");
 const router = express.Router();
 const sql = require("../sql/trainerdetail/select");
 
-router.get("/left/:trainerId", async (req, res) => {
+router.get("/:trainerId", async (req, res) => {
   const trainerId = req.params.trainerId;
   try {
     const info1 = await sql.selectTrainerInfo1(trainerId);
