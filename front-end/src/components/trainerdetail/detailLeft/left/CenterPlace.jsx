@@ -16,25 +16,29 @@ const CenterPlace = ({ data }) => {
         <div>
           <div className="flexBoxStart">
             <strong style={{ marginRight: "8px" }}>{data.center_name}</strong>
-            <div className="contact">상세 정보</div>
+            {data.center_name && <div className="contact">상세 정보</div>}
           </div>
           <div className="flexBoxStart">
             <div className="addressOnLocation">
               <span style={{ marginRight: "8px" }}>{data.center_address}</span>
-              <span
-                onClick={() => {
-                  copyAddress(data.center_address);
-                }}
-                className="contact"
-              >
-                주소 복사
-              </span>
+              {data.center_name && (
+                <span
+                  onClick={() => {
+                    copyAddress(data.center_address);
+                  }}
+                  className="contact"
+                >
+                  주소 복사
+                </span>
+              )}
             </div>
           </div>
         </div>
       </div>
       <div id="wrap_container">
-        <LittleUndongMap lat={data.latitude} longi={data.longitude} />
+        {data.latitude && (
+          <LittleUndongMap lat={data.latitude} longi={data.longitude} />
+        )}
       </div>
     </div>
   );
