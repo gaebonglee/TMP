@@ -42,10 +42,11 @@ async function selectTrainerInfo1(trainerId) {
 async function selectTrainerInfo2(trainerId) {
   return new Promise((resolve, reject) => {
     const query = `
-    select 
+    select
       a.certification_type, 
       a.certification_name, 
-      a.certification_img 
+      a.certification_img,
+      b.user_id
     from certification_table a join user b on a.user_id = b.user_id
     where b.user_id = ? and b.user_roles = "trainer";`;
 
