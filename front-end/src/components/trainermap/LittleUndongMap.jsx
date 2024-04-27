@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 import "../../components/trainermap/UnDongMap.scss";
 
-const LittleUndongMap = () => {
+const LittleUndongMap = ({ lat, longi }) => {
   const mapRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,7 +21,7 @@ const LittleUndongMap = () => {
       const { naver } = window;
       if (!mapRef.current || !naver) return;
 
-      const location = new naver.maps.LatLng(37.5665, 126.978);
+      const location = new naver.maps.LatLng(lat, longi);
       const mapOptions = {
         center: location,
         zoom: 15,
