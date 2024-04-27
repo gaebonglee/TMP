@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "./Program.scss";
 
 const Program = ({ data }) => {
-  console.log("program data::", data);
-
   return (
     <div className="program" id="intro_page_contents_wrap">
       <h1>프로그램</h1>
