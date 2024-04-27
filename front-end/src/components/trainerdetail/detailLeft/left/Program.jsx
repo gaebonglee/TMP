@@ -119,6 +119,8 @@ const ImageModal = ({ images, currentIndex, onClose }) => {
     e.stopPropagation();
     if (index < images.length - 1) {
       setIndex(index + 1);
+    } else {
+      setIndex(0);
     }
   };
 
@@ -126,6 +128,8 @@ const ImageModal = ({ images, currentIndex, onClose }) => {
     e.stopPropagation();
     if (index > 0) {
       setIndex(index - 1);
+    } else {
+      setIndex(images.length - 1);
     }
   };
 
