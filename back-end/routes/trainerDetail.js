@@ -10,8 +10,9 @@ router.get("/:trainerId", async (req, res) => {
     const info2 = await sql.selectTrainerInfo2(trainerId);
     const info3 = await sql.selectTrainerInfo3(trainerId);
     const info4 = await sql.selectTrainerInfo4(trainerId);
+    const infoReview = await sql.selectTrainerInfoReview(trainerId);
 
-    res.status(200).send({ info1: info1[0], info2, info3, info4 });
+    res.status(200).send({ info1: info1[0], info2, info3, info4, infoReview });
   } catch (err) {
     console.log("error while selectTrainerInfo1:", err);
   }
