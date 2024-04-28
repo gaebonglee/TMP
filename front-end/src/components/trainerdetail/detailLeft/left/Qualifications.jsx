@@ -100,11 +100,7 @@ const Modal = ({ isOpen, onClose, children, currentIndex, totalCount }) => {
 };
 
 const ArrowButton = ({ direction, onClick }) => (
-  <button
-    style={{ fontSize: "60px" }}
-    onClick={onClick}
-    className={`arrow_button ${direction}`}
-  >
+  <button onClick={onClick} className={`arrow_button ${direction}`}>
     {direction === "left" ? "<" : ">"}
   </button>
 );
