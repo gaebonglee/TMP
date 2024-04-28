@@ -96,6 +96,7 @@ const Purpose = ({ setSubCategories }) => {
             <div key={subCategory}>
               <label>
                 <input
+                className="purpose_sub_checkbox"
                   type="checkbox"
                   value={subCategory}
                   checked={subCategories.includes(subCategory)}

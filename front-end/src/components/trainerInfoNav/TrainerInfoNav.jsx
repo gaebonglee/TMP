@@ -39,6 +39,15 @@ const TrainerInfoNav = (props) => {
         기본정보
       </div>
       <div className="myInfoHr"></div>
+      <div
+        className="trainerDetailInfoBtn"
+        onClick={() => {
+          navigate(`/mypage/trainerProfile/Edit`);
+        }}
+      >
+        트레이너 정보
+      </div>
+      <div className="myInfoHr"></div>
       <div>
         <div className="myInfoBtn" onClick={logoutHandler}>
           로그아웃

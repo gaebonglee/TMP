@@ -1,6 +1,7 @@
 import React from "react";
 import "./TrainerProfileEdit.scss";
 import { FaPencilAlt } from "react-icons/fa";
+import axios from "axios";
 
 function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -13,6 +14,17 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
   const handleSave = () => {
     onSave(editedContent);
     setIsEditing(false);
+  };
+
+  const saveToMySQL = (data) => {
+    axios
+      .post("http://your-server-url/save-to-mysql", data)
+      .then((response) => {
+        console.log("데이터가 MySQL에 저장되었습니다.");
+      })
+      .catch((error) => {
+        console.error("데이터 저장에 실패했습니다.", error);
+      });
   };
 
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./PriceEdit.scss";
 
 const PriceEdit = () => {
@@ -31,7 +31,7 @@ const PriceEdit = () => {
                     <input
                       type="text"
                       placeholder="숫자만 입력"
-                      name="times"
+                      name="count"
                       maxLength={5}
                     />
                   </td>
@@ -40,7 +40,7 @@ const PriceEdit = () => {
                     <input
                       type="text"
                       placeholder="숫자만 입력"
-                      name="price"
+                      name="totalPrice"
                       maxLength={9}
                     />
                   </td>
@@ -50,7 +50,7 @@ const PriceEdit = () => {
                     <input
                       type="text"
                       placeholder="숫자만 입력"
-                      name="times"
+                      name="count"
                       maxLength={5}
                     />
                   </td>
@@ -59,7 +59,7 @@ const PriceEdit = () => {
                     <input
                       type="text"
                       placeholder="숫자만 입력"
-                      name="price"
+                      name="totalPrice"
                       maxLength={9}
                     />
                   </td>
@@ -69,7 +69,7 @@ const PriceEdit = () => {
                     <input
                       type="text"
                       placeholder="숫자만 입력"
-                      name="times"
+                      name="count"
                       maxLength={5}
                     />
                   </td>
@@ -78,7 +78,7 @@ const PriceEdit = () => {
                     <input
                       type="text"
                       placeholder="숫자만 입력"
-                      name="price"
+                      name="totalPrice"
                       maxLength={9}
                     />
                   </td>
@@ -88,7 +88,7 @@ const PriceEdit = () => {
                     <input
                       type="text"
                       placeholder="숫자만 입력"
-                      name="times"
+                      name="count"
                       maxLength={5}
                     />
                   </td>
@@ -97,7 +97,7 @@ const PriceEdit = () => {
                     <input
                       type="text"
                       placeholder="숫자만 입력"
-                      name="price"
+                      name="totalPrice"
                       maxLength={9}
                     />
                   </td>
