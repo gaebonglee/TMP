@@ -4,12 +4,18 @@ import "./RightIntro.scss";
 import DayTime from "./reservation/DayTime";
 import Purpose from "./reservation/Purpose";
 import Confirmation from "./reservation/Confirmation";
-import { FaStar } from "react-icons/fa6";
+import { FaS, FaStar } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 
-const RightIntro = () => {
+const RightIntro = ({ data }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const reviewSum = data.infoReview.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.point;
+  }, 0);
+  const reviewAvg = Math.floor(reviewSum / data.infoReview.length);
+  console.log(reviewAvg);
+  const reviewArr = [0, 1, 2, 3, 4];
   const handleClose = () => {
     setModalOpen(false);
     setCurrentPage(1); // 모달을 닫을 때 페이지도 초기화
@@ -102,35 +108,36 @@ const RightIntro = () => {
       <div className="intro_right_wrap">
         <div className="top_wrap">
           <div className="trainer_name_star">
-            <h2 className="trainer_name">@@@선생님</h2>
+            <h2 className="trainer_name">{data.info1.user_name}선생님</h2>
             <div className="trainer_star">
               <div className="star_wrap">
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
+                {reviewArr.map((_v, i) => {
+                  return i < reviewAvg ? (
+                    <FaStar key={i} />
+                  ) : (
+                    <FaStar key={i} style={{ color: "black" }} />
+                  );
+                })}
               </div>
-              <div className="review_average_score">5.0</div>
-              <div className="review_num">(20)</div>
+              <div className="review_average_score">
+                {!!reviewAvg ? reviewAvg.toFixed(1) : 0.0}
+              </div>
+              <div className="review_num">({data.infoReview.length})</div>
             </div>
           </div>
-          <div className="center_name">서울PT샵 강남점</div>
+          <div className="center_name">{data.info1.center_name}</div>
           <div className="trainer_intro_oneline">
-            <p>
-              테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.테스트
-              내용입니다.테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.
-            </p>
+            <p>{data.info1.short_intro}</p>
           </div>
         </div>
         <div className="middle_wrap">
           <div className="certificate">
             <span className="left">자격검증 : </span>
-            <span className="right">N개</span>
+            <span className="right">{data.info2.length}개</span>
           </div>
           <div className="specialized_field">
             <span className="left">전문분야 : </span>
-            <span className="right">다이어트, 식단관리, 벌크업</span>
+            <span className="right">{data.info1.trainning_type}</span>
           </div>
         </div>
         <div className="bottom_wrap">
