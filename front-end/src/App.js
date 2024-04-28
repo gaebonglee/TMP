@@ -11,6 +11,7 @@ import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "./components/trainermap/LoadingSpinner";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -22,7 +23,7 @@ function App() {
       }).then((res) => res.json()),
   });
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <LoadingSpinner />;
 
   if (error) return "An error has occurred: " + error.message;
   return (
@@ -32,7 +33,7 @@ function App() {
           <Route index element={<Mainpage />} />
           <Route path="/trainermap" element={<TotalTrainerMap />} />
           <Route path="/centermap" element={<TotalCenterMap />} />
-          <Route path="/trainerDetail" element={<TrainerDetail />} />
+          <Route path="/trainerDetail/:trainerId" element={<TrainerDetail />} />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
           <Route path= "/mypage/userinfo" element= {<PrivateRoute

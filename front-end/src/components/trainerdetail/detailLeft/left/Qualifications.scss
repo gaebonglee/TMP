@@ -24,6 +24,7 @@
 .carrer_wrap {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .carrer_wrap_img {
@@ -32,4 +33,60 @@
 
 .carrer_wrap_text {
   padding: 0 0 5px 10px;
+  font-weight: $font-weight-1;
+}
+
+.modal_background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 103;
+}
+
+.modal_content {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.arrow_button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 60px;
+  cursor: pointer;
+  padding: 0 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrow_button.left {
+  left: 10px;
+}
+
+.arrow_button.right {
+  right: 10px;
+}
+
+.certification_img {
+  width: 700px;
+  height: auto;
+}
+
+.image_counter {
+  position: absolute;
+  bottom: 8%;
+  text-align: center;
+  font-size: $h3;
+  color: $white;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0 10px;
+  border-radius: $border-radius-3;
 }

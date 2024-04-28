@@ -9,6 +9,7 @@ const reviewRouter = require("./routes/review");
 const mypageRouter = require("./routes/mypage")
 const fileRouter = require("./routes/file");
 const filterRouter = require("./routes/filter");
+const trainerDetailRouter = require("./routes/trainerDetail");
 
 dotenv.config();
 const app = express();
@@ -37,7 +38,7 @@ app.use("/mypage", mypageRouter);
 app.use("/filter", filterRouter);
 app.use("/file", fileRouter);
 app.use("/filter", filterRouter);
-
+app.use("/trainerDetail", trainerDetailRouter);
 
 app.listen(5000, () => {
   console.log("server is running...");

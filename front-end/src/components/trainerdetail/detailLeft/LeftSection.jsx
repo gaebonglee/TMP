@@ -7,18 +7,19 @@ import Review from "./left/Review";
 import LessonPrice from "./left/LessonPrice";
 import CenterPlace from "./left/CenterPlace";
 import "./LeftSection.scss";
-const leftSection = () => {
+
+const LeftSection = ({ data }) => {
   return (
     <div className="leftSection">
-      <LeftIntro />
-      <Qualifications />
-      <TrainerSchedule />
-      <Program />
+      <LeftIntro data={data.info1} />
+      <Qualifications data={data.info2} />
+      <TrainerSchedule data={data.info1} />
+      <Program data={data.info3} />
       <Review />
-      <LessonPrice />
-      <CenterPlace />
+      <LessonPrice data={data.info4} />
+      <CenterPlace data={data.info1} />
     </div>
   );
 };
 
-export default leftSection;
+export default LeftSection;
