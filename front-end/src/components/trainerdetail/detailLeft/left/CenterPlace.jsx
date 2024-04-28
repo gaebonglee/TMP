@@ -3,8 +3,6 @@ import LittleUndongMap from "../../../trainermap/LittleUndongMap";
 import "./CenterPlace.scss";
 
 const CenterPlace = ({ data }) => {
-  console.log(data);
-
   const copyAddress = (address) => {
     navigator.clipboard.writeText(address);
     alert("클립보드에 주소가 복사되었습니다.");
