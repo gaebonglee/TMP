@@ -5,8 +5,9 @@ import "./DetailMainContents.scss";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../trainermap/LoadingSpinner";
+import LeftSectionCenter from "./detailLeft/LeftSectionCenter";
 
-const DetailMainContents = () => {
+const DetailMainContents = ({ trainerInfo }) => {
   const { trainerId } = useParams();
   const navigate = useNavigate();
   const { isPending, error, data } = useQuery({
@@ -37,7 +38,11 @@ const DetailMainContents = () => {
       <div className="DetailMain">
         <div className="DetailMainPadding">
           <div className="LeftSection">
-            <LeftSection data={data} />
+            {trainerInfo === "coach" ? (
+              <LeftSection data={data} />
+            ) : (
+              <LeftSectionCenter />
+            )}
           </div>
           <div className="RightIntro">
             <RightIntro />
