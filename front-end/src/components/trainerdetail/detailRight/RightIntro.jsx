@@ -96,7 +96,7 @@ const RightIntro = () => {
     <div className="intro_right_container">
       <img
         className="trainer_right_img"
-        src="/image/user.jpg"
+        src="/image/사진1.jpg"
         alt="trainer_right_photo"
       />
       <div className="intro_right_wrap">
