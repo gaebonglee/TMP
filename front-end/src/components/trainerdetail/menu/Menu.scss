@@ -1,8 +1,8 @@
 @import "../../../common.scss";
 
 .detail_menu {
-  //position: sticky;
-  //z-index: 999;
+  position: sticky;
+  z-index: 102;
   top: 0px;
   background-color: $white;
   border-bottom: 1px solid $lightgray;
@@ -22,6 +22,7 @@
 
   .top_tab {
     position: relative;
+    cursor: pointer;
 
     &:active::after {
       content: "";
