@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../trainermap/LoadingSpinner";
 import LeftSectionCenter from "./detailLeft/LeftSectionCenter";
-import LeftSectionReview from "./detailLeft/LeftSectionReview";
+import Review from "./detailLeft/left/Review";
 
 const DetailMainContents = ({ trainerInfo }) => {
   const { trainerId } = useParams();
@@ -44,8 +44,7 @@ const DetailMainContents = ({ trainerInfo }) => {
             ) : trainerInfo === "center" ? (
               <LeftSectionCenter data={data} />
             ) : (
-              // 변경해야 컴포넌트
-              <LeftSectionReview data={data} />
+              <Review />
             )}
           </div>
           <div className="RightIntro">
