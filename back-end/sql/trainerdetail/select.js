@@ -20,14 +20,29 @@ async function selectTrainerInfo1(trainerId) {
       c.weekday, 
       c.saturday, 
       c.sunday,
+      d.center_id,
       d.center_name,
       d.center_address,
       d.center_street_address,
+      d.center_intro,
+      d.center_img,
       d.latitude,
-      d.longitude
+      d.longitude,
+      e.weekday_start as center_weekday_start,
+      e.weekday_end as center_weekday_end,
+      e.saturday_start as center_saturday_start,
+      e.saturday_end as center_saturday_end,
+      e.sunday_start as center_sunday_start,
+      e.sunday_end as center_sunday_end,
+      e.dayoff as center_dayoff,
+      e.note as center_note,
+      e.weekday as center_weekday,
+      e.saturday as center_saturday,
+      e.sunday as center_sunday
  from user a join trainer b on a.user_id = b.user_id 
              left join trainer_schedule c on b.user_id = c.user_id 
              left join center d on b.center_id = d.center_id
+             left join center_schedule e on d.center_id = e.center_id
  where a.user_roles = "trainer"
  and a.user_id = ?`;
 
@@ -93,7 +108,8 @@ async function selectTrainerInfo4(trainerId) {
       a.count, 
       a.total_price 
     from trainer_price a join user b on a.user_id = b.user_id
-    where b.user_id = ? and b.user_roles = "trainer";`;
+    where b.user_id = ? and b.user_roles = "trainer"
+    order by a.count desc`;
 
     connection.execute(query, [trainerId], (err, results, fields) => {
       if (err) {
@@ -127,10 +143,34 @@ async function selectTrainerInfoReview(trainerId) {
   });
 }
 
+async function selectCenterPrice(trainerId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    select 
+      d.center_id,
+      d.month,
+      d.total_price
+    from user a join trainer b on a.user_id = b.user_id
+                left join center c on b.center_id = c.center_id
+                left join center_price d on c.center_id = d.center_id
+    where b.user_id = ? 
+    order by d.month desc`;
+
+    connection.execute(query, [trainerId], (err, results, fields) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(results);
+    });
+  });
+}
+
 module.exports = {
   selectTrainerInfo1,
   selectTrainerInfo2,
   selectTrainerInfo3,
   selectTrainerInfo4,
   selectTrainerInfoReview,
+  selectCenterPrice,
 };
