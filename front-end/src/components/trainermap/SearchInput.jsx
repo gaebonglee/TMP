@@ -32,7 +32,6 @@ const SearchInput = (props) => {
   function handleInputChange(event) {
     const value = event.target.value;
     setInputValue(value);
-
     if (value.length >= 2) {
       setShowSuggestions(true);
       const newSuggestions = getSuggestions(value);
@@ -49,13 +48,15 @@ const SearchInput = (props) => {
         `${item.center_name} ${item.center_address}`.toLowerCase();
       return itemName.includes(value.toLowerCase());
     });
-
     return suggestions;
   }
 
   const handleSuggestionClick = (suggestion) => {
     setInputValue(`${suggestion.center_name} ${suggestion.center_address}`);
     setShowSuggestions(false);
+    props.setSearchCenter(
+      new window.naver.maps.LatLng(suggestion.latitude, suggestion.longitude)
+    );
   };
 
   return (
@@ -82,9 +83,9 @@ const SearchInput = (props) => {
             autoComplete="off"
           />
         </div>
-        <div className="btn_search">
+        {/* <div className="btn_search" onClick={handleSearch}>
           <FaPencilAlt size={20} color="#00491e" />
-        </div>
+        </div> */}
       </div>
       {showSuggestions && suggestions.length > 0 && (
         <div className="listContainer">
@@ -99,7 +100,9 @@ const SearchInput = (props) => {
                   <HiMapPin className="buildingIcon" size={24} />
                   <h4>{suggestion.center_name}</h4>
                 </div>
-                <span className="addressSpan">{suggestion.center_address}</span>
+                <span className="addressSpan">
+                  {suggestion.center_address.slice(0, 7)}
+                </span>
               </li>
             ))}
           </ul>

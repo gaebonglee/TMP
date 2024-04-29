@@ -16,6 +16,7 @@ const UndongMap = (props) => {
     currentLatitude,
     currentLongitude,
     setIsLoading,
+    searchCenter,
   } = props;
   const markers = [];
   const currentLocationMarker = useRef(null);
@@ -39,8 +40,8 @@ const UndongMap = (props) => {
 
       const markerElement = document.createElement("div");
       markerElement.innerHTML = `
-        <div class="markerWrap" data-marker-id="currentLocation"></div>
-        <div class="markerPin" data-marker-id="currentLocation"></div>
+        <div class="markerWrap markerActiveWrap" data-marker-id="currentLocation"></div>
+        <div class="markerPin markerActivePin" data-marker-id="currentLocation"></div>
       `;
 
       const marker = new window.naver.maps.Marker({
@@ -149,6 +150,12 @@ const UndongMap = (props) => {
   }, [currentLatitude, currentLongitude, trainers, setTrainerIndex]);
 
   useEffect(() => {
+    if (map && searchCenter) {
+      map.panTo(searchCenter);
+    }
+  }, [searchCenter]);
+
+  useEffect(() => {
     const scriptId = "naver-maps-script";
     const loadNaverMapsScript = () => {
       if (!document.getElementById(scriptId)) {
@@ -174,7 +181,7 @@ const UndongMap = (props) => {
       return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
-          timeout: 10000,
+          timeout: 15000,
           maximumAge: 0,
         });
       });
@@ -185,9 +192,16 @@ const UndongMap = (props) => {
         await getCurrentPosition();
         initMap();
       } catch (error) {
-        console.error("Error getting current location:", error);
-        setCurrentLatitude(37.5665);
-        setCurrentLongitude(126.978);
+        if (error.code === 1) {
+          alert("위치 정보 액세스 권한이 거부되었습니다. 권한을 허용해주세요.");
+        } else {
+          console.error("Error getting current location:", error);
+          setCurrentLatitude(37.5665);
+          setCurrentLongitude(126.978);
+          alert(
+            "현재 위치를 가져오는 데 실패했습니다. 기본 위치로 지도를 초기화합니다."
+          );
+        }
         initMap();
       }
     };
@@ -205,7 +219,7 @@ const UndongMap = (props) => {
       const position = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
-          timeout: 10000,
+          timeout: 15000,
           maximumAge: 0,
         });
       });
@@ -240,12 +254,23 @@ const UndongMap = (props) => {
   const handleResearchClick = async () => {
     if (!map) {
       console.error("Map object is not initialized.");
-
       return;
     }
 
     try {
       setIsLoading(true);
+
+      const bounds = map.getBounds();
+      const southWest = bounds.getSW();
+      const northEast = bounds.getNE();
+
+      const currentLocationSearchData = {
+        SWlatitude: southWest.lat(),
+        SWlongitude: southWest.lng(),
+        NElatitude: northEast.lat(),
+        NElongitude: northEast.lng(),
+      };
+
       const response = await fetch(
         "http://localhost:5000/center/currentlocation",
         {
@@ -266,41 +291,10 @@ const UndongMap = (props) => {
       const data = await response.json();
       setIsLoading(false);
       setTrainers(data);
-
-      coords.current = {
-        latitude: map.getCenter().y,
-        longitude: map.getCenter().x,
-      };
-      console.log(coords.current.latitude, coords.current.longitude);
-
-      let NEcoords = {
-        NElatitude: map.getBounds().getNE().y,
-        NElongitude: map.getBounds().getNE().x,
-      };
-
-      let SWcoords = {
-        SWlatitude: map.getBounds().getSW().y,
-        SWlongitude: map.getBounds().getSW().x,
-      };
-      console.log(NEcoords, SWcoords);
-      setCurrentLocationSearchData({
-        latitude: coords.current.latitude,
-        longitude: coords.current.longitude,
-        NElatitude: NEcoords.NElatitude,
-        NElongitude: NEcoords.NElongitude,
-        SWlatitude: SWcoords.SWlatitude,
-        SWlongitude: SWcoords.SWlongitude,
-      });
-      console.log(currentLocationSearchData);
     } catch (error) {
       console.error("데이터 가져오기 실패:", error);
+      setIsLoading(false);
     }
-    map.setCenter(
-      new window.naver.maps.LatLng(
-        coords.current.latitude,
-        coords.current.longitude
-      )
-    );
   };
 
   const mapStyle = {

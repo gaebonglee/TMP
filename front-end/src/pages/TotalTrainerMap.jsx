@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import TrainerList from "../components/trainermap/TrainerList";
 import UndongMap from "../components/trainermap/UndongMap";
 import LoadingSpinner from "components/trainermap/LoadingSpinner";
+import SearchInput from "../components/trainermap/SearchInput";
 
 const TotalTrainer = () => {
   const [trainers, setTrainers] = useState([]);
@@ -9,6 +10,10 @@ const TotalTrainer = () => {
   const [currentLatitude, setCurrentLatitude] = useState();
   const [currentLongitude, setCurrentLongitude] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [searchCenter, setSearchCenter] = useState(null);
+  const [filter, setFilter] = useState(false);
+  const [centerList, setCenterList] = useState(false);
+  const [searchingData, setSearchingData] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
@@ -28,10 +33,12 @@ const TotalTrainer = () => {
         setIsLoading(false);
       });
   }, []);
+
   return (
     <>
       {trainerIndex !== null ? (
         <TrainerList
+          setSearchCenter={setSearchCenter}
           currentLongitude={currentLongitude}
           currentLatitude={currentLatitude}
           setTrainers={setTrainers}
@@ -39,6 +46,7 @@ const TotalTrainer = () => {
         />
       ) : (
         <TrainerList
+          setSearchCenter={setSearchCenter}
           currentLatitude={currentLatitude}
           currentLongitude={currentLongitude}
           setTrainers={setTrainers}
@@ -49,6 +57,7 @@ const TotalTrainer = () => {
         <LoadingSpinner />
       ) : (
         <UndongMap
+          searchCenter={searchCenter}
           setIsLoading={setIsLoading}
           trainers={trainers}
           setTrainers={setTrainers}

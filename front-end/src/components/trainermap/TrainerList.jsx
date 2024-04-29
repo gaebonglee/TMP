@@ -7,11 +7,24 @@ import { Link } from "react-router-dom";
 
 const TrainerList = (props) => {
   const [filter, setFilter] = useState(true);
-  const { trainers, currentLatitude, currentLongitude, setTrainers } = props;
+  const {
+    trainers,
+    currentLatitude,
+    currentLongitude,
+    setTrainers,
+    setSearchCenter,
+    centerList,
+    setSearchingData,
+  } = props;
 
   return (
     <div className="listWrap">
-      <SearchInput setFilter={setFilter} />
+      <SearchInput
+        setFilter={setFilter}
+        centerList={centerList}
+        setSearchingData={setSearchingData}
+        setSearchCenter={setSearchCenter}
+      />
       <div
         style={{
           width: "515px",
