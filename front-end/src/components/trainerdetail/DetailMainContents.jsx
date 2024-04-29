@@ -41,7 +41,7 @@ const DetailMainContents = ({ trainerInfo }) => {
             {trainerInfo === "coach" ? (
               <LeftSection data={data} />
             ) : (
-              <LeftSectionCenter />
+              <LeftSectionCenter data={data} />
             )}
           </div>
           <div className="RightIntro">
