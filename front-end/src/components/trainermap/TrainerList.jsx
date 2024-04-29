@@ -1,16 +1,30 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import TrainerListItem from "./TrainerListItem";
 import "style/TrainerList.scss";
 import SearchInput from "./SearchInput";
 import FilterList from "./FilterList";
+import { Link } from "react-router-dom";
 
 const TrainerList = (props) => {
   const [filter, setFilter] = useState(true);
-  const { trainers, currentLatitude, currentLongitude, setTrainers } = props;
+  const {
+    trainers,
+    currentLatitude,
+    currentLongitude,
+    setTrainers,
+    setSearchCenter,
+    centerList,
+    setSearchingData,
+  } = props;
 
   return (
     <div className="listWrap">
-      <SearchInput setFilter={setFilter} />
+      <SearchInput
+        setFilter={setFilter}
+        centerList={centerList}
+        setSearchingData={setSearchingData}
+        setSearchCenter={setSearchCenter}
+      />
       <div
         style={{
           width: "515px",
@@ -21,7 +35,9 @@ const TrainerList = (props) => {
         {filter ? (
           <>
             {[...trainers].map((trainer, index) => (
-              <TrainerListItem key={index} trainer={trainer} />
+              <Link to={`/trainerDetail/${trainer.user_id}`}>
+                <TrainerListItem key={index} trainer={trainer} />
+              </Link>
             ))}
           </>
         ) : (

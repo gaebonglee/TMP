@@ -30,11 +30,24 @@ const LittleUndongMap = ({ lat, longi }) => {
           position: naver.maps.Position.TOP_RIGHT,
         },
       };
-      new naver.maps.Map(mapRef.current, mapOptions);
+
+      const map = new naver.maps.Map(mapRef.current, mapOptions);
+
+      const markerOptions = {
+        position: location,
+        map: map,
+        icon: {
+          content: `<div class="markerWrap markerActiveWrap">선생님</div><div class="markerPin markerActivePin"></div>`,
+          size: new naver.maps.Size(38, 58),
+          anchor: new naver.maps.Point(19, 58),
+        },
+      };
+
+      new naver.maps.Marker(markerOptions);
     };
 
     loadNaverMapsScript();
-  }, []);
+  }, [lat, longi]);
 
   const mapStyle = {
     width: "100%",
