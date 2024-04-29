@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TrainerProfileEdit from "../TrainerProfileEdit";
 import IntroImgEdit from "../leftsection/left/IntroImgEdit";
 import IntroEdit from "../leftsection/left/IntroEdit";
@@ -10,16 +10,15 @@ import ShortIntroEdit from "./left/ShortIntroEdit";
 import axios from "axios";
 import CenterLocationEdit from "./left/CenterLocationEdit";
 
-function LeftEdit() {
-  const [introimg, setIntroImg] = React.useState("");
-  const [intro, setIntro] = React.useState("");
-  const [qualifications, setQualifications] = React.useState("");
-  const [schedule, setSchedule] = React.useState("");
-  const [program, setProgram] = React.useState("");
-  const [lessonprice, setLessonPrice] = React.useState("");
-  const [shortintro, setShortIntro] = React.useState("");
-  const [location, setLocation] = React.useState("");
-
+function LeftEdit({ data }) {
+  const [introimg, setIntroImg] = useState(data.info1.intro_img);
+  const [intro, setIntro] = useState("");
+  const [qualifications, setQualifications] = useState("");
+  const [schedule, setSchedule] = useState("");
+  const [program, setProgram] = useState("");
+  const [lessonprice, setLessonPrice] = useState("");
+  const [shortintro, setShortIntro] = useState("");
+  const [location, setLocation] = useState("");
   const handleIntroImgSave = (newIntroImg) => {
     setIntroImg(newIntroImg);
     saveToMySQL({ introimg: newIntroImg });
