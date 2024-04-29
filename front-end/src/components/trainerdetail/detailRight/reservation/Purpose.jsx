@@ -75,7 +75,7 @@ const Purpose = ({ setSubCategories }) => {
     <div className="purpose_page">
       <div className="purpose_title">
         <BiSelectMultiple />
-        <h2>운동 목적</h2>
+        <h3>운동 목적</h3>
       </div>
       <br />
 
