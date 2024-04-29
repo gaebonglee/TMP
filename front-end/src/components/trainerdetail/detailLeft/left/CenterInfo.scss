@@ -1,0 +1,68 @@
+@import "../../../../common.scss";
+
+.wrap_container {
+  padding: 24px;
+  background-color: $white;
+  border: 3px solid $green1;
+  border-radius: 12px;
+  margin-bottom: 64px;
+}
+
+.centerInfo_h1_title {
+  margin-bottom: 24px;
+}
+
+.center_info_clothesLocker_icon {
+  font-size: 60px;
+  line-height: $h3;
+  background-color: $green1;
+  border-radius: 50%;
+  display: inline-block;
+  padding: 10px;
+}
+
+.center_info_clothesLocker {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: $h3;
+}
+.center_info_clothesLocker:nth-child(1) {
+  margin-bottom: 10px;
+}
+
+.trainer_centerInfo_time {
+  display: flex;
+  margin: 7px 0;
+  align-items: center;
+}
+
+.trainer_centerInfo_time_title {
+  flex-basis: 100px;
+  font-size: $h3;
+  font-weight: $font-weight-2;
+}
+
+.trainer_centerInfo_time_info {
+  font-size: $h3;
+}
+
+.trainer_center_prices {
+  margin: 10px 0;
+}
+
+.trainer_center_prices_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 35px;
+}
+
+.trainer_center_prices_info_month {
+  font-size: $h3;
+  font-weight: $font-weight-2;
+}
+
+.trainer_center_prices_info_total {
+  color: $gray;
+}
