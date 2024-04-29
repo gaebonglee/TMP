@@ -7,7 +7,7 @@ function selectCenterAll(callback) {
     LEFT JOIN review r ON u.user_id = r.user_id
     LEFT JOIN trainer t ON u.user_id = t.user_id
     LEFT JOIN center c ON t.center_id = c.center_id
-    LEFT JOIN trainer_price tp ON t.user_id = tp.user_id
+    
     
     where user_roles='trainer';`,
     (err, result) => {
@@ -20,6 +20,42 @@ function selectCenterAll(callback) {
   );
 }
 
+function selectPrice(user_id, callback) {
+  mysql.query(
+    `SELECT *
+     FROM trainer_price
+     WHERE user_id = ?`,
+    [user_id],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+}
+
+function selectCountReview(user_id, callback) {
+  mysql.query(
+    `SELECT IFNULL(COUNT(*), 0) as review_total_count,
+     IFNULL(AVG(point), 0) as review_avg_star 
+     FROM review
+      WHERE user_id = ?`,
+    [user_id],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        const reviewData = {
+          review_total_count: result[0].review_total_count,
+          review_avg_star: result[0].review_avg_star,
+        };
+        callback(null, reviewData);
+      }
+    }
+  );
+}
 function selectCenter(callback) {
   mysql.query(
     `select * 
@@ -117,4 +153,6 @@ module.exports = {
   selectFilter,
   selectCenter,
   selectCurrentLocation,
+  selectCountReview,
+  selectPrice,
 };

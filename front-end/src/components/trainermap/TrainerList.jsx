@@ -1,8 +1,9 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import TrainerListItem from "./TrainerListItem";
 import "style/TrainerList.scss";
 import SearchInput from "./SearchInput";
 import FilterList from "./FilterList";
+import { Link } from "react-router-dom";
 
 const TrainerList = (props) => {
   const [filter, setFilter] = useState(true);
@@ -21,7 +22,9 @@ const TrainerList = (props) => {
         {filter ? (
           <>
             {[...trainers].map((trainer, index) => (
-              <TrainerListItem key={index} trainer={trainer} />
+              <Link to={`/trainerDetail/${trainer.user_id}`}>
+                <TrainerListItem key={index} trainer={trainer} />
+              </Link>
             ))}
           </>
         ) : (
