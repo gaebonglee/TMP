@@ -1,5 +1,10 @@
 @import "../../../../common.scss";
 
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
 .react-calendar {
   width: 500px;
   max-width: 100%;
@@ -10,15 +15,14 @@
 
   .react-calendar__month-view__weekdays {
     text-align: center;
-    border-bottom: none; // 점선 제거
   }
 
-  .react-calendar__month-view__days__day:nth-child(7n-1) {
-    color: rgb(
-      0,
-      0,
-      156
-    ); // 토요일만 파란색으로 변경할지 아니면 일요일만 빨간색으로 할지 물어보기
+  .react-calendar__month-view__weekdays abbr {
+    text-decoration: none;
+  }
+
+  .react-calendar__month-view__weekdays__weekday--weekend:nth-child(7) abbr {
+    color: red;
   }
 
   .react-calendar__navigation {
@@ -29,7 +33,6 @@
       background: none;
       border: none;
       font-size: $h3;
-      color: #666;
 
       &:hover {
         background-color: $white;
@@ -43,24 +46,25 @@
   }
 
   .react-calendar__month-view__days__day {
-    padding: 10px;
+    width: 50px;
+    height: 50px;
     border-radius: $border-radius-4;
   }
+}
 
-  .react-calendar__tile--now {
-    background-color: $white;
-    color: $green2;
-  }
+.react-calendar__tile:disabled,
+.react-calendar__tile:disabled:hover {
+  background-color: $white;
+}
 
-  .react-calendar__tile--active {
-    background-color: $green2;
-    color: white;
-    font-weight: $font-weight-2;
+.react-calendar__tile--active {
+  background: $green1;
+  color: white;
+}
 
-    &:hover {
-      background-color: $green2;
-    }
-  }
+.react-calendar__tile--now {
+  background: white;
+  font-weight: 800;
 }
 
 .booking_title {
@@ -91,7 +95,6 @@
   color: $white;
   font-weight: $font-weight-2;
   border: 2px solid $green2;
-  
 }
 
 .booking_page .time-selection {
