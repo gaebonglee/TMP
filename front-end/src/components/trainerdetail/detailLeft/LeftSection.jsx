@@ -15,7 +15,6 @@ const LeftSection = ({ data }) => {
       <Qualifications data={data.info2} />
       <TrainerSchedule data={data.info1} />
       <Program data={data.info3} />
-      <Review />
       <LessonPrice data={data.info4} />
       <CenterPlace data={data.info1} />
     </div>

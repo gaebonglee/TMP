@@ -12,6 +12,9 @@ const Menu = ({ trainerInfo, handleTrainerInfo }) => {
           <div className="top_tab" onClick={() => handleTrainerInfo("center")}>
             센터
           </div>
+          <div className="top_tab" onClick={() => handleTrainerInfo("review")}>
+            후기
+          </div>
         </div>
       </div>
       <div className="detail_menu_bottom">
@@ -33,7 +36,13 @@ const Menu = ({ trainerInfo, handleTrainerInfo }) => {
               <a className="bottom_tab">센터소개</a>
               <a className="bottom_tab">이용정보</a>
               <a className="bottom_tab">운영시간</a>
+              <a className="bottom_tab">센터이용가격</a>
               <a className="bottom_tab">위치</a>
+            </>
+          )}
+          {trainerInfo === "review" && (
+            <>
+              <a className="bottom_tab">최근 후기 확인하기</a>
             </>
           )}
         </div>

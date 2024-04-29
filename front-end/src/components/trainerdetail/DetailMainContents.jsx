@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../trainermap/LoadingSpinner";
 import LeftSectionCenter from "./detailLeft/LeftSectionCenter";
+import Review from "./detailLeft/left/Review";
 
 const DetailMainContents = ({ trainerInfo }) => {
   const { trainerId } = useParams();
@@ -40,12 +41,14 @@ const DetailMainContents = ({ trainerInfo }) => {
           <div className="LeftSection">
             {trainerInfo === "coach" ? (
               <LeftSection data={data} />
+            ) : trainerInfo === "center" ? (
+              <LeftSectionCenter data={data} />
             ) : (
-              <LeftSectionCenter />
+              <Review />
             )}
           </div>
           <div className="RightIntro">
-            <RightIntro />
+            <RightIntro data={data} />
           </div>
         </div>
       </div>

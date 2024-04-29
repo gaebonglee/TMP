@@ -1,0 +1,8 @@
+.image_container_center {
+  position: relative;
+  width: calc(33% - 10px); /* 전체 너비에서 마진을 빼줍니다 */
+  float: left;
+  margin: 5px; /* 각 이미지 컨테이너 사이에 5px의 마진을 추가 */
+  box-sizing: border-box;
+  cursor: pointer;
+}
