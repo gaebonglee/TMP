@@ -65,6 +65,7 @@ const FilterList = (props) => {
   };
 
   const handleFilter = () => {
+    props.setIsloading(true);
     console.log("Applying filters:", filterData);
     // 여기에 필터 적용 로직을 추가하세요.
     fetch("http://localhost:5000/filter", {
@@ -78,6 +79,8 @@ const FilterList = (props) => {
       .then((data) => {
         console.log(data);
         setTrainers(data);
+        props.setFilter(true);
+        props.setIsloading(false);
       });
   };
 

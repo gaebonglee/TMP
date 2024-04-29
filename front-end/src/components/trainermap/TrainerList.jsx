@@ -15,6 +15,7 @@ const TrainerList = (props) => {
     setSearchCenter,
     centerList,
     setSearchingData,
+    setIsLoading,
   } = props;
 
   return (
@@ -35,13 +36,14 @@ const TrainerList = (props) => {
         {filter ? (
           <>
             {[...trainers].map((trainer, index) => (
-              <Link to={`/trainerDetail/${trainer.user_id}`}>
+              <Link key={index} to={`/trainerDetail/${trainer.user_id}`}>
                 <TrainerListItem key={index} trainer={trainer} />
               </Link>
             ))}
           </>
         ) : (
           <FilterList
+            setIsloading={setIsLoading}
             currentLatitude={currentLatitude}
             currentLongitude={currentLongitude}
             setTrainers={setTrainers}

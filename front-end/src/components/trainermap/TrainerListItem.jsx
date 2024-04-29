@@ -60,7 +60,12 @@ const TrainerListItem = (props) => {
   } else {
     introImgs = [];
   }
-
+  const priceMath = (totalPrice, count) => {
+    if (totalPrice && count) {
+      return Math.round(totalPrice / count / 100) * 100;
+    }
+    return 0;
+  };
   return (
     <div className="TrainerListItem">
       <div className="morae">{trainer.user_name} 선생님</div>
@@ -72,9 +77,9 @@ const TrainerListItem = (props) => {
           <br />
           <br />
         </span>
-        <span className="moraeTitleTextPT">{trainer.count}회 기준 회당</span>
+        <span className="moraeTitleTextPT">{price[1]}회 기준 회당</span>
         <span className="moraePrice">
-          {Math.round(price[0] / price[1] / 100) * 100}원
+          {priceMath(price[0], price[1])}원
           <br />
         </span>
       </div>
@@ -86,7 +91,11 @@ const TrainerListItem = (props) => {
         {reviewCount.review_total_count}개
       </div>
       {introImgs.length === 0 ? (
-        <img className="trainerImg" src="/image/tmp_mainlogo.png" />
+        <img
+          className="trainerImg"
+          src="/image/tmp_mainlogo.png"
+          alt="기본 이미지"
+        />
       ) : (
         introImgs.map((img, idx) => (
           <img
