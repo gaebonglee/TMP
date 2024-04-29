@@ -14,7 +14,6 @@ const RightIntro = ({ data }) => {
     return accumulator + currentValue.point;
   }, 0);
   const reviewAvg = Math.floor(reviewSum / data.infoReview.length);
-  console.log(reviewAvg);
   const reviewArr = [0, 1, 2, 3, 4];
   const handleClose = () => {
     setModalOpen(false);
