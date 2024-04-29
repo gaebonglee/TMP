@@ -33,6 +33,7 @@ const Menu = ({ trainerInfo, handleTrainerInfo }) => {
               <a className="bottom_tab">센터소개</a>
               <a className="bottom_tab">이용정보</a>
               <a className="bottom_tab">운영시간</a>
+              <a className="bottom_tab">센터이용가격</a>
               <a className="bottom_tab">위치</a>
             </>
           )}
