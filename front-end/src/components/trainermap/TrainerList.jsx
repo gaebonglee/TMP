@@ -15,11 +15,13 @@ const TrainerList = (props) => {
     setSearchCenter,
     centerList,
     setSearchingData,
+    searchCenter,
   } = props;
 
   return (
     <div className="listWrap">
       <SearchInput
+      searchCenter={searchCenter}
         setFilter={setFilter}
         centerList={centerList}
         setSearchingData={setSearchingData}
@@ -35,17 +37,18 @@ const TrainerList = (props) => {
         {filter ? (
           <>
             {[...trainers].map((trainer, index) => (
-              <Link to={`/trainerDetail/${trainer.user_id}`}>
+              <Link key={index} to={`/trainerDetail/${trainer.user_id}`}>
                 <TrainerListItem key={index} trainer={trainer} />
               </Link>
             ))}
           </>
         ) : (
           <FilterList
+            setFilter={setFilter}
             currentLatitude={currentLatitude}
             currentLongitude={currentLongitude}
             setTrainers={setTrainers}
-            setFilter={setFilter}
+            
           />
         )}
       </div>

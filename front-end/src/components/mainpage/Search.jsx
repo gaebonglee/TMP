@@ -1,24 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 import { ImCancelCircle } from "react-icons/im";
 import "./Search.scss";
+import { Link } from "react-router-dom";
+import { HiMapPin } from "react-icons/hi2";
+import useScript from "hooks/useScript";
 
-const Search = () => {
+const Search = ({ setSearchCenter }) => {
   const [searchType, setSearchType] = useState("선생님");
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const scriptStatus = useScript(
+    "https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0dfie9x7ty&submodules=geocoder"
+  );
+  const [searchLocation, setSearchLocation] = useState(null);
+
+  useEffect(() => {
+    if (scriptStatus === "ready") {
+      // naver.maps 접근
+    }
+  }, [scriptStatus]);
+
+  useEffect(() => {
+    // 검색 데이터 가져오기
+    const fetchSearchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/center/centerall");
+        if (!response.ok) {
+          throw new Error(`HTTP 에러 ${response.status}`);
+        }
+        const data = await response.json();
+        setSearchResults(data);
+      } catch (error) {
+        console.error("검색 데이터를 가져오는 중 에러 발생:", error);
+      }
+    };
+
+    fetchSearchData();
+  }, []);
 
   const handleSearchTypeChange = (type) => {
     setSearchType(type);
   };
 
   const handleKeywordChange = (e) => {
-    setSearchKeyword(e.target.value);
+    const value = e.target.value;
+    setSearchKeyword(value);
+
+    if (value.length >= 2) {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
   };
 
   const clearKeyword = () => {
     setSearchKeyword("");
+    setShowSuggestions(false);
   };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchKeyword(`${suggestion.center_name} ${suggestion.center_address}`);
+    setShowSuggestions(false);
+
+    if (scriptStatus === "ready") {
+      console.log(scriptStatus);
+    } else {
+      setSearchLocation(
+        new window.naver.maps.LatLng(suggestion.latitude, suggestion.longitude)
+      );
+    }
+  };
+
+  const filteredResults = searchResults.filter((item) => {
+    const itemName = `${item.center_name} ${item.center_address}`.toLowerCase();
+    return itemName.includes(searchKeyword.toLowerCase());
+  });
 
   return (
     <div className="search_container">
@@ -54,18 +113,47 @@ const Search = () => {
             autoComplete="off"
             value={searchKeyword}
             onChange={handleKeywordChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                alert("엔터키 누름");
+                handleKeywordChange();
+              }
+            }}
           />
           {searchKeyword && (
             <div className="cancel_icon" onClick={clearKeyword}>
               <ImCancelCircle />
             </div>
           )}
-          <div className="searchListbox"></div>
+          {showSuggestions && filteredResults.length > 0 && (
+            <div className="searchListbox">
+              <ul className="suggention-item-list">
+                {filteredResults.map((result) => (
+                  <li
+                    className="suggention-item"
+                    key={result.id}
+                    onClick={() => handleSuggestionClick(result)}
+                  >
+                    <div className="flexBox">
+                      <h3>
+                        <HiMapPin className="buildingIcon" size={24} />
+                        {result.center_name}
+                      </h3>
+                      <span className="addressSpan">
+                        {result.center_address.slice(0, 10)}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
         <div className="search_icon">
-          <button>
-            <FiSearch style={{paddingTop:'5px'}}/>
-            <a>검색하기</a>
+          <button className="src_btn">
+            <FiSearch style={{ paddingTop: "5px" }} />
+            <Link to={`/trainermap?center=${searchLocation}`}>검색하기</Link>
           </button>
         </div>
       </div>

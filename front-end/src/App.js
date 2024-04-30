@@ -5,29 +5,14 @@ import Mainpage from "./pages/Mainpage";
 import TotalTrainerMap from "./pages/TotalTrainerMap";
 import TotalCenterMap from "./pages/TotalCenterMap";
 import TrainerDetail from "./pages/TrainerDetail";
-import Userinfo from "./components/mypage/userinfo/Userinfo";
-import Coachinfo from "./components/mypage/trainerinfo/Coachinfo";
-import LessonPage from "./components/mypage/trainercalendar/TrainerMemberCalendar";
-import TrainerDetailEdit from "./components/mypage/trainerdetailinfoedit/EditForm";
 import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
-import PrivateRoute from "./components/privateRoute/PrivateRoute";
-import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "./components/trainermap/LoadingSpinner";
 
 function App() {
-  const { isPending, error, data } = useQuery({
-    queryKey: ["loginInfo"],
-    queryFn: () =>
-      fetch("http://localhost:5000/session/checkSession", {
-        method: "GET",
-        credentials: "include",
-      }).then((res) => res.json()),
-  });
+  fetch("http://localhost:5000/trainermap")
+    .then((res) => res.json())
+    .then((data) => console.log(data[0]));
 
-  if (isPending) return <LoadingSpinner />;
-
-  if (error) return "An error has occurred: " + error.message;
   return (
     <Router>
       <Routes>
@@ -35,60 +20,11 @@ function App() {
           <Route index element={<Mainpage />} />
           <Route path="/trainermap" element={<TotalTrainerMap />} />
           <Route path="/centermap" element={<TotalCenterMap />} />
-          <Route path="/trainerDetail/:trainerId" element={<TrainerDetail />} />
+          <Route path="/trainerDetail" element={<TrainerDetail />} />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
-          <Route
-            path="/mypage/userinfo"
-            element={
-              <PrivateRoute
-                component={<Userinfo />}
-                token={data}
-                role={"user"}
-              />
-            }
-          />
-          <Route
-            path="/mypage/coachinfo"
-            element={
-              <PrivateRoute
-                component={<Coachinfo />}
-                token={data}
-                role={"trainer"}
-              />
-            }
-          />
-          <Route
-            path="/trainerProfileEdit"
-            element={
-              <PrivateRoute
-                component={<TrainerProfileEdit />}
-                token={data}
-                role={"trainer"}
-              />
-            }
-          />
-          <Route
-            path="/mypage/trainerProfile/Edit"
-            element={
-              <PrivateRoute
-                component={<TrainerDetailEdit />}
-                token={data}
-                role={"trainer"}
-              />
-            }
-          />
-          <Route
-            path="/lessonpage"
-            element={
-              <PrivateRoute
-                component={<LessonPage />}
-                token={data}
-                role={"trainer"}
-              />
-            }
-          />
-        </Route>
+          <Route path="/trainerProfileEdit" element={<TrainerProfileEdit />} />
+z        </Route>
       </Routes>
     </Router>
   );
