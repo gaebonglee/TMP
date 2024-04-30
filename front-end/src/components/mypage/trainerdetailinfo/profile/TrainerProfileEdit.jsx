@@ -42,16 +42,20 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
         </div>
       ) : (
         <div className="written_content">
-          <div className="introImgEdit_photo_wrap">
-            <div className="introImgEdit_photo_container">
-              <img
-                src="https://storage.cloud.google.com/cda_file/trainer/3437842652_kakao/t1.jpg"
-                alt={`사진`}
-                className="introImgEdit_photo"
-              />
-            </div>
-          </div>
-          {content || "아직 작성된 내용이 없습니다."}
+          {title === "사진" &&
+            content.map((v, i) => {
+              const type = typeof v;
+              const resultSrc = type === "object" ? URL.createObjectURL(v) : v;
+              return (
+                <img
+                  key={i}
+                  src={resultSrc}
+                  alt={`mypage_photo`}
+                  className="introImgEdit_photo"
+                />
+              );
+            })}
+          {content.length === 0 && "아직 작성된 내용이 없습니다."}
         </div>
       )}
     </div>
