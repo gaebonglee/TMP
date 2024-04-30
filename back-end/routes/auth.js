@@ -127,12 +127,14 @@ async function handleKakaoLogin(req, res, role) {
       // 세션에 사용자 정보 저장
       req.session.user_id = userId;
       req.session.role = role;
+      if (result.length !== 0) {
+        req.session.user_img = result[0].user_img;
+      }
       req.session.gender = userInfo.data.kakao_account.gender.substring(0, 1);
       req.session.email = userInfo.data.kakao_account.email;
       req.session.phonenumber = phoneNumber;
       req.session.user_name = userInfo.data.kakao_account.name;
       req.session.save(() => {});
-
       // 리디렉션
       if (result.length !== 0 && result[0].user_roles !== role) {
         req.session.destroy((err) => {
@@ -235,6 +237,9 @@ async function handleNaverLogin(req, res, role) {
 
       // 세션에 사용자 정보 저장
       req.session.user_id = res2.data.response.id + "_naver";
+      if (result.length !== 0) {
+        req.session.user_img = result[0].user_img;
+      }
       req.session.role = role;
       req.session.gender = res2.data.response.gender.toLowerCase();
       req.session.email = res2.data.response.email;
@@ -350,6 +355,9 @@ async function handleGoogleLogin(req, res, role) {
 
       // 세션에 사용자 정보 저장
       req.session.user_id = res1.data.id + "_google";
+      if (result.length !== 0) {
+        req.session.user_img = result[0].user_img;
+      }
       req.session.role = role;
       req.session.gender = res2.data.genders[0].value.substring(0, 1);
       req.session.email = res1.data.email;
