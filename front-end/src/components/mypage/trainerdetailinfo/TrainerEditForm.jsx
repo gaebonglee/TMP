@@ -37,10 +37,10 @@ const TrainerEditForm = ({ userId }) => {
       <div className="DetailMain">
         <div className="DetailMainPadding">
           <div className="LeftSection">
-            <LeftEdit data={data} />
+            <LeftEdit data={data} userId={userId} />
           </div>
           <div className="RightIntro">
-            <RightEdit />
+            <RightEdit data={data} />
           </div>
         </div>
       </div>

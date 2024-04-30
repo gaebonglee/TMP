@@ -2,17 +2,21 @@ import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
 import "./IntroImgEdit.scss";
 
-const IntroImgEdit = () => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
+const IntroImgEdit = ({ content, setContent }) => {
+  const [selectedFiles, setSelectedFiles] = useState(content);
 
   const handleFileChange = (event) => {
-    setSelectedFiles([...selectedFiles, ...event.target.files]);
+    const file = event.target.files[0];
+    setSelectedFiles([...selectedFiles, file]);
+    setContent([...selectedFiles, file]);
+    console.log("selectedFile :", selectedFiles);
   };
 
   const handleDelete = (index) => {
     const updatedFiles = [...selectedFiles];
     updatedFiles.splice(index, 1);
     setSelectedFiles(updatedFiles);
+    setContent(updatedFiles);
   };
 
   return (
@@ -32,23 +36,28 @@ const IntroImgEdit = () => {
             className="introImgEdit_photos"
             style={{ display: "flex", flexWrap: "wrap", overflow: "auto" }}
           >
-            {selectedFiles.map((file, index) => (
-              <div key={index} className="introImgEdit_photo_wrap">
-                <div className="introImgEdit_photo_container">
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={`사진 ${index + 1}`}
-                    className="introImgEdit_photo"
-                  />
-                  <button
-                    className="introImgEdit_delete_btn"
-                    onClick={() => handleDelete(index)}
-                  >
-                    <MdCancel />
-                  </button>
+            {selectedFiles.map((file, index) => {
+              const type = typeof file;
+              const resultSrc =
+                type === "object" ? URL.createObjectURL(file) : file;
+              return (
+                <div key={index} className="introImgEdit_photo_wrap">
+                  <div className="introImgEdit_photo_container">
+                    <img
+                      src={resultSrc}
+                      alt={`사진 ${index + 1}`}
+                      className="introImgEdit_photo"
+                    />
+                    <button
+                      className="introImgEdit_delete_btn"
+                      onClick={() => handleDelete(index)}
+                    >
+                      <MdCancel />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="introImgEdit_btn_wrap">
             <input
