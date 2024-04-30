@@ -14,6 +14,7 @@ import TrainerProfileEdit from "./pages/TrainerProfileEdit";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/trainermap/LoadingSpinner";
+import UserInquiry from "components/inquiry/userInquiry/UserInquiry";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -38,6 +39,7 @@ function App() {
           <Route path="/trainerDetail/:trainerId" element={<TrainerDetail />} />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
+          <Route path="/servicecenter" element={<UserInquiry />} />
           <Route
             path="/mypage/userinfo"
             element={
