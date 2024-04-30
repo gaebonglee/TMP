@@ -73,15 +73,20 @@ const CenterInfo = ({ data, centerPrice }) => {
                     <p style={{ textAlign: "right" }}>
                       월{" "}
                       <span className="trainer_center_prices_info_month">
-                        {(
-                          Math.round(value.total_price / value.month / 1000) *
-                          1000
-                        ).toLocaleString("ko-KR")}
+                        {value.total_price !== null
+                          ? (
+                              Math.round(
+                                value.total_price / value.month / 1000
+                              ) * 1000
+                            ).toLocaleString("ko-KR")
+                          : ""}
                       </span>
                       원
                       <br />
                       <span className="trainer_center_prices_info_total">
-                        {value.total_price.toLocaleString("ko-KR")}원
+                        {value.total_price &&
+                          value.total_price.toLocaleString("ko-KR")}
+                        원
                       </span>
                     </p>
                   </div>
