@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import DayTime from "./reservation/DayTime";
-import Purpose from "./reservation/Purpose";
-import Confirmation from "./reservation/Confirmation";
+import React, { useState, useRef } from "react";
+import DayTime from "./DayTime";
+import Purpose from "./Purpose";
+import Confirmation from "./Confirmation";
 import { IoClose } from "react-icons/io5";
-import "./Reservation.scss";
+import "../RightIntro.scss";
 
-const Reservation = ({ handleClose }) => {
+const ReservationModal = ({ handleClose }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+  const modalBackground = useRef();
 
   const handleNext = () => {
     setCurrentPage(currentPage + 1);
@@ -20,8 +21,16 @@ const Reservation = ({ handleClose }) => {
   };
 
   return (
-    <div className="reservation_container">
-      <div className="reservation_content">
+    <div
+      className="reservation_container"
+      ref={modalBackground}
+      onClick={(e) => {
+        if (e.target === modalBackground.current) {
+          handleClose();
+        }
+      }}
+    >
+      <div className="reservation_content" onClick={(e) => e.stopPropagation()}>
         <button className="modal_close_btn" onClick={handleClose}>
           <IoClose />
         </button>
@@ -70,4 +79,4 @@ const Reservation = ({ handleClose }) => {
   );
 };
 
-export default Reservation;
+export default ReservationModal;
