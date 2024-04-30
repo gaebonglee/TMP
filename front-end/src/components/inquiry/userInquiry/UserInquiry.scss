@@ -1,0 +1,135 @@
+@import "../../../common.scss";
+
+
+.inquiry_wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f7f9faff;
+    color: $black;
+}
+
+.box{
+    width: 500px;
+    padding: 20px 0px;
+}
+.inquiry_type_phone_container{
+    display: flex;   
+    justify-content: space-between;
+
+    .inquiry_type_title,
+    .inquiry_phone_title{
+        font-weight: $font-weight-2;
+    }
+}
+.inquiry_contents_title{
+    font-weight: $font-weight-2;
+}
+.inquiry_check_button_container{
+    display: flex;
+    justify-content: space-between;
+
+    .inquiry_button > button{
+        padding: 14px 50px;
+        font-size: 16px;
+        background-color: #a2ee94;
+        border: 0.5px solid #a2ee94;
+        border-radius: $border-radius-4;
+        cursor: pointer;
+        color: $green2;
+        font-weight: $font-weight-2;
+
+        &:disabled{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .inquiry_checkbox{
+        display: flex;
+        align-items: center;
+        column-gap: 7px;
+        font-size: 13px;
+
+        .checkbox{
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+
+            &:checked{
+                accent-color: $green1;
+            }
+        }
+        .checkbox_text{
+            text-decoration: underline;
+        }
+        .highlight{
+            color: $green2;
+            font-weight: $font-weight-2;
+        }
+    }
+}
+.inquiry_title_container{
+    font-size: 26px;
+    font-weight: $font-weight-2;
+    margin-top: 20px;
+}
+.inquiry_type > select{
+    width: 230px;
+    height: 45px;
+    margin-top: 7px;
+    font-weight: $font-weight-2;
+    font-size: 15px;
+    color: $gray;
+    border: 0.5px solid $green1;
+    border-radius: $border-radius-4;
+    text-indent: 5px;
+
+    &:focus{
+        outline: 2px solid $green3;
+    }
+
+    option{
+        font-weight: $font-weight-2;
+        color: $gray;
+    }
+}
+.inquiry_phone > input{
+    width: 230px;
+    height: 45px;
+    margin-top: 7px;
+    text-indent: 10px;
+    font-size: 15px;
+    font-weight: $font-weight-2;
+    border: 0.5px solid $green1;
+    border-radius: $border-radius-4;
+
+    &:focus{
+        outline: 2px solid $green3;
+    }
+
+    &::placeholder{
+        font-weight: $font-weight-2;
+        color: $gray;
+    }
+}
+.inquiry_contents > textarea{
+    margin-top: 7px;
+    width:calc(100% - 15px);
+    height: 300px;
+    border: 0.5px solid $green1;
+    border-radius: $border-radius-4;
+    resize: none;
+    padding: 15px 15px 0px 15px;
+    font-size: 18px;
+    font-weight: $font-weight-2;
+
+    &:focus{
+        outline: 2px solid $green3;
+    }
+
+    &::placeholder{
+        font-weight: $font-weight-2;
+        color: $gray;
+    }
+}
