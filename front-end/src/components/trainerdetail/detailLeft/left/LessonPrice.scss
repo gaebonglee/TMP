@@ -13,17 +13,26 @@
   border-bottom: 1px solid $lightgray;
   display: flex;
   text-align: center;
-  justify-content: space-between;
-  padding: 0px 32px;
+  // justify-content: space-between;
   align-items: center;
   height: 72px;
 }
 
-.price {
-  display: flex;
-  gap: 30px;
-}
-
 .lesson_text {
   color: $darkgray;
+}
+
+.priceCount {
+  flex-basis: 70px;
+  min-width: 40px;
+}
+
+.pricePer {
+  flex-basis: 200px;
+  min-width: 110px;
+}
+
+.priceTotal {
+  flex-basis: 150px;
+  min-width: 90px;
 }

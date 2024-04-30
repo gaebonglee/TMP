@@ -30,3 +30,17 @@
   height: 1px;
   background-color: $lightgray;
 }
+
+//navigate버튼 scss나눠쓸지 따로 쓸지 물어보기
+.trainerDetailInfoBtn,
+.leesonPageBtn {
+  font-size: 16px;
+  padding: 10px;
+  font-weight: $font-weight-1;
+  background-color: $white;
+  cursor: pointer;
+
+  :hover {
+    background-color: $lightgray;
+  }
+}

@@ -1,132 +1,51 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import "./UnDongMap.scss";
 import { TbRestore } from "react-icons/tb";
 import { BiTargetLock } from "react-icons/bi";
 import LoadingSpinner from "./LoadingSpinner";
 
 const UndongMap = (props) => {
-  const [latitude, setLatitude] = useState();
-  const [longitude, setLongitude] = useState();
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const {
     trainers,
     setTrainers,
     setTrainerIndex,
     setCurrentLatitude,
     setCurrentLongitude,
+    currentLatitude,
+    currentLongitude,
+    setIsLoading,
+    searchCenter,
   } = props;
   const markers = [];
   const currentLocationMarker = useRef(null);
+  const coords = useRef({ latitude: 0, longitude: 0 });
+  const [currentLocationSearchData, setCurrentLocationSearchData] = useState(
+    {}
+  );
 
-  const getCurrentLocation = async () => {
-    if (!navigator.geolocation) {
-      console.error("Geolocation is not supported by this browser.");
-      throw new Error("Geolocation is not supported");
-    }
-
-    try {
-      const position = await new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0,
-        });
-      });
-
-      const { latitude, longitude } = position.coords;
-      return { latitude, longitude };
-    } catch (error) {
-      alert("Error getting current location:", error);
-      throw error;
-    }
-  };
-
-  const updateCurrentLocation = async () => {
-    try {
-      const { latitude, longitude } = await getCurrentLocation();
-      setLatitude(latitude);
-      setLongitude(longitude);
-      setCurrentLatitude(latitude);
-      setCurrentLongitude(longitude);
-
-      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
-      if (currentLocationMarker.current) {
-        currentLocationMarker.current.setPosition(newLocation);
-      }
-      map.panTo(newLocation);
-    } catch (error) {
-      console.error("Error updating current location:", error);
-    }
-  };
-
-  const fetchTrainers = async (latitude, longitude) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/center?lat=${latitude}&lng=${longitude}`
+  const initMap = useCallback(() => {
+    if (mapRef.current && window.naver && window.naver.maps) {
+      const center = new window.naver.maps.LatLng(
+        currentLatitude,
+        currentLongitude
       );
-      const data = await response.json();
-      setTrainers(data);
-    } catch (error) {
-      console.error("Error fetching trainers:", error);
-    }
-  };
-
-  const handleResearchClick = async () => {
-    try {
-      const { latitude, longitude } = await getCurrentLocation();
-      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
-
-      if (currentLocationMarker.current) {
-        currentLocationMarker.current.setPosition(newLocation);
-      }
-
-      await fetchTrainers(latitude, longitude);
-    } catch (error) {
-      console.error("Error getting current location:", error);
-    }
-  };
-
-  useEffect(() => {
-    const loadNaverMapsScript = () => {
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0dfie9x7ty&callback=initMap&submodules=geocoder`;
-      script.async = true;
-      script.onload = () => {
-        initializeMap();
-        setIsLoading(false);
-      };
-
-      document.head.appendChild(script);
-      setIsLoading(false);
-    };
-
-    const initializeMap = () => {
-      const { naver } = window;
-      if (!mapRef.current || !naver) return;
-
-      const location = new naver.maps.LatLng(latitude, longitude);
       const mapOptions = {
-        center: location,
+        center,
         zoom: 15,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: naver.maps.Position.TOP_RIGHT,
-        },
       };
-      const newMap = new naver.maps.Map(mapRef.current, mapOptions);
+      const newMap = new window.naver.maps.Map(mapRef.current, mapOptions);
       setMap(newMap);
 
       const markerElement = document.createElement("div");
       markerElement.innerHTML = `
-        <div class="markerWrap" data-marker-id="currentLocation">현재 위치 HPE 교육센터</div>
-        <div class="markerPin" data-marker-id="currentLocation"></div>
+        <div class="markerWrap markerActiveWrap" data-marker-id="currentLocation"></div>
+        <div class="markerPin markerActivePin" data-marker-id="currentLocation"></div>
       `;
 
-      const marker = new naver.maps.Marker({
-        position: location,
+      const marker = new window.naver.maps.Marker({
+        position: center,
         map: newMap,
         icon: {
           content: markerElement,
@@ -136,7 +55,7 @@ const UndongMap = (props) => {
       currentLocationMarker.current = marker;
       markers.push(marker);
 
-      naver.maps.Event.addListener(marker, "click", function () {
+      window.naver.maps.Event.addListener(marker, "click", function () {
         const markerWrap = markerElement.querySelector(
           '.markerWrap[data-marker-id="currentLocation"]'
         );
@@ -158,39 +77,17 @@ const UndongMap = (props) => {
             markerPin.classList.add("markerActivePin");
           }
         }
-        marker.setAnimation(naver.maps.Animation.BOUNCE);
+        marker.setAnimation(window.naver.maps.Animation.BOUNCE);
         setTimeout(() => {
           marker.setAnimation(null);
         }, 700);
-        newMap.panTo(location);
+        newMap.panTo(center);
       });
-
-      const searchAddress = () => {
-        if (props.address) {
-          naver.maps.Service.geocode(
-            {
-              query: props.address,
-            },
-            function (status, response) {
-              if (status === naver.maps.Service.Status.ERROR) {
-                console.error("Failed to find address");
-                return;
-              }
-              const result = response.v2.addresses[0];
-              const newLocation = new naver.maps.LatLng(result.y, result.x);
-              setLatitude(result.y);
-              setLongitude(result.x);
-              newMap.setCenter(newLocation);
-              marker.setPosition(newLocation);
-            }
-          );
-        }
-      };
 
       trainers.forEach((trainer, index) => {
         const markerLatitude = trainer.latitude;
         const markerLongitude = trainer.longitude;
-        const markerLocation = new naver.maps.LatLng(
+        const markerLocation = new window.naver.maps.LatLng(
           markerLatitude,
           markerLongitude
         );
@@ -201,7 +98,7 @@ const UndongMap = (props) => {
           <div class="markerPin" data-marker-id="${index}"></div>
         `;
 
-        const marker = new naver.maps.Marker({
+        const marker = new window.naver.maps.Marker({
           position: markerLocation,
           map: newMap,
           icon: {
@@ -211,7 +108,7 @@ const UndongMap = (props) => {
 
         markers.push(marker);
 
-        naver.maps.Event.addListener(marker, "click", function () {
+        window.naver.maps.Event.addListener(marker, "click", function () {
           const markerWrap = markerElement.querySelector(
             `.markerWrap[data-marker-id="${index}"]`
           );
@@ -233,7 +130,7 @@ const UndongMap = (props) => {
               markerPin.classList.add("markerActivePin");
             }
           }
-          marker.setAnimation(naver.maps.Animation.BOUNCE);
+          marker.setAnimation(window.naver.maps.Animation.BOUNCE);
           setTimeout(() => {
             marker.setAnimation(null);
           }, 700);
@@ -249,10 +146,156 @@ const UndongMap = (props) => {
       return () => {
         clearInterval(intervalId);
       };
+    }
+  }, [currentLatitude, currentLongitude, trainers, setTrainerIndex]);
+
+  useEffect(() => {
+    if (map && searchCenter) {
+      map.panTo(searchCenter);
+    }
+  }, [searchCenter]);
+
+  useEffect(() => {
+    const scriptId = "naver-maps-script";
+    const loadNaverMapsScript = () => {
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement("script");
+        script.id = scriptId;
+        script.type = "text/javascript";
+        script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0dfie9x7ty&callback=initMap&submodules=geocoder`;
+        script.async = true;
+        document.head.appendChild(script);
+        script.onload = () => {
+          initMap();
+        };
+      } else {
+        initMap();
+      }
     };
 
     loadNaverMapsScript();
-  }, [trainers]);
+  }, [initMap]);
+
+  useEffect(() => {
+    const getCurrentPosition = () => {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0,
+        });
+      });
+    };
+
+    const initMapAfterLocationUpdate = async () => {
+      try {
+        await getCurrentPosition();
+        initMap();
+      } catch (error) {
+        if (error.code === 1) {
+          alert("위치 정보 액세스 권한이 거부되었습니다. 권한을 허용해주세요.");
+        } else {
+          console.error("Error getting current location:", error);
+          setCurrentLatitude(37.5665);
+          setCurrentLongitude(126.978);
+          alert(
+            "현재 위치를 가져오는 데 실패했습니다. 기본 위치로 지도를 초기화합니다."
+          );
+        }
+        initMap();
+      }
+    };
+
+    initMapAfterLocationUpdate();
+  }, [setCurrentLatitude, setCurrentLongitude, initMap]);
+
+  const getCurrentLocation = async () => {
+    if (!navigator.geolocation) {
+      console.error("Geolocation is not supported by this browser.");
+      throw new Error("Geolocation is not supported");
+    }
+
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0,
+        });
+      });
+
+      const { latitude, longitude } = position.coords;
+      return { latitude, longitude };
+    } catch (error) {
+      console.log("Error getting current location:", error);
+      throw error;
+    }
+  };
+
+  const updateCurrentLocation = async () => {
+    try {
+      const { latitude, longitude } = await getCurrentLocation();
+
+      setCurrentLatitude(latitude);
+      setCurrentLongitude(longitude);
+
+      const newLocation = new window.naver.maps.LatLng(latitude, longitude);
+      if (currentLocationMarker.current) {
+        currentLocationMarker.current.setPosition(newLocation);
+      }
+      if (map) {
+        map.setCenter(newLocation);
+      }
+    } catch (error) {
+      console.error("Error updating current location:", error);
+    }
+  };
+
+  const handleResearchClick = async () => {
+    if (!map) {
+      console.error("Map object is not initialized.");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      const bounds = map.getBounds();
+      const southWest = bounds.getSW();
+      const northEast = bounds.getNE();
+
+      const currentLocationSearchData = {
+        SWlatitude: southWest.lat(),
+        SWlongitude: southWest.lng(),
+        NElatitude: northEast.lat(),
+        NElongitude: northEast.lng(),
+      };
+
+      const response = await fetch(
+        "http://localhost:5000/center/currentlocation",
+        {
+          credentials: "include",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(currentLocationSearchData),
+        }
+      );
+
+      if (!response.ok) {
+        setIsLoading(false);
+        throw new Error(`HTTP 에러 ${response.status}`);
+      }
+
+      const data = await response.json();
+      setIsLoading(false);
+      setTrainers(data);
+    } catch (error) {
+      console.error("데이터 가져오기 실패:", error);
+      setIsLoading(false);
+    }
+  };
 
   const mapStyle = {
     width: "calc(100% - 528px)",
@@ -264,32 +307,28 @@ const UndongMap = (props) => {
 
   return (
     <div className="mapWrap">
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <div ref={mapRef} style={mapStyle}>
-          <div>
-            <div className="myLocation">
-              <div className="btn" onClick={updateCurrentLocation}>
-                <BiTargetLock size={27} color="#00491e" />
-              </div>
+      <div ref={mapRef} style={mapStyle}>
+        <div>
+          <div className="myLocation">
+            <div className="btn" onClick={updateCurrentLocation}>
+              <BiTargetLock size={27} color="#00491e" />
             </div>
-            <div className="research">
-              <div className="researchBtn">
-                <button
-                  size="48"
-                  color="#fff"
-                  className="rBtn"
-                  onClick={handleResearchClick}
-                >
-                  <TbRestore size={25} color="#00491e" />
-                  <span>이 지역 다시 검색</span>
-                </button>
-              </div>
+          </div>
+          <div className="research">
+            <div className="researchBtn">
+              <button
+                size="48"
+                color="#fff"
+                className="rBtn"
+                onClick={handleResearchClick}
+              >
+                <TbRestore size={25} color="#00491e" />
+                <span>이 지역 다시 검색</span>
+              </button>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

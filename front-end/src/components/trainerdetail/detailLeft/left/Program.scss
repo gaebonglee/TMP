@@ -9,6 +9,7 @@
   font-size: 14px;
   font-weight: 700;
   padding: 6px 12px;
+  margin: 3px;
 }
 
 .program_title {
@@ -16,10 +17,99 @@
   padding: 16px 0px;
   font-size: $h3;
   font-weight: $font-weight-2;
-  border-bottom: 1px solid $lightgray;
 }
 
-.program_photo {
+.program_photos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Creates a 4-column grid */
+  gap: 10px; /* Spacing between grid items */
   margin-top: 20px;
 }
 
+.program_photo_box {
+  width: 100%;
+  height: auto;
+  position: relative;
+  cursor: pointer;
+}
+
+.program_more_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.program_more_text {
+  color: white;
+}
+
+.program_photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover; /* Ensures images cover the box without distorting */
+  border-radius: 6px;
+}
+.trainerProgramModal {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+}
+
+.program_image_modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* 반투명 검은색 배경 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 103;
+}
+
+.program_image_content {
+  position: relative;
+  max-width: 70vw;
+  max-height: 60vh;
+}
+
+.program_image_modal button {
+  position: absolute;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 60px;
+  padding: 0 20px;
+  color: white; /* 화살표 색상 변경 */
+}
+
+.programModalLeftButton {
+  top: 50%;
+  left: 5px;
+}
+.programModalRightButton {
+  top: 50%;
+  right: 5px;
+}
+
+.programModalText {
+  position: absolute;
+  font-size: $h3;
+  bottom: 8%;
+  color: $white;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0 10px;
+  border-radius: $border-radius-3;
+}

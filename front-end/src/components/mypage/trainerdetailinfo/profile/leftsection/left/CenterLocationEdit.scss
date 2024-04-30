@@ -1,0 +1,120 @@
+@import "../../../../../../../common.scss";
+
+input[type="search"].disabled {
+  background-color: $lightgray;
+  border: 1px solid $lightgray;
+  border-radius: $border-radius-4;
+  padding: 15px 10px;
+  font-size: 16px;
+  width: 100%;
+  display: block;
+  outline: none;
+  margin-top: 10px;
+  cursor: not-allowed;
+}
+.subtitle {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: $font-weight-2;
+  padding: 10px 0;
+  margin: 0;
+  margin-bottom: 24px;
+  color: $black;
+}
+#centerLocationInput {
+  padding: 14px 16px;
+  border: 1px solid #e4eaf0;
+  border-radius: 6px;
+  width: 100%;
+  display: block;
+  background-color: #ffffff;
+  font-size: 16px;
+  background-clip: padding-box;
+  overflow: visible;
+  line-height: 1.15;
+  margin: 0;
+}
+.suggestion-item {
+  border: none;
+  color: $black;
+  padding: 14px 24px;
+  height: 100%;
+  vertical-align: middle;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+}
+.suggestion-item-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  border-radius: 0.25rem;
+  width: 100%;
+  overflow: auto;
+  max-height: 284px;
+}
+.listContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: $white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+#centerLocationInput {
+  padding-right: 0px; // 아이콘을 위한 공간
+  border-radius: $border-radius-4;
+  &:disabled {
+    background-color: $lightgray;
+    border: 1px solid $lightgray;
+
+    cursor: not-allowed;
+  }
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: $green2;
+  cursor: pointer;
+}
+.reset-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: $green2;
+  cursor: pointer;
+}
+
+.addressSpan {
+  color: $gray;
+  font-size: 12px;
+  padding: 4px 8px;
+  background-color: rgb(237, 241, 245);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.flexBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: row;
+}
+.buildingIcon {
+  color: $green1;
+  font-size: 24px;
+  margin-right: 10px;
+}

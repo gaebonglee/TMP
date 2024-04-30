@@ -1,6 +1,7 @@
 import React from "react";
 import "./TrainerProfileEdit.scss";
 import { FaPencilAlt } from "react-icons/fa";
+import CenterLocationEdit from "./leftsection/left/CenterLocationEdit";
 
 function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -21,10 +22,10 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
         <h2>{title}</h2>
         <div className="edit_btn_wrap">
           {isEditing ? (
-            <button onClick={handleSave}>
-              <FaPencilAlt />
-              저장
-            </button>
+              <button onClick={handleSave}>
+                <FaPencilAlt />
+                저장
+              </button>
           ) : (
             <button onClick={handleEdit}>
               <FaPencilAlt />

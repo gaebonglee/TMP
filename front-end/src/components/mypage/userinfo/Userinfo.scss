@@ -1,12 +1,12 @@
 @import "../../../common.scss";
 
-@mixin flexcss{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+@mixin flexcss {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-@mixin inputpadding{
-    padding: 10px 0px;
+@mixin inputpadding {
+  padding: 10px 0px;
 }
 
 .wrapper{
@@ -31,162 +31,160 @@
         
     }
 }
-.user_info_container{
+.user_info_container {
+  @include flexcss;
+  background-color: #f7f9faff;
+  font-weight: $font-weight-2;
+  padding-bottom: 100px;
+
+  .user_info_tab {
     @include flexcss;
-    background-color: #f7f9faff;
-    font-weight: $font-weight-2;
-    padding-bottom: 100px;
+    justify-content: flex-end;
+    padding: 15px 20px;
+    height: 85px;
+  }
 
-    .user_info_tab{
-        @include flexcss;
-        justify-content: flex-end;
-        padding: 15px 20px;
-        height: 85px;
-    }
-
-    .user_info_title{
-        font-weight: 900;
-        color: $black;
-        font-size: $h2;
-    }
-
+  .user_info_title {
+    font-weight: 900;
+    color: $black;
+    font-size: $h2;
+  }
 }
 
-.user_info_hr_container{
-   @include flexcss;
-   width: 98%;
+.user_info_hr_container {
+  @include flexcss;
+  width: 98%;
 }
-.user_info_hr_top{
-    width: 98%;
-    border: 0.5px solid rgb(231, 233, 234);
+.user_info_hr_top {
+  width: 98%;
+  border: 0.5px solid rgb(231, 233, 234);
 }
-.user_info_input_container{
-    width: 29%;
+.user_info_input_container {
+  width: 29%;
 }
-.user_info_hr{
-    width: 30%;
-    border: 0.5px solid rgb(231, 233, 234);
-    margin-top: 30px;
+.user_info_hr {
+  width: 30%;
+  border: 0.5px solid rgb(231, 233, 234);
+  margin-top: 30px;
 }
-.user_info_hr2{
-    width: 30%;
-    border: 0.5px solid rgb(231, 233, 234);
-    margin: 10px 0px;
+.user_info_hr2 {
+  width: 30%;
+  border: 0.5px solid rgb(231, 233, 234);
+  margin: 10px 0px;
 }
-.user_info_img{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 9px;
-    cursor: pointer;
-    padding: 30px 0px 0px 0px;
-    
-    .user_info_img_1{
-        width: 70px;
-        height: 70px;
-        background-color: #6c7680;
-        border-radius: 50px;
-    }
-    
-    .user_info_img_text{
-        font-size: 12px;
-        text-decoration: underline;
-        color: #6c7680
-    }
-    
-    #user_info_img_upload{
-        opacity: 0;
-        display: none;
-    }
-}
+.user_info_img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 9px;
+  cursor: pointer;
+  padding: 30px 0px 0px 0px;
 
-.user_info_name, 
-.user_info_email, 
-.user_info_phone{
-    display: flex;
-    flex-direction: column;
-    @include inputpadding;
-}
+  .user_info_img_1 {
+    width: 70px;
+    height: 70px;
+    background-color: #6c7680;
+    border-radius: 50px;
+  }
 
-.user_info_button, .user_info_cancle{
-    @include flexcss;
-    @include inputpadding
-}
-
-.aster{
-    margin-left: 2px;
-    color: $star;
-}
-
-
-.label_container{
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    padding: 10px 0px 8px 0px;
-    font-size: 14px;
-}
-
-.user_info_phone{
-   width: 100%;
-}
-
-.user_info_phone_input_container{
-    width: 100%;
-    position: relative;
-
-    input{
-        color: $black;
-        width: 100%;
-        outline: 0px solid $green1;
-
-        &:focus{
-            outline: 2px solid $green3;
-        }
-
-        &::placeholder{
-            color: $gray;
-            font-weight: $font-weight-2;
-        }
-    }
-
-    button{
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-top-right-radius: $border-radius-4;
-        border-bottom-right-radius: $border-radius-4;
-        background-color: #a2ee94;
-        border: 0.5px solid #a2ee94;
-        height : 40px;
-        width: 35%;
-        font-size: 12px;
-        position: absolute;
-        right: -0.5px;
-        top: 0.5px;
-        cursor: pointer;
-        color: $green2;
-        font-weight: $font-weight-2;
-    }
-}
-
-.user_info_button{
-    // margin: 10px 0px 0px 0px;
-    width: 100%;
-    button{
-        width: 100%;
-        height: 40px;
-        background-color:#a2ee94;
-        border: 0.5px solid #a2ee94;
-        border-radius: $border-radius-4;
-        cursor: pointer;
-        color: $green2;
-        font-weight: $font-weight-2;
-        
-    }
-}
-
-.user_info_cancle{
+  .user_info_img_text {
     font-size: 12px;
     text-decoration: underline;
     color: #6c7680;
+  }
+
+  #user_info_img_upload {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.user_info_name,
+.user_info_email,
+.user_info_phone {
+  display: flex;
+  flex-direction: column;
+  @include inputpadding;
+}
+
+.user_info_button,
+.user_info_cancle {
+  @include flexcss;
+  @include inputpadding;
+}
+
+.aster {
+  margin-left: 2px;
+  color: $star;
+}
+
+.label_container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 0px 8px 0px;
+  font-size: 14px;
+}
+
+.user_info_phone {
+  width: 100%;
+}
+
+.user_info_phone_input_container {
+  width: 100%;
+  position: relative;
+
+  input {
+    color: $black;
+    width: 100%;
+    outline: 0px solid $green1;
+
+    &:focus {
+      outline: 2px solid $green3;
+    }
+
+    &::placeholder {
+      color: $gray;
+      font-weight: $font-weight-2;
+    }
+  }
+
+  button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: $border-radius-4;
+    border-bottom-right-radius: $border-radius-4;
+    background-color: #a2ee94;
+    border: 0.5px solid #a2ee94;
+    height: 40px;
+    width: 35%;
+    font-size: 12px;
+    position: absolute;
+    right: -0.5px;
+    top: 0.5px;
+    cursor: pointer;
+    color: $green2;
+    font-weight: $font-weight-2;
+  }
+}
+
+.user_info_button {
+  // margin: 10px 0px 0px 0px;
+  width: 100%;
+  button {
+    width: 100%;
+    height: 40px;
+    background-color: #a2ee94;
+    border: 0.5px solid #a2ee94;
+    border-radius: $border-radius-4;
+    cursor: pointer;
+    color: $green2;
+    font-weight: $font-weight-2;
+  }
+}
+
+.user_info_cancle {
+  font-size: 12px;
+  text-decoration: underline;
+  color: #6c7680;
 }

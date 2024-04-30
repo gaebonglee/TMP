@@ -116,16 +116,18 @@
   border-bottom-left-radius: 0;
   border-top-right-radius: 22px;
   border-bottom-right-radius: 22px;
-}
-
-.search_icon > button {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  margin-right: 10px;
-  position: relative;
-  font-size: $h2;
-  background-color: $green2;
-  border: none;
-  color: $white;
+  button {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-right: 10px;
+    position: relative;
+    font-size: $h2;
+    background-color: $green2;
+    border: none;
+    color: $white;
+    .FiSearch {
+      color: $white;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import "./LessonPrice.scss";
-const LessonPrice = () => {
+const LessonPrice = ({ data }) => {
   return (
     <div className="trainer_lesson_price" id="intro_page_contents_wrap">
       <h1>레슨 이용 가격</h1>
@@ -10,18 +10,21 @@ const LessonPrice = () => {
         </div>
         <div className="lesson_list">
           <ul>
-            <li className="lesson_li">
-              <div className="priceCount">10회</div>
-              <div className="price"></div>
-              <p className="pricePer">회당 50,000원</p>
-              <p className="priceTotal">500,000원</p>
-            </li>
-            <li className="lesson_li">
-              <div className="priceCount">20회</div>
-              <div className="price"></div>
-              <p className="pricePer">회당 40,000원</p>
-              <p className="priceTotal">800,000원</p>
-            </li>
+            {data.map((value, index) => {
+              return (
+                <li className="lesson_li" key={index}>
+                  <div className="priceCount">{value.count}회</div>
+                  <p className="pricePer">
+                    회당{" "}
+                    {(value.total_price / value.count).toLocaleString("ko-KR")}
+                    원
+                  </p>
+                  <p className="priceTotal">
+                    {value.total_price.toLocaleString("ko-KR")}원
+                  </p>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
