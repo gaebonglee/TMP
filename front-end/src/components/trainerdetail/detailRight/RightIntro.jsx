@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import { useNavigate } from "react-router-dom";
 import "./RightIntro.scss";
 import { FaS, FaStar } from "react-icons/fa6";
-import ReservationModal from "./reservation/ReservationModal";
-import LoginModal from "components/loginModal/LoginModal";
+// import LoginModal from "components/loginModal/LoginModal";
+import ReservationPage from "./reservation/ReservationPage";
 
 const RightIntro = ({ data }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const handleModalOpen = (value) => {
-    setModalOpen(value);
+  // const [modalOpen, setModalOpen] = useState(false);
+  // const handleModalOpen = (value) => {
+  //   setModalOpen(value);
+  // };
+
+  const navigate = useNavigate();
+
+  const handleReservation = () => {
+    navigate("/reservationPage"); // 예약 페이지로 이동
   };
 
   const reviewSum = data.infoReview.reduce((accumulator, currentValue) => {
@@ -71,21 +78,24 @@ const RightIntro = ({ data }) => {
 
           {/* 예약하기 버튼 */}
           <div className={"reservation_btn_wrapper"}>
-            {modalOpen &&
+            {/* {modalOpen &&
               ReactDOM.createPortal(
                 <ReservationModal handleModalOpen={handleModalOpen} />,
                 rightIntroNode
               )}
-            {/* {modalOpen && 
+             {modalOpen && 
               ReactDOM.createPortal(
                 <LoginModal handleModalOpen={handleModalOpen} />,
                 rightIntroNode
-              )}*/}
+              )} 
 
             <button
               className={"reservation_btn"}
               onClick={() => setModalOpen(true)}
             >
+              예약하기
+            </button>*/}
+            <button className={"reservation_btn"} onClick={handleReservation}>
               예약하기
             </button>
           </div>
