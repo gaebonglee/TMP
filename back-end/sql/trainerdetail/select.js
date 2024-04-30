@@ -4,6 +4,7 @@ async function selectTrainerInfo1(trainerId) {
   return new Promise((resolve, reject) => {
     const query = `select
       a.user_name,
+      a.user_img,
       b.user_id, 
       b.intro, 
       b.short_intro, 
