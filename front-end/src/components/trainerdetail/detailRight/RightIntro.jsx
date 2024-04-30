@@ -2,24 +2,13 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./RightIntro.scss";
 import { FaS, FaStar } from "react-icons/fa6";
-import Reservation from "./reservation/ReservationModal";
+import ReservationModal from "./reservation/ReservationModal";
+import LoginModal from "components/loginModal/LoginModal";
 
 const RightIntro = ({ data }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [reservationModalOpen, setReservationModalOpen] = useState(false);
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
-
-  const handleReservationButtonClick = () => {
-    if (isLoggedIn) {
-      // 로그인 되어 있으면 예약 모달 열기
-      setReservationModalOpen(true);
-    } else {
-      // 로그인 되어 있지 않으면 로그인 모달 열기
-      setLoginModalOpen(true);
-    }
+  const handleModalOpen = (value) => {
+    setModalOpen(value);
   };
 
   const reviewSum = data.infoReview.reduce((accumulator, currentValue) => {
@@ -27,10 +16,6 @@ const RightIntro = ({ data }) => {
   }, 0);
   const reviewAvg = Math.floor(reviewSum / data.infoReview.length);
   const reviewArr = [0, 1, 2, 3, 4];
-  const handleClose = () => {
-    setModalOpen(false);
-    setCurrentPage(1); // 모달을 닫을 때 페이지도 초기화
-  };
 
   const rightIntroNode = document.querySelector(".RightIntro");
 
@@ -88,9 +73,15 @@ const RightIntro = ({ data }) => {
           <div className={"reservation_btn_wrapper"}>
             {modalOpen &&
               ReactDOM.createPortal(
-                <Reservation handleClose={handleClose} />,
+                <ReservationModal handleModalOpen={handleModalOpen} />,
                 rightIntroNode
               )}
+            {/* {modalOpen && 
+              ReactDOM.createPortal(
+                <LoginModal handleModalOpen={handleModalOpen} />,
+                rightIntroNode
+              )}*/}
+
             <button
               className={"reservation_btn"}
               onClick={() => setModalOpen(true)}
