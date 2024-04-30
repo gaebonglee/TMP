@@ -1,9 +1,9 @@
 import React from "react";
 import TrainerEditForm from "../components/mypage/trainerdetailinfo/TrainerEditForm";
-const TrainerProfileEdit = () => {
+const TrainerProfileEdit = ({ userId }) => {
   return (
     <div>
-      <TrainerEditForm />
+      <TrainerEditForm userId={userId} />
     </div>
   );
 };

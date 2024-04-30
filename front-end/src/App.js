@@ -62,7 +62,7 @@ function App() {
             path="/trainerProfileEdit"
             element={
               <PrivateRoute
-                component={<TrainerProfileEdit />}
+                component={<TrainerProfileEdit userId={data.user_id} />}
                 token={data}
                 role={"trainer"}
               />
