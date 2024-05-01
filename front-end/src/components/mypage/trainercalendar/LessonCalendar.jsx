@@ -29,8 +29,9 @@ const LessonCalendar = () => {
     );
   };
 
+  //mysql에서 데이터 가져오는 내용
   useEffect(() => {
-    // 서버에서 해당 날짜의 일정을 가져오는 요청을 보냅니다.
+
     fetchLessons();
   }, [date]);
 
