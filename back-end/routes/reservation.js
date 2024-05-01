@@ -1,22 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const selectLesson = require("../sql/mypage/calendar/selectlesson");
+const { selectTrainerName } = require("../sql/reservation/selectTrainerName");
 
-router.post("/selectLesson", async (req, res) => {
-  try {
-    const { date } = req.body;
-    selectLesson(date, (error, results) => {
-      if (error) {
-        console.error("Error selecting lessons:", error);
-        res.status(500).json({ error: "Internal server error" });
-      } else {
-        res.status(200).json(results);
-      }
-    });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+router.get("/trainer/:userId", (req, res) => {
+  console.log("Requested user ID:", req.params.userId);
+  const userId = req.params.userId;
+  selectTrainerName(userId, (error, name) => {
+    if (error) {
+      res.status(500).send({ error: "Server error" });
+    } else if (name) {
+      res.json({ name });
+    } else {
+      res.status(404).send({ error: "Trainer not found" });
+    }
+  });
 });
 
 module.exports = router;
