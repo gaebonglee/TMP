@@ -64,7 +64,7 @@ const Search = () => {
         </div>
         <div className="search_icon">
           <button>
-            <FiSearch style={{paddingTop:'5px'}}/>
+            <FiSearch style={{ paddingTop: "5px", fontSize: "30px" }} />
             <a>검색하기</a>
           </button>
         </div>
