@@ -43,7 +43,7 @@ const DayTime = (props) => {
     <div className="booking_page">
       <div className="booking_title">
         <FaRegCalendarCheck />
-        <h2>날짜 및 시간 선택</h2>
+        <h3>날짜 및 시간 선택</h3>
       </div>
       <br />
       <Calendar
@@ -70,12 +70,12 @@ const DayTime = (props) => {
           </button>
         ))}
       </div>
-      <div className="selected-time">
+      {/* <div className="selected-time"> 
         <strong>선택한 날짜 :</strong>{" "}
         {date ? date.toLocaleDateString() : "선택되지 않음"}
         <br />
         <strong>선택한 시간 :</strong> {time || "선택되지 않음"}
-      </div>
+      </div>*/}
     </div>
   );
 };

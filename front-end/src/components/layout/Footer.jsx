@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Footer.scss";
 const Footer = () => {
   return (
+  
     <footer>
       <div>
         <div className="footer_container">

@@ -9,6 +9,28 @@
   padding: 10px 0px;
 }
 
+.wrapper{
+    color: $black;
+    
+    input{
+        width: 100%;
+        height: 40px;
+        border: 0.5px solid $green1;
+        border-radius: $border-radius-4;
+        text-indent: 10px;
+        font-weight: $font-weight-2;
+    
+        &:focus{
+            outline: 2px solid $green3;
+        }
+    
+        &::placeholder{
+            color: $gray;
+            font-weight: $font-weight-2;
+        }
+        
+    }
+}
 .user_info_container {
   @include flexcss;
   background-color: #f7f9faff;
@@ -94,24 +116,6 @@
 .aster {
   margin-left: 2px;
   color: $star;
-}
-
-input {
-  width: 100%;
-  height: 40px;
-  border: 0.5px solid $green1;
-  border-radius: $border-radius-4;
-  text-indent: 10px;
-  font-weight: $font-weight-2;
-
-  &:focus {
-    outline: 2px solid $green3;
-  }
-
-  &::placeholder {
-    color: $gray;
-    font-weight: $font-weight-2;
-  }
 }
 
 .label_container {

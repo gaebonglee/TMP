@@ -14,7 +14,7 @@ const RightEditSection = () => {
     error,
     data: userInfo,
   } = useQuery({
-    queryKey: "userInfo", // 문자열 형태로 전달
+    queryKey: ["userInfo"], // 문자열 형태로 전달
     queryFn: async () => {
       try {
         const response = await fetch(

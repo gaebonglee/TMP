@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TrainerProfileEdit.scss";
 import { FaPencilAlt } from "react-icons/fa";
 import CenterLocationEdit from "./leftsection/left/CenterLocationEdit";
 
 function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
-  const [isEditing, setIsEditing] = React.useState(false);
-  const [editedContent, setEditedContent] = React.useState(content);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState(content);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -22,10 +22,10 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
         <h2>{title}</h2>
         <div className="edit_btn_wrap">
           {isEditing ? (
-              <button onClick={handleSave}>
-                <FaPencilAlt />
-                저장
-              </button>
+            <button onClick={handleSave}>
+              <FaPencilAlt />
+              저장
+            </button>
           ) : (
             <button onClick={handleEdit}>
               <FaPencilAlt />
@@ -42,7 +42,20 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
         </div>
       ) : (
         <div className="written_content">
-          {content || "아직 작성된 내용이 없습니다."}
+          {title === "사진" &&
+            content.map((v, i) => {
+              const type = typeof v;
+              const resultSrc = type === "object" ? URL.createObjectURL(v) : v;
+              return (
+                <img
+                  key={i}
+                  src={resultSrc}
+                  alt={`mypage_photo`}
+                  className="introImgEdit_photo"
+                />
+              );
+            })}
+          {content.length === 0 && "아직 작성된 내용이 없습니다."}
         </div>
       )}
     </div>

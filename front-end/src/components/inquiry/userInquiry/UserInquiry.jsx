@@ -1,0 +1,102 @@
+import React from 'react';
+import { useState } from 'react';
+import "./UserInquiry.scss"
+
+const UserInquiry = () => {
+
+const [inquiryData, setInquiryData] = useState({inquiry_type: "", inquiry_phonenumber: "", inquiry_contents: ""})
+const [checkState, setCheckState] = useState(false)
+
+const InputHandler = (e) => {
+    const {name, value} = e.target
+    setInquiryData((prev) => {
+        return {...prev, [name]: value}
+    })
+}
+const SubmitHandler = (e) => {
+    e.preventDefault()
+
+    fetch('http://localhost:5000/servicecenter', {  //요청지
+        method: 'POST',        //메소드 지정
+        headers: {            //데이터 타입 지정
+            'Accept' : 'application/json',
+            'content-type' : 'application/json'
+        },
+        body: JSON.stringify(inquiryData)  //실제 데이터 파싱해서 body에 저장
+    })
+    .then(response => {
+        console.log(response)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        alert('접수가 완료되었습니다.')
+})
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+});
+}
+console.log(inquiryData)
+    return (
+        <form onSubmit={(e)=>{SubmitHandler(e)}}>
+            <div className='inquiry_wrapper'>
+                <div className='box'>
+                    <div className='inquiry_title_container'>1:1 문의 접수</div>
+                </div>
+                <div className='box'>
+                    <div className='inquiry_type_phone_container'>
+                        <div className='inquiry_type_container'>
+                            <div className='inquiry_type_title'>
+                                문의유형<span className='aster'>*</span>
+                            </div>
+                            <div className='inquiry_type'>
+                                <select name="inquiry_type" id="type" onChange={InputHandler}>
+                                    <option value="">유형선택</option>
+                                    <option value="일반문의">일반문의</option>
+                                    <option value="센터 정보 등록요청">센터 정보 등록요청</option>
+                                    <option value="코치 가입문의">코치 가입문의</option>
+                                    <option value="오류 신고">오류 신고</option>
+                                    <option value="기타">기타</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className='inquiry_phone_container'>
+                            <div className='inquiry_phone_title'>
+                                답변 연락 받을 전화번호<span className='aster'>*</span>
+                                </div>
+                            <div className='inquiry_phone'>
+                                <input type="text" name='inquiry_phonenumber' placeholder='-없이 입력' value={inquiryData.inquiry_phonenumber} onChange={InputHandler}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='box'>
+                    <div className='inquiry_contents_title'>
+                        내용<span className='aster'>*</span>
+                    </div>
+                    <div className='inquiry_contents'>
+                        <textarea name="inquiry_contents" value={inquiryData.inquiry_contents} placeholder='필수 입력' onChange={InputHandler} maxLength='255'></textarea>
+                    </div>
+                </div>
+                <div className='box'>
+                    <div className='inquiry_check_button_container'>
+                        <div className='inquiry_checkbox'>
+                            <input className='checkbox' type="checkbox" checked={checkState} onChange={() => {setCheckState(!checkState)}}/>
+                            <div><span className='checkbox_text'>개인정보 수집 및 이용</span>에 동의합니다.</div>
+                            <span className='highlight'>(필수)</span>
+                        </div>
+                        <div className='inquiry_button'>
+                            {(!checkState) ? <button type='submit' className='button' disabled>접수하기</button> : <button type='submit' className='button'>접수하기</button>}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    );
+};
+
+export default UserInquiry;

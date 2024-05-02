@@ -7,9 +7,16 @@ import CenterInfo from "./left/CenterInfo";
 const LeftSectionCenter = ({ data }) => {
   return (
     <div className="leftSection">
-      <LeftIntroCener data={data.info1} />
-      <CenterInfo data={data.info1} centerPrice={data.centerPrice} />
-      <CenterPlace data={data.info1} />
+      {data.info1.center_id && <LeftIntroCener data={data.info1} />}
+      {data.info1.center_id && (
+        <CenterInfo data={data.info1} centerPrice={data.centerPrice} />
+      )}
+      {data.info1.center_id && <CenterPlace data={data.info1} />}
+      {data.info1.center_id === null && (
+        <div className="pleaseInsertCenterInfo">
+          센터가 등록되어 있지 않습니다
+        </div>
+      )}
     </div>
   );
 };

@@ -145,7 +145,7 @@
 }
 
 // 모달창 회색배경
-.reservation_container {
+.reservationModal_container {
   position: fixed;
   z-index: 1000;
   width: 100%;
@@ -160,8 +160,8 @@
 
 .reservation_content {
   background-color: $white;
-  width: 500px;
-  height: 800px;
+  width: 450px;
+  height: 680px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -172,5 +172,5 @@
   display: flex;
   justify-content: center;
   gap: 10px;
-  padding-top: 100px;
+  padding-top: 30px;
 }
