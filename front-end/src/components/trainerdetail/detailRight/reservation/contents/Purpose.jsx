@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Purpose.scss";
 // 아이콘
 import { BiSelectMultiple } from "react-icons/bi";
@@ -55,20 +55,23 @@ const Purpose = ({ setSubCategories }) => {
     setMainCategory(category);
     setSubCategories([]); // Reset subcategories when main category changes
   };
+
+  useEffect(() => {
+    setSubCategories(subCategories);
+  }, [subCategories, setSubCategories]);
+
   const handleSubCategoryChange = (event) => {
     const { value, checked } = event.target;
-    setSelectedSubCategories((prevSubCategories) => {
-      let updatedSubCategories;
-      if (checked) {
-        updatedSubCategories = [...prevSubCategories, value];
-      } else {
-        updatedSubCategories = prevSubCategories.filter(
-          (subCategory) => subCategory !== value
-        );
-      }
-      setSubCategories(updatedSubCategories); // 업데이트된 서브카테고리 리스트를 상위 컴포넌트로 전달
-      return updatedSubCategories;
-    });
+    let updatedSubCategories;
+    if (checked) {
+      updatedSubCategories = [...subCategories, value];
+    } else {
+      updatedSubCategories = subCategories.filter(
+        (subCategory) => subCategory !== value
+      );
+    }
+    setSelectedSubCategories(updatedSubCategories);
+    setSubCategories(updatedSubCategories); // 바로 업데이트
   };
 
   return (

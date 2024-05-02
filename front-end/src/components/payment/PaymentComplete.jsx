@@ -1,7 +1,13 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import "./PaymentComplete.scss";
 
 const PaymentComplete = () => {
+  const { reservationId } = useParams();
+
+  // 예약 ID를 사용하여 추가 데이터를 로드하거나 처리
+  console.log("결제 완료된 예약 ID:", reservationId);
+
   return (
     <div className="paymentComplete_page">
       <div className="paymentComplete_message">
