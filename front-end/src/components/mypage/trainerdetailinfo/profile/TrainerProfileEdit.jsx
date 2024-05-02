@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./TrainerProfileEdit.scss";
 import { FaPencilAlt } from "react-icons/fa";
-import CenterLocationEdit from "./leftsection/left/CenterLocationEdit";
+import { PiCertificate, PiTrophy } from "react-icons/pi";
+// import CenterLocationEdit from "./leftsection/left/CenterLocationEdit";
 
 function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,7 +13,11 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
   };
 
   const handleSave = () => {
-    onSave(editedContent);
+    if (title === "자기소개") {
+      onSave(editedContent, "자기소개");
+    } else {
+      onSave(editedContent);
+    }
     setIsEditing(false);
   };
 
@@ -53,6 +58,24 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
                   alt={`mypage_photo`}
                   className="introImgEdit_photo"
                 />
+              );
+            })}
+          {title === "자기소개" && (
+            <div style={{ whiteSpace: "pre-wrap" }}>{content}</div>
+          )}
+          {title === "검증된 자격 사항" &&
+            content.map((v, i) => {
+              return (
+                <div key={i} className="edit_certification_lists">
+                  <div>
+                    {v.certification_type === "1" ? (
+                      <PiCertificate />
+                    ) : (
+                      <PiTrophy />
+                    )}
+                  </div>
+                  <div>{v.certification_name}</div>
+                </div>
               );
             })}
           {content.length === 0 && "아직 작성된 내용이 없습니다."}

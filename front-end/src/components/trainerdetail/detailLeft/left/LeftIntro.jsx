@@ -64,7 +64,7 @@ const LeftIntro = ({ data }) => {
         </div>
         <div className="intro_text">
           {data.intro_img && <br />}
-          <p>{data.intro}</p>
+          <p style={{ whiteSpace: "pre-wrap" }}>{data.intro}</p>
         </div>
       </div>
       {modalOpen && (

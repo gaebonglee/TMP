@@ -20,7 +20,7 @@ const Program = ({ data }) => {
             />
             <div className="program_text">
               {value.program_exp && <br />}
-              <p>{value.program_exp}</p>
+              <p style={{ whiteSpace: "pre-wrap" }}>{value.program_exp}</p>
             </div>
           </div>
         );

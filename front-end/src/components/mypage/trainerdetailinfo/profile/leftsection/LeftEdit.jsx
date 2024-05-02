@@ -22,8 +22,9 @@ function LeftEdit({ data, userId }) {
     ] = `${process.env.REACT_APP_FILE_SERVER_URL}/trainer/${userId}/${imgArr[i]}`;
   }
   const [introimg, setIntroImg] = useState(imgArr);
-  const [intro, setIntro] = useState("");
-  const [qualifications, setQualifications] = useState("");
+  const [intro, setIntro] = useState(data.info1.intro);
+  const [qualifications, setQualifications] = useState(data.info2);
+  const deletedArr = [];
   const [schedule, setSchedule] = useState("");
   const [program, setProgram] = useState("");
   const [lessonprice, setLessonPrice] = useState("");
@@ -39,16 +40,13 @@ function LeftEdit({ data, userId }) {
     });
 
     // 이미지 삭제처리
-    const deleteResponse = await fetch(
-      "http://localhost:5000/file/delete-files",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ files: urls, userId, table: "trainer" }),
-      }
-    );
+    await fetch("http://localhost:5000/file/delete-files", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ files: urls, userId, table: "trainer" }),
+    });
 
     const filesInfo = files.map((file) => ({
       name: file.name,
@@ -87,16 +85,119 @@ function LeftEdit({ data, userId }) {
       })
     );
 
-    const updateResponse = await fetch(
-      "http://localhost:5000/file/update-files",
+    await fetch("http://localhost:5000/file/update-files", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, table: "trainer" }),
+    });
+  };
+
+  const handleCertificationsSaveChanges = async (newCertifications) => {
+    const deletedImgs = data.info2.filter((v) => {
+      return deletedArr.includes(v.certification_id);
+    });
+
+    // 이미지 삭제처리
+    await fetch("http://localhost:5000/file/delete-certifications", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        files: deletedImgs,
+        userId,
+        table: "certification",
+      }),
+    });
+
+    const files = newCertifications.filter((value) => {
+      return typeof value.certification_img === "object";
+    });
+    const newArr = newCertifications.filter(
+      (value) => !!!value.certification_id
+    );
+
+    const filesInfo = files.map((file) => ({
+      name: file.certification_img.name,
+      type: file.certification_img.type,
+    }));
+    // 이미지 배열을 서버로 전송하여 저장
+    const response = await fetch(
+      "http://localhost:5000/file/generate-signed-urls",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId, table: "trainer" }),
+        body: JSON.stringify({
+          files: filesInfo,
+          userId,
+          table: "certification",
+        }),
       }
     );
+
+    const { signedUrls } = await response.json();
+
+    await Promise.all(
+      signedUrls.map(async ({ name, url }) => {
+        const file = files.find((f) => f.certification_img.name === name);
+        const result = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.certification_img.type,
+          },
+          body: file.certification_img,
+        });
+
+        if (result.ok) {
+          console.log(`${name} uploaded successfully.`);
+        } else {
+          console.error(`Failed to upload ${name}.`);
+        }
+      })
+    );
+
+    const updateArr = newCertifications.filter((v) => v.certification_id);
+    for (let i = 0; i < updateArr.length; i++) {
+      if (typeof updateArr[i].certification_img === "object") {
+        updateArr[i].certification_img = updateArr[i].certification_img.name;
+      }
+    }
+
+    // update DB
+    await fetch("http://localhost:5000/file/update-certifications-db", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: updateArr, userId }),
+    });
+
+    // delete DB
+    await fetch("http://localhost:5000/file/delete-certifications-db", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: deletedArr, userId }),
+    });
+
+    // insert DB
+    for (let i = 0; i < newArr.length; i++) {
+      if (typeof newArr[i].certification_img === "object") {
+        newArr[i].certification_img = newArr[i].certification_img.name;
+      }
+    }
+    await fetch("http://localhost:5000/file/insert-certifications-db", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: newArr, userId }),
+    });
   };
 
   const handleIntroImgSave = (newIntroImg) => {
@@ -104,14 +205,14 @@ function LeftEdit({ data, userId }) {
     handleImgSaveChanges(newIntroImg);
   };
 
-  const handleIntroSave = (newIntro) => {
+  const handleIntroSave = (newIntro, title) => {
     setIntro(newIntro);
-    saveToMySQL({ intro: newIntro });
+    saveToMySQL({ intro: newIntro, title });
   };
 
   const handleQualificationsSave = (newQualifications) => {
     setQualifications(newQualifications);
-    saveToMySQL({ qualifications: newQualifications });
+    handleCertificationsSaveChanges(newQualifications);
   };
 
   const handleScheduleSave = (newSchedule) => {
@@ -140,14 +241,18 @@ function LeftEdit({ data, userId }) {
   };
 
   const saveToMySQL = (data) => {
-    axios
-      .post("http://your-server-url/save-to-mysql", data)
-      .then((response) => {
-        console.log("데이터가 MySQL에 저장되었습니다.");
-      })
-      .catch((error) => {
-        console.error("데이터 저장에 실패했습니다.", error);
-      });
+    data.userId = userId;
+
+    if (data.title === "자기소개") {
+      axios
+        .post("http://localhost:5000/file/save-intro", data)
+        .then((response) => {
+          console.log("데이터가 저장되었습니다.");
+        })
+        .catch((error) => {
+          console.error("데이터 저장에 실패했습니다.", error);
+        });
+    }
   };
 
   return (
@@ -177,6 +282,8 @@ function LeftEdit({ data, userId }) {
           <QualificationsEdit
             content={editedContent}
             setContent={setEditedContent}
+            userId={userId}
+            deletedArr={deletedArr}
           />
         )}
       />

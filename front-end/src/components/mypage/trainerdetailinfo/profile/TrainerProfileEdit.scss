@@ -45,3 +45,9 @@
   border: 2px solid $green1;
   border-radius: $border-radius-3;
 }
+
+.edit_certification_lists {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
