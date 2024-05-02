@@ -11,9 +11,7 @@ const TotalTrainer = () => {
   const [currentLongitude, setCurrentLongitude] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [searchCenter, setSearchCenter] = useState(null);
-  const scriptStatus = useScript(
-    "https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0dfie9x7ty&submodules=geocoder"
-  );
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -40,11 +38,7 @@ const TotalTrainer = () => {
     <>
       {trainerIndex !== null ? (
         <TrainerList
-<<<<<<< HEAD
           searchCenter={searchCenter}
-=======
-          setIsLoading={setIsLoading}
->>>>>>> 1c94e6737b42e088429985a4d6cf507dfddfeb4b
           setSearchCenter={setSearchCenter}
           currentLongitude={currentLongitude}
           currentLatitude={currentLatitude}
@@ -53,11 +47,7 @@ const TotalTrainer = () => {
         />
       ) : (
         <TrainerList
-<<<<<<< HEAD
           searchCenter={searchCenter}
-=======
-          setIsLoading={setIsLoading}
->>>>>>> 1c94e6737b42e088429985a4d6cf507dfddfeb4b
           setSearchCenter={setSearchCenter}
           currentLatitude={currentLatitude}
           currentLongitude={currentLongitude}
