@@ -3,7 +3,7 @@ import "./FilterList.scss";
 import { RiArrowGoBackLine } from "react-icons/ri";
 
 const FilterList = (props) => {
-  const { currentLatitude, currentLongitude, setTrainers } = props;
+  const { currentLatitude, currentLongitude, setTrainers, setFilter } = props;
 
   const [value, setValue] = useState(500);
   const [priceValue, setPriceValue] = useState(4);
@@ -65,7 +65,8 @@ const FilterList = (props) => {
   };
 
   const handleFilter = () => {
-    console.log("Applying filters:", filterData);
+    props.setIsloading(true);
+    
     // 여기에 필터 적용 로직을 추가하세요.
     fetch("http://localhost:5000/filter", {
       method: "POST",
@@ -76,8 +77,10 @@ const FilterList = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setFilter(true);
         setTrainers(data);
+        props.setFilter(true);
+        props.setIsloading(false);
       });
   };
 

@@ -3,7 +3,8 @@ import "./Review.scss";
 import { LuPencilLine } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
-import { GoStar } from "react-icons/go";
+import { useParams } from "react-router-dom";
+import "../../../trainermap/TrainerList.scss";
 
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
@@ -13,6 +14,7 @@ const Review = () => {
   const [reviewContent, setReviewContent] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
   const [sessionUserId, setSessionUserId] = useState("");
+  const { trainerId } = useParams();
 
   const handleStarClick = (rating) => {
     setSelectedRating(rating);
@@ -70,12 +72,14 @@ const Review = () => {
           point: selectedRating,
           review: reviewContent,
           review_img: previewImages,
+          received_id: trainerId,
         }),
       });
 
       const data = await response.json();
       if (response.ok && data.message === "SUCCESS") {
         alert("리뷰가 등록되었습니다.");
+        fetchReviews(); // 서버에서 리뷰 데이터를 새로 가져옴
         handleCloseModal();
       } else {
         throw new Error(data.message || "리뷰 등록에 실패했습니다.");
@@ -85,14 +89,20 @@ const Review = () => {
     }
   };
 
-  useEffect(() => {
-    fetch("http://localhost:5000/review", {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setReviewList(data);
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/review/${trainerId}`, {
+        credentials: "include",
       });
+      const data = await response.json();
+      setReviewList(data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
 
     fetch("http://localhost:5000/session/checkSession", {
       credentials: "include",
@@ -116,12 +126,16 @@ const Review = () => {
     return totalPoint / reviewList.length;
   };
 
+  const receiveReviewList = reviewList.filter(
+    (review) => review.received_id === trainerId
+  );
+
   return (
     <div className="review" id="intro_page_contents_wrap">
       <h1>후기</h1>
       <div id="wrap_container">
         <div className="review_wrap">
-          {reviewList.length > 0 ? (
+          {receiveReviewList.length > 0 ? (
             <>
               <div className="star_review_wrap">
                 <span>{calculateAveragePoint().toFixed(1)}</span>
@@ -134,7 +148,7 @@ const Review = () => {
                     )}
                   </div>
                   <div className="review_num">
-                    <span>{reviewList.length}</span>
+                    <span>{receiveReviewList.length}</span>
                     <span>개의 후기</span>
                   </div>
                 </div>
@@ -158,8 +172,8 @@ const Review = () => {
           </div>
           <div className="review_list">
             <ul>
-              {reviewList.length > 0 ? (
-                reviewList.map((review, index) => (
+              {receiveReviewList.length > 0 ? (
+                receiveReviewList.map((review, index) => (
                   <li key={index} className="review_li">
                     <div>
                       <div className="review_header">
@@ -168,7 +182,9 @@ const Review = () => {
                             {review.user_name}
                           </span>
                           <span className="reviewDate">
-                            {review.register_date?.slice(0, 10) || ""}
+                            {typeof review.register_date === "string"
+                              ? review.register_date.slice(0, 10)
+                              : ""}
                           </span>
                         </div>
                         <div className="reviewStar">
@@ -183,7 +199,14 @@ const Review = () => {
                       </div>
                       <div className="review_context">
                         <div className="review_context_photo">
-                          {review.review_img}
+                          {Array.isArray(review.review_img) &&
+                            review.review_img.map((img, index) => (
+                              <img
+                                key={index}
+                                src={img}
+                                alt={`Review Image ${index}`}
+                              />
+                            ))}
                         </div>
                         <div className="review_context_text">
                           <p>{review.review}</p>
@@ -273,7 +296,7 @@ const Review = () => {
                         <label className="reviewTitle">
                           증빙사진을 올려주세요 (최대 3개)
                         </label>
-                        <div className="flexBox">
+                        {/* <div className="flexBox">
                           <input type="checkbox" name="" id="check_photo" />
                           <label htmlFor="check_photo"></label>
                           <label
@@ -282,7 +305,7 @@ const Review = () => {
                           >
                             사진 공개
                           </label>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="preview-images-container">
                         {previewImages.map((image, index) => (
