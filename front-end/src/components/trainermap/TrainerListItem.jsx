@@ -16,7 +16,7 @@ const TrainerListItem = (props) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user_id: trainer.user_id }),
+          body: JSON.stringify({ user_id: trainer.received_id }),
         });
         const data = await res.json();
         setReviewCount(data);
@@ -39,18 +39,19 @@ const TrainerListItem = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-        setPrice([data[0].total_price, data[0].count]);
-      })
-      .catch((error) => {
-        console.error("에러 발생", error);
+        if (data && data.length > 0) {
+          const totalPrice = data[0].total_price || 0;
+          const count = data[0].count || 1;
+          setPrice([totalPrice, count]);
+        } else {
+          setPrice([0, 1]);
+        }
       });
 
     fetchReviewCount();
-  }, [trainer.user_id]);
+  }, [trainer.user_id, trainer.received_id]);
 
   let introImgs = [];
-
   if (trainer.intro_img) {
     if (trainer.intro_img.includes(",")) {
       introImgs = trainer.intro_img.split(",");
@@ -60,12 +61,17 @@ const TrainerListItem = (props) => {
   } else {
     introImgs = [];
   }
-  const priceMath = (totalPrice, count) => {
-    if (totalPrice && count) {
-      return Math.round(totalPrice / count / 100) * 100;
+
+  const calculatePrice = () => {
+    const totalPrice = price[0];
+    const count = price[1];
+    if (totalPrice === 0 || count === 0) {
+      return 0;
     }
-    return 0;
+    return Math.round(totalPrice / count / 100) * 100;
   };
+
+
   return (
     <div className="TrainerListItem">
       <div className="morae">{trainer.user_name} 선생님</div>
@@ -77,9 +83,9 @@ const TrainerListItem = (props) => {
           <br />
           <br />
         </span>
-        <span className="moraeTitleTextPT">{price[1]}회 기준 회당</span>
+        <span className="moraeTitleTextPT">{trainer.count}회 기준 회당</span>
         <span className="moraePrice">
-          {priceMath(price[0], price[1])}원
+          {calculatePrice}원
           <br />
         </span>
       </div>
@@ -91,11 +97,7 @@ const TrainerListItem = (props) => {
         {reviewCount.review_total_count}개
       </div>
       {introImgs.length === 0 ? (
-        <img
-          className="trainerImg"
-          src="/image/tmp_mainlogo.png"
-          alt="기본 이미지"
-        />
+        <img className="trainerImg" src="/image/tmp_mainlogo.png" />
       ) : (
         introImgs.map((img, idx) => (
           <img
