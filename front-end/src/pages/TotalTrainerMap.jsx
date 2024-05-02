@@ -12,7 +12,6 @@ const TotalTrainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchCenter, setSearchCenter] = useState(null);
 
-
   useEffect(() => {
     setIsLoading(true);
     fetch("http://localhost:5000/center")
@@ -30,14 +29,13 @@ const TotalTrainer = () => {
         console.error("데이터 가져오기 실패:", error);
         setIsLoading(false);
       });
-
-    
   }, []);
 
   return (
     <>
       {trainerIndex !== null ? (
         <TrainerList
+          setIsLoading={setIsLoading}
           searchCenter={searchCenter}
           setSearchCenter={setSearchCenter}
           currentLongitude={currentLongitude}
@@ -47,6 +45,7 @@ const TotalTrainer = () => {
         />
       ) : (
         <TrainerList
+          setIsLoading={setIsLoading}
           searchCenter={searchCenter}
           setSearchCenter={setSearchCenter}
           currentLatitude={currentLatitude}
@@ -59,7 +58,7 @@ const TotalTrainer = () => {
         <LoadingSpinner />
       ) : (
         <UndongMap
-        setSearchCenter={setSearchCenter}
+          setSearchCenter={setSearchCenter}
           searchCenter={searchCenter}
           setIsLoading={setIsLoading}
           trainers={trainers}

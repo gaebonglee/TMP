@@ -3,8 +3,8 @@ import "./Review.scss";
 import { LuPencilLine } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
-import { useParams } from "react-router-dom";
-import "../../../trainermap/TrainerList.scss";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
@@ -14,7 +14,10 @@ const Review = () => {
   const [reviewContent, setReviewContent] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
   const [sessionUserId, setSessionUserId] = useState("");
-  const { trainerId } = useParams();
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const url = useLocation();
+
+  const receivedId = url.pathname.split("/")[2];
 
   const handleStarClick = (rating) => {
     setSelectedRating(rating);
@@ -29,14 +32,17 @@ const Review = () => {
     setPreviewImages([]);
     setReviewContent("");
     setSelectedRating(0);
+    setSelectedFiles([]);
   }
 
   const handleFileChange = (e) => {
-    const files = e.target.files;
-    if (files.length + previewImages.length > 3) {
+    const files = Array.from(e.target.files);
+    if (files.length + selectedFiles.length > 3) {
       alert("최대 3개의 사진까지만 등록할 수 있습니다.");
       return;
     }
+
+    setSelectedFiles([...selectedFiles, ...files]);
 
     for (let file of files) {
       const reader = new FileReader();
@@ -49,12 +55,73 @@ const Review = () => {
 
   const handleRemoveImage = (index) => {
     const newPreviewImages = [...previewImages];
+    const newSelectedFiles = [...selectedFiles];
     newPreviewImages.splice(index, 1);
+    newSelectedFiles.splice(index, 1);
     setPreviewImages(newPreviewImages);
+    setSelectedFiles(newSelectedFiles);
   };
 
   const handleReviewContentChange = (e) => {
     setReviewContent(e.target.value);
+  };
+
+  const handleFileUpload = async () => {
+    try {
+      const filesInfo = selectedFiles.map((file) => ({
+        name: file.name,
+        type: file.type,
+      }));
+
+      const response = await fetch(
+        "http://localhost:5000/file/generate-signed-urls",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            files: filesInfo,
+            userId: sessionUserId,
+            table: "your_table_name",
+          }),
+        }
+      );
+
+      const { signedUrls } = await response.json();
+
+      await Promise.all(
+        signedUrls.map(async ({ name, url }) => {
+          const file = selectedFiles.find((f) => f.name === name);
+          const result = await fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+          if (result.ok) {
+            console.log(`${name} uploaded successfully.`);
+          } else {
+            console.error(`Failed to upload ${name}.`);
+          }
+        })
+      );
+
+      // 업로드된 파일의 URL을 가져오는 로직 추가
+      const uploadedFileUrls = await Promise.all(
+        signedUrls.map(async ({ name, url }) => {
+          return `${process.env.FILE_SERVER_URL}/${url
+            .split("/")
+            .slice(-2)
+            .join("/")}`;
+        })
+      );
+
+      setPreviewImages([...previewImages, ...uploadedFileUrls]);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    }
   };
 
   const handleFetchReview = async () => {
@@ -63,23 +130,34 @@ const Review = () => {
       return;
     }
 
+    if (!sessionUserId) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     try {
+      await handleFileUpload();
+
+      const formData = new FormData();
+      selectedFiles.forEach((file) => {
+        formData.append("files", file);
+      });
+      formData.append("user_id", sessionUserId);
+      formData.append("point", selectedRating);
+      formData.append("review", reviewContent);
+      formData.append("review_img", previewImages);
+      formData.append("received_id", receivedId);
+
+      console.log(formData.get("user_id"));
+
       const response = await fetch("http://localhost:5000/review", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: sessionUserId,
-          point: selectedRating,
-          review: reviewContent,
-          review_img: previewImages,
-          received_id: trainerId,
-        }),
+        body: formData,
       });
 
       const data = await response.json();
       if (response.ok && data.message === "SUCCESS") {
         alert("리뷰가 등록되었습니다.");
-        fetchReviews(); // 서버에서 리뷰 데이터를 새로 가져옴
         handleCloseModal();
       } else {
         throw new Error(data.message || "리뷰 등록에 실패했습니다.");
@@ -89,20 +167,14 @@ const Review = () => {
     }
   };
 
-  const fetchReviews = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/review/${trainerId}`, {
-        credentials: "include",
-      });
-      const data = await response.json();
-      setReviewList(data);
-    } catch (error) {
-      console.error("Error fetching reviews:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchReviews();
+    fetch(`http://localhost:5000/review/${receivedId}`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setReviewList(data);
+      });
 
     fetch("http://localhost:5000/session/checkSession", {
       credentials: "include",
@@ -113,7 +185,6 @@ const Review = () => {
       });
   }, []);
 
-  // 평균 점수 계산 함수
   const calculateAveragePoint = () => {
     if (reviewList.length === 0) {
       return 0;
@@ -126,16 +197,12 @@ const Review = () => {
     return totalPoint / reviewList.length;
   };
 
-  const receiveReviewList = reviewList.filter(
-    (review) => review.received_id === trainerId
-  );
-
   return (
     <div className="review" id="intro_page_contents_wrap">
       <h1>후기</h1>
       <div id="wrap_container">
         <div className="review_wrap">
-          {receiveReviewList.length > 0 ? (
+          {reviewList.length > 0 ? (
             <>
               <div className="star_review_wrap">
                 <span>{calculateAveragePoint().toFixed(1)}</span>
@@ -148,7 +215,7 @@ const Review = () => {
                     )}
                   </div>
                   <div className="review_num">
-                    <span>{receiveReviewList.length}</span>
+                    <span>{reviewList.length}</span>
                     <span>개의 후기</span>
                   </div>
                 </div>
@@ -161,7 +228,15 @@ const Review = () => {
               </div>
             </>
           ) : (
-            <div>등록된 리뷰가 없습니다.</div>
+            <div className="flexBox">
+              <div>등록된 리뷰가 없습니다.</div>
+              <div className="review_btn">
+                <button onClick={handleReview}>
+                  <LuPencilLine />
+                  <a className="create_review">리뷰 남기기</a>
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -172,8 +247,8 @@ const Review = () => {
           </div>
           <div className="review_list">
             <ul>
-              {receiveReviewList.length > 0 ? (
-                receiveReviewList.map((review, index) => (
+              {reviewList.length > 0 ? (
+                reviewList.map((review, index) => (
                   <li key={index} className="review_li">
                     <div>
                       <div className="review_header">
@@ -182,9 +257,7 @@ const Review = () => {
                             {review.user_name}
                           </span>
                           <span className="reviewDate">
-                            {typeof review.register_date === "string"
-                              ? review.register_date.slice(0, 10)
-                              : ""}
+                            {review.register_date?.slice(0, 10) || ""}
                           </span>
                         </div>
                         <div className="reviewStar">
@@ -199,14 +272,17 @@ const Review = () => {
                       </div>
                       <div className="review_context">
                         <div className="review_context_photo">
-                          {Array.isArray(review.review_img) &&
+                          {Array.isArray(review.review_img) ? (
                             review.review_img.map((img, index) => (
                               <img
                                 key={index}
                                 src={img}
                                 alt={`Review Image ${index}`}
                               />
-                            ))}
+                            ))
+                          ) : (
+                            <img src={review.review_img} alt="Review Image" />
+                          )}
                         </div>
                         <div className="review_context_text">
                           <p>{review.review}</p>
@@ -296,7 +372,7 @@ const Review = () => {
                         <label className="reviewTitle">
                           증빙사진을 올려주세요 (최대 3개)
                         </label>
-                        {/* <div className="flexBox">
+                        <div className="flexBox">
                           <input type="checkbox" name="" id="check_photo" />
                           <label htmlFor="check_photo"></label>
                           <label
@@ -305,7 +381,7 @@ const Review = () => {
                           >
                             사진 공개
                           </label>
-                        </div> */}
+                        </div>
                       </div>
                       <div className="preview-images-container">
                         {previewImages.map((image, index) => (

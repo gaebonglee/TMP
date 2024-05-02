@@ -71,7 +71,6 @@ const TrainerListItem = (props) => {
     return Math.round(totalPrice / count / 100) * 100;
   };
 
-
   return (
     <div className="TrainerListItem">
       <div className="morae">{trainer.user_name} 선생님</div>
@@ -83,9 +82,9 @@ const TrainerListItem = (props) => {
           <br />
           <br />
         </span>
-        <span className="moraeTitleTextPT">{trainer.count}회 기준 회당</span>
+        <span className="moraeTitleTextPT">{price[1]}회 기준 회당</span>
         <span className="moraePrice">
-          {calculatePrice}원
+          {calculatePrice()}원
           <br />
         </span>
       </div>
