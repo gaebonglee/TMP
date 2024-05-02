@@ -71,6 +71,7 @@ const TrainerListItem = (props) => {
     return Math.round(totalPrice / count / 100) * 100;
   };
 
+
   return (
     <div className="TrainerListItem">
       <div className="morae">{trainer.user_name} 선생님</div>
@@ -82,8 +83,11 @@ const TrainerListItem = (props) => {
           <br />
           <br />
         </span>
-        <span className="moraeTitleTextPT">{price[1]}회 기준 회당</span>
-        <span className="moraePrice">{calculatePrice()}원</span>
+        <span className="moraeTitleTextPT">{trainer.count}회 기준 회당</span>
+        <span className="moraePrice">
+          {calculatePrice}원
+          <br />
+        </span>
       </div>
       <div className="moraeLocation">
         <TbMapPin size={17} /> {trainer.center_name} - {trainer.center_address}
@@ -93,11 +97,7 @@ const TrainerListItem = (props) => {
         {reviewCount.review_total_count}개
       </div>
       {introImgs.length === 0 ? (
-        <img
-          className="trainerImg"
-          src="/image/tmp_mainlogo.png"
-          alt="Default Trainer"
-        />
+        <img className="trainerImg" src="/image/tmp_mainlogo.png" />
       ) : (
         introImgs.map((img, idx) => (
           <img

@@ -15,7 +15,8 @@ const TrainerList = (props) => {
     setSearchCenter,
     centerList,
     setSearchingData,
-    searchCenter,
+    searchCenter, 
+   
   } = props;
 
   return (
@@ -44,7 +45,6 @@ const TrainerList = (props) => {
           </>
         ) : (
           <FilterList
-            setFilter={setFilter}
             currentLatitude={currentLatitude}
             currentLongitude={currentLongitude}
             setTrainers={setTrainers}

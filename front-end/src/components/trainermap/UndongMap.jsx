@@ -172,16 +172,19 @@ const UndongMap = (props) => {
 
   useEffect(() => {
     const getCurrentPosition = () => {
+      setIsLoading(true);
       return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
           timeout: 15000,
           maximumAge: 0,
         });
+        setIsLoading(false);
       });
     };
 
     const initMapAfterLocationUpdate = async () => {
+      setIsLoading(true);
       try {
         const position = await getCurrentPosition();
         if (urlLat === null || urlLng === null) {
@@ -198,7 +201,7 @@ const UndongMap = (props) => {
           console.error("Error getting current location:", error);
           setCurrentLatitude(37.5665);
           setCurrentLongitude(126.978);
-          alert(
+          console.log(
             "현재 위치를 가져오는 데 실패했습니다. 기본 위치로 지도를 초기화합니다."
           );
         }

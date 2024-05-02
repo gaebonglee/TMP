@@ -40,7 +40,11 @@ const TotalTrainer = () => {
     <>
       {trainerIndex !== null ? (
         <TrainerList
+<<<<<<< HEAD
           searchCenter={searchCenter}
+=======
+          setIsLoading={setIsLoading}
+>>>>>>> 1c94e6737b42e088429985a4d6cf507dfddfeb4b
           setSearchCenter={setSearchCenter}
           currentLongitude={currentLongitude}
           currentLatitude={currentLatitude}
@@ -49,7 +53,11 @@ const TotalTrainer = () => {
         />
       ) : (
         <TrainerList
+<<<<<<< HEAD
           searchCenter={searchCenter}
+=======
+          setIsLoading={setIsLoading}
+>>>>>>> 1c94e6737b42e088429985a4d6cf507dfddfeb4b
           setSearchCenter={setSearchCenter}
           currentLatitude={currentLatitude}
           currentLongitude={currentLongitude}
