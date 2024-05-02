@@ -1,1 +1,8 @@
-// 추가
+@import "../../../common.scss";
+
+.pleaseInsertCenterInfo {
+  text-align: center;
+  margin-top: 24px;
+  font-size: $h3;
+  font-weight: $font-weight-2;
+}

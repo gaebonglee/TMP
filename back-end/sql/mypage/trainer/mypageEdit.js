@@ -15,36 +15,6 @@ function selectUser(callback) {
   );
 }
 
-//LeftEdit.jsx의 (레슨가격 부분)
-function selectTrainerPrice(data, callback) {
-  connection.query(
-    "SELECT count, total_price from trainer_price where user_id = ?",
-    data,
-    function (error, results) {
-      if (error) {
-        callback(error, null);
-      } else {
-        callback(null, results);
-      }
-    }
-  );
-}
-
-function updateTrainerPrice(data, callback) {
-  connection.query(
-    "UPDATE trainer_price SET count = ?, total_price = ? WHERE user_id = ?",
-    [data.count, data.total_price, data.user_id],
-    function (error, results) {
-      if (error) {
-        callback(error, null);
-      } else {
-        callback(null, results);
-      }
-    }
-  );
-}
 module.exports = {
   selectUser,
-  selectTrainerPrice,
-  updateTrainerPrice,
 };

@@ -49,7 +49,7 @@ const Search = ({ setSearchCenter }) => {
     const value = e.target.value;
     setSearchKeyword(value);
 
-    if (value.length >= 2) {
+    if (value.length >= 1) {
       setShowSuggestions(true);
     } else {
       setShowSuggestions(false);
@@ -62,7 +62,7 @@ const Search = ({ setSearchCenter }) => {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setSearchKeyword(`${suggestion.center_name} ${suggestion.center_address}`);
+    setSearchKeyword(`${suggestion.center_name}`);
     setShowSuggestions(false);
 
     if (scriptStatus === "ready") {

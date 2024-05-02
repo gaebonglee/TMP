@@ -1,11 +1,16 @@
 import React, {useState, useEffect } from 'react';
 import './Userinfo.scss';
+import {useNavigate} from 'react-router-dom'
 
 const Userinfo = () => {
 
-const [userData, setUserData] = useState({name: "", email: "", phonenumber: "", user_roles:"", user_id: ""})
+const [userData, setUserData] = useState({name: "", email: "", phonenumber: "", user_roles:"", user_id: "", certification: ""})
+const [showCertificateButton, setShowCertificateButton] = useState(false);
+const [certificateNumber, setCertificateNumber] = useState(null)
+const [certificateStatus, setCertificateStatus] = useState(false)
+const [shouldNavigate, setShouldNavigate] = useState(false)
 
-const inputHandler = (e) => {
+const InputHandler = (e) => {
     const {name, value} = e.target
     setUserData((prev)=>{
         return {...prev, [name] : value}
@@ -42,8 +47,16 @@ useEffect(() => {
 
 }, []);
 
+const navigate = useNavigate()
+useEffect(()=>{
+    if(shouldNavigate){
+      navigate('/');
+    }
+  },[shouldNavigate, navigate])
+
 const UpdateHandler = (e) => {
     e.preventDefault();
+    if(certificateStatus){
     fetch('http://localhost:5000/mypage/selectUserinfo', {  //요청지
         method: 'POST',        //메소드 지정
         headers: {            //데이터 타입 지정
@@ -64,65 +77,121 @@ const UpdateHandler = (e) => {
         setUserData((prev)=>{
            return {...prev, name: data[0]?.name, email: data[0]?.email, phonenumber: data[0]?.phonenumbe, user_id: data[0]?.user_id }
         })
-        return alert('Info updated successfully')
+        alert('업데이트가 완료되었습니다.')
+        setShouldNavigate(true)
 })
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
 });
+    }
+    else{
+        alert("휴대폰 인증절차를 완료해주세요.")
+    }
 };
 
+const GenerateSixDigitNumber = () => {
+    return Math.floor(Math.random() * 900000 + 100000);
+  }
+
+  const ButtonClickHandler = async () => {
+    setShowCertificateButton(true)
+
+    const randomNumber = GenerateSixDigitNumber();
+    setCertificateNumber(randomNumber)
+
+    const response = await fetch('http://localhost:5000/mypage/certification', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ certificateNumber: randomNumber, phonenumber: userData.phonenumber })
+        });
+        const data = await response.json();
+        console.log('Response:', data);
+  }
+  const CheckNumber = () => {
+    if(certificateNumber === parseInt(userData.certification)){
+      setCertificateStatus(true)
+      return alert("번호 인증이 완료되었습니다.")
+    }
+    else{
+      return alert("인증번호가 틀렸습니다. 다시 시도해주세요.")
+    }
+  }
 
     return (
-    <form onSubmit={(e) => {UpdateHandler(e)}}>    
-        <div className='user_info_container'>
-            <div className='user_info_tab'>
-                <div className='user_info_title'>기본정보</div>
-            </div>
-            <div className='user_info_hr_container'>
-            <hr className='user_info_hr_top'/>
-            </div >
-            <div className='user_info_hr_container'>
-            <hr className='user_info_hr'/>
-            </div>
-            <div className='user_info_input_container'>
-                <div className='user_info_name'>
-                    <div className='label_container'>
-                        <label>
-                            이름
-                            <span className='aster'>*</span>
-                        </label>
-                    </div>
-                    <input type="text" name="name" placeholder='필수 입력' value={userData.name} onChange={inputHandler}></input>
+    <div className='wrapper'>
+        <form onSubmit={(e) => {UpdateHandler(e)}}>    
+            <div className='user_info_container'>
+                <div className='user_info_tab'>
+                    <div className='user_info_title'>기본정보</div>
                 </div>
-                <div className='user_info_email'>
-                    <div className='label_container'>
-                        <label>이메일</label>
-                    </div>
-                    <input type="email" name="email" placeholder='선택 입력' value={userData.email} onChange={inputHandler}></input>
+                <div className='user_info_hr_container'>
+                <hr className='user_info_hr_top'/>
+                </div >
+                <div className='user_info_hr_container'>
+                <hr className='user_info_hr'/>
                 </div>
-                <div className='user_info_phone'>
-                    <div className='label_container'>
-                        <label>휴대폰 번호
-                            <span className='aster'>*</span>
-                        </label>
+                <div className='user_info_input_container'>
+                    <div className='user_info_name'>
+                        <div className='label_container'>
+                            <label>
+                                이름
+                                <span className='aster'>*</span>
+                            </label>
+                        </div>
+                        <input type="text" name="name" placeholder='필수 입력' value={userData.name} onChange={InputHandler}></input>
                     </div>
-                    <div className='user_info_phone_input_container'>
-                        <input type="text" name="phonenumber" placeholder="-없이 입력" value={userData.phonenumber} onChange={inputHandler}/>
-                        <button id='user_info_phone_send' type='submit' >인증번호 발송</button>
+                    <div className='user_info_email'>
+                        <div className='label_container'>
+                            <label>이메일</label>
+                        </div>
+                        <input type="email" name="email" placeholder='선택 입력' value={userData.email} onChange={InputHandler}></input>
                     </div>
+                    <div className='user_info_phone'>
+                        <div className='label_container'>
+                            <label>휴대폰 번호
+                                <span className='aster'>*</span>
+                            </label>
+                        </div>
+                        <div className='user_info_phone_input_container'>
+                            <input type="text" name="phonenumber" placeholder="-없이 입력" value={userData.phonenumber} onChange={InputHandler}/>
+                            <button id='user_info_phone_send' type='button'onClick={ButtonClickHandler}>인증번호 발송</button>
+                        </div>
+                    </div>
+                    {showCertificateButton && 
+            <div className="user_info_phone">
+                <div className="label_container">
+                <label>
+                    인증번호 6자리
+                    <span className="aster">*</span>
+                </label>
+                </div>
+                <div className="user_info_phone_input_container">
+                <input
+                    type="text"
+                    name="certification"
+                    placeholder="인증번호를 입력해주세요"
+                    value={userData.certification}
+                    onChange={InputHandler}
+                    maxLength="6"
+                />
+                <button id="user_info_phone_send" type="button" onClick={CheckNumber}>
+                    인증하기
+                </button>
+                </div>
+            </div>}
+                </div>
+                <div className='user_info_hr_container'>
+                <hr className='user_info_hr2'/>
+                </div> 
+                <div className='user_info_input_container'>
+                    <div className='user_info_button'>
+                        <button type='submit'>정보 업데이트</button>
+                    </div>
+                    <div className='user_info_cancle'>회원 탈퇴</div>
                 </div>
             </div>
-            <div className='user_info_hr_container'>
-            <hr className='user_info_hr2'/>
-            </div> 
-            <div className='user_info_input_container'>
-                <div className='user_info_button'>
-                    <button type='submit'>정보 업데이트</button>
-                </div>
-                <div className='user_info_cancle'>회원 탈퇴</div>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
     );
 }
 
