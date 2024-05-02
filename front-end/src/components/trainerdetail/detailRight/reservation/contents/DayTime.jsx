@@ -70,12 +70,6 @@ const DayTime = (props) => {
           </button>
         ))}
       </div>
-      {/* <div className="selected-time"> 
-        <strong>선택한 날짜 :</strong>{" "}
-        {date ? date.toLocaleDateString() : "선택되지 않음"}
-        <br />
-        <strong>선택한 시간 :</strong> {time || "선택되지 않음"}
-      </div>*/}
     </div>
   );
 };

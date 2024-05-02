@@ -120,8 +120,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 170px;
-  height: 60px;
+  min-width: 165px;
+  height: 55px;
   background-color: $green2;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -131,6 +131,8 @@
   .src_btn {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     margin-right: 10px;
     position: relative;
@@ -138,7 +140,6 @@
     background-color: $green2;
     border: none;
     color: $white;
-
     .FiSearch {
       color: $white;
     }

@@ -1,6 +1,6 @@
 const connection = require("../../../connection/mysqlConnection");
 
-function selectLesson(date, callback) {
+function selectLesson( callback) {
     connection.query(
         "SELECT u.user_name, r.reservation_date, r.reservation_time " +
         "FROM reservation r " +

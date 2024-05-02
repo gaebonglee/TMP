@@ -6,11 +6,12 @@ const authRouter = require("./routes/auth");
 const sessionRouter = require("./routes/session");
 const centerRouter = require("./routes/center");
 const reviewRouter = require("./routes/review");
-const mypageRouter = require("./routes/mypage")
+const mypageRouter = require("./routes/mypage");
 const fileRouter = require("./routes/file");
 const filterRouter = require("./routes/filter");
 const trainerDetailRouter = require("./routes/trainerDetail");
-const inquiryRouter = require("./routes/inquiry")
+const inquiryRouter = require("./routes/inquiry");
+const reservationRouter = require("./routes/reservation");
 
 dotenv.config();
 const app = express();
@@ -41,6 +42,7 @@ app.use("/file", fileRouter);
 app.use("/filter", filterRouter);
 app.use("/trainerDetail", trainerDetailRouter);
 app.use("/servicecenter", inquiryRouter);
+app.use("/reservation", reservationRouter);
 
 app.listen(5000, () => {
   console.log("server is running...");
