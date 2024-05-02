@@ -16,6 +16,8 @@ import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/trainermap/LoadingSpinner";
 import UserInquiry from "components/inquiry/userInquiry/UserInquiry";
+import Confirmation from "components/trainerdetail/detailRight/reservation/contents/Confirmation";
+import PaymentComplete from "components/payment/PaymentComplete";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -96,6 +98,26 @@ function App() {
             element={
               <PrivateRoute
                 component={<ReservationPage />}
+                token={data}
+                role={"user"}
+              />
+            }
+          />
+          <Route
+            path="/confirmation/:trainerId"
+            element={
+              <PrivateRoute
+                component={<Confirmation />}
+                token={data}
+                role={"user"}
+              />
+            }
+          />
+          <Route
+            path="/paymentComplete/:reservationId"
+            element={
+              <PrivateRoute
+                component={<PaymentComplete />}
                 token={data}
                 role={"user"}
               />

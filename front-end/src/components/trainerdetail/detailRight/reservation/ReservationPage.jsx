@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DayTime from "./contents/DayTime";
 import Purpose from "./contents/Purpose";
-import Confirmation from "./contents/Confirmation";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const ReservationPage = () => {
@@ -10,26 +10,27 @@ const ReservationPage = () => {
   const [subCategories, setSubCategories] = useState([]);
   const [trainerName, setTrainerName] = useState("");
   const { trainerId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:5000/reservation/trainer/${trainerId}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetched trainer data:", data); // 데이터 로깅
         setTrainerName(data.name);
       });
   }, [trainerId]);
 
+  const handleNext = () => {
+    navigate(`/confirmation/${trainerId}`, {
+      state: { date, time, subCategories, trainerName, trainerId },
+    });
+  };
+
   return (
-    <div className="reservationPage_contrainer">
+    <div className="reservationPage_container">
       <DayTime setDate={setDate} setTime={setTime} />
       <Purpose setSubCategories={setSubCategories} />
-      <Confirmation
-        date={date}
-        time={time}
-        subCategories={subCategories}
-        trainerName={trainerName}
-      />
+      <button onClick={handleNext}>다음</button>
     </div>
   );
 };

@@ -43,6 +43,7 @@ app.use("/filter", filterRouter);
 app.use("/trainerDetail", trainerDetailRouter);
 app.use("/servicecenter", inquiryRouter);
 app.use("/reservation", reservationRouter);
+
 app.listen(5000, () => {
   console.log("server is running...");
 });
