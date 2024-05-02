@@ -8,12 +8,28 @@ import TrainerDetail from "./pages/TrainerDetail";
 import Userinfo from "./components/mypage/userinfo/Userinfo";
 import Coachinfo from "./components/mypage/trainerinfo/Coachinfo";
 import LessonPage from "./components/mypage/trainercalendar/LessonCalendar";
+import ReservationPage from "./components/trainerdetail/detailRight/reservation/ReservationPage";
 import TrainerDetailEdit from "./components/mypage/trainerdetailinfoedit/EditForm";
 import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
-import PrivateRoute from "components/privateRoute/PrivateRoute";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "./components/trainermap/LoadingSpinner";
+import UserInquiry from "components/inquiry/userInquiry/UserInquiry";
 
 function App() {
+  const { isPending, error, data } = useQuery({
+    queryKey: ["loginInfo"],
+    queryFn: () =>
+      fetch("http://localhost:5000/session/checkSession", {
+        method: "GET",
+        credentials: "include",
+      }).then((res) => res.json()),
+  });
+
+  if (isPending) return <LoadingSpinner />;
+
+  if (error) return "An error has occurred: " + error.message;
   return (
     <Router>
       <Routes>
@@ -21,9 +37,10 @@ function App() {
           <Route index element={<Mainpage />} />
           <Route path="/trainermap" element={<TotalTrainerMap />} />
           <Route path="/centermap" element={<TotalCenterMap />} />
-          <Route path="/trainerDetail" element={<TrainerDetail />} />
+          <Route path="/trainerDetail/:trainerId" element={<TrainerDetail />} />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
+          <Route path="/servicecenter" element={<UserInquiry />} />
           <Route
             path="/mypage/userinfo"
             element={
@@ -48,7 +65,7 @@ function App() {
             path="/trainerProfileEdit"
             element={
               <PrivateRoute
-                component={<TrainerProfileEdit />}
+                component={<TrainerProfileEdit userId={data.user_id} />}
                 token={data}
                 role={"trainer"}
               />
@@ -71,6 +88,16 @@ function App() {
                 component={<LessonPage />}
                 token={data}
                 role={"trainer"}
+              />
+            }
+          />
+          <Route
+            path="/reservationPage"
+            element={
+              <PrivateRoute
+                component={<ReservationPage />}
+                token={data}
+                role={"user"}
               />
             }
           />

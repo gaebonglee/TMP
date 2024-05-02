@@ -10,8 +10,18 @@ import ShortIntroEdit from "./left/ShortIntroEdit";
 import axios from "axios";
 import CenterLocationEdit from "./left/CenterLocationEdit";
 
-function LeftEdit({ data }) {
-  const [introimg, setIntroImg] = useState(data.info1.intro_img);
+function LeftEdit({ data, userId }) {
+  const imgArr = data.info1.intro_img
+    ? data.info1.intro_img.includes(",")
+      ? data.info1.intro_img.split(",")
+      : [data.info1.intro_img]
+    : [];
+  for (let i = 0; i < imgArr.length; i++) {
+    imgArr[
+      i
+    ] = `${process.env.REACT_APP_FILE_SERVER_URL}/trainer/${userId}/${imgArr[i]}`;
+  }
+  const [introimg, setIntroImg] = useState(imgArr);
   const [intro, setIntro] = useState("");
   const [qualifications, setQualifications] = useState("");
   const [schedule, setSchedule] = useState("");
@@ -19,9 +29,79 @@ function LeftEdit({ data }) {
   const [lessonprice, setLessonPrice] = useState("");
   const [shortintro, setShortIntro] = useState("");
   const [location, setLocation] = useState("");
+
+  const handleImgSaveChanges = async (newIntroImg) => {
+    const files = newIntroImg.filter((value) => {
+      return typeof value === "object";
+    });
+    const urls = newIntroImg.filter((value) => {
+      return typeof value !== "object";
+    });
+
+    // 이미지 삭제처리
+    const deleteResponse = await fetch(
+      "http://localhost:5000/file/delete-files",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ files: urls, userId, table: "trainer" }),
+      }
+    );
+
+    const filesInfo = files.map((file) => ({
+      name: file.name,
+      type: file.type,
+    }));
+    // 이미지 배열을 서버로 전송하여 저장
+    const response = await fetch(
+      "http://localhost:5000/file/generate-signed-urls",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ files: filesInfo, userId, table: "trainer" }),
+      }
+    );
+
+    const { signedUrls } = await response.json();
+
+    await Promise.all(
+      signedUrls.map(async ({ name, url }) => {
+        const file = files.find((f) => f.name === name);
+        const result = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.type,
+          },
+          body: file,
+        });
+
+        if (result.ok) {
+          console.log(`${name} uploaded successfully.`);
+        } else {
+          console.error(`Failed to upload ${name}.`);
+        }
+      })
+    );
+
+    const updateResponse = await fetch(
+      "http://localhost:5000/file/update-files",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, table: "trainer" }),
+      }
+    );
+  };
+
   const handleIntroImgSave = (newIntroImg) => {
     setIntroImg(newIntroImg);
-    saveToMySQL({ introimg: newIntroImg });
+    handleImgSaveChanges(newIntroImg);
   };
 
   const handleIntroSave = (newIntro) => {

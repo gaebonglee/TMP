@@ -6,55 +6,83 @@ import "./RightEdit.scss";
 // 기본 이미지 경로
 const defaultImagePath = "/image/tmp_mainlogo.png";
 
-const RightEdit = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [trainerName, setTrainerName] = useState("");
+const RightEdit = ({ data }) => {
+  const userInfo = data.info1;
+  const [selectedFile, setSelectedFile] = useState(data.info1.user_img);
+  const [trainerName, setTrainerName] = useState(userInfo.user_name);
 
-  const {
-    isLoading,
-    error,
-    data: userInfo,
-  } = useQuery({
-    queryKey: ["userInfo"], // 문자열 형태로 전달
-    queryFn: async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/session/checkSession",
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch user info");
-        }
-        return response.json();
-      } catch (error) {
-        throw new Error("Failed to fetch user info: " + error.message);
+  const handleFileChange = async (event) => {
+    const files = event.target.files[0];
+    console.log(files);
+    const filesInfo = [
+      {
+        name: files.name,
+        type: files.type,
+      },
+    ];
+
+    const deleteResponse = await fetch(
+      "http://localhost:5000/file/delete-files",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          files: [files.name],
+          userId: userInfo.user_id,
+          table: "user",
+        }),
       }
-    },
-  });
+    );
 
-  useEffect(() => {
-    if (!isLoading && userInfo) {
-      const { user_name } = userInfo;
-      setTrainerName(user_name);
-    }
-  }, [isLoading, userInfo]);
+    const response = await fetch(
+      "http://localhost:5000/file/generate-signed-url",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          files: filesInfo,
+          userId: userInfo.user_id,
+          table: "user",
+        }),
+      }
+    );
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    const { signedUrls } = await response.json();
+
+    await Promise.all(
+      signedUrls.map(async ({ name, url }) => {
+        const result = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": files.type,
+          },
+          body: files,
+        });
+
+        if (result.ok) {
+          console.log(`${name} uploaded successfully.`);
+        } else {
+          console.error(`Failed to upload ${name}.`);
+        }
+      })
+    );
+
+    setSelectedFile(event.target.files[0].name);
+    console.log("변경 이미지 ::", event.target.files[0].name);
   };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="right_edit_container">
       <div className="right_edit_img_container">
         <img
           src={
-            selectedFile ? URL.createObjectURL(selectedFile) : defaultImagePath
+            selectedFile
+              ? `${process.env.REACT_APP_FILE_SERVER_URL}/user/${userInfo.user_id}/${selectedFile}`
+              : defaultImagePath
           }
           className="right_edit_img"
           alt="right_edit_img"

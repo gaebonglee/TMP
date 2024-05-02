@@ -132,7 +132,6 @@ async function handleKakaoLogin(req, res, role) {
       req.session.phonenumber = phoneNumber;
       req.session.user_name = userInfo.data.kakao_account.name;
       req.session.save(() => {});
-
       // 리디렉션
       if (result.length !== 0 && result[0].user_roles !== role) {
         req.session.destroy((err) => {
