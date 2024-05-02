@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TrainerList from "../components/trainermap/TrainerList";
 import UndongMap from "../components/trainermap/UndongMap";
 import LoadingSpinner from "components/trainermap/LoadingSpinner";
-import SearchInput from "../components/trainermap/SearchInput";
+import useScript from "hooks/useScript";
 
 const TotalTrainer = () => {
   const [trainers, setTrainers] = useState([]);
@@ -11,9 +11,7 @@ const TotalTrainer = () => {
   const [currentLongitude, setCurrentLongitude] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [searchCenter, setSearchCenter] = useState(null);
-  const [filter, setFilter] = useState(false);
-  const [centerList, setCenterList] = useState(false);
-  const [searchingData, setSearchingData] = useState("");
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,12 +30,15 @@ const TotalTrainer = () => {
         console.error("데이터 가져오기 실패:", error);
         setIsLoading(false);
       });
+
+    
   }, []);
 
   return (
     <>
       {trainerIndex !== null ? (
         <TrainerList
+          searchCenter={searchCenter}
           setSearchCenter={setSearchCenter}
           currentLongitude={currentLongitude}
           currentLatitude={currentLatitude}
@@ -46,6 +47,7 @@ const TotalTrainer = () => {
         />
       ) : (
         <TrainerList
+          searchCenter={searchCenter}
           setSearchCenter={setSearchCenter}
           currentLatitude={currentLatitude}
           currentLongitude={currentLongitude}
@@ -57,6 +59,7 @@ const TotalTrainer = () => {
         <LoadingSpinner />
       ) : (
         <UndongMap
+        setSearchCenter={setSearchCenter}
           searchCenter={searchCenter}
           setIsLoading={setIsLoading}
           trainers={trainers}

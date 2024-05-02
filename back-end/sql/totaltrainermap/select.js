@@ -3,16 +3,22 @@ const mysql = require("../../connection/mysqlConnection");
 function selectCenterAll(callback) {
   mysql.query(
     `
-    SELECT 
-      u.user_id, u.user_name, u.gender,
-      r.point,
-      t.intro_img,
-      c.center_name, c.center_address, c.latitude, c.longitude
-    FROM user u
-    LEFT JOIN review r ON u.user_id = r.user_id
-    LEFT JOIN trainer t ON u.user_id = t.user_id
-    LEFT JOIN center c ON t.center_id = c.center_id
-    WHERE user_roles = 'trainer';
+    SELECT DISTINCT
+    u.user_id, 
+    u.user_name, 
+    u.gender, 
+    r.point, 
+    t.intro_img, 
+    c.center_name, 
+    c.center_address, 
+    c.latitude, 
+    c.longitude, 
+    r.received_id
+FROM user u
+LEFT JOIN review r ON u.user_id = r.user_id
+LEFT JOIN trainer t ON u.user_id = t.user_id
+LEFT JOIN center c ON t.center_id = c.center_id
+WHERE user_roles = 'trainer';
     `,
     (err, result) => {
       if (err) {
@@ -65,11 +71,21 @@ function selectCountReview(user_id, callback) {
 function selectCenter(callback) {
   mysql.query(
     `
-    SELECT 
-      c.center_id, c.center_name, c.center_address, c.latitude, c.longitude,
-      t.user_id
-    FROM center c
-    JOIN trainer t ON c.center_id = t.center_id;
+    SELECT
+    c.center_id, 
+    c.center_name, 
+    c.center_address, 
+    c.latitude, 
+    c.longitude, 
+    GROUP_CONCAT(DISTINCT t.user_id) AS user_ids
+FROM center c
+JOIN trainer t ON c.center_id = t.center_id
+GROUP BY
+    c.center_id, 
+    c.center_name, 
+    c.center_address, 
+    c.latitude, 
+    c.longitude;
     `,
     (err, result) => {
       if (err) {
@@ -118,7 +134,7 @@ function selectFilter(filter, callback) {
 
   mysql.query(
     `
-    SELECT 
+    SELECT DISTINCT
       c.center_id, c.center_name, c.center_address, c.latitude, c.longitude,
       t.user_id,
       tp.count, tp.total_price,
@@ -153,7 +169,7 @@ function selectFilter(filter, callback) {
 function selectCurrentLocation(currentLocation, callback) {
   mysql.query(
     `
-    SELECT 
+    SELECT DISTINCT
       c.center_id, c.center_name, c.center_address, c.latitude, c.longitude,
       t.user_id,
       u.user_name, u.gender

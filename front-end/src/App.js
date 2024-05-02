@@ -8,7 +8,7 @@ import TrainerDetail from "./pages/TrainerDetail";
 import Userinfo from "./components/mypage/userinfo/Userinfo";
 import Coachinfo from "./components/mypage/trainerinfo/Coachinfo";
 import LessonPage from "./components/mypage/trainercalendar/LessonCalendar";
-import ReservationPage from "./components/trainerdetail/detailRight/reservation/ReservationPage"
+import ReservationPage from "./components/trainerdetail/detailRight/reservation/ReservationPage";
 import TrainerDetailEdit from "./components/mypage/trainerdetailinfoedit/EditForm";
 import Complete from "./pages/Complete";
 import TrainerProfileEdit from "./pages/TrainerProfileEdit";
