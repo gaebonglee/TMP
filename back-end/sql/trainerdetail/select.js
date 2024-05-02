@@ -61,6 +61,7 @@ async function selectTrainerInfo2(trainerId) {
   return new Promise((resolve, reject) => {
     const query = `
     select
+      a.certification_id,
       a.certification_type, 
       a.certification_name, 
       a.certification_img,
