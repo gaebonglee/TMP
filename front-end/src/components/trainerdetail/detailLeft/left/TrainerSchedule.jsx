@@ -29,7 +29,18 @@ const TrainerSchedule = ({ data }) => {
             </div>
           </li>
         )}
+        {!!data.dayoff && (
+          <li className="trainerScheduleList">
+            <div className="trainerScheduleList__dayOfWeek">휴무일</div>
+            <div className="trainerScheduleList__time">{data.dayoff}</div>
+          </li>
+        )}
       </ul>
+      {!!data.note && (
+        <li className="trainerScheduleList">
+          <div className="trainerScheduleList__note">• {data.note}</div>
+        </li>
+      )}
     </div>
   );
 };

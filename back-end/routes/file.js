@@ -35,6 +35,26 @@ router.post("/save-intro", async (req, res) => {
   res.send({ success: "success" });
 });
 
+// 트레이너 schedule update
+router.post("/save-lessonSchedule", async (req, res) => {
+  const { userId, schedule } = req.body;
+  try {
+    const selectTrainerSchedule = await file.selectTrainerSchedule(userId);
+
+    if (selectTrainerSchedule.length === 0) {
+      // insert
+      await file.insertTrainerSchedule(schedule, userId);
+    } else {
+      // update
+      await file.updateTrainerSchedule(schedule, userId);
+    }
+  } catch (error) {
+    console.log("trainer intro update error::", error);
+    return res.status(500).send("trainer intro update error");
+  }
+  res.send({ success: "success" });
+});
+
 // 여러 파일에 대한 사인된 URL을 생성하는 라우트
 router.post("/generate-signed-urls", async (req, res) => {
   const filesInfo = req.body.files; // 파일 정보 배열

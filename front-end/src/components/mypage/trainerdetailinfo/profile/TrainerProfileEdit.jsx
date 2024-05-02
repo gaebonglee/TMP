@@ -15,6 +15,8 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
   const handleSave = () => {
     if (title === "자기소개") {
       onSave(editedContent, "자기소개");
+    } else if (title === "레슨스케줄") {
+      onSave(editedContent, "레슨스케줄");
     } else {
       onSave(editedContent);
     }
@@ -78,6 +80,39 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
                 </div>
               );
             })}
+          {title === "레슨스케줄" &&
+          content.weekday === null &&
+          content.saturday === null &&
+          content.sunday === null ? (
+            "아직 작성된 내용이 없습니다."
+          ) : (
+            <div>
+              {!!content.weekday && (
+                <li className="trainerScheduleList">
+                  <div className="trainerScheduleList__dayOfWeek">평일</div>
+                  <div className="trainerScheduleList__time">
+                    {content.weekday_start} ~ {content.weekday_end}
+                  </div>
+                </li>
+              )}
+              {!!content.saturday && (
+                <li className="trainerScheduleList">
+                  <div className="trainerScheduleList__dayOfWeek">토요일</div>
+                  <div className="trainerScheduleList__time">
+                    {content.saturday_start} ~ {content.saturday_end}
+                  </div>
+                </li>
+              )}
+              {!!content.sunday && (
+                <li className="trainerScheduleList">
+                  <div className="trainerScheduleList__dayOfWeek">일요일</div>
+                  <div className="trainerScheduleList__time">
+                    {content.sunday_start} ~ {content.sunday_end}
+                  </div>
+                </li>
+              )}
+            </div>
+          )}
           {content.length === 0 && "아직 작성된 내용이 없습니다."}
         </div>
       )}

@@ -35,7 +35,7 @@ const TrainerList = (props) => {
         {filter ? (
           <>
             {[...trainers].map((trainer, index) => (
-              <Link to={`/trainerDetail/${trainer.user_id}`}>
+              <Link key={index} to={`/trainerDetail/${trainer.user_id}`}>
                 <TrainerListItem key={index} trainer={trainer} />
               </Link>
             ))}

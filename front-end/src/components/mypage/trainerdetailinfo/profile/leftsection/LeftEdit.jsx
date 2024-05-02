@@ -25,7 +25,7 @@ function LeftEdit({ data, userId }) {
   const [intro, setIntro] = useState(data.info1.intro);
   const [qualifications, setQualifications] = useState(data.info2);
   const deletedArr = [];
-  const [schedule, setSchedule] = useState("");
+  const [schedule, setSchedule] = useState(data.info1);
   const [program, setProgram] = useState("");
   const [lessonprice, setLessonPrice] = useState("");
   const [shortintro, setShortIntro] = useState("");
@@ -215,9 +215,9 @@ function LeftEdit({ data, userId }) {
     handleCertificationsSaveChanges(newQualifications);
   };
 
-  const handleScheduleSave = (newSchedule) => {
+  const handleScheduleSave = (newSchedule, title) => {
     setSchedule(newSchedule);
-    saveToMySQL({ schedule: newSchedule });
+    saveToMySQL({ schedule: newSchedule, title });
   };
 
   const handleProgramSave = (newProgram) => {
@@ -242,10 +242,19 @@ function LeftEdit({ data, userId }) {
 
   const saveToMySQL = (data) => {
     data.userId = userId;
-
+    console.log(data.title);
     if (data.title === "자기소개") {
       axios
         .post("http://localhost:5000/file/save-intro", data)
+        .then((response) => {
+          console.log("데이터가 저장되었습니다.");
+        })
+        .catch((error) => {
+          console.error("데이터 저장에 실패했습니다.", error);
+        });
+    } else if (data.title === "레슨스케줄") {
+      axios
+        .post("http://localhost:5000/file/save-lessonSchedule", data)
         .then((response) => {
           console.log("데이터가 저장되었습니다.");
         })

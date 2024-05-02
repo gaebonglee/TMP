@@ -57,6 +57,98 @@ async function updateTrainerIntro(intro, userId) {
     });
   });
 }
+
+async function selectTrainerSchedule(userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    select user_id from trainer_schedule where user_id = ?;`;
+
+    connection.execute(query, [userId], (err, results, fields) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(results);
+    });
+  });
+}
+
+async function insertTrainerSchedule(schedule, userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    insert into trainer_schedule(user_id, weekday_start, weekday_end, saturday_start, saturday_end, sunday_start, sunday_end, dayoff, note, weekday, saturday, sunday) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+
+    connection.execute(
+      query,
+      [
+        userId,
+        schedule.weekday_start,
+        schedule.weekday_end,
+        schedule.saturday_start,
+        schedule.saturday_end,
+        schedule.sunday_start,
+        schedule.sunday_end,
+        schedule.dayoff,
+        schedule.note,
+        schedule.weekday,
+        schedule.saturday,
+        schedule.sunday,
+      ],
+      (err, results, fields) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(results);
+      }
+    );
+  });
+}
+
+async function updateTrainerSchedule(schedule, userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    update trainer_schedule 
+    set weekday_start = ?, 
+    weekday_end = ?, 
+    saturday_start = ?, 
+    saturday_end = ?, 
+    sunday_start = ?, 
+    sunday_end = ?, 
+    dayoff = ?, 
+    note = ?, 
+    weekday = ?, 
+    saturday = ?, 
+    sunday = ?
+    where user_id = ?;`;
+
+    connection.execute(
+      query,
+      [
+        schedule.weekday_start,
+        schedule.weekday_end,
+        schedule.saturday_start,
+        schedule.saturday_end,
+        schedule.sunday_start,
+        schedule.sunday_end,
+        schedule.dayoff,
+        schedule.note,
+        schedule.weekday,
+        schedule.saturday,
+        schedule.sunday,
+        userId,
+      ],
+      (err, results, fields) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(results);
+      }
+    );
+  });
+}
+
 async function updateTrainerCertifications(data, userId) {
   return new Promise((resolve, reject) => {
     const query = `
@@ -134,4 +226,7 @@ module.exports = {
   updateTrainerCertifications,
   deleteTrainerCertifications,
   insertTrainerCertifications,
+  selectTrainerSchedule,
+  insertTrainerSchedule,
+  updateTrainerSchedule,
 };
