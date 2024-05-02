@@ -10,7 +10,7 @@ const LessonCalendar = () => {
       new Date().getMonth() + 1
     }월 ${new Date().getDate()}일`
   );
-  const [lessons, setLessons] = useState([]);
+  
 
   // isToday 함수 정의
   const isToday = (date) => {
@@ -22,6 +22,7 @@ const LessonCalendar = () => {
     );
   };
 
+  //content_right 오늘의 날짜 부분
   const onDateChange = (date) => {
     setDate(date);
     setSelectedDateContent(
@@ -30,26 +31,6 @@ const LessonCalendar = () => {
   };
 
   //mysql에서 데이터 가져오는 내용
-  useEffect(() => {
-
-    fetchLessons();
-  }, [date]);
-
-  const fetchLessons = async () => {
-    try {
-      const response = await fetch("/selectLesson", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ date: date }),
-      });
-      const data = await response.json();
-      setLessons(data);
-    } catch (error) {
-      console.error("Error fetching lessons:", error);
-    }
-  };
 
   return (
     <div className="lesson_container">
@@ -74,15 +55,14 @@ const LessonCalendar = () => {
             </div>
             <div className="lesson_content_right">
               <div className="lesson_scheduleDate">
-                <p>{selectedDateContent}</p>
+                <p className="lesson_scheduleDate_today">{selectedDateContent}</p>
                 <div className="lesson_list">
-                  {lessons.map((lesson, index) => (
-                    <div key={index}>
-                      <p>회원 이름: {lesson.user_name}</p>
-                      <p>예약 날짜: {lesson.reservation_date}</p>
-                      <p>예약 시간: {lesson.reservation_time}</p>
-                    </div>
-                  ))}
+                  <div>
+                    <p>회원 이름 : </p>
+                    <p>예약 날짜 : </p>
+                    <p>예약 시간 : </p>
+                    <p>선택 항목 : </p>
+                  </div>
                 </div>
               </div>
             </div>
