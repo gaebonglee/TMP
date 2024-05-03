@@ -18,6 +18,8 @@ import LoadingSpinner from "./components/trainermap/LoadingSpinner";
 import UserInquiry from "components/inquiry/userInquiry/UserInquiry";
 import Confirmation from "components/trainerdetail/detailRight/reservation/contents/Confirmation";
 import PaymentComplete from "components/payment/PaymentComplete";
+import Faq from "components/faq/Faq";
+import FaqCoach from "components/faq/FaqCoach";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -43,6 +45,8 @@ function App() {
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
           <Route path="/servicecenter" element={<UserInquiry />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/faqCoach" element={<FaqCoach />} />
           <Route
             path="/mypage/userinfo"
             element={

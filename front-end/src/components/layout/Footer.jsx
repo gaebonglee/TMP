@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./Footer.scss";
 const Footer = () => {
   return (
-  
     <footer>
       <div>
         <div className="footer_container">
@@ -35,7 +34,7 @@ const Footer = () => {
                 </li>
                 <span />
                 <li>
-                  <Link to="#" className="FAQ_page">
+                  <Link to="/faq" className="FAQ_page">
                     자주 묻는 질문
                   </Link>
                 </li>

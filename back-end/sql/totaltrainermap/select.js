@@ -51,7 +51,7 @@ function selectCountReview(user_id, callback) {
       IFNULL(COUNT(*), 0) AS review_total_count, 
       IFNULL(AVG(point), 0) AS review_avg_star 
     FROM review 
-    WHERE user_id = ?
+    WHERE received_id = ?
     `,
     [user_id],
     (err, result) => {
