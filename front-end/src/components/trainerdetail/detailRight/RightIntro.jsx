@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import "./RightIntro.scss";
-import { FaS, FaStar } from "react-icons/fa6";
-// import LoginModal from "components/loginModal/LoginModal";
-// import ReservationPage from "./reservation/ReservationPage";
+import { FaStar } from "react-icons/fa6";
 
 const RightIntro = ({ data,trainerId }) => {
 
   const navigate = useNavigate();
 
+ // 예약 페이지로 이동
   const handleReservation = () => {
-    navigate(`/reservationPage/${trainerId}`); // 예약 페이지로 이동
+    navigate(`/reservationPage/${trainerId}`);
   };
 
   const reviewSum = data.infoReview.reduce((accumulator, currentValue) => {
@@ -50,7 +49,7 @@ const RightIntro = ({ data,trainerId }) => {
             </div>
           </div>
           <div className="center_name">{data.info1.center_name}</div>
-          <div className="trainer_intro_oneline">
+          <div className="trainer_short_intro">
             <p>{data.info1.short_intro}</p>
           </div>
         </div>
@@ -65,34 +64,9 @@ const RightIntro = ({ data,trainerId }) => {
           </div>
         </div>
         <div className="bottom_wrap">
-          <h3>PT 1회 특가 이용하기</h3>
-          <div className="trainer_class_price_info">
-            <a className="class_discountrate">50%</a>
-            <a className="discount_price">35,000</a>
-            <a className="class_price">70,000</a>
-          </div>
-
-          {/* 예약하기 버튼 */}
           <div className={"reservation_btn_wrapper"}>
-            {/* {modalOpen &&
-              ReactDOM.createPortal(
-                <ReservationModal handleModalOpen={handleModalOpen} />,
-                rightIntroNode
-              )}
-             {modalOpen && 
-              ReactDOM.createPortal(
-                <LoginModal handleModalOpen={handleModalOpen} />,
-                rightIntroNode
-              )} 
-
-            <button
-              className={"reservation_btn"}
-              onClick={() => setModalOpen(true)}
-            >
-              예약하기
-            </button>*/}
             <button className={"reservation_btn"} onClick={handleReservation}>
-              예약하기
+             상담 예약하기
             </button>
           </div>
         </div>
