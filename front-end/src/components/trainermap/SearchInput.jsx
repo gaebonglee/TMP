@@ -33,7 +33,7 @@ const SearchInput = (props) => {
   function handleInputChange(event) {
     const value = event.target.value;
     setInputValue(value);
-    if (value.length >= 2) {
+    if (value.length >= 1) {
       setShowSuggestions(true);
       const newSuggestions = getSuggestions(value);
       setSuggestions(newSuggestions);

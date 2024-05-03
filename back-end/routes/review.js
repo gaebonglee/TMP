@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
     .insertReviewAll({
       user_id,
       point,
-      reviewImg: review_img,
+      review_img,
       review,
       received_id,
     })
