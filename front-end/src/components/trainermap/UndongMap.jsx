@@ -324,7 +324,6 @@ const UndongMap = (props) => {
       };
       const newMap = new window.naver.maps.Map(mapRef.current, newMapOptions);
       setMap(newMap);
-      map.setCenter(newCenter);
 
       // 트레이너 마커들을 새로운 지도에 추가
       data.forEach((trainer) => {
