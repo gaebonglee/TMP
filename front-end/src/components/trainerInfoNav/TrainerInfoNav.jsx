@@ -51,7 +51,7 @@ const TrainerInfoNav = (props) => {
       <div
         className="leesonPageBtn"
         onClick={() => {
-          navigate(`/lessonpage`);
+          navigate(`/mypage/lessonpage`);
         }}
       >
         회원관리
