@@ -25,8 +25,9 @@ function LeftEdit({ data, userId }) {
   const [intro, setIntro] = useState(data.info1.intro);
   const [qualifications, setQualifications] = useState(data.info2);
   const deletedArr = [];
+  const deletedProgramArr = [];
   const [schedule, setSchedule] = useState(data.info1);
-  const [program, setProgram] = useState("");
+  const [program, setProgram] = useState(data.info3);
   const [lessonprice, setLessonPrice] = useState("");
   const [shortintro, setShortIntro] = useState("");
   const [location, setLocation] = useState("");
@@ -220,9 +221,72 @@ function LeftEdit({ data, userId }) {
     saveToMySQL({ schedule: newSchedule, title });
   };
 
-  const handleProgramSave = (newProgram) => {
+  const handleProgramSave = async (newProgram) => {
+    console.log(newProgram);
     setProgram(newProgram);
-    saveToMySQL({ program: newProgram });
+
+    const newArr = newProgram.filter((value) => !!!value.program_id);
+    const updateArr = newProgram.filter((value) => !!value.program_id);
+    const insertResult = [];
+    // db 삭제
+
+    // db insert (프로그램 id 여부에 따라 insert)
+    console.log("newArr ::", newArr);
+    newArr.forEach(async (v, i) => {
+      await fetch("http://localhost:5000/file/insert-programs-db", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: v, userId }),
+      });
+    });
+
+    // 서버 새로운 파일 insert
+    // const filesInfo = files.map((file) => ({
+    //   name: file.name,
+    //   type: file.type,
+    // }));
+    // // 이미지 배열을 서버로 전송하여 저장
+    // const response = await fetch(
+    //   "http://localhost:5000/file/generate-signed-urls",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       files: filesInfo,
+    //       userId,
+    //       table: "program",
+    //     }),
+    //   }
+    // );
+
+    // const { signedUrls } = await response.json();
+
+    // await Promise.all(
+    //   signedUrls.map(async ({ name, url }) => {
+    //     const file = files.find((f) => f.certification_img.name === name);
+    //     const result = await fetch(url, {
+    //       method: "PUT",
+    //       headers: {
+    //         "Content-Type": file.certification_img.type,
+    //       },
+    //       body: file.certification_img,
+    //     });
+
+    //     if (result.ok) {
+    //       console.log(`${name} uploaded successfully.`);
+    //     } else {
+    //       console.error(`Failed to upload ${name}.`);
+    //     }
+    //   })
+    // );
+
+    // db 업데이트
+
+    // saveToMySQL({ program: newProgram });
   };
 
   const handleLessonPriceSave = (newLessonPrice) => {
@@ -310,7 +374,12 @@ function LeftEdit({ data, userId }) {
         content={program}
         onSave={handleProgramSave}
         inputComponent={(editedContent, setEditedContent) => (
-          <ProgramEdit content={editedContent} setContent={setEditedContent} />
+          <ProgramEdit
+            content={editedContent}
+            setContent={setEditedContent}
+            userId={userId}
+            deletedArr={deletedProgramArr}
+          />
         )}
       />
       <TrainerProfileEdit

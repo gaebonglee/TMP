@@ -218,6 +218,44 @@ async function insertTrainerCertifications(data, userId) {
   });
 }
 
+async function insertTrainerProgram(data, userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    insert into program(user_id, title, program_img, program_exp) values(?, ?, ?, ?);`;
+
+    connection.execute(
+      query,
+      [userId, data.title, data.program_img, data.program_exp],
+      (err, results, fields) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(results);
+      }
+    );
+  });
+}
+
+async function insertTrainerProgramSpecialty(programId, userId, data) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    insert into program_specialty(program_id, user_id, specialty) values(?, ?, ?);`;
+
+    connection.execute(
+      query,
+      [programId, userId, data],
+      (err, results, fields) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(results);
+      }
+    );
+  });
+}
+
 module.exports = {
   selectCenter,
   updateTrainerImg,
@@ -229,4 +267,6 @@ module.exports = {
   selectTrainerSchedule,
   insertTrainerSchedule,
   updateTrainerSchedule,
+  insertTrainerProgram,
+  insertTrainerProgramSpecialty,
 };

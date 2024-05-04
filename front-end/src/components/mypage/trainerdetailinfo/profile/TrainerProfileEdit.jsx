@@ -7,7 +7,6 @@ import { PiCertificate, PiTrophy } from "react-icons/pi";
 function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
-
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -17,6 +16,8 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
       onSave(editedContent, "자기소개");
     } else if (title === "레슨스케줄") {
       onSave(editedContent, "레슨스케줄");
+    } else if (title === "프로그램") {
+      onSave(editedContent, "프로그램");
     } else {
       onSave(editedContent);
     }
@@ -113,6 +114,19 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
               )}
             </div>
           )}
+          {title === "프로그램" &&
+            content.map((v, i) => {
+              if (v.program_id !== null) {
+                return (
+                  <div key={i} className="trainer__program__titles">
+                    🎉 {v.title}
+                  </div>
+                );
+              } else {
+                return "아직 작성된 내용이 없습니다.";
+              }
+            })}
+
           {content.length === 0 && "아직 작성된 내용이 없습니다."}
         </div>
       )}

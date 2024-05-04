@@ -81,7 +81,11 @@
 
     &:hover {
       background-color: $green2;
-      color:  $white;;
+      color: $white;
+    }
+    &.active {
+      background-color: $green2;
+      color: $white;
     }
   }
 }
@@ -95,7 +99,7 @@
     border-radius: $border-radius-4;
     border: 2px solid $green2;
   }
-  
+
   label {
     font-size: 18px;
     font-weight: $font-weight-2;
@@ -105,4 +109,9 @@
     border: none;
     cursor: pointer;
   }
+}
+
+.upload-photo-label {
+  width: 100%;
+  text-align: center;
 }

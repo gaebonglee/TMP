@@ -226,6 +226,38 @@ router.post("/insert-certifications-db", async (req, res) => {
   }
 });
 
+router.post("/insert-programs-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    const imgArr = [];
+    data.program_img.forEach((v, _i) => {
+      if (typeof v === "object") {
+        imgArr.push(v.name);
+      } else {
+        imgArr.push(v);
+      }
+    });
+    const imgString = imgArr.join(",");
+    data.program_img = imgString;
+
+    const result = await file.insertTrainerProgram(data, userId);
+
+    for (let i = 0; i < data.specialty.length; i++) {
+      await file.insertTrainerProgramSpecialty(
+        result.insertId,
+        userId,
+        data.specialty[i]
+      );
+    }
+
+    res.send({ result: `Success insert files` });
+  } catch (error) {
+    console.error("Error insert files:", error);
+    res.status(500).send("Failed to insert files");
+  }
+});
+
 router.get("/info", (req, res) => {
   file.selectCenter(req.query.center_id, (err, result) => {
     if (err) {
