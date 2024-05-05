@@ -222,71 +222,148 @@ function LeftEdit({ data, userId }) {
   };
 
   const handleProgramSave = async (newProgram) => {
-    console.log(newProgram);
     setProgram(newProgram);
 
     const newArr = newProgram.filter((value) => !!!value.program_id);
     const updateArr = newProgram.filter((value) => !!value.program_id);
-    const insertResult = [];
-    // db 삭제
 
+    // db 삭제
+    deletedProgramArr.forEach(async (v) => {
+      await fetch("http://localhost:5000/file/delete-programs-db", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ programId: v, userId }),
+      });
+    });
     // db insert (프로그램 id 여부에 따라 insert)
-    console.log("newArr ::", newArr);
+    // console.log("newArr ::", newArr);
     newArr.forEach(async (v, i) => {
-      await fetch("http://localhost:5000/file/insert-programs-db", {
+      // 이미지가 파일인지 스트링인지 확인 후 스트링으로 변경
+      const imgObjects = v.program_img;
+      const newImgArr = v.program_img.map((v) =>
+        typeof v === "object" ? { name: v.name, type: v.type } : v
+      );
+      v.newImgArr = newImgArr;
+      console.log("new v::", v);
+      const result = await fetch(
+        "http://localhost:5000/file/insert-programs-db",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: v, userId }),
+        }
+      );
+
+      let seqData = await result.json();
+      const insertId = seqData.result;
+      v.program_id = insertId;
+      // 서버 새로운 파일 insert
+      const filesInfo = v.program_img.map((file) => ({
+        name: file.name,
+        type: file.type,
+      }));
+      // 이미지 배열을 서버로 전송하여 저장
+      const response = await fetch(
+        "http://localhost:5000/file/generate-signed-urls",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            files: filesInfo,
+            userId,
+            seq: insertId,
+            table: "program",
+          }),
+        }
+      );
+
+      const { signedUrls } = await response.json();
+
+      await Promise.all(
+        signedUrls.map(async ({ name, url }) => {
+          const file = imgObjects.find((f) => f.name === name);
+          const result = await fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+
+          if (result.ok) {
+            console.log(`${name} uploaded successfully.`);
+          } else {
+            console.error(`Failed to upload ${name}.`);
+          }
+        })
+      );
+    });
+
+    updateArr.forEach(async (v, i) => {
+      // 이미지가 파일인지 스트링인지 확인 후 스트링으로 변경
+      const imgObjects = v.program_img.filter((v) => typeof v === "object");
+      const newImgArr = v.program_img.map((v) =>
+        typeof v === "object" ? { name: v.name, type: v.type } : v
+      );
+      v.newImgArr = newImgArr;
+
+      await fetch("http://localhost:5000/file/update-programs-db", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ data: v, userId }),
       });
+
+      // 서버 새로운 파일 insert
+      const filesInfo = imgObjects.map((file) => ({
+        name: file.name,
+        type: file.type,
+      }));
+      // 이미지 배열을 서버로 전송하여 저장
+      const response = await fetch(
+        "http://localhost:5000/file/generate-signed-urls",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            files: filesInfo,
+            userId,
+            seq: v.program_id,
+            table: "program",
+          }),
+        }
+      );
+
+      const { signedUrls } = await response.json();
+
+      await Promise.all(
+        signedUrls.map(async ({ name, url }) => {
+          const file = imgObjects.find((f) => f.name === name);
+          const result = await fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+
+          if (result.ok) {
+            console.log(`${name} uploaded successfully.`);
+          } else {
+            console.error(`Failed to upload ${name}.`);
+          }
+        })
+      );
     });
-
-    // 서버 새로운 파일 insert
-    // const filesInfo = files.map((file) => ({
-    //   name: file.name,
-    //   type: file.type,
-    // }));
-    // // 이미지 배열을 서버로 전송하여 저장
-    // const response = await fetch(
-    //   "http://localhost:5000/file/generate-signed-urls",
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       files: filesInfo,
-    //       userId,
-    //       table: "program",
-    //     }),
-    //   }
-    // );
-
-    // const { signedUrls } = await response.json();
-
-    // await Promise.all(
-    //   signedUrls.map(async ({ name, url }) => {
-    //     const file = files.find((f) => f.certification_img.name === name);
-    //     const result = await fetch(url, {
-    //       method: "PUT",
-    //       headers: {
-    //         "Content-Type": file.certification_img.type,
-    //       },
-    //       body: file.certification_img,
-    //     });
-
-    //     if (result.ok) {
-    //       console.log(`${name} uploaded successfully.`);
-    //     } else {
-    //       console.error(`Failed to upload ${name}.`);
-    //     }
-    //   })
-    // );
-
-    // db 업데이트
-
-    // saveToMySQL({ program: newProgram });
   };
 
   const handleLessonPriceSave = (newLessonPrice) => {

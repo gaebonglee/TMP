@@ -68,9 +68,13 @@ router.post("/generate-signed-urls", async (req, res) => {
     };
 
     try {
-      const [url] = await bucket
-        .file(`${req.body.table}/${req.body.userId}/${fileInfo.name}`)
-        .getSignedUrl(options);
+      let fileUrl = "";
+      if (req.body.table === "program") {
+        fileUrl = `${req.body.table}/${req.body.userId}/${req.body.seq}/${fileInfo.name}`;
+      } else {
+        fileUrl = `${req.body.table}/${req.body.userId}/${fileInfo.name}`;
+      }
+      const [url] = await bucket.file(fileUrl).getSignedUrl(options);
       signedUrls.push({ name: fileInfo.name, url });
     } catch (error) {
       console.error("Error creating signed URL for", fileInfo.name, error);
@@ -81,7 +85,7 @@ router.post("/generate-signed-urls", async (req, res) => {
   res.send({ signedUrls });
 });
 
-// 여러 파일에 대한 사인된 URL을 생성하는 라우트
+// 파일에 대한 사인된 URL을 생성하는 라우트
 router.post("/generate-signed-url", async (req, res) => {
   const filesInfo = req.body.files; // 파일 정보 배열
   const signedUrls = [];
@@ -230,16 +234,8 @@ router.post("/insert-programs-db", async (req, res) => {
   try {
     const { data, userId } = req.body;
 
-    const imgArr = [];
-    data.program_img.forEach((v, _i) => {
-      if (typeof v === "object") {
-        imgArr.push(v.name);
-      } else {
-        imgArr.push(v);
-      }
-    });
-    const imgString = imgArr.join(",");
-    data.program_img = imgString;
+    const imgString = data.newImgArr.map((v) => v.name).join(",");
+    data.newImgArr = imgString;
 
     const result = await file.insertTrainerProgram(data, userId);
 
@@ -251,10 +247,54 @@ router.post("/insert-programs-db", async (req, res) => {
       );
     }
 
-    res.send({ result: `Success insert files` });
+    res.send({ result: result.insertId, message: "success insert programs" });
   } catch (error) {
     console.error("Error insert files:", error);
     res.status(500).send("Failed to insert files");
+  }
+});
+
+router.post("/update-programs-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    const imgString = data.newImgArr
+      .map((item) => {
+        return typeof item === "object" ? item.name : item;
+      })
+      .join(",");
+    data.newImgArr = imgString;
+    console.log(data);
+
+    await file.deleteTrainerProgramSpecialty(data.program_id, userId);
+    await file.updateTrainerProgram(data, userId);
+
+    for (let i = 0; i < data.specialty.length; i++) {
+      await file.insertTrainerProgramSpecialty(
+        data.program_id,
+        userId,
+        data.specialty[i]
+      );
+    }
+
+    res.send({ result: "success update programs" });
+  } catch (error) {
+    console.error("Error insert files:", error);
+    res.status(500).send("Failed to insert files");
+  }
+});
+
+router.post("/delete-programs-db", async (req, res) => {
+  try {
+    const { programId, userId } = req.body;
+
+    await file.deleteTrainerProgramSpecialty(programId, userId);
+    await file.deleteTrainerProgram(programId, userId);
+
+    res.send({ result: `Success delete files` });
+  } catch (error) {
+    console.error("Error deleting files:", error);
+    res.status(500).send("Failed to delete files");
   }
 });
 

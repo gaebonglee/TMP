@@ -225,7 +225,7 @@ async function insertTrainerProgram(data, userId) {
 
     connection.execute(
       query,
-      [userId, data.title, data.program_img, data.program_exp],
+      [userId, data.title, data.newImgArr, data.program_exp],
       (err, results, fields) => {
         if (err) {
           reject(err);
@@ -234,6 +234,40 @@ async function insertTrainerProgram(data, userId) {
         resolve(results);
       }
     );
+  });
+}
+
+async function updateTrainerProgram(data, userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    update program set title = ?, program_img = ?, program_exp = ? where program_id = ? and user_id = ?;`;
+
+    connection.execute(
+      query,
+      [data.title, data.newImgArr, data.program_exp, data.program_id, userId],
+      (err, results, fields) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(results);
+      }
+    );
+  });
+}
+
+async function deleteTrainerProgram(programId, userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    delete from program where program_id = ? and user_id = ?;`;
+
+    connection.execute(query, [programId, userId], (err, results, fields) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(results);
+    });
   });
 }
 
@@ -256,6 +290,21 @@ async function insertTrainerProgramSpecialty(programId, userId, data) {
   });
 }
 
+async function deleteTrainerProgramSpecialty(programId, userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    delete from program_specialty where program_id = ? and user_id = ?;`;
+
+    connection.execute(query, [programId, userId], (err, results, fields) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(results);
+    });
+  });
+}
+
 module.exports = {
   selectCenter,
   updateTrainerImg,
@@ -269,4 +318,7 @@ module.exports = {
   updateTrainerSchedule,
   insertTrainerProgram,
   insertTrainerProgramSpecialty,
+  updateTrainerProgram,
+  deleteTrainerProgramSpecialty,
+  deleteTrainerProgram,
 };

@@ -85,8 +85,8 @@ const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
 
   const handleRemoveProgram = (index) => {
     const updatedPrograms = [...programs];
+    deletedArr.push(updatedPrograms[index].program_id);
     updatedPrograms.splice(index, 1);
-    deletedArr.push(index);
     setPrograms(updatedPrograms);
     setContent(updatedPrograms);
   };
@@ -198,9 +198,7 @@ const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
                       <img
                         src={
                           typeof photo === "string"
-                            ? `${
-                                process.env.REACT_APP_FILE_SERVER_URL
-                              }/program/${userId}/${programIndex + 1}/${photo}`
+                            ? `${process.env.REACT_APP_FILE_SERVER_URL}/program/${userId}/${program.program_id}/${photo}`
                             : URL.createObjectURL(photo)
                         }
                         alt={`프로그램 사진 ${programIndex + 1}`}
