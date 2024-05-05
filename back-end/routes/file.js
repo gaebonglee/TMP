@@ -55,6 +55,18 @@ router.post("/save-lessonSchedule", async (req, res) => {
   res.send({ success: "success" });
 });
 
+// 트레이너 save-trainerShortIntro
+router.post("/save-trainerShortIntro", async (req, res) => {
+  const { userId, shortintro } = req.body;
+  try {
+    await file.updateTrainerShortIntro(shortintro, userId);
+  } catch (error) {
+    console.log("trainer shortIntro update error::", error);
+    return res.status(500).send("trainer shortIntro update error");
+  }
+  res.send({ success: "success" });
+});
+
 // 여러 파일에 대한 사인된 URL을 생성하는 라우트
 router.post("/generate-signed-urls", async (req, res) => {
   const filesInfo = req.body.files; // 파일 정보 배열
@@ -266,10 +278,15 @@ router.post("/update-programs-db", async (req, res) => {
     data.newImgArr = imgString;
     console.log(data);
 
-    await file.deleteTrainerProgramSpecialty(data.program_id, userId);
-    await file.updateTrainerProgram(data, userId);
+    const specialtyArr =
+      typeof data.specialty === "string" ? [] : data.specialty;
 
-    for (let i = 0; i < data.specialty.length; i++) {
+    typeof data.specialty !== "string" &&
+      (await file.deleteTrainerProgramSpecialty(data.program_id, userId));
+    typeof data.specialty !== "string" &&
+      (await file.updateTrainerProgram(data, userId));
+
+    for (let i = 0; i < specialtyArr.length; i++) {
       await file.insertTrainerProgramSpecialty(
         data.program_id,
         userId,
@@ -295,6 +312,20 @@ router.post("/delete-programs-db", async (req, res) => {
   } catch (error) {
     console.error("Error deleting files:", error);
     res.status(500).send("Failed to delete files");
+  }
+});
+
+router.post("/update-trainerPrice-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    await file.deleteTrainerPrice(userId);
+    await file.insertTrainerPrice(userId, data);
+
+    res.send({ result: "success update trainerPrice" });
+  } catch (error) {
+    console.error("Error insert files:", error);
+    res.status(500).send("Failed to insert files");
   }
 });
 

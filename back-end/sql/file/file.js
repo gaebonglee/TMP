@@ -305,6 +305,55 @@ async function deleteTrainerProgramSpecialty(programId, userId) {
   });
 }
 
+async function deleteTrainerPrice(userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    delete from trainer_price where user_id = ?;`;
+
+    connection.execute(query, [userId], (err, results, fields) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(results);
+    });
+  });
+}
+
+async function insertTrainerPrice(userId, data) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    insert into trainer_price(user_id, count, total_price) values(?, ?, ?);`;
+
+    connection.execute(
+      query,
+      [userId, data.count, data.total_price],
+      (err, results, fields) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(results);
+      }
+    );
+  });
+}
+
+async function updateTrainerShortIntro(data, userId) {
+  return new Promise((resolve, reject) => {
+    const query = `
+    update trainer set short_intro = ? where user_id = ?;`;
+
+    connection.execute(query, [data, userId], (err, results, fields) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(results);
+    });
+  });
+}
+
 module.exports = {
   selectCenter,
   updateTrainerImg,
@@ -321,4 +370,7 @@ module.exports = {
   updateTrainerProgram,
   deleteTrainerProgramSpecialty,
   deleteTrainerProgram,
+  deleteTrainerPrice,
+  insertTrainerPrice,
+  updateTrainerShortIntro,
 };
