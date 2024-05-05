@@ -126,6 +126,32 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
                 return "아직 작성된 내용이 없습니다.";
               }
             })}
+          {title === "레슨 이용 가격" && (
+            <ul>
+              {content.map((v, i) => {
+                if (!!!v.count) {
+                  return;
+                }
+                return (
+                  <li key={i} className="lesson_li">
+                    <div className="priceCount">{v.count}회</div>
+                    <p className="pricePer">
+                      회당 {(v.total_price / v.count).toLocaleString("ko-KR")}원
+                    </p>
+                    <p className="priceTotal">
+                      {Number(v.total_price)
+                        ? Number(v.total_price).toLocaleString("ko-KR")
+                        : 0}
+                      원
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {title === "한줄 소개" && (
+            <p style={{ whiteSpace: "pre-wrap" }}>{content}</p>
+          )}
 
           {content.length === 0 && "아직 작성된 내용이 없습니다."}
         </div>
