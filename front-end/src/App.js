@@ -88,7 +88,7 @@ function App() {
             }
           />
           <Route
-            path="/lessonpage"
+            path="/mypage/lessonpage"
             element={
               <PrivateRoute
                 component={<LessonPage />}
