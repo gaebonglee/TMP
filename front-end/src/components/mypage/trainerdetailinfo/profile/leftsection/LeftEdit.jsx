@@ -8,7 +8,7 @@ import ProgramEdit from "./left/ProgramEdit";
 import PriceEdit from "./left/PriceEdit";
 import ShortIntroEdit from "./left/ShortIntroEdit";
 import axios from "axios";
-import CenterLocationEdit from "./left/CenterLocationEdit";
+// import CenterLocationEdit from "./left/CenterLocationEdit";
 
 function LeftEdit({ data, userId }) {
   const imgArr = data.info1.intro_img
@@ -28,9 +28,9 @@ function LeftEdit({ data, userId }) {
   const deletedProgramArr = [];
   const [schedule, setSchedule] = useState(data.info1);
   const [program, setProgram] = useState(data.info3);
-  const [lessonprice, setLessonPrice] = useState("");
-  const [shortintro, setShortIntro] = useState("");
-  const [location, setLocation] = useState("");
+  const [lessonprice, setLessonPrice] = useState(data.info4);
+  const [shortintro, setShortIntro] = useState(data.info1.short_intro);
+  // const [location, setLocation] = useState("");
 
   const handleImgSaveChanges = async (newIntroImg) => {
     const files = newIntroImg.filter((value) => {
@@ -307,10 +307,16 @@ function LeftEdit({ data, userId }) {
 
     updateArr.forEach(async (v, i) => {
       // 이미지가 파일인지 스트링인지 확인 후 스트링으로 변경
-      const imgObjects = v.program_img.filter((v) => typeof v === "object");
-      const newImgArr = v.program_img.map((v) =>
-        typeof v === "object" ? { name: v.name, type: v.type } : v
-      );
+      const imgObjects =
+        typeof v.program_img !== "string"
+          ? v.program_img.filter((v) => typeof v === "object")
+          : [];
+      const newImgArr =
+        typeof v.program_img !== "string"
+          ? v.program_img.map((v) =>
+              typeof v === "object" ? { name: v.name, type: v.type } : v
+            )
+          : [];
       v.newImgArr = newImgArr;
 
       await fetch("http://localhost:5000/file/update-programs-db", {
@@ -366,24 +372,38 @@ function LeftEdit({ data, userId }) {
     });
   };
 
-  const handleLessonPriceSave = (newLessonPrice) => {
+  const handleLessonPriceSave = async (newLessonPrice) => {
     setLessonPrice(newLessonPrice);
-    saveToMySQL({ lessonprice: newLessonPrice });
+    const inputLessonPrice = newLessonPrice.filter(
+      (v) => v.count !== "" && v.total_price !== ""
+    );
+
+    inputLessonPrice.forEach(async (v) => {
+      if (Number(v.count) && Number(v.total_price)) {
+        // delete 후 insert
+        await fetch("http://localhost:5000/file/update-trainerPrice-db", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: v, userId }),
+        });
+      }
+    });
   };
 
   const handleShortIntroSave = (newShortIntro) => {
     setShortIntro(newShortIntro);
-    saveToMySQL({ shortintro: newShortIntro });
+    saveToMySQL({ shortintro: newShortIntro, title: "한줄 소개" });
   };
 
-  const handleLocationSave = (newLocation) => {
-    setLocation(newLocation);
-    saveToMySQL({ location: newLocation });
-  };
+  // const handleLocationSave = (newLocation) => {
+  //   setLocation(newLocation);
+  //   saveToMySQL({ location: newLocation });
+  // };
 
   const saveToMySQL = (data) => {
     data.userId = userId;
-    console.log(data.title);
     if (data.title === "자기소개") {
       axios
         .post("http://localhost:5000/file/save-intro", data)
@@ -396,6 +416,15 @@ function LeftEdit({ data, userId }) {
     } else if (data.title === "레슨스케줄") {
       axios
         .post("http://localhost:5000/file/save-lessonSchedule", data)
+        .then((response) => {
+          console.log("데이터가 저장되었습니다.");
+        })
+        .catch((error) => {
+          console.error("데이터 저장에 실패했습니다.", error);
+        });
+    } else if (data.title === "한줄 소개") {
+      axios
+        .post("http://localhost:5000/file/save-trainerShortIntro", data)
         .then((response) => {
           console.log("데이터가 저장되었습니다.");
         })
@@ -478,7 +507,7 @@ function LeftEdit({ data, userId }) {
           />
         )}
       />
-      <TrainerProfileEdit
+      {/* <TrainerProfileEdit
         title="위치"
         content={location}
         onSave={handleLocationSave}
@@ -488,7 +517,7 @@ function LeftEdit({ data, userId }) {
             setContent={setEditedContent}
           />
         )}
-      />
+      /> */}
     </div>
   );
 }
