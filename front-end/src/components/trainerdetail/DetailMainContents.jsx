@@ -33,7 +33,6 @@ const DetailMainContents = ({ trainerInfo }) => {
     return null;
   }
 
-  console.log(data);
   return (
     <div className="DetailMainContents">
       <div className="DetailMain">
