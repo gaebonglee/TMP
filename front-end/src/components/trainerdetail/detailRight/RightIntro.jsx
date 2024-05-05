@@ -4,7 +4,7 @@ import "./RightIntro.scss";
 import DayTime from "./reservation/DayTime";
 import Purpose from "./reservation/Purpose";
 import Confirmation from "./reservation/Confirmation";
-import { FaS, FaStar } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 
 const RightIntro = ({ data }) => {
@@ -101,7 +101,11 @@ const RightIntro = ({ data }) => {
     <div className="intro_right_container">
       <img
         className="trainer_right_img"
-        src="/image/사진1.jpg"
+        src={
+          data.info1.user_img
+            ? `${process.env.REACT_APP_FILE_SERVER_URL}/user/${data.info1.user_id}/${data.info1.user_img}`
+            : "/image/tmp_mainlogo.png"
+        }
         alt="trainer_right_photo"
       />
       <div className="intro_right_wrap">
@@ -142,9 +146,9 @@ const RightIntro = ({ data }) => {
         <div className="bottom_wrap">
           <h3>PT 1회 특가 이용하기</h3>
           <div className="trainer_class_price_info">
-            <a className="class_discountrate">50%</a>
-            <a className="discount_price">35,000</a>
-            <a className="class_price">70,000</a>
+            <p className="class_discountrate">50%</p>
+            <p className="discount_price">35,000</p>
+            <p className="class_price">70,000</p>
           </div>
 
           {/* 예약하기 버튼 */}
