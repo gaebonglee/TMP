@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import "./RightEdit.scss";
 
@@ -9,8 +8,11 @@ const defaultImagePath = "/image/tmp_mainlogo.png";
 const RightEdit = ({ data }) => {
   const userInfo = data.info1;
   const [selectedFile, setSelectedFile] = useState(data.info1.user_img);
-  const [trainerName, setTrainerName] = useState(userInfo.user_name);
-
+  const reviewSum = data.infoReview.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.point;
+  }, 0);
+  const reviewAvg = Math.floor(reviewSum / data.infoReview.length);
+  const reviewArr = [0, 1, 2, 3, 4];
   const handleFileChange = async (event) => {
     const files = event.target.files[0];
     console.log(files);
@@ -21,20 +23,20 @@ const RightEdit = ({ data }) => {
       },
     ];
 
-    const deleteResponse = await fetch(
-      "http://localhost:5000/file/delete-files",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          files: [files.name],
-          userId: userInfo.user_id,
-          table: "user",
-        }),
-      }
-    );
+    // const deleteResponse = await fetch(
+    //   "http://localhost:5000/file/delete-files",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       files: [files.name],
+    //       userId: userInfo.user_id,
+    //       table: "user",
+    //     }),
+    //   }
+    // );
 
     const response = await fetch(
       "http://localhost:5000/file/generate-signed-url",
@@ -91,7 +93,7 @@ const RightEdit = ({ data }) => {
       <div className="right_edit_wrap">
         <div className="right_edit_top">
           <div className="right_edit_top_wrap">
-            <p>{trainerName} 트레이너</p>
+            <p>{userInfo.user_name} 트레이너&nbsp;</p>
             <label
               htmlFor="fileInput"
               style={{ textDecorationLine: "underline", cursor: "pointer" }}
@@ -106,25 +108,33 @@ const RightEdit = ({ data }) => {
               style={{ display: "none" }}
             />
           </div>
-          <p>센터없음</p>
-          <div className="star_wrap">
-            <FaStar />
-            <FaStar />
-            <FaStar />
-            <FaStar />
-            <FaStar />
+          <p>{data.info1.center_name}</p>
+          <div className="trainer_star">
+            <div className="star_wrap">
+              {reviewArr.map((_v, i) => {
+                return i < reviewAvg ? (
+                  <FaStar key={i} />
+                ) : (
+                  <FaStar key={i} style={{ color: "black" }} />
+                );
+              })}
+            </div>
+            <div className="review_average_score">
+              {!!reviewAvg ? reviewAvg.toFixed(1) : 0.0}&nbsp;(
+              {data.infoReview.length})
+            </div>
           </div>
         </div>
         <div className="right_edit_bottom">
-          <p>한줄소개내용</p>
+          <p>{data.info1.short_intro}</p>
           <div className="right_edit_bottom_flex">
             <div className="bottom_flexLeft">
               <p>자격검증</p>
               <p>전문분야</p>
             </div>
             <div className="bottom_flexRight">
-              <p>개수</p>
-              <p>바디프로필, 바디프로필, 바디프로필</p>
+              <p>{data.info2.length}개</p>
+              <p>{data.info1.trainning_type}</p>
             </div>
           </div>
         </div>
