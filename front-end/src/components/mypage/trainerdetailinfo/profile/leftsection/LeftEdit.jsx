@@ -246,7 +246,6 @@ function LeftEdit({ data, userId }) {
         typeof v === "object" ? { name: v.name, type: v.type } : v
       );
       v.newImgArr = newImgArr;
-      console.log("new v::", v);
       const result = await fetch(
         "http://localhost:5000/file/insert-programs-db",
         {

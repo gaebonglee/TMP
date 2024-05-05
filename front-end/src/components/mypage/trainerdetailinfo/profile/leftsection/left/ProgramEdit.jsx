@@ -48,7 +48,6 @@ const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
     updatedPrograms[index][key] = value;
     setPrograms(updatedPrograms);
     setContent(updatedPrograms);
-    console.log(programs);
   };
   const handleImgChange = (index, key, value) => {
     const updatedPrograms = [...programs];
