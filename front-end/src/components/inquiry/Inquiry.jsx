@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
-import "./UserInquiry.scss"
+import "./Inquiry.scss"
+import {useNavigate} from 'react-router-dom'
 
-const UserInquiry = () => {
+const Inquiry = () => {
 
-const [inquiryData, setInquiryData] = useState({inquiry_type: "", inquiry_phonenumber: "", inquiry_contents: ""})
+const [inquiryData, setInquiryData] = useState({inquiry_type: "", inquiry_password: "", inquiry_contents: ""})
 const [checkState, setCheckState] = useState(false)
+const navigate = useNavigate()
 
 const InputHandler = (e) => {
     const {name, value} = e.target
@@ -16,7 +18,7 @@ const InputHandler = (e) => {
 const SubmitHandler = (e) => {
     e.preventDefault()
 
-    fetch('http://localhost:5000/servicecenter', {  //요청지
+    fetch('http://localhost:5000/servicecenter/inquiry', {  //요청지
         method: 'POST',        //메소드 지정
         headers: {            //데이터 타입 지정
             'Accept' : 'application/json',
@@ -34,6 +36,8 @@ const SubmitHandler = (e) => {
     .then(data => {
         console.log(data);
         alert('접수가 완료되었습니다.')
+        navigate('/')
+        window.scrollTo({top: 0})
 })
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
@@ -65,10 +69,10 @@ console.log(inquiryData)
                         </div>
                         <div className='inquiry_phone_container'>
                             <div className='inquiry_phone_title'>
-                                답변 연락 받을 전화번호<span className='aster'>*</span>
-                                </div>
-                            <div className='inquiry_phone'>
-                                <input type="text" name='inquiry_phonenumber' placeholder='-없이 입력' value={inquiryData.inquiry_phonenumber} onChange={InputHandler}/>
+                                문의 조회시 사용할 비밀번호<span className='aster'>*</span>
+                            </div>
+                            <div className='inquiry_password'>
+                                <input type="text" name='inquiry_password' placeholder='필수 입력' value={inquiryData.inquiry_password} onChange={InputHandler}/>
                             </div>
                         </div>
                     </div>
@@ -99,4 +103,4 @@ console.log(inquiryData)
     );
 };
 
-export default UserInquiry;
+export default Inquiry;
