@@ -1,0 +1,97 @@
+@import "../../common.scss";
+
+.inquiryWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 20px;
+    color: $black;
+
+}
+.inquiryMain_button_container{
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+
+    .inquire{
+        width: 450px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        border: 0.5px solid rgb(219, 219, 219);
+        border-radius: 4px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        cursor: pointer;
+    }
+    .list{
+        width: 450px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $green1;
+        border: 0.5px solid $green1;
+        border-radius: 4px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        cursor: pointer;
+    }   
+
+}
+
+.inquiryMain_hr{
+    width: 900px;
+    height: 2px;
+    background-color: black;
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.inquiryMain_contents_container{
+    margin-bottom: 50px;
+}
+.inquiryMain_contents_table{
+    border: 1px solid black;
+    width: 900px;
+    text-align: center;
+    tr, th, td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .inquiryMain_type{
+        width: 20%;
+    }
+    .inquiryMain_contents{
+        width: 60%;
+    }
+    .inquiryMain_date{
+        width: 20%;
+    }
+}
+.no_contents{
+    width: 900px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .no_contents_container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        row-gap: 10px;
+        
+        .no_contents_img{
+            font-size: 100px;
+            color: $green2;
+        }
+        .no_contents_text{
+            color: $black;
+        }
+    }
+}

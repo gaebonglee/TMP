@@ -298,17 +298,23 @@ async function handleGoogleLogin(req, res, role) {
         },
       }
     );
-
-    const res2 = await axios.get(
+    let res2 = null;
+    try{
+      res2 = await axios.get(
       `https://people.googleapis.com/v1/people/me?personFields=genders,phoneNumbers&access_token=${access_token}`
     );
-
+  } catch (error) {
+    console.log("error: ", error)
+  }
     const userId = res1.data.id + "_google";
 
-    let googlePhoneNumber =
+    let googlePhoneNumber = null;
+    if (res2 !==null){
+      googlePhoneNumber =
       !!res2.data.phoneNumbers === true
         ? res2.data.phoneNumbers[0].value.replaceAll("-", "")
         : "";
+    }
 
     login.selectUser(userId, (err, result) => {
       if (err) {
@@ -321,9 +327,10 @@ async function handleGoogleLogin(req, res, role) {
       if (result.length === 0) {
         const userData = {
           user_id: userId,
-          gender: res2.data.genders[0].value.substring(0, 1),
+          gender: 
+          res2 !== null? res2.data.genders[0].value.substring(0, 1): "",
           email: res1.data.email,
-          phonenumber: googlePhoneNumber,
+          phonenumber: res2 !== null? googlePhoneNumber : "",
           user_roles: role,
           user_name: res1.data.name,
         };
@@ -349,8 +356,8 @@ async function handleGoogleLogin(req, res, role) {
 
       // 세션에 사용자 정보 저장
       req.session.user_id = res1.data.id + "_google";
-      req.session.role = role;
-      req.session.gender = res2.data.genders[0].value.substring(0, 1);
+      req.session.role = result[0]?.user_roles === "admin"? "admin" : role;
+      req.session.gender = res2 !== null? res2.data.genders[0].value.substring(0, 1): "";
       req.session.email = res1.data.email;
       req.session.phonenumber = googlePhoneNumber;
       req.session.user_name = res1.data.name;
@@ -358,6 +365,10 @@ async function handleGoogleLogin(req, res, role) {
 
       // 리디렉션
       if (result.length !== 0 && result[0].user_roles !== role) {
+        if(result[0].user_roles === "admin"){
+          res.redirect("http://localhost:3000/")
+          return;
+        }
         req.session.destroy((err) => {
           if (err) {
             throw err;

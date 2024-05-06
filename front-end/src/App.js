@@ -15,7 +15,10 @@ import TrainerProfileEdit from "./pages/TrainerProfileEdit";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "./components/trainermap/LoadingSpinner";
-import UserInquiry from "components/inquiry/userInquiry/UserInquiry";
+import InquiryMain from "./components/inquiry/InquiryMain";
+import Inquiry from "./components/inquiry/Inquiry"
+import InquiryList from "./components/inquiry/InquiryList"
+import InquiryPassword from "components/inquiry/InquiryPassword";
 import Confirmation from "components/trainerdetail/detailRight/reservation/contents/Confirmation";
 import PaymentComplete from "components/payment/PaymentComplete";
 
@@ -42,7 +45,11 @@ function App() {
           <Route path="/trainerDetail/:trainerId" element={<TrainerDetail />} />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/complete" element={<Complete />} />
-          <Route path="/servicecenter" element={<UserInquiry />} />
+          <Route path="/servicecenter" element={<InquiryMain />}>
+            <Route path="/servicecenter/inquiry" element={<Inquiry />} />
+            <Route path="/servicecenter/inquirypassword" element={<InquiryPassword />} />
+            <Route path="/servicecenter/inquirylist" element={<InquiryList />} />
+          </Route>
           <Route
             path="/mypage/userinfo"
             element={

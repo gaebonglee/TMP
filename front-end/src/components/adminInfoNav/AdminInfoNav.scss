@@ -1,0 +1,46 @@
+@import "../../common.scss";
+
+.btnGroup {
+  position: absolute;
+  top: 70px;
+  right: 45px;
+  text-align: center;
+  z-index: 999;
+  border: 1px solid $lightgray;
+  visibility: hidden;
+}
+
+.btnGroup .active {
+  visibility: visible;
+}
+
+.myInfoBtn {
+  font-size: 16px;
+  padding: 10px;
+  font-weight: $font-weight-1;
+  background-color: $white;
+  cursor: pointer;
+}
+
+.myInfoBtn:hover {
+  background-color: $lightgray;
+}
+
+.myInfoHr {
+  height: 1px;
+  background-color: $lightgray;
+}
+
+//navigate버튼 scss나눠쓸지 따로 쓸지 물어보기
+.trainerDetailInfoBtn,
+.leesonPageBtn {
+  font-size: 16px;
+  padding: 10px;
+  font-weight: $font-weight-1;
+  background-color: $white;
+  cursor: pointer;
+
+  :hover {
+    background-color: $lightgray;
+  }
+}
