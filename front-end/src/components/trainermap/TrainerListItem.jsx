@@ -16,7 +16,7 @@ const TrainerListItem = (props) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user_id: trainer.received_id }),
+          body: JSON.stringify({ user_id: trainer.user_id }),
         });
         const data = await res.json();
         setReviewCount(data);
@@ -49,7 +49,7 @@ const TrainerListItem = (props) => {
       });
 
     fetchReviewCount();
-  }, [trainer.user_id, trainer.received_id]);
+  }, [trainer.user_id]);
 
   let introImgs = [];
   if (trainer.intro_img) {
@@ -94,6 +94,7 @@ const TrainerListItem = (props) => {
       <div className="moraeReview">
         <BsFillStarFill size={18} color="rgb(255,187,51)" /> 후기{" "}
         {reviewCount.review_total_count}개
+        <div>{Number(reviewCount.review_avg_star).toFixed(1)}</div>
       </div>
       {introImgs.length === 0 ? (
         <img className="trainerImg" src="/image/tmp_mainlogo.png" />

@@ -4,7 +4,7 @@ import { LuPencilLine } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import { CgProfile } from "react-icons/cg";
 
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
@@ -16,6 +16,8 @@ const Review = () => {
   const [sessionUserId, setSessionUserId] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
   const url = useLocation();
+  const [expandedImageIndex, setExpandedImageIndex] = useState(null);
+  const reviewIndex = useRef(0);
 
   const receivedId = url.pathname.split("/")[2];
 
@@ -33,6 +35,7 @@ const Review = () => {
     setReviewContent("");
     setSelectedRating(0);
     setSelectedFiles([]);
+    setExpandedImageIndex(null);
   }
 
   const handleFileChange = (e) => {
@@ -65,7 +68,6 @@ const Review = () => {
   const handleReviewContentChange = (e) => {
     setReviewContent(e.target.value);
   };
-
   const handleFileUpload = async () => {
     try {
       const filesInfo = selectedFiles.map((file) => ({
@@ -82,8 +84,8 @@ const Review = () => {
           },
           body: JSON.stringify({
             files: filesInfo,
-            userId: sessionUserId,
-            table: "your_table_name",
+            userId: receivedId,
+            table: "review",
           }),
         }
       );
@@ -107,18 +109,6 @@ const Review = () => {
           }
         })
       );
-
-      // 업로드된 파일의 URL을 가져오는 로직 추가
-      const uploadedFileUrls = await Promise.all(
-        signedUrls.map(async ({ name, url }) => {
-          return `${process.env.FILE_SERVER_URL}/${url
-            .split("/")
-            .slice(-2)
-            .join("/")}`;
-        })
-      );
-
-      setPreviewImages([...previewImages, ...uploadedFileUrls]);
     } catch (error) {
       console.error("Error uploading files:", error);
     }
@@ -131,7 +121,7 @@ const Review = () => {
     }
 
     if (!sessionUserId) {
-      alert("로그인이 필요합니다.");
+      alert("회원 로그인이 필요합니다.");
       return;
     }
 
@@ -139,13 +129,15 @@ const Review = () => {
       await handleFileUpload();
 
       const formData = new FormData();
+      const fileImgArr = [];
       selectedFiles.forEach((file) => {
-        formData.append("files", file);
+        fileImgArr.push(file.name);
       });
+
+      formData.append("review_img", fileImgArr.join(","));
       formData.append("user_id", sessionUserId);
       formData.append("point", selectedRating);
       formData.append("review", reviewContent);
-      formData.append("review_img", previewImages);
       formData.append("received_id", receivedId);
 
       console.log(formData.get("user_id"));
@@ -159,6 +151,7 @@ const Review = () => {
       if (response.ok && data.message === "SUCCESS") {
         alert("리뷰가 등록되었습니다.");
         handleCloseModal();
+        window.location.reload();
       } else {
         throw new Error(data.message || "리뷰 등록에 실패했습니다.");
       }
@@ -253,6 +246,7 @@ const Review = () => {
                     <div>
                       <div className="review_header">
                         <div>
+                          <CgProfile size={24} />
                           <span className="review_userName">
                             {review.user_name}
                           </span>
@@ -272,17 +266,27 @@ const Review = () => {
                       </div>
                       <div className="review_context">
                         <div className="review_context_photo">
-                          {Array.isArray(review.review_img) ? (
-                            review.review_img.map((img, index) => (
-                              <img
-                                key={index}
-                                src={img}
-                                alt={`Review Image ${index}`}
-                              />
-                            ))
-                          ) : (
-                            <img src={review.review_img} alt="Review Image" />
-                          )}
+                          {review.review_img
+                            ?.split(",")
+                            .map((img, imgindex) => (
+                              <div key={imgindex} className="reviewImage">
+                                <div className="review_div">
+                                  <div
+                                    className="img_review"
+                                    onClick={() => {
+                                      setExpandedImageIndex(imgindex);
+                                      reviewIndex.current = index;
+                                    }}
+                                  >
+                                    <img
+                                      className="img img_review"
+                                      src={`${process.env.REACT_APP_FILE_SERVER_URL}/review/${receivedId}/${img}`}
+                                      alt={`Review ${index}`}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
                         </div>
                         <div className="review_context_text">
                           <p>{review.review}</p>
@@ -456,6 +460,30 @@ const Review = () => {
         </div>
       )}
       {isModalOpen && <div className="modal-backdrop show fade"></div>}
+
+      {/* 이미지 확대 모달 */}
+      {expandedImageIndex !== null && reviewList.length > 0 && (
+        <div
+          className="expendedModal"
+          onClick={() => setExpandedImageIndex(null)}
+        >
+          <div
+            className="expendedModal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={`${`${
+                process.env.REACT_APP_FILE_SERVER_URL
+              }/review/${sessionUserId}/${
+                reviewList[reviewIndex.current].review_img?.split(",")[
+                  expandedImageIndex
+                ] || ""
+              }`}`}
+              alt="Expanded"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

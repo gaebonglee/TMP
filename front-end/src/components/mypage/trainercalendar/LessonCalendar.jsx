@@ -10,9 +10,52 @@ const LessonCalendar = () => {
       new Date().getMonth() + 1
     }월 ${new Date().getDate()}일`
   );
-  
+  const [reservationInfo, setReservationInfo] = useState(null);
+  const [trainerId, setTrainerId] = useState(null);
 
-  // isToday 함수 정의
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const sessionResponse = await fetch(
+          "http://localhost:5000/session/checkSession",
+          { credentials: "include" }
+        );
+        const sessionData = await sessionResponse.json();
+
+        if (sessionData && sessionData.user_id) {
+          setTrainerId(sessionData.user_id);
+          fetchReservations(sessionData.user_id, date);
+        } else {
+          console.error("Trainer ID is not available.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  useEffect(() => {
+    if (trainerId) {
+      fetchReservations(trainerId, date);
+    }
+  }, [date, trainerId]);
+
+  const fetchReservations = async (trainerId, date) => {
+    const formattedDate = date.toISOString().slice(0, 10);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/reservation/selectLessonInfo/${formattedDate}/${trainerId}`,
+        { credentials: "include" }
+      );
+      const data = await response.json();
+      setReservationInfo(data.length > 0 ? data[0] : null);
+    } catch (error) {
+      console.error("Failed to fetch reservations:", error);
+    }
+  };
+
   const isToday = (date) => {
     const today = new Date();
     return (
@@ -22,15 +65,12 @@ const LessonCalendar = () => {
     );
   };
 
-  //content_right 오늘의 날짜 부분
   const onDateChange = (date) => {
     setDate(date);
     setSelectedDateContent(
       `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
     );
   };
-
-  //mysql에서 데이터 가져오는 내용
 
   return (
     <div className="lesson_container">
@@ -55,14 +95,20 @@ const LessonCalendar = () => {
             </div>
             <div className="lesson_content_right">
               <div className="lesson_scheduleDate">
-                <p className="lesson_scheduleDate_today">{selectedDateContent}</p>
+                <p className="lesson_scheduleDate_today">
+                  {selectedDateContent}
+                </p>
                 <div className="lesson_list">
-                  <div>
-                    <p>회원 이름 : </p>
-                    <p>예약 날짜 : </p>
-                    <p>예약 시간 : </p>
-                    <p>선택 항목 : </p>
-                  </div>
+                  {reservationInfo ? (
+                    <div>
+                      <p>회원 이름: {reservationInfo.user_name}</p>
+                      <p>예약 날짜: {selectedDateContent}</p>
+                      <p>예약 시간: {reservationInfo.reservation_time}</p>
+                      <p>선택 항목: {reservationInfo.selected_list}</p>
+                    </div>
+                  ) : (
+                    <p>해당 날짜에 예약이 없습니다.</p>
+                  )}
                 </div>
               </div>
             </div>

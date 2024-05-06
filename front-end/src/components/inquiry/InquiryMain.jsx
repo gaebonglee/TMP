@@ -1,9 +1,8 @@
 import React from 'react';
 import "./InquiryMain.scss"
 import {useNavigate, Outlet} from "react-router-dom"
-// import { useState } from 'react';
+
 const InquiryMain = () => {
-    // const inquiryArray = [""];
     const navigate = useNavigate();
     const inquiryButton = () => {
         navigate('/servicecenter/inquiry')

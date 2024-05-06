@@ -21,6 +21,8 @@ import InquiryList from "./components/inquiry/InquiryList"
 import InquiryPassword from "components/inquiry/InquiryPassword";
 import Confirmation from "components/trainerdetail/detailRight/reservation/contents/Confirmation";
 import PaymentComplete from "components/payment/PaymentComplete";
+import Faq from "components/faq/Faq";
+import FaqCoach from "components/faq/FaqCoach";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -50,6 +52,8 @@ function App() {
             <Route path="/servicecenter/inquirypassword" element={<InquiryPassword />} />
             <Route path="/servicecenter/inquirylist" element={<InquiryList />} />
           </Route>
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/faqCoach" element={<FaqCoach />} />
           <Route
             path="/mypage/userinfo"
             element={
@@ -91,7 +95,7 @@ function App() {
             }
           />
           <Route
-            path="/lessonpage"
+            path="/mypage/lessonpage"
             element={
               <PrivateRoute
                 component={<LessonPage />}

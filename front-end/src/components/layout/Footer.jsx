@@ -38,7 +38,7 @@ const scrollToTop = () => {
                 </li>
                 <span />
                 <li>
-                  <Link to="#" className="FAQ_page">
+                  <Link to="/faq" className="FAQ_page">
                     자주 묻는 질문
                   </Link>
                 </li>
