@@ -1,36 +1,30 @@
 @import "../../common.scss";
 
 .paymentComplete_page {
+  background-color: #f7f9fa;
+  min-height: 570px;
   color: $black;
+}
+
+.paymentComplete_container {
+  padding: 30px;
   max-width: 1136px;
   margin: auto;
 }
 
+.paymentComplete_title {
+  padding: 20px 0;
+}
 .paymentComplete_message {
-  h2 {
-    padding: 20px 0;
-  }
   p {
     margin: 0 auto;
     padding: 30px;
     border-top: 1px solid $lightgray;
-    border-bottom: 1px solid $lightgray;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: $h2;
   }
-}
-
-.reservation_complete_container {
-  padding: 30px 0;
-  h2 {
-    padding: 20px 0;
-  }
-}
-
-.complete_trainer_info {
-  padding: 20px;
 }
 
 .reservation_complete_contents {
