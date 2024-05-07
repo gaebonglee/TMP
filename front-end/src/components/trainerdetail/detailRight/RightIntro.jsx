@@ -24,7 +24,7 @@ const RightIntro = ({ data, trainerId, loginInfo }) => {
   const reviewAvg = Math.floor(reviewSum / data.infoReview.length);
   const reviewArr = [0, 1, 2, 3, 4];
 
-  const rightIntroNode = document.querySelector(".RightIntro");
+  // const rightIntroNode = document.querySelector(".RightIntro");
 
   return (
     <div className="intro_right_container">
