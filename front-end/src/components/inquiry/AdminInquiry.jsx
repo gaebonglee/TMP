@@ -1,39 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import "./InquiryList.scss"
+import React, {useState, useEffect} from 'react';
+import "./AdminInquiry.scss"
 import { CgCloseO } from "react-icons/cg";
 
-const InquiryList = () => {
-  const location = useLocation();
-  const [password, setPassword] = useState({ password: "" });
-  const [inquiryList, setInquiryList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
-  const lastItemIndex = currentPage * itemsPerPage;
-  const firstItemIndex = lastItemIndex - itemsPerPage;
-  const currentItems = inquiryList.slice(firstItemIndex, lastItemIndex);
+const AdminInquiry = () => {
 
-  const paginate = pageNumber => setCurrentPage(pageNumber);
+const [inquiryList, setInquiryList] = useState([])
+const [currentPage, setCurrentPage] = useState(1);
+const [itemsPerPage] = useState(5);
+const lastItemIndex = currentPage * itemsPerPage;
+const firstItemIndex = lastItemIndex - itemsPerPage;
+const currentItems = inquiryList.slice(firstItemIndex, lastItemIndex);
 
-  useEffect(() => {
-    const newPassword = location.state.responseData[0].inquiry_password;
-    console.log(newPassword);
-    setPassword({ password: newPassword }); // Update state
-  }, [location.state.responseData]);
+const paginate = pageNumber => setCurrentPage(pageNumber);
 
-  useEffect(() => {
-    if (!password) return;
-
-    fetch("http://localhost:5000/servicecenter/inquirylist", {
-      //요청지
-      method: "POST", //메소드 지정
-      headers: {
-        //데이터 타입 지정
-        Accept: "application/json",
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(password), //실제 데이터 파싱해서 body에 저장
-    })
+    useEffect(() => {
+    fetch("http://localhost:5000/servicecenter/inquirylist/admin")
       .then((response) => {
         console.log(response);
         if (!response.ok) {
@@ -43,24 +24,24 @@ const InquiryList = () => {
       })
       .then((data) => {
         console.log(data);
-        setInquiryList(data);
+        setInquiryList(data)
         window.scrollTo({ top: 0 });
       })
       .catch((error) => {
         console.error("There was a problem with your fetch operation:", error);
       });
-  }, [password]);
-  console.log(inquiryList);
+  }, []);
 
   const convertToLocalTime = (utcDate) => {
     const date = new Date(utcDate);
     date.setHours(date.getHours() + 9);
     return date.toLocaleString('ko-KR', { 
-      timeZone: 'Asia/Seoul',
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour: '2-digit', minute: '2-digit'
+    timeZone: 'Asia/Seoul',
+    year: 'numeric', month: 'numeric', day: 'numeric',
+    hour: '2-digit', minute: '2-digit'
      });
   };
+
   const deleteInquiry = (index) => {
     const confirmResult = window.confirm('정말로 삭제하시겠습니까?')
     if(confirmResult) {
@@ -97,11 +78,24 @@ const InquiryList = () => {
     <div className="inquiryList">
       {currentItems.map((item, index) => (
         <div className="inquiryItem" key={index}>
-          <div className="inquiryDetails">
-            <span className="inquiryType">{item.inquiry_type}</span>
-            <span className="inquiryContents">{item.inquiry_contents}</span>
-            <span className="inquiryDate">{convertToLocalTime(item.register_date)}</span>
-            <CgCloseO className="inquiryClose" onClick={() => {deleteInquiry(index)}}/>
+          <div className="AdmininquiryDetails">
+            <div>
+              <div className="Inquiry_label">문의유형</div>
+              <span className="inquiryType">{item.inquiry_type}</span>
+            </div>
+            <div>
+              <div className="Inquiry_label">내용</div>
+              <span className="inquiryContents">{item.inquiry_contents}</span>
+            </div>
+            <div>
+              <div className="Inquiry_label">문의시 설정한 비밀번호</div>
+              <span className="inquiryPassword">{item.inquiry_password}</span>
+            </div>
+            <div>
+              <div className="Inquiry_label">등록날짜</div>
+              <span className="inquiryDate">{convertToLocalTime(item.register_date)}</span>
+            </div>
+            <CgCloseO className="adminInquiryClose" onClick={() => {deleteInquiry(index)}}/>
           </div>
         </div>
       ))}
@@ -114,8 +108,7 @@ const InquiryList = () => {
           ))}
       </div>
     </div>
-    
   );
 };
 
-export default InquiryList;
+export default AdminInquiry;

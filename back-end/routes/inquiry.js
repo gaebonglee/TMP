@@ -24,6 +24,20 @@ router.post('/inquirylist', async(req, res) => {
     res.status(200).send(result);
 });
 
+router.post('/deleteinquirylist', async(req, res) => {
+    console.log("Received data:", req.body);
+    const {inquiry_id} = req.body
+    let result = await inquiry.deleteInquiryList(inquiry_id);
+    console.log("inquiryResult: ", result)
+    res.status(200).send(result);
+});
+
+router.get('/inquirylist/admin', async(req, res) => {
+    let result = await inquiry.adminInquiryList();
+    console.log("adminInquiryResult: ", result)
+    res.status(200).send(result);
+});
+
 
 
 module.exports = router;

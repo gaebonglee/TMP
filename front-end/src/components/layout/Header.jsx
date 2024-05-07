@@ -62,7 +62,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="account_container">
-          {loginInfo.role === "admin" ? <Link to ='#' className="user_inquiry_check"><span className="aster">*</span>고객 문의내역 확인<span className="aster">*</span></Link> : null}
+          {loginInfo.role === "admin" ? <Link to ='/servicecenter/inquirylist/admin' className="user_inquiry_check"><span className="aster">*</span>고객 문의내역 확인<span className="aster">*</span></Link> : null}
           {!!loginInfo.user_id === true ? (
             <div
               className="setLogin"
