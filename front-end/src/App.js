@@ -19,9 +19,9 @@ import Inquiry from "./components/inquiry/Inquiry";
 import InquiryList from "./components/inquiry/InquiryList";
 import InquiryPassword from "components/inquiry/InquiryPassword";
 import Confirmation from "components/trainerdetail/detailRight/reservation/contents/Confirmation";
-import PaymentComplete from "components/payment/PaymentComplete";
 import Faq from "components/faq/Faq";
 import FaqCoach from "components/faq/FaqCoach";
+import ReservationList from "components/reservationlist/ReservationList";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -133,10 +133,10 @@ function App() {
             }
           />
           <Route
-            path="/paymentComplete/:reservationId"
+            path="/reservationList/:userId"
             element={
               <PrivateRoute
-                component={<PaymentComplete />}
+                component={<ReservationList />}
                 token={data}
                 role={"user"}
               />

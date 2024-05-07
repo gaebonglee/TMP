@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ReservationList.scss";
 import { IoIosArrowDown } from "react-icons/io";
 
 const ReservationList = () => {
-  const { reservationId } = useParams();
+  const { userId } = useParams(); // useParams를 통해 userId를 직접 사용
+  const [reservations, setReservations] = useState([]);
 
-  // 예약 ID를 사용하여 추가 데이터를 로드하거나 처리
-  console.log("결제 완료된 예약 ID:", reservationId);
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/reservation/selectReservationList/${userId}`, // 이용자 ID를 이용해 예약 목록을 조회
+          {
+            credentials: "include",
+          }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setReservations(data);
+        } else {
+          throw new Error("Failed to fetch reservations");
+        }
+      } catch (error) {
+        console.error("Error loading reservations:", error);
+      }
+    };
+
+    if (userId) {
+      // userId가 유효할 때만 예약 목록을 조회
+      fetchReservations();
+    }
+  }, [userId]); // userId가 변경될 때마다 이펙트를 다시 실행
 
   return (
     <div className="reservationList_page">
@@ -16,20 +40,27 @@ const ReservationList = () => {
           <h2>나의 예약 내역</h2>
         </div>
         <div className="reservationList">
-          <div className="reservationList_wrap">
-            <div className="reservationList_date">
-              <p>@@@@.@@.@@</p>
-              <p>
-                예약 상세 보기
-                <IoIosArrowDown />
-              </p>
+          {reservations.map((reservation, index) => (
+            <div key={index} className="reservationList_wrap">
+              <div className="reservationList_date">
+                <p>
+                  {new Date(reservation.reservation_date).toLocaleDateString(
+                    "ko-KR"
+                  )}
+                </p>
+                <p>
+                  예약 상세 보기
+                  <IoIosArrowDown />
+                </p>
+              </div>
+              <ul>
+                <li>
+                  {reservation.trainer_name} / {reservation.reservation_time}
+                </li>
+                <li>{reservation.selected_list}</li>
+              </ul>
             </div>
-            <ul>
-              <li>###트레이너 / $$$$ </li>
-              <li>선택항목, 선택항목</li>
-            </ul>
-
-          </div>
+          ))}
         </div>
       </div>
     </div>
@@ -37,5 +68,3 @@ const ReservationList = () => {
 };
 
 export default ReservationList;
-
-
