@@ -27,6 +27,7 @@ async function selectTrainerInfo1(trainerId) {
       d.center_street_address,
       d.center_intro,
       d.center_img,
+      d.center_vr_img,
       d.latitude,
       d.longitude,
       e.weekday_start as center_weekday_start,
