@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import "./InquiryList.scss"
 
 const InquiryList = () => {
   const location = useLocation();
@@ -50,25 +51,16 @@ const InquiryList = () => {
   };
 
   return (
-    <div>
-      {inquiryList.map((list, index) => {
-        return (
-          <div className="inquiryMain_contents_container" key={index}>
-            <table className="inquiryMain_contents_table">
-              <tr>
-                <th className="inquiryMain_type">문의 유형</th>
-                <th className="inquiryMain_contents">문의 내용</th>
-                <th className="inquiryMain_date">등록 날짜</th>
-              </tr>
-              <tr>
-                <td>{list.inquiry_type}</td>
-                <td>{list.inquiry_contents}</td>
-                <td>{convertToLocalTime(list.register_date)}</td>
-              </tr>
-            </table>
+    <div className="inquiryList">
+      {inquiryList.map((item, index) => (
+        <div className="inquiryItem" key={index}>
+          <div className="inquiryDetails">
+            <span className="inquiryType">{item.inquiry_type}</span>
+            <span className="inquiryContents">{item.inquiry_contents}</span>
+            <span className="inquiryDate">{convertToLocalTime(item.register_date)}</span>
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 };
