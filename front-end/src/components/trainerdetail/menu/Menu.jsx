@@ -4,36 +4,38 @@ import "./Menu.scss";
 const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
   const [activeId, setActiveId] = useState("");
   useEffect(() => {
-    const currentRefs = sectionRefs.current;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: "0px",
-        threshold: 0.7, // 70%의 요소가 보일 때 활성화 상태로 변경
-      }
-    );
+    setTimeout(() => {
+      const currentRefs = sectionRefs.current;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveId(entry.target.id);
+            }
+          });
+        },
+        {
+          rootMargin: "0px",
+          threshold: 0.7, // 70%의 요소가 보일 때 활성화 상태로 변경
+        }
+      );
 
-    // 모든 섹션을 관찰 대상으로 추가
-    Object.values(currentRefs).forEach((ref) => {
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-    });
-
-    // 컴포넌트 언마운트 시, 관찰 중단
-    return () => {
+      // 모든 섹션을 관찰 대상으로 추가
       Object.values(currentRefs).forEach((ref) => {
         if (ref.current) {
-          observer.unobserve(ref.current);
+          observer.observe(ref.current);
         }
       });
-    };
+
+      // 컴포넌트 언마운트 시, 관찰 중단
+      return () => {
+        Object.values(currentRefs).forEach((ref) => {
+          if (ref.current) {
+            observer.unobserve(ref.current);
+          }
+        });
+      };
+    }, 100);
   }, [sectionRefs, trainerInfo]);
 
   const scrollToSection = (ref) => {
