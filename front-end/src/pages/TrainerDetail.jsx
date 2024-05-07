@@ -2,7 +2,7 @@ import React, { createRef, useRef, useState } from "react";
 import Menu from "../components/trainerdetail/menu/Menu";
 import DetailMainContents from "../components/trainerdetail/DetailMainContents";
 
-const TrainerDetail = () => {
+const TrainerDetail = ({ loginInfo }) => {
   const [trainerInfo, setTrainerInfo] = useState("coach");
   const handleTrainerInfo = (infoName) => {
     setTrainerInfo(infoName);
@@ -27,7 +27,11 @@ const TrainerDetail = () => {
         handleTrainerInfo={handleTrainerInfo}
         sectionRefs={sectionRefs}
       />
-      <DetailMainContents trainerInfo={trainerInfo} sectionRefs={sectionRefs} />
+      <DetailMainContents
+        trainerInfo={trainerInfo}
+        sectionRefs={sectionRefs}
+        loginInfo={loginInfo}
+      />
     </section>
   );
 };

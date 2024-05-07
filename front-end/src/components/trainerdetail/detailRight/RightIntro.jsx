@@ -2,19 +2,25 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import "./RightIntro.scss";
-import DayTime from "./reservation/DayTime";
-import Purpose from "./reservation/Purpose";
-import Confirmation from "./reservation/Confirmation";
+// import DayTime from "./reservation/DayTime";
+// import Purpose from "./reservation/Purpose";
+// import Confirmation from "./reservation/Confirmation";
 import { IoClose } from "react-icons/io5";
 import { FaStar } from "react-icons/fa6";
 
-const RightIntro = ({ data,trainerId }) => {
-
+const RightIntro = ({ data, trainerId, loginInfo }) => {
   const navigate = useNavigate();
-
- // 예약 페이지로 이동
+  // 예약 페이지로 이동
   const handleReservation = () => {
-    navigate(`/reservationPage/${trainerId}`);
+    if (loginInfo && loginInfo.role) {
+      if (loginInfo.role === "trainer") {
+        // 로그인을 했지만 trainer인 경우
+        navigate(`/login/roleError/reservation_trainer`);
+      }
+    } else {
+      // 로그인을 안한 경우
+      navigate(`/login/roleError/reservation_need_login`);
+    }
   };
 
   const reviewSum = data.infoReview.reduce((accumulator, currentValue) => {
@@ -74,7 +80,7 @@ const RightIntro = ({ data,trainerId }) => {
         <div className="bottom_wrap">
           <div className={"reservation_btn_wrapper"}>
             <button className={"reservation_btn"} onClick={handleReservation}>
-             상담 예약하기
+              상담 예약하기
             </button>
           </div>
         </div>
