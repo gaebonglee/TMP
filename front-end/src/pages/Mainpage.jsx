@@ -5,7 +5,6 @@ import LoginErrorModal from "../components/loginErrorModal/LoginErrorModal";
 import { useParams } from "react-router-dom";
 const Home = () => {
   const { role } = useParams();
- 
 
   return (
     <>

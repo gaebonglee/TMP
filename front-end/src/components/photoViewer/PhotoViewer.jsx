@@ -4,7 +4,7 @@ import axios from "axios";
 import "./PhotoViewer.scss";
 import { ImCancelCircle } from "react-icons/im";
 
-const PhotoViewer = () => {
+const PhotoViewer = ({ center_id, fileName }) => {
   const [isViewerOpen, setViewerOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const handleViewerToggle = () => {
@@ -14,15 +14,10 @@ const PhotoViewer = () => {
   useEffect(() => {
     const handleDownload = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/file/info`, {
-          params: { center_id: 1 },
-        });
-
-        console.log("front 결과 : ", response.data.center_img);
-        const dotIndex = response.data.center_img.indexOf(".");
-        const imgType = response.data.center_img.substring(dotIndex + 1);
+        const dotIndex = fileName.indexOf(".");
+        const imgType = fileName.substring(dotIndex + 1);
         const response2 = await axios.get(
-          `http://localhost:5000/file/download/${response.data.center_img}`,
+          `http://localhost:5000/file/download/center/${center_id}/${fileName}`,
           {
             responseType: "arraybuffer",
           }
@@ -41,7 +36,9 @@ const PhotoViewer = () => {
 
   return (
     <div>
-      <button onClick={handleViewerToggle}>사진 보기</button>
+      <button onClick={handleViewerToggle} className="photo__vr__btn">
+        VR 보기
+      </button>
       {isViewerOpen && (
         <div className="photoBox360">
           <button

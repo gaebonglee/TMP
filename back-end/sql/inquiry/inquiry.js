@@ -53,4 +53,38 @@ function inquiryList(password){
     })
 }
 
-module.exports = {inquiry, inquiryPassword, inquiryList}
+function deleteInquiryList(inquiry_id){
+    const sql = `delete from inquiry where inquiry_id = ?`;
+   
+    return new Promise((resolve, reject) => {
+        mysql.query(sql,[inquiry_id], (err, result) => {
+            if (err){
+                console.log("Error: ", err)
+                reject(err)
+            }
+            else{
+                console.log("result: ", result)
+                resolve(result)
+            }
+        });
+    })
+}
+
+function adminInquiryList(){
+    const sql = `select * from inquiry`;
+   
+    return new Promise((resolve, reject) => {
+        mysql.query(sql, (err, result) => {
+            if (err){
+                console.log("Error: ", err)
+                reject(err)
+            }
+            else{
+                console.log("result: ", result)
+                resolve(result)
+            }
+        });
+    })
+}
+
+module.exports = {inquiry, inquiryPassword, inquiryList, deleteInquiryList, adminInquiryList}

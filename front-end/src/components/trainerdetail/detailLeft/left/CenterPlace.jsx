@@ -15,7 +15,7 @@ const CenterPlace = ({ data, sectionRefs }) => {
           <div>
             <div className="flexBoxStart">
               <strong style={{ marginRight: "8px" }}>{data.center_name}</strong>
-              {data.center_name && <div className="contact">상세 정보</div>}
+              {/* {data.center_name && <div className="contact">상세 정보</div>} */}
             </div>
             <div className="flexBoxStart">
               <div className="addressOnLocation">

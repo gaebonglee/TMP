@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./LeftIntroCenter.scss";
+import PhotoViewer from "components/photoViewer/PhotoViewer";
 
 const LeftIntroCener = ({ data, sectionRefs }) => {
   const [visible, setVisible] = useState(6);
@@ -49,8 +50,20 @@ const LeftIntroCener = ({ data, sectionRefs }) => {
         <div id="wrap_container">
           <div>
             <div className="flexBoxStart" style={{ marginLeft: "5px" }}>
-              <strong style={{ marginRight: "8px" }}>{data.center_name}</strong>
-              {data.center_name && <div className="contact">상세 정보</div>}
+              <div className="center__info__1">
+                <strong style={{ marginRight: "8px" }}>
+                  {data.center_name}
+                </strong>
+                {/* {data.center_name && <div className="contact">상세 정보</div>} */}
+              </div>
+              {data.center_vr_img && (
+                <div>
+                  <PhotoViewer
+                    center_id={data.center_id}
+                    fileName={data.center_vr_img}
+                  />
+                </div>
+              )}
             </div>
             <div
               className="flexBoxStart"

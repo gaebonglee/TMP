@@ -10,8 +10,8 @@ const Confirmation = () => {
   const navigate = useNavigate();
 
   const [userId, setUserId] = useState(null);
-  const [userName, setUserName] = useState(""); // 이름 상태 추가
-  const [userPhone, setUserPhone] = useState(""); // 전화번호 상태 추가
+  const [userName, setUserName] = useState(""); 
+  const [userPhone, setUserPhone] = useState(""); 
 
   // 사용자 세션 정보 가져오기
   useEffect(() => {

@@ -1,3 +1,5 @@
+@import "../../common.scss";
+
 .inquiryList {
     display: flex;
     flex-direction: column;
@@ -10,14 +12,15 @@
     padding: 15px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 80px;
   }
   
   .inquiryDetails {
     display: grid;
     width: 900px;
-    grid-template-columns: 1fr 3fr 1fr;
+    height: 100%;
+    grid-template-columns: 1fr 3fr 1fr 0.1fr;
     gap: 20px;
-    align-items: center;
   }
   
   .inquiryType, .inquiryContents, .inquiryDate {
@@ -33,4 +36,7 @@
     text-align: right;
     font-style: italic;
     color: #666;
+  }
+  .inquiryClose{
+    cursor: pointer;
   }
