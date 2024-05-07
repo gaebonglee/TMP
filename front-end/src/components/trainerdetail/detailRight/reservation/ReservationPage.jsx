@@ -3,7 +3,7 @@ import DayTime from "./contents/DayTime";
 import Purpose from "./contents/Purpose";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import "./ReservationPage.scss"
+import "./ReservationPage.scss";
 
 const ReservationPage = () => {
   const [date, setDate] = useState(null);
@@ -29,10 +29,13 @@ const ReservationPage = () => {
 
   return (
     <div className="reservationPage_container">
-      <DayTime setDate={setDate} setTime={setTime} />
-      <Purpose setSubCategories={setSubCategories} />
-      <button className="reservationPage_container_btn"
-      onClick={handleNext}>다음</button>
+      <div className="reservationPage_margin">
+        <DayTime setDate={setDate} setTime={setTime} />
+        <Purpose setSubCategories={setSubCategories} />
+        <button className="reservationPage_container_btn" onClick={handleNext}>
+          다음
+        </button>
+      </div>
     </div>
   );
 };

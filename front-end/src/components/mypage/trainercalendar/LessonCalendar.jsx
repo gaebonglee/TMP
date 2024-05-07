@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import "./LessonCalendar.scss";
+
 
 const LessonCalendar = () => {
   const [date, setDate] = useState(new Date());
@@ -10,7 +10,7 @@ const LessonCalendar = () => {
       new Date().getMonth() + 1
     }월 ${new Date().getDate()}일`
   );
-  const [reservationInfo, setReservationInfo] = useState(null);
+  const [lessons, setLessons] = useState([]);
   const [trainerId, setTrainerId] = useState(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const LessonCalendar = () => {
 
         if (sessionData && sessionData.user_id) {
           setTrainerId(sessionData.user_id);
-          fetchReservations(sessionData.user_id, date);
+          fetchDataForNewDate(date, sessionData.user_id);
         } else {
           console.error("Trainer ID is not available.");
         }
@@ -38,22 +38,39 @@ const LessonCalendar = () => {
 
   useEffect(() => {
     if (trainerId) {
-      fetchReservations(trainerId, date);
+      fetchDataForNewDate(date, trainerId);
     }
   }, [date, trainerId]);
 
-  const fetchReservations = async (trainerId, date) => {
-    const formattedDate = date.toISOString().slice(0, 10);
-    try {
-      const response = await fetch(
-        `http://localhost:5000/reservation/selectLessonInfo/${formattedDate}/${trainerId}`,
-        { credentials: "include" }
+  const fetchDataForNewDate = async (newDate, trainerId) => {
+    if (trainerId) {
+      const utcDate = new Date(
+        Date.UTC(newDate.getFullYear(), newDate.getMonth(), newDate.getDate())
       );
-      const data = await response.json();
-      setReservationInfo(data.length > 0 ? data[0] : null);
-    } catch (error) {
-      console.error("Failed to fetch reservations:", error);
+      const formattedDate = utcDate.toISOString().slice(0, 10);
+      try {
+        const lessonsResponse = await fetch(
+          `http://localhost:5000/reservation/selectLessonInfo/${formattedDate}/${trainerId}`,
+          { credentials: "include" }
+        );
+        const lessonData = await lessonsResponse.json();
+        if (lessonData && lessonData.length > 0) {
+          setLessons(lessonData);
+        } else {
+          setLessons([]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch reservations:", error);
+      }
     }
+  };
+
+  const onDateChange = (date) => {
+    setDate(date);
+    setSelectedDateContent(
+      `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
+    );
+    fetchDataForNewDate(date, trainerId);
   };
 
   const isToday = (date) => {
@@ -62,13 +79,6 @@ const LessonCalendar = () => {
       date.getDate() === today.getDate() &&
       date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear()
-    );
-  };
-
-  const onDateChange = (date) => {
-    setDate(date);
-    setSelectedDateContent(
-      `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
     );
   };
 
@@ -84,7 +94,6 @@ const LessonCalendar = () => {
               <Calendar
                 onChange={onDateChange}
                 value={date}
-                minDate={new Date()}
                 formatDay={(locale, date) => date.getDate()}
                 tileContent={({ date, view }) =>
                   view === "month" && isToday(date) ? (
@@ -99,13 +108,14 @@ const LessonCalendar = () => {
                   {selectedDateContent}
                 </p>
                 <div className="lesson_list">
-                  {reservationInfo ? (
-                    <div>
-                      <p>회원 이름: {reservationInfo.user_name}</p>
-                      <p>예약 날짜: {selectedDateContent}</p>
-                      <p>예약 시간: {reservationInfo.reservation_time}</p>
-                      <p>선택 항목: {reservationInfo.selected_list}</p>
-                    </div>
+                  {lessons.length > 0 ? (
+                    lessons.map((lesson, idx) => (
+                      <div key={idx}>
+                        <p>회원 이름 : {lesson.user_name}</p>
+                        <p>예약 시간 : {lesson.reservation_time}</p>
+                        <p>선택 항목 : {lesson.selected_list}</p>
+                      </div>
+                    ))
                   ) : (
                     <p>해당 날짜에 예약이 없습니다.</p>
                   )}
