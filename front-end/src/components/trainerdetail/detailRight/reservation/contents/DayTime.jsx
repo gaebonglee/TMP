@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import "./DayTime.scss";
 import { FaRegCalendarCheck } from "react-icons/fa";
+import "./CalendarStyle.scss";
 
 const isToday = (someDate) => {
   const today = new Date();
@@ -40,35 +40,42 @@ const DayTime = (props) => {
   };
 
   return (
-    <div className="booking_page">
-      <div className="booking_title">
+    <div className="dayTime_page">
+      <div className="dayTime_title">
         <FaRegCalendarCheck />
         <h3>날짜 및 시간 선택</h3>
       </div>
       <br />
-      <Calendar
-        onChange={onDateChange}
-        value={date}
-        minDate={new Date()}
-        formatDay={(locale, date) => date.getDate()}
-        tileContent={({ date, view }) =>
-          view === "month" && isToday(date) ? (
-            <p style={{ fontSize: "12px" }}>오늘</p>
-          ) : null
-        }
-      />
-      <div className="time-selection">
-        {availableTimes.map((availableTime, index) => (
-          <button
-            key={index}
-            className={`time-button ${
-              time === availableTime ? "selected" : ""
-            }`}
-            onClick={() => onTimeSelect(availableTime)}
-          >
-            {availableTime}
-          </button>
-        ))}
+      <div className="dayTime_wrap">
+        <Calendar
+          onChange={onDateChange}
+          value={date}
+          minDate={new Date()}
+          formatDay={(locale, date) => date.getDate()}
+          tileContent={({ date, view }) =>
+            view === "month" && isToday(date) ? (
+              <p
+                style={{ fontSize: "12px", color: "#00491e" }}
+                className="calendar_today_text"
+              >
+                오늘
+              </p>
+            ) : null
+          }
+        />
+        <div className="time-selection">
+          {availableTimes.map((availableTime, index) => (
+            <button
+              key={index}
+              className={`time-button ${
+                time === availableTime ? "selected" : ""
+              }`}
+              onClick={() => onTimeSelect(availableTime)}
+            >
+              {availableTime}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Header.scss";
 import LoginModal from "../loginModal/LoginModal";
 import { BsPersonCircle } from "react-icons/bs";
@@ -39,8 +39,7 @@ const Header = () => {
         credentials: "include",
       }).then((res) => res.json()),
   });
-  console.log(loginInfo);
-  
+
   if (isPending) return <div>Loading...</div>;
 
   if (error) return "An error has occurred: " + error.message;

@@ -3,7 +3,7 @@ import "./Qualifications.scss";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { PiCertificate, PiTrophy } from "react-icons/pi";
 
-const Qualifications = ({ data }) => {
+const Qualifications = ({ data, sectionRefs }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -28,52 +28,54 @@ const Qualifications = ({ data }) => {
   };
 
   return (
-    <div id="intro_page_contents_wrap" className="qualifications">
-      <div className="title_wrap">
-        <h1>검증된 자격사항</h1>
-        <div className="trainer_check_btn">
-          <div className="check_btn_wrap">
-            <IoCheckmarkDoneSharp />
-            <a>증명 확인하기</a>
+    <div id="header_section2" ref={sectionRefs.current.header_section2}>
+      <div id="intro_page_contents_wrap" className="qualifications">
+        <div className="title_wrap">
+          <h1>검증된 자격사항</h1>
+          <div className="trainer_check_btn">
+            <div className="check_btn_wrap">
+              <IoCheckmarkDoneSharp />
+              <p>증명 확인하기</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="wrap_container">
-        {data.map((carrer, index) => (
-          <div
-            className="carrer_wrap"
-            key={index}
-            onClick={() => openModal(index)}
+        <div id="wrap_container">
+          {data.map((carrer, index) => (
+            <div
+              className="carrer_wrap"
+              key={index}
+              onClick={() => openModal(index)}
+            >
+              <div className="carrer_wrap_img">
+                {carrer.certification_type === "1" ? (
+                  <PiCertificate />
+                ) : (
+                  <PiTrophy />
+                )}
+              </div>
+              <div className="carrer_wrap_text">
+                <p>{carrer.certification_name}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        {isOpen && (
+          <Modal
+            isOpen={isOpen}
+            onClose={closeModal}
+            currentIndex={selectedIndex}
+            totalCount={data.length}
           >
-            <div className="carrer_wrap_img">
-              {carrer.certification_type === "1" ? (
-                <PiCertificate />
-              ) : (
-                <PiTrophy />
-              )}
-            </div>
-            <div className="carrer_wrap_text">
-              <p>{carrer.certification_name}</p>
-            </div>
-          </div>
-        ))}
+            <ArrowButton direction="left" onClick={prevImage} />
+            <img
+              src={`${process.env.REACT_APP_FILE_SERVER_URL}/certification/${data[selectedIndex].user_id}/${data[selectedIndex].certification_img}`}
+              alt="certification_img"
+              className="certification_img"
+            />
+            <ArrowButton direction="right" onClick={nextImage} />
+          </Modal>
+        )}
       </div>
-      {isOpen && (
-        <Modal
-          isOpen={isOpen}
-          onClose={closeModal}
-          currentIndex={selectedIndex}
-          totalCount={data.length}
-        >
-          <ArrowButton direction="left" onClick={prevImage} />
-          <img
-            src={`${process.env.REACT_APP_FILE_SERVER_URL}/certification/${data[selectedIndex].user_id}/${data[selectedIndex].certification_img}`}
-            alt="certification_img"
-            className="certification_img"
-          />
-          <ArrowButton direction="right" onClick={nextImage} />
-        </Modal>
-      )}
     </div>
   );
 };

@@ -8,7 +8,7 @@ import ProgramEdit from "./left/ProgramEdit";
 import PriceEdit from "./left/PriceEdit";
 import ShortIntroEdit from "./left/ShortIntroEdit";
 import axios from "axios";
-import CenterLocationEdit from "./left/CenterLocationEdit";
+// import CenterLocationEdit from "./left/CenterLocationEdit";
 
 function LeftEdit({ data, userId }) {
   const imgArr = data.info1.intro_img
@@ -22,13 +22,15 @@ function LeftEdit({ data, userId }) {
     ] = `${process.env.REACT_APP_FILE_SERVER_URL}/trainer/${userId}/${imgArr[i]}`;
   }
   const [introimg, setIntroImg] = useState(imgArr);
-  const [intro, setIntro] = useState("");
-  const [qualifications, setQualifications] = useState("");
-  const [schedule, setSchedule] = useState("");
-  const [program, setProgram] = useState("");
-  const [lessonprice, setLessonPrice] = useState("");
-  const [shortintro, setShortIntro] = useState("");
-  const [location, setLocation] = useState("");
+  const [intro, setIntro] = useState(data.info1.intro);
+  const [qualifications, setQualifications] = useState(data.info2);
+  const deletedArr = [];
+  const deletedProgramArr = [];
+  const [schedule, setSchedule] = useState(data.info1);
+  const [program, setProgram] = useState(data.info3);
+  const [lessonprice, setLessonPrice] = useState(data.info4);
+  const [shortintro, setShortIntro] = useState(data.info1.short_intro);
+  // const [location, setLocation] = useState("");
 
   const handleImgSaveChanges = async (newIntroImg) => {
     const files = newIntroImg.filter((value) => {
@@ -39,16 +41,13 @@ function LeftEdit({ data, userId }) {
     });
 
     // 이미지 삭제처리
-    const deleteResponse = await fetch(
-      "http://localhost:5000/file/delete-files",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ files: urls, userId, table: "trainer" }),
-      }
-    );
+    await fetch("http://localhost:5000/file/delete-files", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ files: urls, userId, table: "trainer" }),
+    });
 
     const filesInfo = files.map((file) => ({
       name: file.name,
@@ -87,16 +86,119 @@ function LeftEdit({ data, userId }) {
       })
     );
 
-    const updateResponse = await fetch(
-      "http://localhost:5000/file/update-files",
+    await fetch("http://localhost:5000/file/update-files", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, table: "trainer" }),
+    });
+  };
+
+  const handleCertificationsSaveChanges = async (newCertifications) => {
+    const deletedImgs = data.info2.filter((v) => {
+      return deletedArr.includes(v.certification_id);
+    });
+
+    // 이미지 삭제처리
+    await fetch("http://localhost:5000/file/delete-certifications", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        files: deletedImgs,
+        userId,
+        table: "certification",
+      }),
+    });
+
+    const files = newCertifications.filter((value) => {
+      return typeof value.certification_img === "object";
+    });
+    const newArr = newCertifications.filter(
+      (value) => !!!value.certification_id
+    );
+
+    const filesInfo = files.map((file) => ({
+      name: file.certification_img.name,
+      type: file.certification_img.type,
+    }));
+    // 이미지 배열을 서버로 전송하여 저장
+    const response = await fetch(
+      "http://localhost:5000/file/generate-signed-urls",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId, table: "trainer" }),
+        body: JSON.stringify({
+          files: filesInfo,
+          userId,
+          table: "certification",
+        }),
       }
     );
+
+    const { signedUrls } = await response.json();
+
+    await Promise.all(
+      signedUrls.map(async ({ name, url }) => {
+        const file = files.find((f) => f.certification_img.name === name);
+        const result = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.certification_img.type,
+          },
+          body: file.certification_img,
+        });
+
+        if (result.ok) {
+          console.log(`${name} uploaded successfully.`);
+        } else {
+          console.error(`Failed to upload ${name}.`);
+        }
+      })
+    );
+
+    const updateArr = newCertifications.filter((v) => v.certification_id);
+    for (let i = 0; i < updateArr.length; i++) {
+      if (typeof updateArr[i].certification_img === "object") {
+        updateArr[i].certification_img = updateArr[i].certification_img.name;
+      }
+    }
+
+    // update DB
+    await fetch("http://localhost:5000/file/update-certifications-db", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: updateArr, userId }),
+    });
+
+    // delete DB
+    await fetch("http://localhost:5000/file/delete-certifications-db", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: deletedArr, userId }),
+    });
+
+    // insert DB
+    for (let i = 0; i < newArr.length; i++) {
+      if (typeof newArr[i].certification_img === "object") {
+        newArr[i].certification_img = newArr[i].certification_img.name;
+      }
+    }
+    await fetch("http://localhost:5000/file/insert-certifications-db", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: newArr, userId }),
+    });
   };
 
   const handleIntroImgSave = (newIntroImg) => {
@@ -104,50 +206,231 @@ function LeftEdit({ data, userId }) {
     handleImgSaveChanges(newIntroImg);
   };
 
-  const handleIntroSave = (newIntro) => {
+  const handleIntroSave = (newIntro, title) => {
     setIntro(newIntro);
-    saveToMySQL({ intro: newIntro });
+    saveToMySQL({ intro: newIntro, title });
   };
 
   const handleQualificationsSave = (newQualifications) => {
     setQualifications(newQualifications);
-    saveToMySQL({ qualifications: newQualifications });
+    handleCertificationsSaveChanges(newQualifications);
   };
 
-  const handleScheduleSave = (newSchedule) => {
+  const handleScheduleSave = (newSchedule, title) => {
     setSchedule(newSchedule);
-    saveToMySQL({ schedule: newSchedule });
+    saveToMySQL({ schedule: newSchedule, title });
   };
 
-  const handleProgramSave = (newProgram) => {
+  const handleProgramSave = async (newProgram) => {
     setProgram(newProgram);
-    saveToMySQL({ program: newProgram });
+
+    const newArr = newProgram.filter((value) => !!!value.program_id);
+    const updateArr = newProgram.filter((value) => !!value.program_id);
+
+    // db 삭제
+    deletedProgramArr.forEach(async (v) => {
+      await fetch("http://localhost:5000/file/delete-programs-db", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ programId: v, userId }),
+      });
+    });
+    // db insert (프로그램 id 여부에 따라 insert)
+    // console.log("newArr ::", newArr);
+    newArr.forEach(async (v, i) => {
+      // 이미지가 파일인지 스트링인지 확인 후 스트링으로 변경
+      const imgObjects = v.program_img;
+      const newImgArr = v.program_img.map((v) =>
+        typeof v === "object" ? { name: v.name, type: v.type } : v
+      );
+      v.newImgArr = newImgArr;
+      const result = await fetch(
+        "http://localhost:5000/file/insert-programs-db",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: v, userId }),
+        }
+      );
+
+      let seqData = await result.json();
+      const insertId = seqData.result;
+      v.program_id = insertId;
+      // 서버 새로운 파일 insert
+      const filesInfo = v.program_img.map((file) => ({
+        name: file.name,
+        type: file.type,
+      }));
+      // 이미지 배열을 서버로 전송하여 저장
+      const response = await fetch(
+        "http://localhost:5000/file/generate-signed-urls",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            files: filesInfo,
+            userId,
+            seq: insertId,
+            table: "program",
+          }),
+        }
+      );
+
+      const { signedUrls } = await response.json();
+
+      await Promise.all(
+        signedUrls.map(async ({ name, url }) => {
+          const file = imgObjects.find((f) => f.name === name);
+          const result = await fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+
+          if (result.ok) {
+            console.log(`${name} uploaded successfully.`);
+          } else {
+            console.error(`Failed to upload ${name}.`);
+          }
+        })
+      );
+    });
+
+    updateArr.forEach(async (v, i) => {
+      // 이미지가 파일인지 스트링인지 확인 후 스트링으로 변경
+      const imgObjects =
+        typeof v.program_img !== "string"
+          ? v.program_img.filter((v) => typeof v === "object")
+          : [];
+      const newImgArr =
+        typeof v.program_img !== "string"
+          ? v.program_img.map((v) =>
+              typeof v === "object" ? { name: v.name, type: v.type } : v
+            )
+          : [];
+      v.newImgArr = newImgArr;
+
+      await fetch("http://localhost:5000/file/update-programs-db", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: v, userId }),
+      });
+
+      // 서버 새로운 파일 insert
+      const filesInfo = imgObjects.map((file) => ({
+        name: file.name,
+        type: file.type,
+      }));
+      // 이미지 배열을 서버로 전송하여 저장
+      const response = await fetch(
+        "http://localhost:5000/file/generate-signed-urls",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            files: filesInfo,
+            userId,
+            seq: v.program_id,
+            table: "program",
+          }),
+        }
+      );
+
+      const { signedUrls } = await response.json();
+
+      await Promise.all(
+        signedUrls.map(async ({ name, url }) => {
+          const file = imgObjects.find((f) => f.name === name);
+          const result = await fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+
+          if (result.ok) {
+            console.log(`${name} uploaded successfully.`);
+          } else {
+            console.error(`Failed to upload ${name}.`);
+          }
+        })
+      );
+    });
   };
 
-  const handleLessonPriceSave = (newLessonPrice) => {
+  const handleLessonPriceSave = async (newLessonPrice) => {
     setLessonPrice(newLessonPrice);
-    saveToMySQL({ lessonprice: newLessonPrice });
+    const inputLessonPrice = newLessonPrice.filter(
+      (v) => v.count !== "" && v.total_price !== ""
+    );
+
+    inputLessonPrice.forEach(async (v) => {
+      if (Number(v.count) && Number(v.total_price)) {
+        // delete 후 insert
+        await fetch("http://localhost:5000/file/update-trainerPrice-db", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: v, userId }),
+        });
+      }
+    });
   };
 
   const handleShortIntroSave = (newShortIntro) => {
     setShortIntro(newShortIntro);
-    saveToMySQL({ shortintro: newShortIntro });
+    saveToMySQL({ shortintro: newShortIntro, title: "한줄 소개" });
   };
 
-  const handleLocationSave = (newLocation) => {
-    setLocation(newLocation);
-    saveToMySQL({ location: newLocation });
-  };
+  // const handleLocationSave = (newLocation) => {
+  //   setLocation(newLocation);
+  //   saveToMySQL({ location: newLocation });
+  // };
 
   const saveToMySQL = (data) => {
-    axios
-      .post("http://your-server-url/save-to-mysql", data)
-      .then((response) => {
-        console.log("데이터가 MySQL에 저장되었습니다.");
-      })
-      .catch((error) => {
-        console.error("데이터 저장에 실패했습니다.", error);
-      });
+    data.userId = userId;
+    if (data.title === "자기소개") {
+      axios
+        .post("http://localhost:5000/file/save-intro", data)
+        .then((response) => {
+          console.log("데이터가 저장되었습니다.");
+        })
+        .catch((error) => {
+          console.error("데이터 저장에 실패했습니다.", error);
+        });
+    } else if (data.title === "레슨스케줄") {
+      axios
+        .post("http://localhost:5000/file/save-lessonSchedule", data)
+        .then((response) => {
+          console.log("데이터가 저장되었습니다.");
+        })
+        .catch((error) => {
+          console.error("데이터 저장에 실패했습니다.", error);
+        });
+    } else if (data.title === "한줄 소개") {
+      axios
+        .post("http://localhost:5000/file/save-trainerShortIntro", data)
+        .then((response) => {
+          console.log("데이터가 저장되었습니다.");
+        })
+        .catch((error) => {
+          console.error("데이터 저장에 실패했습니다.", error);
+        });
+    }
   };
 
   return (
@@ -177,6 +460,8 @@ function LeftEdit({ data, userId }) {
           <QualificationsEdit
             content={editedContent}
             setContent={setEditedContent}
+            userId={userId}
+            deletedArr={deletedArr}
           />
         )}
       />
@@ -194,7 +479,12 @@ function LeftEdit({ data, userId }) {
         content={program}
         onSave={handleProgramSave}
         inputComponent={(editedContent, setEditedContent) => (
-          <ProgramEdit content={editedContent} setContent={setEditedContent} />
+          <ProgramEdit
+            content={editedContent}
+            setContent={setEditedContent}
+            userId={userId}
+            deletedArr={deletedProgramArr}
+          />
         )}
       />
       <TrainerProfileEdit
@@ -216,7 +506,7 @@ function LeftEdit({ data, userId }) {
           />
         )}
       />
-      <TrainerProfileEdit
+      {/* <TrainerProfileEdit
         title="위치"
         content={location}
         onSave={handleLocationSave}
@@ -226,7 +516,7 @@ function LeftEdit({ data, userId }) {
             setContent={setEditedContent}
           />
         )}
-      />
+      /> */}
     </div>
   );
 }

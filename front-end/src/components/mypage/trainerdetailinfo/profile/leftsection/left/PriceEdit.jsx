@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./PriceEdit.scss";
 
-const PriceEdit = () => {
+const PriceEdit = ({ content, setContent }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // 배열을 받고, 배열의 길이가 4보다 작으면 빈 객체를 추가하여 길이를 4로 맞춥니다.
+    if (content) {
+      const newData = [...content];
+      while (newData.length < 4) {
+        newData.push({ count: "", total_price: "" }); // 빈 객체를 추가합니다.
+      }
+      setData(newData);
+    }
+  }, [content]);
+
+  const handlePrice = (objectName, value, index) => {
+    const newData = [...data];
+    newData[index][objectName] = value;
+    setData(newData);
+    setContent(newData);
+  };
   return (
     <div>
       <div className="priceEdit_container">
@@ -26,82 +45,37 @@ const PriceEdit = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <input
-                      type="text"
-                      placeholder="숫자만 입력"
-                      name="times"
-                      maxLength={5}
-                    />
-                  </td>
-                  <td>
-                    <div className="priceEdit_won">원</div>
-                    <input
-                      type="text"
-                      placeholder="숫자만 입력"
-                      name="price"
-                      maxLength={9}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="text"
-                      placeholder="숫자만 입력"
-                      name="times"
-                      maxLength={5}
-                    />
-                  </td>
-                  <td>
-                    <div className="priceEdit_won">원</div>
-                    <input
-                      type="text"
-                      placeholder="숫자만 입력"
-                      name="price"
-                      maxLength={9}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="text"
-                      placeholder="숫자만 입력"
-                      name="times"
-                      maxLength={5}
-                    />
-                  </td>
-                  <td>
-                    <div className="priceEdit_won">원</div>
-                    <input
-                      type="text"
-                      placeholder="숫자만 입력"
-                      name="price"
-                      maxLength={9}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      type="text"
-                      placeholder="숫자만 입력"
-                      name="times"
-                      maxLength={5}
-                    />
-                  </td>
-                  <td>
-                    <div className="priceEdit_won">원</div>
-                    <input
-                      type="text"
-                      placeholder="숫자만 입력"
-                      name="price"
-                      maxLength={9}
-                    />
-                  </td>
-                </tr>
+                {data.map((v, i) => {
+                  return (
+                    <tr key={i}>
+                      <td>
+                        <input
+                          type="text"
+                          placeholder="숫자만 입력"
+                          name="times"
+                          maxLength={5}
+                          value={v.count}
+                          onChange={(e) =>
+                            handlePrice("count", e.target.value, i)
+                          }
+                        />
+                      </td>
+                      <td>
+                        <div className="priceEdit_won">원</div>
+                        <input
+                          type="text"
+                          placeholder="숫자만 입력"
+                          name="price"
+                          maxLength={9}
+                          value={v.total_price}
+                          onChange={(e) =>
+                            handlePrice("total_price", e.target.value, i)
+                          }
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

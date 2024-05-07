@@ -61,3 +61,8 @@
   border-radius: 16px;
   padding: 4px 12px;
 }
+
+.bottom_tab.active {
+  color: $black;
+  background-color: $green1;
+}

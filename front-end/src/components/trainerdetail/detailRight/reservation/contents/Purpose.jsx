@@ -29,8 +29,7 @@ const Purpose = ({ setSubCategories }) => {
   };
 
   const descriptions = {
-    다이어트:
-      "체중 감량을 목표로 하는 식단 조절 및 운동을 도와드립니다.",
+    다이어트: "체중 감량을 목표로 하는 식단 조절 및 운동을 도와드립니다.",
     식단관리:
       "영양소 균형을 맞춰 건강 유지 또는 목표 체중에 도달할 수 있게 도와드립니다.",
     "바디 프로필":
@@ -79,6 +78,7 @@ const Purpose = ({ setSubCategories }) => {
       <div className="purpose_title">
         <BiSelectMultiple />
         <h3>운동 목적</h3>
+        <span>중복 선택 가능합니다.</span>
       </div>
       <br />
 
@@ -104,7 +104,7 @@ const Purpose = ({ setSubCategories }) => {
                   checked={subCategories.includes(subCategory)}
                   onChange={handleSubCategoryChange}
                 />
-                {subCategory}
+                <span className="subCategory_text">{subCategory}</span>
               </label>
               <p className="purpose_subCategory_text">
                 {descriptions[subCategory]}

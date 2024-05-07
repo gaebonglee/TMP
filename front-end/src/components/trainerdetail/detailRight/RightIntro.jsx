@@ -1,16 +1,21 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./RightIntro.scss";
 import { FaStar } from "react-icons/fa6";
 
-const RightIntro = ({ data,trainerId }) => {
-
+const RightIntro = ({ data, trainerId, loginInfo }) => {
   const navigate = useNavigate();
-
- // 예약 페이지로 이동
+  // 예약 페이지로 이동
   const handleReservation = () => {
-    navigate(`/reservationPage/${trainerId}`);
+    if (loginInfo && loginInfo.role) {
+      if (loginInfo.role === "trainer") {
+        // 로그인을 했지만 trainer인 경우
+        navigate(`/login/roleError/reservation_trainer`);
+      }
+    } else {
+      // 로그인을 안한 경우
+      navigate(`/login/roleError/reservation_need_login`);
+    }
   };
 
   const reviewSum = data.infoReview.reduce((accumulator, currentValue) => {
@@ -19,13 +24,17 @@ const RightIntro = ({ data,trainerId }) => {
   const reviewAvg = Math.floor(reviewSum / data.infoReview.length);
   const reviewArr = [0, 1, 2, 3, 4];
 
-  const rightIntroNode = document.querySelector(".RightIntro");
+  // const rightIntroNode = document.querySelector(".RightIntro");
 
   return (
     <div className="intro_right_container">
       <img
         className="trainer_right_img"
-        src="/image/사진1.jpg"
+        src={
+          data.info1.user_img
+            ? `${process.env.REACT_APP_FILE_SERVER_URL}/user/${data.info1.user_id}/${data.info1.user_img}`
+            : "/image/tmp_mainlogo.png"
+        }
         alt="trainer_right_photo"
       />
       <div className="intro_right_wrap">
@@ -66,7 +75,7 @@ const RightIntro = ({ data,trainerId }) => {
         <div className="bottom_wrap">
           <div className={"reservation_btn_wrapper"}>
             <button className={"reservation_btn"} onClick={handleReservation}>
-             상담 예약하기
+              상담 예약하기
             </button>
           </div>
         </div>
