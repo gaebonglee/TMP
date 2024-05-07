@@ -1,36 +1,53 @@
 import React, { useState } from "react";
 import "./CertificationEdit.scss";
 
-const CertificationEdit = ({ content, setContent }) => {
-  const [certifications, setCertifications] = useState([]);
+const CertificationEdit = ({ content, setContent, userId, deletedArr }) => {
+  const refineArr = [];
+  for (let i = 0; i < content.length; i++) {
+    refineArr.push({
+      certification_id: content[i].certification_id,
+      certification_type: content[i].certification_type,
+      certification_name: content[i].certification_name,
+      certification_img: content[i].certification_img,
+      showPhoto: true,
+    });
+  }
+  const [certifications, setCertifications] = useState(refineArr);
 
   const handleAddCertification = () => {
     const newCertification = {
-      type: "",
-      content: "",
-      photo: null,
+      certification_type: "1",
+      certification_name: "",
+      certification_img: null,
       showPhoto: false,
     };
     setCertifications([...certifications, newCertification]);
+    setContent([...certifications, newCertification]);
   };
 
   const handleRemoveCertification = (index) => {
     const updatedCertifications = [...certifications];
+    if (updatedCertifications[index].certification_id) {
+      deletedArr.push(updatedCertifications[index].certification_id);
+    }
     updatedCertifications.splice(index, 1);
     setCertifications(updatedCertifications);
+    setContent(updatedCertifications);
   };
 
   const handleCertificationChange = (index, key, value) => {
     const updatedCertifications = [...certifications];
     updatedCertifications[index][key] = value;
     setCertifications(updatedCertifications);
+    setContent(updatedCertifications);
   };
 
   const handleCertificationPhotoChange = (index, photo) => {
     const updatedCertifications = [...certifications];
-    updatedCertifications[index].photo = photo;
+    updatedCertifications[index].certification_img = photo;
     updatedCertifications[index].showPhoto = true;
     setCertifications(updatedCertifications);
+    setContent(updatedCertifications);
   };
 
   //사진 숨기기 아니고 사진 삭제임
@@ -38,6 +55,7 @@ const CertificationEdit = ({ content, setContent }) => {
     const updatedCertifications = [...certifications];
     updatedCertifications[index].showPhoto = false;
     setCertifications(updatedCertifications);
+    setContent(updatedCertifications);
   };
 
   return (
@@ -75,21 +93,29 @@ const CertificationEdit = ({ content, setContent }) => {
             <div className="certificationEdit_input">
               <select
                 className="certification_type"
-                value={certification.type}
+                value={certification.certification_type}
                 onChange={(e) =>
-                  handleCertificationChange(index, "type", e.target.value)
+                  handleCertificationChange(
+                    index,
+                    "certification_type",
+                    e.target.value
+                  )
                 }
               >
-                <option value={1}>자격증</option>
-                <option value={2}>수상경력</option>
+                <option value={"1"}>자격증</option>
+                <option value={"2"}>수상경력</option>
               </select>
               <input
                 placeholder="내용을 입력해주세요"
                 type="text"
                 maxLength={80}
-                value={certification.content}
+                value={certification.certification_name || ""}
                 onChange={(e) =>
-                  handleCertificationChange(index, "content", e.target.value)
+                  handleCertificationChange(
+                    index,
+                    "certification_name",
+                    e.target.value
+                  )
                 }
               />
             </div>
@@ -105,9 +131,14 @@ const CertificationEdit = ({ content, setContent }) => {
             )}
             {certification.showPhoto && (
               <img
-                src={URL.createObjectURL(certification.photo)}
+                src={
+                  typeof certification.certification_img !== "object"
+                    ? `${process.env.REACT_APP_FILE_SERVER_URL}/certification/${userId}/${certification.certification_img}`
+                    : URL.createObjectURL(certification.certification_img)
+                }
                 alt="증명서 사진"
                 className="certification_photo"
+                style={{ width: "300px", height: "auto" }}
               />
             )}
             {!certification.showPhoto && (

@@ -1,0 +1,113 @@
+@import "style/common.scss";
+
+.faq {
+  min-height: 60vh;
+}
+
+.myContainer {
+  max-width: 1136px;
+  margin: auto;
+  font-size: 16px;
+}
+
+@media (max-width: 1136px) {
+  .myContainer {
+    width: 100vw;
+    padding: 0 24px;
+  }
+}
+
+.page-header {
+  padding: 64px 0px 0px;
+  margin-bottom: 48px;
+  border-bottom: 1px solid $lightgray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tab {
+  display: flex;
+  line-height: 48px;
+}
+
+.selected {
+  color: $green2;
+  border-bottom: 2px solid $green2;
+  font-weight: bold;
+}
+
+.tabComb {
+  cursor: pointer;
+  margin: 0px 16px;
+  color: rgb(108, 118, 128);
+}
+
+.button_Div {
+  text-align: -webkit-right;
+}
+
+.button_ioi {
+  height: 48px;
+  width: 180px;
+  background-color: $green2;
+  border-radius: 6px;
+  padding: 12px 24px;
+  color: #fff;
+  border: 1px solid $green2;
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  transition-duration: 0s;
+}
+
+.faqComp {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.faqList {
+  cursor: pointer;
+  box-shadow: 0px 1px 0px 0px rgb(228, 234, 240);
+
+  .collapse {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s linear;
+
+    &.show {
+      max-height: 1000px;
+    }
+  }
+}
+
+.faqTitle {
+  border-top: 1px solid rgb(228, 234, 240);
+  border-right: 1px solid rgb(228, 234, 240);
+  border-left: 1px solid rgb(228, 234, 240);
+  border-image: initial;
+  border-bottom: none;
+  padding: 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &:hover {
+    background-color: rgb(247, 249, 250);
+    transition: 0.7s ease-out;
+    border-bottom: 1px solid rgb(228, 234, 240);
+  }
+}
+
+.content {
+  padding: 24px 24px 48px;
+  color: rgb(61, 69, 77);
+  background-color: rgb(247, 249, 250);
+}
+
+.title {
+  color: rgb(61, 69, 77);
+}

@@ -1,6 +1,7 @@
 @import "../../common.scss";
 
 .TrainerListItem {
+  padding: 12px;
   margin-bottom: 17px;
   width: 491px;
   height: 198px;
@@ -33,7 +34,7 @@
 .moraeTitleText {
   font-size: 18px;
   font-weight: 600;
-
+  color: $green2;
   word-wrap: break-word;
 }
 
@@ -49,16 +50,15 @@
 }
 
 .moraeLocation {
-  font-weight: 600;
+  font-weight: 400;
   font-family: Inter;
   height: 19px;
   left: 178px;
-  top: 150px;
+  top: 140px;
   position: absolute;
   color: rgb(108, 118, 128);
-  font-size: 15px;
-  margin-top: 5px;
-  word-wrap: break-word;
+  font-size: 14px;
+  margin: 5px;
 }
 .moraeReview {
   height: 23px;

@@ -42,7 +42,7 @@ const TrainerInfoNav = (props) => {
       <div
         className="trainerDetailInfoBtn"
         onClick={() => {
-          navigate(`/mypage/trainerProfile/Edit`);
+          navigate(`/trainerProfileEdit`);
         }}
       >
         트레이너 정보
@@ -51,7 +51,7 @@ const TrainerInfoNav = (props) => {
       <div
         className="leesonPageBtn"
         onClick={() => {
-          navigate(`/lessonpage`);
+          navigate(`/mypage/lessonpage`);
         }}
       >
         회원관리

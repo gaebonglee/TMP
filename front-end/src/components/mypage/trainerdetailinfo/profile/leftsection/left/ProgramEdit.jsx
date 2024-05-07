@@ -1,15 +1,82 @@
-import React, { useState } from "react";
-import { GiCancel } from "react-icons/gi";
+import React, { useEffect, useState } from "react";
+import { GrClose } from "react-icons/gr";
 import "./ProgramEdit.scss";
 
-const ProgramEdit = ({ content, setContent }) => {
+const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
   const [programs, setPrograms] = useState([]);
+  useEffect(() => {
+    const splitResult = content.map((program) => ({
+      ...program,
+      specialty: program.specialty
+        ? typeof program.specialty !== "object"
+          ? program.specialty.split(",")
+          : program.specialty
+        : [],
+      program_img: program.program_img
+        ? typeof program.program_img !== "object"
+          ? program.program_img.split(",")
+          : program.program_img
+        : [],
+    }));
+
+    setPrograms(splitResult);
+  }, []);
+
+  const handleSpecialtyChange = (programIndex, specialty) => {
+    setPrograms((prevPrograms) => {
+      const updatedPrograms = [...prevPrograms];
+      const currentSpecialties = updatedPrograms[programIndex].specialty;
+      if (currentSpecialties.includes(specialty)) {
+        // 이미 선택된 항목이면 제거
+        updatedPrograms[programIndex].specialty = currentSpecialties.filter(
+          (s) => s !== specialty
+        );
+      } else {
+        // 선택된 항목이 3개 미만이면 추가
+        if (currentSpecialties.length < 3) {
+          updatedPrograms[programIndex].specialty = [
+            ...currentSpecialties,
+            specialty,
+          ];
+        }
+      }
+      return updatedPrograms;
+    });
+  };
+  const handleProgramChange = (index, key, value) => {
+    const updatedPrograms = [...programs];
+    updatedPrograms[index][key] = value;
+    setPrograms(updatedPrograms);
+    setContent(updatedPrograms);
+  };
+  const handleImgChange = (index, key, value) => {
+    const updatedPrograms = [...programs];
+    updatedPrograms[index][key] = [...updatedPrograms[index][key], ...value];
+    setPrograms(updatedPrograms);
+    setContent(updatedPrograms);
+    console.log(programs);
+  };
+
+  const specialtyOptions = [
+    "다이어트",
+    "식단관리",
+    "바디프로필",
+    "대회준비",
+    "기초체력",
+    "근력향상",
+    "통증케어",
+    "산전산후케어",
+    "하체라인",
+    "바른체형",
+  ];
 
   const handleAddProgram = () => {
     const newProgram = {
-      type: "",
-      content: "",
-      photos: [],
+      user_id: userId,
+      specialty: [],
+      title: "",
+      program_exp: "",
+      program_img: [],
       showPhotos: [],
     };
     setPrograms([...programs, newProgram]);
@@ -17,40 +84,15 @@ const ProgramEdit = ({ content, setContent }) => {
 
   const handleRemoveProgram = (index) => {
     const updatedPrograms = [...programs];
+    deletedArr.push(updatedPrograms[index].program_id);
     updatedPrograms.splice(index, 1);
     setPrograms(updatedPrograms);
-  };
-
-  const handlePhotoUpload = async (programIndex, files) => {
-    const updatedPrograms = [...programs];
-    const newPhotos = [];
-    const newShowPhotos = [];
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      const promise = new Promise((resolve) => {
-        reader.onload = (e) => {
-          newPhotos.push(e.target.result);
-          newShowPhotos.push(true);
-          resolve();
-        };
-      });
-      reader.readAsDataURL(file);
-      await promise;
-    }
-
-    updatedPrograms[programIndex].photos =
-      updatedPrograms[programIndex].photos.concat(newPhotos);
-    updatedPrograms[programIndex].showPhotos =
-      updatedPrograms[programIndex].showPhotos.concat(newShowPhotos);
-    setPrograms(updatedPrograms);
+    setContent(updatedPrograms);
   };
 
   const handleRemovePhoto = (programIndex, photoIndex) => {
     const updatedPrograms = [...programs];
-    updatedPrograms[programIndex].photos.splice(photoIndex, 1);
-    updatedPrograms[programIndex].showPhotos.splice(photoIndex, 1);
+    updatedPrograms[programIndex].program_img.splice(photoIndex, 1);
     setPrograms(updatedPrograms);
   };
 
@@ -85,21 +127,42 @@ const ProgramEdit = ({ content, setContent }) => {
                 type="text"
                 placeholder="제목을 입력해주세요."
                 maxLength={40}
+                value={program.title}
+                onChange={(e) => {
+                  handleProgramChange(programIndex, "title", e.target.value);
+                }}
               />
             </div>
             <div className="programEdit_speciality">
               <p>프로그램의 전문 분야를 선택해주세요. (1~3개)</p>
               {/* 여기에 전문 분야 선택 버튼이 들어갈 부분 */}
-              <div className="speciality_btn">다이어트</div>
-              <div className="speciality_btn">식단관리</div>
-              <div className="speciality_btn">바디프로필</div>
-              <div className="speciality_btn">대회준비</div>
-              <div className="speciality_btn">기초체력</div>
-              <div className="speciality_btn">근력향상</div>
-              <div className="speciality_btn">통증케어</div>
-              <div className="speciality_btn">산전산후케어 </div>
-              <div className="speciality_btn">하체라인</div>
-              <div className="speciality_btn">바른체형</div>
+              {specialtyOptions.map((v, i) => {
+                return program.specialty && program.specialty.includes(v) ? (
+                  <div
+                    key={i}
+                    className={`speciality_btn ${
+                      programs[programIndex].specialty.includes(v)
+                        ? "active"
+                        : ""
+                    }`}
+                    onClick={() => handleSpecialtyChange(programIndex, v)}
+                  >
+                    {v}
+                  </div>
+                ) : (
+                  <div
+                    key={i}
+                    className={`speciality_btn ${
+                      programs[programIndex].specialty.includes(v)
+                        ? "active"
+                        : ""
+                    }`}
+                    onClick={() => handleSpecialtyChange(programIndex, v)}
+                  >
+                    {v}
+                  </div>
+                );
+              })}
               {/* 추가 전문 분야 버튼을 원하는 만큼 추가하세요 */}
             </div>
             <div className="programEdit_add_photo">
@@ -117,19 +180,27 @@ const ProgramEdit = ({ content, setContent }) => {
                     multiple
                     style={{ display: "none" }}
                     onChange={(e) =>
-                      handlePhotoUpload(programIndex, e.target.files)
+                      handleImgChange(
+                        programIndex,
+                        "program_img",
+                        e.target.files
+                      )
                     }
                   />
                 </label>
               </div>
 
-              {program.photos.map((photo, photoIndex) => (
+              {program.program_img.map((photo, photoIndex) => (
                 <div className="photo_preview" key={photoIndex}>
-                  {photo && program.showPhotos[photoIndex] && (
+                  {photo && (
                     <>
                       <img
-                        src={photo}
-                        alt={`프로그램 사진 ${photoIndex + 1}`}
+                        src={
+                          typeof photo === "string"
+                            ? `${process.env.REACT_APP_FILE_SERVER_URL}/program/${userId}/${program.program_id}/${photo}`
+                            : URL.createObjectURL(photo)
+                        }
+                        alt={`프로그램 사진 ${programIndex + 1}`}
                         className="photo_preview_image"
                         style={{ maxWidth: "150px", maxHeight: "150px" }}
                       />
@@ -139,7 +210,7 @@ const ProgramEdit = ({ content, setContent }) => {
                           handleRemovePhoto(programIndex, photoIndex)
                         }
                       >
-                        <GiCancel />
+                        <GrClose />
                       </button>
                     </>
                   )}
@@ -148,7 +219,18 @@ const ProgramEdit = ({ content, setContent }) => {
             </div>
             <div className="programEdit_text">
               <p>내용을 상세히 작성해주세요.</p>
-              <textarea placeholder="내용을 입력해주세요." maxLength={1000} />
+              <textarea
+                placeholder="내용을 입력해주세요."
+                maxLength={1000}
+                value={program.program_exp}
+                onChange={(e) => {
+                  handleProgramChange(
+                    programIndex,
+                    "program_exp",
+                    e.target.value
+                  );
+                }}
+              />
             </div>
           </div>
         ))}

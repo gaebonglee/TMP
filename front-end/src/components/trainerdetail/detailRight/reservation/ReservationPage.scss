@@ -1,0 +1,27 @@
+@import "../../../../common.scss";
+
+.reservationPage_container {
+  background-color: #f7f9fa;
+  color: $black;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding: 30px;
+}
+.reservationPage_margin {
+  max-width: 773.8px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.reservationPage_container_btn {
+  margin: 0 auto;
+  padding: 10px 20px;
+  font-size: $h3;
+  background-color: $green2;
+  color: white;
+  border: none;
+  border-radius: $border-radius-4;
+  font-weight: $font-weight-2;
+}

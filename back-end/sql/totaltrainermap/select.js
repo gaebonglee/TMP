@@ -51,7 +51,7 @@ function selectCountReview(user_id, callback) {
       IFNULL(COUNT(*), 0) AS review_total_count, 
       IFNULL(AVG(point), 0) AS review_avg_star 
     FROM review 
-    WHERE user_id = ?
+    WHERE received_id = ?
     `,
     [user_id],
     (err, result) => {
@@ -195,6 +195,22 @@ function selectCurrentLocation(currentLocation, callback) {
   );
 }
 
+function selectUser(user_id, callback) {
+  mysql.query(
+    `
+    SELECT * FROM user WHERE user_id = ?
+    `,
+    [user_id],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+}
+
 module.exports = {
   selectCenterAll,
   selectFilter,
@@ -202,4 +218,5 @@ module.exports = {
   selectCurrentLocation,
   selectCountReview,
   selectPrice,
+  selectUser,
 };

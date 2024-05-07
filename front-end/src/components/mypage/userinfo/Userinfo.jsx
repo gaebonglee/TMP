@@ -73,9 +73,9 @@ const UpdateHandler = (e) => {
         return response.json();
     })
     .then(data => {
-        console.log(data);
+        
         setUserData((prev)=>{
-           return {...prev, name: data[0]?.name, email: data[0]?.email, phonenumber: data[0]?.phonenumbe, user_id: data[0]?.user_id }
+           return {...prev, name: data[0]?.name, email: data[0]?.email, phonenumber: data[0]?.phonenumber, user_id: data[0]?.user_id }
         })
         alert('업데이트가 완료되었습니다.')
         setShouldNavigate(true)

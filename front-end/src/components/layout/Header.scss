@@ -33,6 +33,11 @@
   overflow: hidden;
   color: $black;
   font-weight: $font-weight-2;
+  .user_inquiry_check{
+    margin-right: 10px;
+    // color: $green2;
+    color: red;
+  }
 }
 
 .account_container > button {
@@ -77,6 +82,11 @@
 }
 .loginIcon {
   color: $green2;
+  font-size: 32px;
+  line-height: 10px;
+}
+.loginIcon2{
+  color: gold;
   font-size: 32px;
   line-height: 10px;
 }

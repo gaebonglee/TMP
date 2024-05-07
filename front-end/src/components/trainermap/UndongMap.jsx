@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 const UndongMap = (props) => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
+
   const {
     trainers,
     setTrainers,
@@ -18,7 +19,6 @@ const UndongMap = (props) => {
     currentLongitude,
     searchCenter,
     setIsLoading,
-    setSearchCenter,
   } = props;
   const markers = useRef([]);
   const currentLocationMarker = useRef(null);
@@ -36,21 +36,70 @@ const UndongMap = (props) => {
   }
 
   var center;
-  useEffect(() => {
-    console.log("scriptStatus 변화", scriptStatus);
+  // useEffect(() => {
+  //   console.log("scriptStatus 변화", scriptStatus);
 
-    if (scriptStatus === "ready") {
-      initMap();
-    }
-  }, []);
+  //   if (scriptStatus === "ready") {
+  //     if (currentLongitude == null){
+  //       alert("안됨");
+  //     }
+  //     initMap();
+  //   }
+  // }, []);
 
   useEffect(() => {
+    const getCurrentPosition = () => {
+      setIsLoading(true);
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0,
+        });
+        setIsLoading(false);
+      });
+    };
+
+    const initMapAfterLocationUpdate = async () => {
+      setIsLoading(true);
+      try {
+        const position = await getCurrentPosition();
+        if (urlLat === null || urlLng === null) {
+          if (
+            position.coords.latitude !== null &&
+            position.coords.longitude !== null
+          ) {
+            setIsLoading(true);
+            setCurrentLatitude(position.coords.latitude);
+            setCurrentLongitude(position.coords.longitude);
+            initMap();
+          }
+        } else {
+          setCurrentLatitude(urlLat);
+          setCurrentLongitude(urlLng);
+        }
+      } catch (error) {
+        if (error.code === 1) {
+          alert("위치 정보 액세스 권한이 거부되었습니다. 권한을 허용해주세요.");
+        } else {
+          console.error("Error getting current location:", error);
+          setCurrentLatitude(37.5665);
+          setCurrentLongitude(126.978);
+          console.log(
+            "현재 위치를 가져오는 데 실패했습니다. 기본 위치로 지도를 초기화합니다."
+          );
+        }
+      }
+    };
     if (mapRef.current && window.naver && window.naver.maps) {
-      initMap();
-    }
-  }, [currentLatitude, currentLongitude, trainers]);
+      initMapAfterLocationUpdate();
+      updateCurrentLocation();
 
-  const initMap = useCallback(() => {
+      //initMap();
+    }
+  }, [currentLatitude, trainers]);
+
+  const initMap = () => {
     center = new window.naver.maps.LatLng(currentLatitude, currentLongitude);
     const mapOptions = {
       center: center,
@@ -162,54 +211,13 @@ const UndongMap = (props) => {
     });
 
     setIsLoading(false);
-  }, [setIsLoading, setTrainerIndex]);
+  };
 
   useEffect(() => {
     if (map && searchCenter) {
       map.panTo(searchCenter);
     }
   }, [map, searchCenter]);
-
-  useEffect(() => {
-    const getCurrentPosition = () => {
-      setIsLoading(true);
-      return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 0,
-        });
-        setIsLoading(false);
-      });
-    };
-
-    const initMapAfterLocationUpdate = async () => {
-      setIsLoading(true);
-      try {
-        const position = await getCurrentPosition();
-        if (urlLat === null || urlLng === null) {
-          setCurrentLatitude(position.coords.latitude);
-          setCurrentLongitude(position.coords.longitude);
-        } else {
-          setCurrentLatitude(urlLat);
-          setCurrentLongitude(urlLng);
-        }
-      } catch (error) {
-        if (error.code === 1) {
-          alert("위치 정보 액세스 권한이 거부되었습니다. 권한을 허용해주세요.");
-        } else {
-          console.error("Error getting current location:", error);
-          setCurrentLatitude(37.5665);
-          setCurrentLongitude(126.978);
-          console.log(
-            "현재 위치를 가져오는 데 실패했습니다. 기본 위치로 지도를 초기화합니다."
-          );
-        }
-      }
-    };
-
-    initMapAfterLocationUpdate();
-  }, [setCurrentLatitude, setCurrentLongitude]);
 
   const getCurrentLocation = async () => {
     if (!navigator.geolocation) {
@@ -255,8 +263,7 @@ const UndongMap = (props) => {
 
     try {
       setIsLoading(true);
-      setCurrentLatitude(map.getCenter().y);
-      setCurrentLongitude(map.getCenter().x);
+
       const bounds = map.getBounds();
       const southWest = bounds.getSW();
       const northEast = bounds.getNE();
@@ -308,6 +315,7 @@ const UndongMap = (props) => {
           );
         }
       );
+
       // 트레이너 마커들만 포함하는 새로운 지도 객체 생성
       const newMapOptions = {
         center: center, // 트레이너 마커들의 중심 위치
@@ -351,12 +359,6 @@ const UndongMap = (props) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (scriptStatus === "ready" && mapRef.current) {
-      initMap();
-    }
-  }, [scriptStatus, currentLatitude, currentLongitude, trainers]);
 
   const mapStyle = {
     width: "calc(100% - 528px)",

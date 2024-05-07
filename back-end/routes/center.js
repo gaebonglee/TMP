@@ -54,4 +54,14 @@ router.post("/currentlocation", (req, res) => {
   });
 });
 
+router.post("/user", (req, res) => {
+  selectCenter.selectUser(req.body.user_id, (err, result) => {
+    if (err) {
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).send(result);
+    }
+  });
+});
+
 module.exports = router;

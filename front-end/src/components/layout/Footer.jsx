@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Footer.scss";
 const Footer = () => {
-  return (
-  
+
+const scrollToTop = () => {
+  window.scrollTo({top: 0, behavior: 'instant'});
+}
+  return (  
     <footer>
       <div>
         <div className="footer_container">
@@ -35,14 +38,14 @@ const Footer = () => {
                 </li>
                 <span />
                 <li>
-                  <Link to="#" className="FAQ_page">
+                  <Link to="/faq" className="FAQ_page">
                     자주 묻는 질문
                   </Link>
                 </li>
                 <span />
                 <li>
-                  <Link to="#" className="inquiry_page">
-                    1:1 문의하기
+                  <Link to="/servicecenter" className="inquiry_page" onClick={scrollToTop}>
+                    문의하기
                   </Link>
                 </li>
                 <span />
