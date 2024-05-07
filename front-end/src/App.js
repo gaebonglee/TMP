@@ -49,7 +49,6 @@ function App() {
             element={<TrainerDetail loginInfo={data} />}
           />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
-          <Route path="/complete" element={<Complete />} />
           <Route path="/servicecenter/inquirylist/admin" element={<AdminInquiry />} />
           <Route path="/servicecenter" element={<InquiryMain />}>
             <Route path="/servicecenter/inquiry" element={<Inquiry />} />
