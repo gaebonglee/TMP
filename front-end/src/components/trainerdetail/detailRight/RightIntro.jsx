@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./RightIntro.scss";
-import DayTime from "./reservation/DayTime";
-import Purpose from "./reservation/Purpose";
-import Confirmation from "./reservation/Confirmation";
-import { IoClose } from "react-icons/io5";
 import { FaStar } from "react-icons/fa6";
 
 const RightIntro = ({ data,trainerId }) => {
