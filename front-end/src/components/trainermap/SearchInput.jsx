@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TbAdjustmentsAlt } from "react-icons/tb";
-import { FaPencilAlt } from "react-icons/fa";
+// import { FaPencilAlt } from "react-icons/fa";
 import { HiMapPin } from "react-icons/hi2";
 
 const SearchInput = (props) => {
@@ -19,12 +19,13 @@ const SearchInput = (props) => {
       })
       .then((data) => {
         setSearchingData(data);
-      })
-      .catch((error) => {
-        console.error("에러 발생", error);
       });
   }, []);
 
+  if (props.searchCenter === null) {
+  } else {
+    document.getElementById("searchBar").value = `${props.searchCenter}`;
+  }
   function filterHandler() {
     props.setFilter((prevFilter) => !prevFilter);
   }
@@ -32,7 +33,7 @@ const SearchInput = (props) => {
   function handleInputChange(event) {
     const value = event.target.value;
     setInputValue(value);
-    if (value.length >= 2) {
+    if (value.length >= 1) {
       setShowSuggestions(true);
       const newSuggestions = getSuggestions(value);
       setSuggestions(newSuggestions);

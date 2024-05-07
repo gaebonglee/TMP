@@ -16,8 +16,6 @@ const CenterSearchModal = (props) => {
   }, [props.centerData])
  
   const centerClickHandler = (obj) => {
-    console.log(obj)
-    console.log(obj.center_name)
     closeModal()
     setCoachData((prev) => {
       return {...prev, center: obj.center_name, center_id: obj.center_id}

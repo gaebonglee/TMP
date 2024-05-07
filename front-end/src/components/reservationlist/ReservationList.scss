@@ -1,0 +1,31 @@
+@import "../../common.scss";
+
+.reservationList_page {
+  background-color: #f7f9fa;
+  color: $black;
+  min-height: 570px;
+}
+
+.reservationList_page_container {
+  max-width: 1136px;
+  margin: auto;
+  padding: 30px;
+}
+
+.reservationList_title {
+  padding: 20px 0;
+  border-bottom: 1px solid $lightgray;
+}
+
+.reservationList{ padding: 30px;}
+
+.reservationList_wrap {
+  background-color: $white;
+  padding: 30px;
+  border-radius: $border-radius-4;
+}
+.reservationList_date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

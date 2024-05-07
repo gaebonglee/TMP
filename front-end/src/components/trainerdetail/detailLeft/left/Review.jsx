@@ -3,7 +3,8 @@ import "./Review.scss";
 import { LuPencilLine } from "react-icons/lu";
 import { FaStar } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
-import { GoStar } from "react-icons/go";
+import { useLocation } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
 
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
@@ -13,6 +14,12 @@ const Review = () => {
   const [reviewContent, setReviewContent] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
   const [sessionUserId, setSessionUserId] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const url = useLocation();
+  const [expandedImageIndex, setExpandedImageIndex] = useState(null);
+  const reviewIndex = useRef(0);
+
+  const receivedId = url.pathname.split("/")[2];
 
   const handleStarClick = (rating) => {
     setSelectedRating(rating);
@@ -27,14 +34,18 @@ const Review = () => {
     setPreviewImages([]);
     setReviewContent("");
     setSelectedRating(0);
+    setSelectedFiles([]);
+    setExpandedImageIndex(null);
   }
 
   const handleFileChange = (e) => {
-    const files = e.target.files;
-    if (files.length + previewImages.length > 3) {
+    const files = Array.from(e.target.files);
+    if (files.length + selectedFiles.length > 3) {
       alert("최대 3개의 사진까지만 등록할 수 있습니다.");
       return;
     }
+
+    setSelectedFiles([...selectedFiles, ...files]);
 
     for (let file of files) {
       const reader = new FileReader();
@@ -47,12 +58,60 @@ const Review = () => {
 
   const handleRemoveImage = (index) => {
     const newPreviewImages = [...previewImages];
+    const newSelectedFiles = [...selectedFiles];
     newPreviewImages.splice(index, 1);
+    newSelectedFiles.splice(index, 1);
     setPreviewImages(newPreviewImages);
+    setSelectedFiles(newSelectedFiles);
   };
 
   const handleReviewContentChange = (e) => {
     setReviewContent(e.target.value);
+  };
+  const handleFileUpload = async () => {
+    try {
+      const filesInfo = selectedFiles.map((file) => ({
+        name: file.name,
+        type: file.type,
+      }));
+
+      const response = await fetch(
+        "http://localhost:5000/file/generate-signed-urls",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            files: filesInfo,
+            userId: receivedId,
+            table: "review",
+          }),
+        }
+      );
+
+      const { signedUrls } = await response.json();
+
+      await Promise.all(
+        signedUrls.map(async ({ name, url }) => {
+          const file = selectedFiles.find((f) => f.name === name);
+          const result = await fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+          if (result.ok) {
+            console.log(`${name} uploaded successfully.`);
+          } else {
+            console.error(`Failed to upload ${name}.`);
+          }
+        })
+      );
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    }
   };
 
   const handleFetchReview = async () => {
@@ -61,22 +120,38 @@ const Review = () => {
       return;
     }
 
+    if (!sessionUserId) {
+      alert("회원 로그인이 필요합니다.");
+      return;
+    }
+
     try {
+      await handleFileUpload();
+
+      const formData = new FormData();
+      const fileImgArr = [];
+      selectedFiles.forEach((file) => {
+        fileImgArr.push(file.name);
+      });
+
+      formData.append("review_img", fileImgArr.join(","));
+      formData.append("user_id", sessionUserId);
+      formData.append("point", selectedRating);
+      formData.append("review", reviewContent);
+      formData.append("received_id", receivedId);
+
+      console.log(formData.get("user_id"));
+
       const response = await fetch("http://localhost:5000/review", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: sessionUserId,
-          point: selectedRating,
-          review: reviewContent,
-          review_img: previewImages,
-        }),
+        body: formData,
       });
 
       const data = await response.json();
       if (response.ok && data.message === "SUCCESS") {
         alert("리뷰가 등록되었습니다.");
         handleCloseModal();
+        window.location.reload();
       } else {
         throw new Error(data.message || "리뷰 등록에 실패했습니다.");
       }
@@ -86,7 +161,7 @@ const Review = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/review", {
+    fetch(`http://localhost:5000/review/${receivedId}`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -103,7 +178,6 @@ const Review = () => {
       });
   }, []);
 
-  // 평균 점수 계산 함수
   const calculateAveragePoint = () => {
     if (reviewList.length === 0) {
       return 0;
@@ -147,7 +221,15 @@ const Review = () => {
               </div>
             </>
           ) : (
-            <div>등록된 리뷰가 없습니다.</div>
+            <div className="flexBox">
+              <div>등록된 리뷰가 없습니다.</div>
+              <div className="review_btn">
+                <button onClick={handleReview}>
+                  <LuPencilLine />
+                  <a className="create_review">리뷰 남기기</a>
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -164,6 +246,7 @@ const Review = () => {
                     <div>
                       <div className="review_header">
                         <div>
+                          <CgProfile size={24} />
                           <span className="review_userName">
                             {review.user_name}
                           </span>
@@ -183,7 +266,27 @@ const Review = () => {
                       </div>
                       <div className="review_context">
                         <div className="review_context_photo">
-                          {review.review_img}
+                          {review.review_img
+                            ?.split(",")
+                            .map((img, imgindex) => (
+                              <div key={imgindex} className="reviewImage">
+                                <div className="review_div">
+                                  <div
+                                    className="img_review"
+                                    onClick={() => {
+                                      setExpandedImageIndex(imgindex);
+                                      reviewIndex.current = index;
+                                    }}
+                                  >
+                                    <img
+                                      className="img img_review"
+                                      src={`${process.env.REACT_APP_FILE_SERVER_URL}/review/${receivedId}/${img}`}
+                                      alt={`Review ${index}`}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
                         </div>
                         <div className="review_context_text">
                           <p>{review.review}</p>
@@ -357,6 +460,30 @@ const Review = () => {
         </div>
       )}
       {isModalOpen && <div className="modal-backdrop show fade"></div>}
+
+      {/* 이미지 확대 모달 */}
+      {expandedImageIndex !== null && reviewList.length > 0 && (
+        <div
+          className="expendedModal"
+          onClick={() => setExpandedImageIndex(null)}
+        >
+          <div
+            className="expendedModal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={`${`${
+                process.env.REACT_APP_FILE_SERVER_URL
+              }/review/${sessionUserId}/${
+                reviewList[reviewIndex.current].review_img?.split(",")[
+                  expandedImageIndex
+                ] || ""
+              }`}`}
+              alt="Expanded"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

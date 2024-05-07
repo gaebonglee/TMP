@@ -66,8 +66,9 @@
 }
 
 .center_name,
-.trainer_intro_oneline {
+.trainer_short_intro {
   padding: 5px 0;
+  color: $black;
 }
 
 .center_name {
@@ -75,29 +76,13 @@
   font: $font-weight-2;
 }
 .middle_wrap {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .certificate .left,
-.specialized_field .left,
-.bottom_wrap > h3 {
+.specialized_field .left {
   font-weight: $font-weight-2;
   color: $green2;
-}
-
-.trainer_class_price_info {
-  display: flex;
-  gap: 15px;
-  font-weight: $font-weight-2;
-}
-
-.class_discountrate {
-  color: $red;
-}
-
-.class_price {
-  color: $gray;
-  text-decoration: line-through;
 }
 
 .reservation_btn {
@@ -145,7 +130,7 @@
 }
 
 // 모달창 회색배경
-.reservation_container {
+.reservationModal_container {
   position: fixed;
   z-index: 1000;
   width: 100%;
@@ -160,8 +145,8 @@
 
 .reservation_content {
   background-color: $white;
-  width: 500px;
-  height: 800px;
+  width: 450px;
+  height: 680px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -172,5 +157,5 @@
   display: flex;
   justify-content: center;
   gap: 10px;
-  padding-top: 100px;
+  padding-top: 30px;
 }

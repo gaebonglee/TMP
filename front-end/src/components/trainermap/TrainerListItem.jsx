@@ -39,18 +39,19 @@ const TrainerListItem = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-        setPrice([data[0].total_price, data[0].count]);
-      })
-      .catch((error) => {
-        console.error("에러 발생", error);
+        if (data && data.length > 0) {
+          const totalPrice = data[0].total_price || 0;
+          const count = data[0].count || 1;
+          setPrice([totalPrice, count]);
+        } else {
+          setPrice([0, 1]);
+        }
       });
 
     fetchReviewCount();
   }, [trainer.user_id]);
 
   let introImgs = [];
-
   if (trainer.intro_img) {
     if (trainer.intro_img.includes(",")) {
       introImgs = trainer.intro_img.split(",");
@@ -60,6 +61,15 @@ const TrainerListItem = (props) => {
   } else {
     introImgs = [];
   }
+
+  const calculatePrice = () => {
+    const totalPrice = price[0];
+    const count = price[1];
+    if (totalPrice === 0 || count === 0) {
+      return 0;
+    }
+    return Math.round(totalPrice / count / 100) * 100;
+  };
 
   return (
     <div className="TrainerListItem">
@@ -72,9 +82,9 @@ const TrainerListItem = (props) => {
           <br />
           <br />
         </span>
-        <span className="moraeTitleTextPT">{trainer.count}회 기준 회당</span>
+        <span className="moraeTitleTextPT">{price[1]}회 기준 회당</span>
         <span className="moraePrice">
-          {Math.round(price[0] / price[1] / 100) * 100}원
+          {calculatePrice()}원
           <br />
         </span>
       </div>
@@ -84,6 +94,7 @@ const TrainerListItem = (props) => {
       <div className="moraeReview">
         <BsFillStarFill size={18} color="rgb(255,187,51)" /> 후기{" "}
         {reviewCount.review_total_count}개
+        <div>{Number(reviewCount.review_avg_star).toFixed(1)}</div>
       </div>
       {introImgs.length === 0 ? (
         <img className="trainerImg" src="/image/tmp_mainlogo.png" />

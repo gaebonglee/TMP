@@ -15,11 +15,14 @@ const TrainerList = (props) => {
     setSearchCenter,
     centerList,
     setSearchingData,
+    searchCenter,
+    setIsloading,
   } = props;
 
   return (
     <div className="listWrap">
       <SearchInput
+        searchCenter={searchCenter}
         setFilter={setFilter}
         centerList={centerList}
         setSearchingData={setSearchingData}
@@ -42,10 +45,11 @@ const TrainerList = (props) => {
           </>
         ) : (
           <FilterList
+            setFilter={setFilter}
+            setIsloading={setIsloading}
             currentLatitude={currentLatitude}
             currentLongitude={currentLongitude}
             setTrainers={setTrainers}
-            setFilter={setFilter}
           />
         )}
       </div>
