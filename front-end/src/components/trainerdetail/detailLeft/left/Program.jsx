@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import "./Program.scss";
 
-const Program = ({ data }) => {
+const Program = ({ data, sectionRefs }) => {
   return (
-    <div className="program" id="intro_page_contents_wrap">
-      <h1>프로그램</h1>
-      {data.map((value, index) => {
-        return (
-          <div id="wrap_container" key={index}>
-            <OutputSpecialty specialty={value.specialty} />
-            <div className="program_title">
-              <p>{value.title}</p>
+    <div id="header_section4" ref={sectionRefs.current.header_section4}>
+      <div className="program" id="intro_page_contents_wrap">
+        <h1>프로그램</h1>
+        {data.map((value, index) => {
+          return (
+            <div id="wrap_container" key={index}>
+              <OutputSpecialty specialty={value.specialty} />
+              <div className="program_title">
+                <p>{value.title}</p>
+              </div>
+              {value.user_id && <hr />}
+              <ProgramPhoto
+                imgFile={value.program_img}
+                userId={value.user_id}
+                programId={value.program_id}
+              />
+              <div className="program_text">
+                {value.program_exp && <br />}
+                <p style={{ whiteSpace: "pre-wrap" }}>{value.program_exp}</p>
+              </div>
             </div>
-            {value.user_id && <hr />}
-            <ProgramPhoto
-              imgFile={value.program_img}
-              userId={value.user_id}
-              programId={value.program_id}
-            />
-            <div className="program_text">
-              {value.program_exp && <br />}
-              <p style={{ whiteSpace: "pre-wrap" }}>{value.program_exp}</p>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -81,7 +83,7 @@ const ProgramPhoto = ({ imgFile, userId, programId }) => {
             <img
               className="program_photo"
               src={`${process.env.REACT_APP_FILE_SERVER_URL}/program/${userId}/${programId}/${value}`}
-              alt={`Program Image ${index}`}
+              alt={`Program ${index}`}
             />
             {index === 7 && !showAllImages && fileNames.length > 8 && (
               <div
@@ -139,7 +141,7 @@ const ImageModal = ({ images, currentIndex, onClose }) => {
       >
         <img
           src={images[index]}
-          alt={`Image ${index + 1}`}
+          alt={`content ${index + 1}`}
           style={{ maxHeight: "100%", maxWidth: "100%" }}
         />
       </div>

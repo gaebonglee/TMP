@@ -1,7 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Menu.scss";
 
-const Menu = ({ trainerInfo, handleTrainerInfo }) => {
+const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
+  const [activeId, setActiveId] = useState("");
+  useEffect(() => {
+    const currentRefs = sectionRefs.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0.7, // 70%의 요소가 보일 때 활성화 상태로 변경
+      }
+    );
+
+    // 모든 섹션을 관찰 대상으로 추가
+    Object.values(currentRefs).forEach((ref) => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    });
+
+    // 컴포넌트 언마운트 시, 관찰 중단
+    return () => {
+      Object.values(currentRefs).forEach((ref) => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      });
+    };
+  }, [sectionRefs, trainerInfo]);
+
+  const scrollToSection = (ref) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
   return (
     <div className="detail_menu">
       <div className="detail_menu_top">
@@ -20,30 +59,149 @@ const Menu = ({ trainerInfo, handleTrainerInfo }) => {
       <div className="detail_menu_bottom">
         <div className="detail_menu_bottom_flex">
           {trainerInfo === "coach" && (
-            <>
-              <a className="bottom_tab">소개</a>
-              <a className="bottom_tab">자격사항</a>
-              <a className="bottom_tab">스케줄</a>
-              <a className="bottom_tab">프로그램</a>
-              <a className="bottom_tab">후기</a>
-              <a className="bottom_tab">이용가격</a>
-              <a className="bottom_tab">위치</a>
-            </>
+            <ul>
+              <li
+                className={
+                  activeId === "header_section1"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section1)
+                }
+              >
+                소개
+              </li>
+              <li
+                className={
+                  activeId === "header_section2"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section2)
+                }
+              >
+                자격사항
+              </li>
+              <li
+                className={
+                  activeId === "header_section3"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section3)
+                }
+              >
+                스케줄
+              </li>
+              <li
+                className={
+                  activeId === "header_section4"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section4)
+                }
+              >
+                프로그램
+              </li>
+              <li
+                className={
+                  activeId === "header_section5"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section5)
+                }
+              >
+                이용가격
+              </li>
+              <li
+                className={
+                  activeId === "header_section6"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section6)
+                }
+              >
+                위치
+              </li>
+            </ul>
           )}
           {trainerInfo === "center" && (
-            <>
-              <a className="bottom_tab">기본정보</a>
-              <a className="bottom_tab">센터소개</a>
-              <a className="bottom_tab">이용정보</a>
-              <a className="bottom_tab">운영시간</a>
-              <a className="bottom_tab">센터이용가격</a>
-              <a className="bottom_tab">위치</a>
-            </>
+            <ul>
+              <li
+                className={
+                  activeId === "header_section7"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section7)
+                }
+              >
+                기본정보
+              </li>
+              <li
+                className={
+                  activeId === "header_section8"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section8)
+                }
+              >
+                이용정보
+              </li>
+              <li
+                className={
+                  activeId === "header_section9"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section9)
+                }
+              >
+                운영시간
+              </li>
+              <li
+                className={
+                  activeId === "header_section10"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section10)
+                }
+              >
+                센터이용가격
+              </li>
+              <li
+                className={
+                  activeId === "header_section6"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+                onClick={() =>
+                  scrollToSection(sectionRefs.current.header_section6)
+                }
+              >
+                위치
+              </li>
+            </ul>
           )}
           {trainerInfo === "review" && (
-            <>
-              <a className="bottom_tab">최근 후기 확인하기</a>
-            </>
+            <ul>
+              <li className="bottom_tab">최근 후기 확인하기</li>
+            </ul>
           )}
         </div>
       </div>

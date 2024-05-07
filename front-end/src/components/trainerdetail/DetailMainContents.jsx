@@ -8,7 +8,7 @@ import LoadingSpinner from "../trainermap/LoadingSpinner";
 import LeftSectionCenter from "./detailLeft/LeftSectionCenter";
 import Review from "./detailLeft/left/Review";
 
-const DetailMainContents = ({ trainerInfo }) => {
+const DetailMainContents = ({ trainerInfo, sectionRefs }) => {
   const { trainerId } = useParams();
   const navigate = useNavigate();
   const { isPending, error, data } = useQuery({
@@ -39,9 +39,9 @@ const DetailMainContents = ({ trainerInfo }) => {
         <div className="DetailMainPadding">
           <div className="LeftSection">
             {trainerInfo === "coach" ? (
-              <LeftSection data={data} />
+              <LeftSection data={data} sectionRefs={sectionRefs} />
             ) : trainerInfo === "center" ? (
-              <LeftSectionCenter data={data} />
+              <LeftSectionCenter data={data} sectionRefs={sectionRefs} />
             ) : (
               <Review />
             )}
