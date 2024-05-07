@@ -4,6 +4,7 @@ const { selectTrainerName } = require("../sql/reservation/selectTrainerName");
 const { saveReservation } = require("../sql/reservation/saveReservation");
 const { selectLesson } = require("../sql/mypage/calendar/selectLesson");
 const { selectMember } = require("../sql/reservation/selectMember");
+const { selectReservation } = require("../sql/reservation/selectReservation");
 
 // 트레이너 이름 가져오기
 router.get("/trainer/:userId", (req, res) => {
@@ -65,4 +66,5 @@ router.get("/selectMember/:userId", (req, res) => {
   });
 });
 
+router.get ("/selectReservation/:")
 module.exports = router;
