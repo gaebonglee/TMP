@@ -70,7 +70,6 @@ const Confirmation = () => {
       selected_list: state.subCategories.join(", "),
     };
 
-    // 예약 데이터 서버로 전송
     fetch("http://localhost:5000/reservation/saveReservation", {
       method: "POST",
       headers: {
@@ -88,7 +87,7 @@ const Confirmation = () => {
       })
       .then((data) => {
         alert("예약이 완료되었습니다. 예약 내역 페이지로 이동합니다");
-        navigate(`/reservationList/${data.userId}`);
+        navigate(`/reservationList/${userId}`);
       })
       .catch((error) => {
         console.error("Error:", error);

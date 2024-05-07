@@ -35,7 +35,7 @@ router.post("/saveReservation", (req, res) => {
       res.status(200).json({
         message: "Reservation saved successfully",
         reservationId: results.insertId,
-        userId: reservationData.user_id, 
+        userId: reservationData.user_id,
       });
     }
   });
@@ -71,8 +71,9 @@ router.get("/selectMember/:userId", (req, res) => {
   });
 });
 
+//reservationList에서 로그인 한 회원의 모든 예약정보를 불러옴
 router.get("/selectReservationList/:userId", (req, res) => {
-  const userId = req.params.userId;
+  const { userId } = req.params;
   selectReservationList(userId, (error, results) => {
     if (error) {
       res.status(500).send({ error: "Server error" });
