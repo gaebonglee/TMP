@@ -4,7 +4,9 @@ const { selectTrainerName } = require("../sql/reservation/selectTrainerName");
 const { saveReservation } = require("../sql/reservation/saveReservation");
 const { selectLesson } = require("../sql/mypage/calendar/selectLesson");
 const { selectMember } = require("../sql/reservation/selectMember");
-const { selectReservation } = require("../sql/reservation/selectReservation");
+const {
+  selectReservationList,
+} = require("../sql/reservation/selectReservationList");
 
 // 트레이너 이름 가져오기
 router.get("/trainer/:userId", (req, res) => {
@@ -26,11 +28,14 @@ router.post("/saveReservation", (req, res) => {
   const reservationData = req.body;
   saveReservation(reservationData, (error, results) => {
     if (error) {
-      res.status(500).send({ error: "Error saving reservation" });
+      res.status(500).send({
+        error: "Error saving reservation",
+      });
     } else {
       res.status(200).json({
         message: "Reservation saved successfully",
         reservationId: results.insertId,
+        userId: reservationData.user_id,
       });
     }
   });
@@ -66,5 +71,18 @@ router.get("/selectMember/:userId", (req, res) => {
   });
 });
 
-router.get ("/selectReservation/:")
+//reservationList에서 로그인 한 회원의 모든 예약정보를 불러옴
+router.get("/selectReservationList/:userId", (req, res) => {
+  const { userId } = req.params;
+  selectReservationList(userId, (error, results) => {
+    if (error) {
+      res.status(500).send({ error: "Server error" });
+    } else if (results.length > 0) {
+      res.json(results);
+    } else {
+      res.status(404).send({ error: "No reservations found" });
+    }
+  });
+});
+
 module.exports = router;

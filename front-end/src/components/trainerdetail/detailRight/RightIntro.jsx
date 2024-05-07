@@ -11,6 +11,9 @@ const RightIntro = ({ data, trainerId, loginInfo }) => {
       if (loginInfo.role === "trainer") {
         // 로그인을 했지만 trainer인 경우
         navigate(`/login/roleError/reservation_trainer`);
+      } else if (loginInfo.role === "user") {
+        // 로그인을 했고 user인 경우
+        navigate(`/reservationPage/${trainerId}`);
       }
     } else {
       // 로그인을 안한 경우

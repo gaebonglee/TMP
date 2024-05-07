@@ -10,8 +10,8 @@ const Confirmation = () => {
   const navigate = useNavigate();
 
   const [userId, setUserId] = useState(null);
-  const [userName, setUserName] = useState(""); 
-  const [userPhone, setUserPhone] = useState(""); 
+  const [userName, setUserName] = useState("");
+  const [userPhone, setUserPhone] = useState("");
 
   // 사용자 세션 정보 가져오기
   useEffect(() => {
@@ -70,7 +70,6 @@ const Confirmation = () => {
       selected_list: state.subCategories.join(", "),
     };
 
-    // 예약 데이터 서버로 전송
     fetch("http://localhost:5000/reservation/saveReservation", {
       method: "POST",
       headers: {
@@ -79,7 +78,6 @@ const Confirmation = () => {
       body: JSON.stringify(reservationData),
     })
       .then((response) => {
-        console.log("Response status:", response.status);
         if (!response.ok) {
           return response.text().then((text) => {
             throw new Error(text);
@@ -88,12 +86,8 @@ const Confirmation = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("Success:", data);
-        if (data.reservationId) {
-          navigate(`/paymentComplete/${data.reservationId}`); // 예약 완료 페이지로 이동
-        } else {
-          throw new Error("Reservation ID not provided");
-        }
+        alert("예약이 완료되었습니다. 예약 내역 페이지로 이동합니다");
+        navigate(`/reservationList/${userId}`);
       })
       .catch((error) => {
         console.error("Error:", error);

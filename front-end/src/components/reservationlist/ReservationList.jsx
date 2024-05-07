@@ -1,41 +1,64 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./ReservationList.scss";
-import { IoIosArrowDown } from "react-icons/io";
 
 const ReservationList = () => {
-  const { reservationId } = useParams();
+  const { userId } = useParams();
+  const [reservations, setReservations] = useState([]);
 
-  // 예약 ID를 사용하여 추가 데이터를 로드하거나 처리
-  console.log("결제 완료된 예약 ID:", reservationId);
+  useEffect(() => {
+    fetchReservations();
+  }, []);
+
+  const fetchReservations = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/reservation/selectReservationList/${userId}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch reservations");
+      }
+      const data = await response.json();
+      data.sort(
+        (a, b) => new Date(b.reservation_date) - new Date(a.reservation_date)
+      );
+      setReservations(data);
+    } catch (error) {
+      console.error("Error fetching reservation list:", error);
+    }
+  };
 
   return (
-    <div className="reservationList_page">
-      <div className="reservationList_page_container">
-        <div className="reservationList_title">
-          <h2>나의 예약 내역</h2>
-        </div>
-        <div className="reservationList">
-          <div className="reservationList_wrap">
-            <div className="reservationList_date">
-              <p>@@@@.@@.@@</p>
-              <p>
-                예약 상세 보기
-                <IoIosArrowDown />
-              </p>
-            </div>
-            <ul>
-              <li>###트레이너 / $$$$ </li>
-              <li>선택항목, 선택항목</li>
-            </ul>
-
-          </div>
-        </div>
-      </div>
+    <div className="reservation-list-page">
+      <h2>예약 내역</h2>
+      {reservations.length > 0 ? (
+        <table className="reservation-table">
+          <thead>
+            <tr>
+              <th>트레이너 이름</th>
+              <th>예약 날짜</th>
+              <th>예약 시간</th>
+              <th>선택 항목</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reservations.map((reservation, index) => (
+              <tr key={index}>
+                <td>{reservation.trainer_name}</td>
+                <td>
+                  {new Date(reservation.reservation_date).toLocaleDateString()}
+                </td>
+                <td>{reservation.reservation_time}</td>
+                <td>{reservation.selected_list}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>예약 내역이 없습니다.</p>
+      )}
     </div>
   );
 };
 
 export default ReservationList;
-
-
