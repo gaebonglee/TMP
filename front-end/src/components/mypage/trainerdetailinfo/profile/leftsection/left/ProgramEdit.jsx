@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GiCancel } from "react-icons/gi";
+import { GrClose } from "react-icons/gr";
 import "./ProgramEdit.scss";
 
 const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
@@ -210,7 +210,7 @@ const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
                           handleRemovePhoto(programIndex, photoIndex)
                         }
                       >
-                        <GiCancel />
+                        <GrClose />
                       </button>
                     </>
                   )}
