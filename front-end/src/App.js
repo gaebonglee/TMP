@@ -49,6 +49,7 @@ function App() {
           <Route path="/complete" element={<Complete />} />
           <Route path="/servicecenter" element={<InquiryMain />}>
             <Route path="/servicecenter/inquiry" element={<Inquiry />} />
+            <Route path="/servicecenter" element={<Inquiry />} />
             <Route path="/servicecenter/inquirypassword" element={<InquiryPassword />} />
             <Route path="/servicecenter/inquirylist" element={<InquiryList />} />
           </Route>
