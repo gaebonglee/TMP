@@ -4,7 +4,7 @@ const PrivateRoute = ({ component: Component, token, role }) => {
   let result = false;
 
   if (token.role !== undefined) {
-    if (role === undefined || token.role === role) {
+    if (role === undefined || token.role === role || token.role === "admin") {
       result = true;
     }
   }

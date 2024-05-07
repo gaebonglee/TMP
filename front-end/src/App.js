@@ -18,6 +18,7 @@ import InquiryMain from "./components/inquiry/InquiryMain";
 import Inquiry from "./components/inquiry/Inquiry";
 import InquiryList from "./components/inquiry/InquiryList";
 import InquiryPassword from "components/inquiry/InquiryPassword";
+import AdminInquiry from "components/inquiry/AdminInquiry";
 import Confirmation from "components/trainerdetail/detailRight/reservation/contents/Confirmation";
 import PaymentComplete from "components/payment/PaymentComplete";
 import Faq from "components/faq/Faq";
@@ -48,6 +49,8 @@ function App() {
             element={<TrainerDetail loginInfo={data} />}
           />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
+          <Route path="/complete" element={<Complete />} />
+          <Route path="/servicecenter/inquirylist/admin" element={<AdminInquiry />} />
           <Route path="/servicecenter" element={<InquiryMain />}>
             <Route path="/servicecenter/inquiry" element={<Inquiry />} />
             <Route path="/servicecenter" element={<Inquiry />} />
