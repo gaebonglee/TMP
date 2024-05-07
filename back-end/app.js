@@ -13,7 +13,6 @@ const trainerDetailRouter = require("./routes/trainerDetail");
 const inquiryRouter = require("./routes/inquiry");
 const reservationRouter = require("./routes/reservation");
 
-
 dotenv.config();
 const app = express();
 

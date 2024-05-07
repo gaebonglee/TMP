@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TbAdjustmentsAlt } from "react-icons/tb";
 // import { FaPencilAlt } from "react-icons/fa";
 import { HiMapPin } from "react-icons/hi2";
@@ -8,6 +8,7 @@ const SearchInput = (props) => {
   const [suggestions, setSuggestions] = useState([]);
   const [searchingData, setSearchingData] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchBarRef = useRef(null);
 
   useEffect(() => {
     fetch("http://localhost:5000/center/centerall")
@@ -22,10 +23,12 @@ const SearchInput = (props) => {
       });
   }, []);
 
-  if (props.searchCenter === null) {
-  } else {
-    document.getElementById("searchBar").value = `${props.searchCenter}`;
-  }
+  useEffect(() => {
+    if (props.searchCenter !== null) {
+      setInputValue(`${props.searchCenter}`);
+    }
+  }, [props.searchCenter]);
+
   function filterHandler() {
     props.setFilter((prevFilter) => !prevFilter);
   }
@@ -53,11 +56,11 @@ const SearchInput = (props) => {
   }
 
   const handleSuggestionClick = (suggestion) => {
-    setInputValue(`${suggestion.center_name} ${suggestion.center_address}`);
+    setInputValue(`${suggestion.center_name}`);
     setShowSuggestions(false);
-    props.setSearchCenter(
-      new window.naver.maps.LatLng(suggestion.latitude, suggestion.longitude)
-    );
+    // props.setSearchCenter(
+    //   new window.naver.maps.LatLng(suggestion.latitude, suggestion.longitude)
+    // );
   };
 
   return (
@@ -77,6 +80,7 @@ const SearchInput = (props) => {
         <div className="inputContainer">
           <input
             id="searchBar"
+            ref={searchBarRef}
             type="text"
             placeholder="지역,지하철역,센터,선생님 검색하기"
             value={inputValue}
@@ -102,7 +106,7 @@ const SearchInput = (props) => {
                   <h4>{suggestion.center_name}</h4>
                 </div>
                 <span className="addressSpan">
-                  {suggestion.center_address.slice(0, 7)}
+                  {suggestion.center_address.slice(0, 9)}
                 </span>
               </li>
             ))}

@@ -7,6 +7,7 @@ const TrainerListItem = (props) => {
   const { trainer } = props;
   const [reviewCount, setReviewCount] = useState(0);
   const [price, setPrice] = useState([]);
+  const [user, setUser] = useState();
 
   useEffect(() => {
     const fetchReviewCount = async () => {
@@ -51,16 +52,22 @@ const TrainerListItem = (props) => {
     fetchReviewCount();
   }, [trainer.user_id]);
 
-  let introImgs = [];
-  if (trainer.intro_img) {
-    if (trainer.intro_img.includes(",")) {
-      introImgs = trainer.intro_img.split(",");
-    } else {
-      introImgs = [trainer.intro_img];
-    }
-  } else {
-    introImgs = [];
-  }
+  fetch("http://localhost:5000/center/user", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user_id: trainer.user_id }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP 에러 ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setUser(data[0]);
+    });
 
   const calculatePrice = () => {
     const totalPrice = price[0];
@@ -76,10 +83,9 @@ const TrainerListItem = (props) => {
       <div className="morae">{trainer.user_name} 선생님</div>
       <div className="moraeTitle">
         <span className="moraeTitleText">
-          [서울 피티 대표]
+          {trainer.center_name}
           <br />
-          ~~스포츠모델 그랑프리
-          <br />
+          {trainer.short_intro}
           <br />
         </span>
         <span className="moraeTitleTextPT">{price[1]}회 기준 회당</span>
@@ -89,24 +95,25 @@ const TrainerListItem = (props) => {
         </span>
       </div>
       <div className="moraeLocation">
-        <TbMapPin size={17} /> {trainer.center_name} - {trainer.center_address}
+        <TbMapPin size={17} /> {trainer.center_address}
       </div>
       <div className="moraeReview">
         <BsFillStarFill size={18} color="rgb(255,187,51)" /> 후기{" "}
         {reviewCount.review_total_count}개
         <div>{Number(reviewCount.review_avg_star).toFixed(1)}</div>
       </div>
-      {introImgs.length === 0 ? (
-        <img className="trainerImg" src="/image/tmp_mainlogo.png" />
+      {user && user.user_img === null ? (
+        <img
+          className="trainerImg"
+          src="/image/tmp_mainlogo.png"
+          alt="트레이너 이미지"
+        />
       ) : (
-        introImgs.map((img, idx) => (
-          <img
-            key={idx}
-            className="trainerImg"
-            src={`${process.env.REACT_APP_FILE_SERVER_URL}/trainer/${trainer.user_id}/${img}`}
-            alt="트레이너 이미지"
-          />
-        ))
+        <img
+          className="trainerImg"
+          src={`${process.env.REACT_APP_FILE_SERVER_URL}/user/${trainer.user_id}/${user?.user_img}`}
+          alt="유저 이미지"
+        />
       )}
     </div>
   );

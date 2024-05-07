@@ -195,6 +195,22 @@ function selectCurrentLocation(currentLocation, callback) {
   );
 }
 
+function selectUser(user_id, callback) {
+  mysql.query(
+    `
+    SELECT * FROM user WHERE user_id = ?
+    `,
+    [user_id],
+    (err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, result);
+      }
+    }
+  );
+}
+
 module.exports = {
   selectCenterAll,
   selectFilter,
@@ -202,4 +218,5 @@ module.exports = {
   selectCurrentLocation,
   selectCountReview,
   selectPrice,
+  selectUser,
 };
