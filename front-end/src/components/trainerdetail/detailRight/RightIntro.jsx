@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import "./RightIntro.scss";
+import DayTime from "./reservation/DayTime";
+import Purpose from "./reservation/Purpose";
+import Confirmation from "./reservation/Confirmation";
+import { IoClose } from "react-icons/io5";
 import { FaStar } from "react-icons/fa6";
 
 const RightIntro = ({ data,trainerId }) => {
@@ -25,7 +29,11 @@ const RightIntro = ({ data,trainerId }) => {
     <div className="intro_right_container">
       <img
         className="trainer_right_img"
-        src="/image/사진1.jpg"
+        src={
+          data.info1.user_img
+            ? `${process.env.REACT_APP_FILE_SERVER_URL}/user/${data.info1.user_id}/${data.info1.user_img}`
+            : "/image/tmp_mainlogo.png"
+        }
         alt="trainer_right_photo"
       />
       <div className="intro_right_wrap">

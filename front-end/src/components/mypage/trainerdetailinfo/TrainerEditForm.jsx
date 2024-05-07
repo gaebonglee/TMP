@@ -30,8 +30,6 @@ const TrainerEditForm = ({ userId }) => {
     return null;
   }
 
-  console.log("mypage ::", data);
-
   return (
     <div className="DetailMainContents">
       <div className="DetailMain">

@@ -61,6 +61,7 @@ async function selectTrainerInfo2(trainerId) {
   return new Promise((resolve, reject) => {
     const query = `
     select
+      a.certification_id,
       a.certification_type, 
       a.certification_name, 
       a.certification_img,
@@ -81,16 +82,23 @@ async function selectTrainerInfo2(trainerId) {
 async function selectTrainerInfo3(trainerId) {
   return new Promise((resolve, reject) => {
     const query = `
-    select 
-      a.program_id, 
-      a.user_id, 
-      a.title, 
-      a.program_img, 
-      a.program_exp, 
-      group_concat(b.specialty) as specialty
-    from program a  join program_specialty b on a.program_id = b.program_id and a.user_id = b.user_id 
-                    join user c on b.user_id = c.user_id 
-    where c.user_id = ? and c.user_roles = "trainer";`;
+    SELECT
+  a.program_id,
+  a.user_id,
+  a.title,
+  a.program_img,
+  a.program_exp,
+  GROUP_CONCAT(b.specialty) AS specialty
+FROM
+  program a
+JOIN
+  program_specialty b ON a.program_id = b.program_id AND a.user_id = b.user_id
+JOIN
+  user c ON a.user_id = c.user_id
+WHERE
+  c.user_id = ? AND c.user_roles = "trainer"
+GROUP BY
+  a.program_id, a.user_id, a.title, a.program_img, a.program_exp;`;
 
     connection.execute(query, [trainerId], (err, results, fields) => {
       if (err) {

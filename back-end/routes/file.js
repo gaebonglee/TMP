@@ -23,6 +23,50 @@ const bucket = storage.bucket("cda_file");
 //   }
 // }
 
+// 트레이너 intro update
+router.post("/save-intro", async (req, res) => {
+  const { userId, intro } = req.body;
+  try {
+    await file.updateTrainerIntro(intro, userId);
+  } catch (error) {
+    console.log("trainer intro update error::", error);
+    return res.status(500).send("trainer intro update error");
+  }
+  res.send({ success: "success" });
+});
+
+// 트레이너 schedule update
+router.post("/save-lessonSchedule", async (req, res) => {
+  const { userId, schedule } = req.body;
+  try {
+    const selectTrainerSchedule = await file.selectTrainerSchedule(userId);
+
+    if (selectTrainerSchedule.length === 0) {
+      // insert
+      await file.insertTrainerSchedule(schedule, userId);
+    } else {
+      // update
+      await file.updateTrainerSchedule(schedule, userId);
+    }
+  } catch (error) {
+    console.log("trainer intro update error::", error);
+    return res.status(500).send("trainer intro update error");
+  }
+  res.send({ success: "success" });
+});
+
+// 트레이너 save-trainerShortIntro
+router.post("/save-trainerShortIntro", async (req, res) => {
+  const { userId, shortintro } = req.body;
+  try {
+    await file.updateTrainerShortIntro(shortintro, userId);
+  } catch (error) {
+    console.log("trainer shortIntro update error::", error);
+    return res.status(500).send("trainer shortIntro update error");
+  }
+  res.send({ success: "success" });
+});
+
 // 여러 파일에 대한 사인된 URL을 생성하는 라우트
 router.post("/generate-signed-urls", async (req, res) => {
   const filesInfo = req.body.files; // 파일 정보 배열
@@ -36,9 +80,13 @@ router.post("/generate-signed-urls", async (req, res) => {
     };
 
     try {
-      const [url] = await bucket
-        .file(`${req.body.table}/${req.body.userId}/${fileInfo.name}`)
-        .getSignedUrl(options);
+      let fileUrl = "";
+      if (req.body.table === "program") {
+        fileUrl = `${req.body.table}/${req.body.userId}/${req.body.seq}/${fileInfo.name}`;
+      } else {
+        fileUrl = `${req.body.table}/${req.body.userId}/${fileInfo.name}`;
+      }
+      const [url] = await bucket.file(fileUrl).getSignedUrl(options);
       signedUrls.push({ name: fileInfo.name, url });
     } catch (error) {
       console.error("Error creating signed URL for", fileInfo.name, error);
@@ -49,7 +97,7 @@ router.post("/generate-signed-urls", async (req, res) => {
   res.send({ signedUrls });
 });
 
-// 여러 파일에 대한 사인된 URL을 생성하는 라우트
+// 파일에 대한 사인된 URL을 생성하는 라우트
 router.post("/generate-signed-url", async (req, res) => {
   const filesInfo = req.body.files; // 파일 정보 배열
   const signedUrls = [];
@@ -107,6 +155,27 @@ router.post("/delete-files", async (req, res) => {
     res.status(500).send("Failed to delete files");
   }
 });
+router.post("/delete-certifications", async (req, res) => {
+  try {
+    const { files, userId } = req.body;
+    const specificPath = `${req.body.table}/${userId}/`;
+
+    const filesToDelete = [];
+    files.forEach((v, _i) => {
+      filesToDelete.push(v.certification_img);
+    });
+
+    for (const fileName of filesToDelete) {
+      await bucket.file(`${specificPath}${fileName}`).delete();
+      // console.log(`Deleted ${fileName}`);
+    }
+
+    res.send({ result: `Deleted files success` });
+  } catch (error) {
+    console.error("Error deleting files:", error);
+    res.status(500).send("Failed to delete files");
+  }
+});
 
 router.post("/update-files", async (req, res) => {
   try {
@@ -124,8 +193,139 @@ router.post("/update-files", async (req, res) => {
 
     res.send({ result: `Success update files` });
   } catch (error) {
+    console.error("Error update files:", error);
+    res.status(500).send("Failed to update files");
+  }
+});
+
+router.post("/update-certifications-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    for (let i = 0; i < data.length; i++) {
+      await file.updateTrainerCertifications(data[i], userId);
+    }
+
+    res.send({ result: `Success update files` });
+  } catch (error) {
+    console.error("Error update files:", error);
+    res.status(500).send("Failed to update files");
+  }
+});
+
+router.post("/delete-certifications-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    for (let i = 0; i < data.length; i++) {
+      await file.deleteTrainerCertifications(data[i], userId);
+    }
+
+    res.send({ result: `Success delete files` });
+  } catch (error) {
     console.error("Error deleting files:", error);
     res.status(500).send("Failed to delete files");
+  }
+});
+router.post("/insert-certifications-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    for (let i = 0; i < data.length; i++) {
+      await file.insertTrainerCertifications(data[i], userId);
+    }
+
+    res.send({ result: `Success insert files` });
+  } catch (error) {
+    console.error("Error insert files:", error);
+    res.status(500).send("Failed to insert files");
+  }
+});
+
+router.post("/insert-programs-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    const imgString = data.newImgArr.map((v) => v.name).join(",");
+    data.newImgArr = imgString;
+
+    const result = await file.insertTrainerProgram(data, userId);
+
+    for (let i = 0; i < data.specialty.length; i++) {
+      await file.insertTrainerProgramSpecialty(
+        result.insertId,
+        userId,
+        data.specialty[i]
+      );
+    }
+
+    res.send({ result: result.insertId, message: "success insert programs" });
+  } catch (error) {
+    console.error("Error insert files:", error);
+    res.status(500).send("Failed to insert files");
+  }
+});
+
+router.post("/update-programs-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    const imgString = data.newImgArr
+      .map((item) => {
+        return typeof item === "object" ? item.name : item;
+      })
+      .join(",");
+    data.newImgArr = imgString;
+    console.log(data);
+
+    const specialtyArr =
+      typeof data.specialty === "string" ? [] : data.specialty;
+
+    typeof data.specialty !== "string" &&
+      (await file.deleteTrainerProgramSpecialty(data.program_id, userId));
+    typeof data.specialty !== "string" &&
+      (await file.updateTrainerProgram(data, userId));
+
+    for (let i = 0; i < specialtyArr.length; i++) {
+      await file.insertTrainerProgramSpecialty(
+        data.program_id,
+        userId,
+        data.specialty[i]
+      );
+    }
+
+    res.send({ result: "success update programs" });
+  } catch (error) {
+    console.error("Error insert files:", error);
+    res.status(500).send("Failed to insert files");
+  }
+});
+
+router.post("/delete-programs-db", async (req, res) => {
+  try {
+    const { programId, userId } = req.body;
+
+    await file.deleteTrainerProgramSpecialty(programId, userId);
+    await file.deleteTrainerProgram(programId, userId);
+
+    res.send({ result: `Success delete files` });
+  } catch (error) {
+    console.error("Error deleting files:", error);
+    res.status(500).send("Failed to delete files");
+  }
+});
+
+router.post("/update-trainerPrice-db", async (req, res) => {
+  try {
+    const { data, userId } = req.body;
+
+    await file.deleteTrainerPrice(userId);
+    await file.insertTrainerPrice(userId, data);
+
+    res.send({ result: "success update trainerPrice" });
+  } catch (error) {
+    console.error("Error insert files:", error);
+    res.status(500).send("Failed to insert files");
   }
 });
 

@@ -45,3 +45,19 @@
   border: 2px solid $green1;
   border-radius: $border-radius-3;
 }
+
+.edit_certification_lists {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.trainer__program__titles {
+  margin: 5px;
+  padding: 15px;
+  background-color: $green2;
+  color: $white;
+  border-radius: 8px;
+  display: inline-block;
+  font-size: $h3;
+}

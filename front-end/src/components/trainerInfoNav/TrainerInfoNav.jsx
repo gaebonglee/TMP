@@ -42,7 +42,7 @@ const TrainerInfoNav = (props) => {
       <div
         className="trainerDetailInfoBtn"
         onClick={() => {
-          navigate(`/mypage/trainerProfile/Edit`);
+          navigate(`/trainerProfileEdit`);
         }}
       >
         트레이너 정보
