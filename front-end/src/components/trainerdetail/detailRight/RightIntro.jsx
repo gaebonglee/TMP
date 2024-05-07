@@ -4,18 +4,14 @@ import { useNavigate } from "react-router-dom";
 import "./RightIntro.scss";
 import { FaS, FaStar } from "react-icons/fa6";
 // import LoginModal from "components/loginModal/LoginModal";
-import ReservationPage from "./reservation/ReservationPage";
+// import ReservationPage from "./reservation/ReservationPage";
 
-const RightIntro = ({ data }) => {
-  // const [modalOpen, setModalOpen] = useState(false);
-  // const handleModalOpen = (value) => {
-  //   setModalOpen(value);
-  // };
+const RightIntro = ({ data,trainerId }) => {
 
   const navigate = useNavigate();
 
   const handleReservation = () => {
-    navigate("/reservationPage"); // 예약 페이지로 이동
+    navigate(`/reservationPage/${trainerId}`); // 예약 페이지로 이동
   };
 
   const reviewSum = data.infoReview.reduce((accumulator, currentValue) => {

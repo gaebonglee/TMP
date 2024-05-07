@@ -48,7 +48,7 @@ const DetailMainContents = ({ trainerInfo }) => {
             )}
           </div>
           <div className="RightIntro">
-            <RightIntro data={data} />
+          <RightIntro data={data} trainerId={trainerId} />
           </div>
         </div>
       </div>
