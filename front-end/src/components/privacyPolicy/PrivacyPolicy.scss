@@ -1,0 +1,45 @@
+@import "../../common.scss";
+
+.privacy__policy__container {
+  width: 1100px;
+  margin: 0 auto;
+}
+.privacy__policy__ul {
+  margin: 50px 10px;
+}
+.privacy__policy__title {
+  font-size: $h1;
+  margin: 20px 10px;
+}
+
+.privacy__policy__sub__title {
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.65);
+}
+.privacy__policy__sub__content {
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.privacy__policy__table__textCenter {
+  text-align: center;
+}
+.privacy__policy__table__weight {
+  font-weight: 800;
+}
+.privacy__policy__sub__content td {
+  padding: 2px 4px;
+}
+.privacy__policy__sub__content .col1 {
+  width: 120px;
+}
+
+.privacy__policy__sub__content .col2 {
+  width: 400px;
+}
+.privacy__policy__sub__content .col3 {
+  width: 660px;
+}

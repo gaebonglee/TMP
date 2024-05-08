@@ -32,12 +32,12 @@ const Qualifications = ({ data, sectionRefs }) => {
       <div id="intro_page_contents_wrap" className="qualifications">
         <div className="title_wrap">
           <h1>검증된 자격사항</h1>
-          <div className="trainer_check_btn">
+          {/* <div className="trainer_check_btn">
             <div className="check_btn_wrap">
               <IoCheckmarkDoneSharp />
               <p>증명 확인하기</p>
             </div>
-          </div>
+          </div> */}
         </div>
         <div id="wrap_container">
           {data.map((carrer, index) => (

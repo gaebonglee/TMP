@@ -29,7 +29,7 @@ const UndongMap = (props) => {
   let urlLat = null;
   let urlLng = null;
 
-  if (url.search) {
+  if (url.search && urlLat !== null && urlLng !== null) {
     const location = url.search.split(",");
     urlLat = location[0].slice(13);
     urlLng = location[1].slice(4, 15);
@@ -75,20 +75,15 @@ const UndongMap = (props) => {
             initMap();
           }
         } else {
+          console.log(urlLat, urlLng);
           setCurrentLatitude(urlLat);
           setCurrentLongitude(urlLng);
+          initMap();
         }
       } catch (error) {
         if (error.code === 1) {
           alert("위치 정보 액세스 권한이 거부되었습니다. 권한을 허용해주세요.");
-        } else {
-          console.error("Error getting current location:", error);
-          setCurrentLatitude(37.5665);
-          setCurrentLongitude(126.978);
-          console.log(
-            "현재 위치를 가져오는 데 실패했습니다. 기본 위치로 지도를 초기화합니다."
-          );
-        }
+        } 
       }
     };
     if (mapRef.current && window.naver && window.naver.maps) {
@@ -97,7 +92,7 @@ const UndongMap = (props) => {
 
       //initMap();
     }
-  }, [currentLatitude, trainers]);
+  }, [currentLatitude, currentLongitude, trainers]);
 
   const initMap = () => {
     center = new window.naver.maps.LatLng(currentLatitude, currentLongitude);

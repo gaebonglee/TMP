@@ -24,6 +24,9 @@ import Faq from "components/faq/Faq";
 import FaqCoach from "components/faq/FaqCoach";
 import ReservationList from "components/reservationlist/ReservationList";
 import AnswerInquiry from "components/inquiry/AnswerInquiry";
+import PrivacyPolicy from "components/privacyPolicy/PrivacyPolicy";
+import TermsOfUse from "components/termsOfUse/TermsOfUse";
+import Announcement from "components/announcement/Announcement";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -52,6 +55,10 @@ function App() {
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/servicecenter/inquirylist/admin" element={<AdminInquiry />} />
           <Route path="/servicecenter/inquirylist/answer" element={<AnswerInquiry/>} />
+          <Route
+            path="/servicecenter/inquirylist/admin"
+            element={<AdminInquiry />}
+          />
           <Route path="/servicecenter" element={<InquiryMain />}>
             <Route path="/servicecenter/inquiry" element={<Inquiry />} />
             <Route path="/servicecenter" element={<Inquiry />} />
@@ -146,6 +153,9 @@ function App() {
               />
             }
           />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/termsOfUse" element={<TermsOfUse />} />
+          <Route path="/announcement" element={<Announcement />} />
         </Route>
       </Routes>
     </Router>
