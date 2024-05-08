@@ -38,6 +38,15 @@ router.get('/inquirylist/admin', async(req, res) => {
     res.status(200).send(result);
 });
 
+router.post('/inquirylist/answer', async(req, res) => {
+    console.log("Received data:", req.body);
+    const {inquiry_answer, inquiry_id} = req.body
+    let result = await inquiry.answerInquiryList(inquiry_answer, inquiry_id);
+    console.log("inquiryResult: ", result)
+    res.status(200).send(result);
+});
+
+
 
 
 module.exports = router;

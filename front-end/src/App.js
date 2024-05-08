@@ -23,6 +23,7 @@ import Confirmation from "components/trainerdetail/detailRight/reservation/conte
 import Faq from "components/faq/Faq";
 import FaqCoach from "components/faq/FaqCoach";
 import ReservationList from "components/reservationlist/ReservationList";
+import AnswerInquiry from "components/inquiry/AnswerInquiry";
 
 function App() {
   const { isPending, error, data } = useQuery({
@@ -50,6 +51,7 @@ function App() {
           />
           <Route path="/login/roleError/:role" element={<Mainpage />} />
           <Route path="/servicecenter/inquirylist/admin" element={<AdminInquiry />} />
+          <Route path="/servicecenter/inquirylist/answer" element={<AnswerInquiry/>} />
           <Route path="/servicecenter" element={<InquiryMain />}>
             <Route path="/servicecenter/inquiry" element={<Inquiry />} />
             <Route path="/servicecenter" element={<Inquiry />} />

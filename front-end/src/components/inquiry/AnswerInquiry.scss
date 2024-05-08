@@ -1,0 +1,23 @@
+@import "../../common.scss";
+
+.answer_button > .button{
+    padding: 14px 50px;
+    font-size: 16px;
+    background-color: #a2ee94;
+    border: 0.5px solid #a2ee94;
+    border-radius: $border-radius-4;
+    cursor: pointer;
+    color: $green2;
+    font-weight: $font-weight-2;
+}
+.answer_button_container{
+    display: flex;
+    justify-content: center;
+}
+.answer_inquiry_flex{
+    display: flex;
+    justify-content: center;
+}
+.inquiry_select_type{
+    background-color: #f5f7f7ff;
+}

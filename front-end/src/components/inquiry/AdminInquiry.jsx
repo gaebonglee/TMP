@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import "./AdminInquiry.scss"
 import { CgCloseO } from "react-icons/cg";
+import {useNavigate} from 'react-router-dom'
 
 const AdminInquiry = () => {
 
@@ -10,6 +11,7 @@ const [itemsPerPage] = useState(5);
 const lastItemIndex = currentPage * itemsPerPage;
 const firstItemIndex = lastItemIndex - itemsPerPage;
 const currentItems = inquiryList.slice(firstItemIndex, lastItemIndex);
+const navigate = useNavigate()
 
 const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -34,7 +36,6 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
 
   const convertToLocalTime = (utcDate) => {
     const date = new Date(utcDate);
-    date.setHours(date.getHours() + 9);
     return date.toLocaleString('ko-KR', { 
     timeZone: 'Asia/Seoul',
     year: 'numeric', month: 'numeric', day: 'numeric',
@@ -74,14 +75,20 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
     }
     else return
   }
+  const answerInquiry = (index) => {
+    console.log(currentItems[index])
+    navigate('/servicecenter/inquirylist/answer',{ state: {inquiry: currentItems[index]}})
+  }
   return (
+    <>
+    <h1 style={{textAlign: "center", color: "rgb(60, 60, 60)"}}>고객 문의내역</h1>
     <div className="inquiryList">
       {currentItems.map((item, index) => (
-        <div className="inquiryItem" key={index}>
+        <div className="inquiryItem inquiryItemClick" key={index} onClick={() => {answerInquiry(index)}}>
           <div className="AdmininquiryDetails">
             <div>
               <div className="Inquiry_label">문의유형</div>
-              <span className="inquiryType">{item.inquiry_type}</span>
+              {currentItems[index].inquiry_answer? <span className="inquiryType">{item.inquiry_type} <span className="answer_state">(답변완료)</span></span> : <span className="inquiryType">{item.inquiry_type} <span className="answer_state">(답변대기중)</span></span>}
             </div>
             <div>
               <div className="Inquiry_label">내용</div>
@@ -108,6 +115,7 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
           ))}
       </div>
     </div>
+    </>
   );
 };
 
