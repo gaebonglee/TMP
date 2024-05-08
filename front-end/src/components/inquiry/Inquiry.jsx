@@ -17,7 +17,7 @@ const InputHandler = (e) => {
 }
 const SubmitHandler = (e) => {
     e.preventDefault()
-
+    if(inquiryData.inquiry_type && inquiryData.inquiry_password && inquiryData.inquiry_contents){
     fetch('http://localhost:5000/servicecenter/inquiry', {  //요청지
         method: 'POST',        //메소드 지정
         headers: {            //데이터 타입 지정
@@ -41,7 +41,10 @@ const SubmitHandler = (e) => {
 })
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
-});
+})}
+else{
+    alert("내용을 입력하신 후 접수하기 버튼을 눌러주세요.")
+}
 }
 console.log(inquiryData)
     return (
@@ -89,7 +92,7 @@ console.log(inquiryData)
                     <div className='inquiry_check_button_container'>
                         <div className='inquiry_checkbox'>
                             <input className='checkbox' type="checkbox" checked={checkState} onChange={() => {setCheckState(!checkState)}}/>
-                            <div><span className='checkbox_text'>개인정보 수집 및 이용</span>에 동의합니다.</div>
+                            <div><span className='checkbox_text' onClick={() => {navigate('/privacyPolicy')}}>개인정보 수집 및 이용</span>에 동의합니다.</div>
                             <span className='highlight'>(필수)</span>
                         </div>
                         <div className='inquiry_button'>

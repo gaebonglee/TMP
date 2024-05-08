@@ -230,6 +230,7 @@ const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
                     e.target.value
                   );
                 }}
+                rows={8}
               />
             </div>
           </div>

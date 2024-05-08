@@ -17,9 +17,10 @@ const LessonPrice = ({ data, sectionRefs }) => {
                     <div className="priceCount">{value.count}회</div>
                     <p className="pricePer">
                       회당{" "}
-                      {(value.total_price / value.count).toLocaleString(
-                        "ko-KR"
-                      )}
+                      {(
+                        Math.round(value.total_price / value.count / 1000) *
+                        1000
+                      ).toLocaleString("ko-KR")}
                       원
                     </p>
                     <p className="priceTotal">
