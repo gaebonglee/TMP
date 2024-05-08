@@ -112,7 +112,7 @@ const LeftIntroCener = ({ data, sectionRefs }) => {
             {fileNames.map((img, index) => (
               <img
                 key={index}
-                src={`${process.env.REACT_APP_FILE_SERVER_URL}/trainer/${data.user_id}/${img}`}
+                src={`${process.env.REACT_APP_FILE_SERVER_URL}/center/${data.center_id}/${img}`}
                 alt={`Modal file ${index}`}
                 className={`intro_modal_image ${
                   currentImage === index ? "active" : ""
