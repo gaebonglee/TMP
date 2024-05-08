@@ -41,10 +41,18 @@
 }
 
 .ai_contents_img {
-  height: 70%;
+  width: 100%;
+  height: 330px;
   overflow: hidden;
   border-top-left-radius: $border-radius-1;
   border-top-right-radius: $border-radius-1;
+}
+
+.ai_contents_img_content {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
 }
 
 .ai_contents_txt {
@@ -70,6 +78,11 @@
 .review_star {
   justify-content: end;
 }
+
+.review_star_color {
+  color: $star;
+}
+
 .review_star > i {
   color: rgb(255, 174, 0);
 }
