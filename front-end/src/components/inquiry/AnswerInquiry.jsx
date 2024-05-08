@@ -21,7 +21,7 @@ const SubmitHandler = (e) => {
         inquiry_id: location.state.inquiry.inquiry_id,
         inquiry_answer: inquiryAnswer.inquiry_answer
     };
-
+    if(inquiryAnswer.inquiry_answer){
         fetch('http://localhost:5000/servicecenter/inquirylist/answer', {  //요청지
             method: 'POST',        //메소드 지정
             headers: {            //데이터 타입 지정
@@ -45,7 +45,10 @@ const SubmitHandler = (e) => {
     })
         .catch(error => {
             console.error('There was a problem with your fetch operation:', error);
-    });
+    })}
+    else{
+        alert("답변을 입력해주세요.")
+    }
     }
 
     return (
