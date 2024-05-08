@@ -23,7 +23,7 @@ const FaqCoach = () => {
             <div className="tabComb selected">센터 및 트레이너</div>
           </div>
         </div>
-        <div className="supportButton">
+        {/* <div className="supportButton">
           <div>
             <div className="button_Div">
               <button className="button_ioi">
@@ -31,7 +31,7 @@ const FaqCoach = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="faqComp">
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(0)}>
@@ -69,9 +69,7 @@ const FaqCoach = () => {
           </div>
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(1)}>
-              <div className="title">
-               프로필 컨설팅이 뭔가요?
-              </div>
+              <div className="title">프로필 컨설팅이 뭔가요?</div>
               <div>
                 {activeIndex === 1 ? (
                   <IoIosArrowUp size={24} />
@@ -105,7 +103,9 @@ const FaqCoach = () => {
           </div>
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(2)}>
-              <div className="title">어떻게 해야 코치 리스트 상단에 노출될 수 있나요?</div>
+              <div className="title">
+                어떻게 해야 코치 리스트 상단에 노출될 수 있나요?
+              </div>
               <div>
                 {activeIndex === 2 ? (
                   <IoIosArrowUp size={24} />
@@ -173,7 +173,9 @@ const FaqCoach = () => {
           </div>
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(4)}>
-              <div className="title">파트너 센터 가입(무료)은 어떻게 하나요?</div>
+              <div className="title">
+                파트너 센터 가입(무료)은 어떻게 하나요?
+              </div>
               <div>
                 {activeIndex === 4 ? (
                   <IoIosArrowUp size={24} />
@@ -309,7 +311,9 @@ const FaqCoach = () => {
           </div>
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(8)}>
-              <div className="title">TMP에 올려진 센터 정보들에 대해 법적 문제가 없나요?</div>
+              <div className="title">
+                TMP에 올려진 센터 정보들에 대해 법적 문제가 없나요?
+              </div>
               <div>
                 {activeIndex === 8 ? (
                   <IoIosArrowUp size={24} />

@@ -12,22 +12,23 @@ const TotalTrainer = () => {
   const [searchCenter, setSearchCenter] = useState(null);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch("http://localhost:5000/center")
-      .then((response) => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("http://localhost:5000/center");
         if (!response.ok) {
           throw new Error(`HTTP 에러 ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
+        const data = await response.json();
         setTrainers(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("데이터 가져오기 실패:", error);
+      } finally {
         setIsLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (

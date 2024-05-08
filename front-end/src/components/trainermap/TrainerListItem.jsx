@@ -95,7 +95,10 @@ const TrainerListItem = (props) => {
         </span>
       </div>
       <div className="moraeLocation">
-        <TbMapPin size={17} /> {trainer.center_address}
+        <TbMapPin className="mappin" size={20} />{" "}
+        {trainer.center_address ? trainer.center_address : "-"}
+        <br />{" "}
+        {trainer.center_street_address ? trainer.center_street_address : ""}
       </div>
       <div className="moraeReview">
         <BsFillStarFill size={18} color="rgb(255,187,51)" /> 후기{" "}
