@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { TbAdjustmentsAlt } from "react-icons/tb";
-// import { FaPencilAlt } from "react-icons/fa";
 import { HiMapPin } from "react-icons/hi2";
 
 const SearchInput = (props) => {
@@ -58,9 +57,6 @@ const SearchInput = (props) => {
   const handleSuggestionClick = (suggestion) => {
     setInputValue(`${suggestion.center_name}`);
     setShowSuggestions(false);
-    // props.setSearchCenter(
-    //   new window.naver.maps.LatLng(suggestion.latitude, suggestion.longitude)
-    // );
   };
 
   return (
@@ -88,17 +84,14 @@ const SearchInput = (props) => {
             autoComplete="off"
           />
         </div>
-        {/* <div className="btn_search" onClick={handleSearch}>
-          <FaPencilAlt size={20} color="#00491e" />
-        </div> */}
       </div>
       {showSuggestions && suggestions.length > 0 && (
         <div className="listContainer">
           <ul className="suggention-item-list">
-            {suggestions.map((suggestion, index) => (
+            {suggestions.map((suggestion) => (
               <li
                 className="suggestion-item"
-                key={index}
+                key={suggestion.center_id}
                 onClick={() => handleSuggestionClick(suggestion)}
               >
                 <div className="flexBox">

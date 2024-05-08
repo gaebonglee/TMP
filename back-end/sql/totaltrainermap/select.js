@@ -3,22 +3,24 @@ const mysql = require("../../connection/mysqlConnection");
 function selectCenterAll(callback) {
   mysql.query(
     `
-    SELECT DISTINCT
-    u.user_id, 
-    u.user_name, 
-    u.gender, 
-    r.point, 
-    t.intro_img, 
-    c.center_name, 
-    c.center_address, 
-    c.latitude, 
-    c.longitude, 
-    r.received_id
+    SELECT
+    u.user_id,
+    u.user_name,
+    u.gender,
+    MAX(r.point) AS point,
+    t.intro_img,
+    c.center_name,
+    c.center_address,
+    c.latitude,
+    c.longitude,
+    MAX(r.received_id) AS received_id,
+    c.center_street_address
 FROM user u
-LEFT JOIN review r ON u.user_id = r.user_id
+LEFT JOIN review r ON u.user_id = r.received_id
 LEFT JOIN trainer t ON u.user_id = t.user_id
 LEFT JOIN center c ON t.center_id = c.center_id
-WHERE user_roles = 'trainer';
+WHERE u.user_roles = 'trainer'
+GROUP BY u.user_id, u.user_name, u.gender, t.intro_img, c.center_name, c.center_address, c.latitude, c.longitude, c.center_street_address;
     `,
     (err, result) => {
       if (err) {
@@ -178,6 +180,7 @@ function selectCurrentLocation(currentLocation, callback) {
     JOIN user u ON t.user_id = u.user_id
     WHERE c.latitude BETWEEN ? AND ?
       AND c.longitude BETWEEN ? AND ?
+      AND user_roles = 'trainer';
     `,
     [
       currentLocation.SWlatitude,

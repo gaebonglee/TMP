@@ -23,7 +23,7 @@ const Faq = () => {
             </div>
           </div>
         </div>
-        <div className="supportButton">
+        {/* <div className="supportButton">
           <div>
             <div className="button_Div">
               <button className="button_ioi">
@@ -31,7 +31,7 @@ const Faq = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="faqComp">
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(0)}>

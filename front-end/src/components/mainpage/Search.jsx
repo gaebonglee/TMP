@@ -4,10 +4,10 @@ import { FiSearch } from "react-icons/fi";
 import { ImCancelCircle } from "react-icons/im";
 import "./Search.scss";
 import { Link } from "react-router-dom";
-import { HiMapPin } from "react-icons/hi2";
+import { RiMapPin2Fill } from "react-icons/ri";
 import useScript from "hooks/useScript";
 
-const Search = ({ setSearchCenter }) => {
+const Search = ({ setSearchCene }) => {
   const [searchType, setSearchType] = useState("선생님");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -129,15 +129,15 @@ const Search = ({ setSearchCenter }) => {
           {showSuggestions && filteredResults.length > 0 && (
             <div className="searchListbox">
               <ul className="suggention-item-list">
-                {filteredResults.map((result) => (
+                {filteredResults.map((result, index) => (
                   <li
                     className="suggention-item"
-                    key={result.id}
+                    key={index}
                     onClick={() => handleSuggestionClick(result)}
                   >
                     <div className="flexBox">
                       <h3>
-                        <HiMapPin className="buildingIcon" size={24} />
+                        <RiMapPin2Fill className="buildingIcon" />
                         {result.center_name}
                       </h3>
                       <span className="addressSpan">
@@ -153,7 +153,11 @@ const Search = ({ setSearchCenter }) => {
         <div className="search_icon">
           <button className="src_btn">
             <FiSearch style={{ paddingTop: "5px" }} />
-            <Link to={`/trainermap?center=${searchLocation}`}>검색하기</Link>
+            {searchKeyword ? (
+              <Link to={`/trainermap?center=${searchLocation}`}>검색하기</Link>
+            ) : (
+              <Link to="/trainermap">검색하기</Link>
+            )}
           </button>
         </div>
       </div>
