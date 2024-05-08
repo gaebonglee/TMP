@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { selectTrainerName } = require("../sql/reservation/selectTrainerName");
 const { saveReservation } = require("../sql/reservation/saveReservation");
-const { selectLesson } = require("../sql/mypage/calendar/selectLesson");
+const { selectLesson } = require("../sql/mypage/calendar/selectlesson");
 const { selectMember } = require("../sql/reservation/selectMember");
 const {
   selectReservationList,
@@ -50,9 +50,7 @@ router.get("/selectLessonInfo/:reservationDate/:trainerId", (req, res) => {
     } else if (results.length > 0) {
       res.json(results);
     } else {
-      res.status(404).send({
-        error: "No reservations found for the specified date and trainer.",
-      });
+      res.json([]); 
     }
   });
 });
