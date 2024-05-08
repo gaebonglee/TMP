@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 const UndongMap = (props) => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
-
+  const [newCenter, setNewCenter] = useState(null);
   const {
     trainers,
     setTrainers,
@@ -26,30 +26,25 @@ const UndongMap = (props) => {
     "https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=0dfie9x7ty&submodules=geocoder"
   );
   const url = useLocation();
-  let urlLat = null;
-  let urlLng = null;
 
-  if (url.search && urlLat !== null && urlLng !== null) {
-    const location = url.search.split(",");
-    urlLat = location[0].slice(13);
-    urlLng = location[1].slice(4, 15);
-  }
+  var urlLat = null;
+  var urlLng = null;
 
-  var center;
-  // useEffect(() => {
-  //   console.log("scriptStatus 변화", scriptStatus);
-
-  //   if (scriptStatus === "ready") {
-  //     if (currentLongitude == null){
-  //       alert("안됨");
-  //     }
-  //     initMap();
-  //   }
-  // }, []);
+  var cCenter;
+  useEffect(() => {
+    if (map) {
+      setNewCenter([map.getCenter().y, map.getCenter().x]);
+      console.log(newCenter);
+    }
+  }, [map]);
 
   useEffect(() => {
+    if (url.search !== "") {
+      const location = url.search.split(",");
+      urlLat = location[0].slice(13);
+      urlLng = location[1].slice(4, 15);
+    }
     const getCurrentPosition = () => {
-      setIsLoading(true);
       return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
@@ -61,124 +56,67 @@ const UndongMap = (props) => {
     };
 
     const initMapAfterLocationUpdate = async () => {
-      setIsLoading(true);
       try {
         const position = await getCurrentPosition();
-        if (urlLat === null || urlLng === null) {
-          if (
-            position.coords.latitude !== null &&
-            position.coords.longitude !== null
-          ) {
-            setIsLoading(true);
-            setCurrentLatitude(position.coords.latitude);
-            setCurrentLongitude(position.coords.longitude);
-            initMap();
-          }
-        } else {
-          console.log(urlLat, urlLng);
-          setCurrentLatitude(urlLat);
-          setCurrentLongitude(urlLng);
-          initMap();
-        }
+
+        setCurrentLatitude(position.coords.latitude);
+        setCurrentLongitude(position.coords.longitude);
       } catch (error) {
         if (error.code === 1) {
           alert("위치 정보 액세스 권한이 거부되었습니다. 권한을 허용해주세요.");
-        } 
+        }
       }
     };
     if (mapRef.current && window.naver && window.naver.maps) {
-      initMapAfterLocationUpdate();
-      updateCurrentLocation();
+      if (urlLat == null) {
+        initMapAfterLocationUpdate();
+      } else if (newCenter.current !== null) {
+        setCurrentLatitude(newCenter.current[0]);
+        setCurrentLongitude(newCenter.current[1]);
+        console.log(newCenter.current);
+      } else {
+        setCurrentLatitude(urlLat);
+        setCurrentLongitude(urlLng);
 
-      //initMap();
+        console.log(urlLat, urlLng);
+      }
     }
-  }, [currentLatitude, currentLongitude, trainers]);
+    initMap();
+  }, [currentLatitude]);
 
-  const initMap = () => {
-    center = new window.naver.maps.LatLng(currentLatitude, currentLongitude);
-    const mapOptions = {
-      center: center,
-      zoom: 15,
-      scrollWheel: true,
-    };
-    const newMap = new window.naver.maps.Map(mapRef.current, mapOptions);
-    setMap(newMap);
-
-    const markerElement = document.createElement("div");
-    markerElement.innerHTML = `
+  const initMap = useCallback(() => {
+    if (window.naver && window.naver.maps) {
+      cCenter = new window.naver.maps.LatLng(currentLatitude, currentLongitude);
+      const mapOptions = {
+        center: cCenter,
+        zoom: 15,
+        scrollWheel: true,
+      };
+      const newMap = new window.naver.maps.Map(mapRef.current, mapOptions);
+      setMap(newMap);
+      const markerElement = document.createElement("div");
+      markerElement.innerHTML = `
       <div class="markerWrap markerActiveWrap" data-marker-id="currentLocation"></div>
       <div class="markerPin markerActivePin" data-marker-id="currentLocation"></div>
     `;
 
-    const marker = new window.naver.maps.Marker({
-      position: center,
-      map: newMap,
-      icon: {
-        content: markerElement,
-      },
-    });
-
-    currentLocationMarker.current = marker;
-    markers.current.push(marker);
-
-    window.naver.maps.Event.addListener(marker, "click", function () {
-      const markerWrap = markerElement.querySelector(
-        '.markerWrap[data-marker-id="currentLocation"]'
-      );
-      const markerPin = markerElement.querySelector(
-        '.markerPin[data-marker-id="currentLocation"]'
-      );
-      if (markerWrap && markerPin) {
-        markers.current.forEach((m) => {
-          const wrap = m.icon.content.querySelector(".markerWrap");
-          const pin = m.icon.content.querySelector(".markerPin");
-          wrap.classList.remove("markerActiveWrap");
-          pin.classList.remove("markerActivePin");
-        });
-        if (markerWrap.classList.contains("markerActiveWrap")) {
-          markerWrap.classList.remove("markerActiveWrap");
-          markerPin.classList.remove("markerActivePin");
-        } else {
-          markerWrap.classList.add("markerActiveWrap");
-          markerPin.classList.add("markerActivePin");
-        }
-      }
-      marker.setAnimation(window.naver.maps.Animation.BOUNCE);
-      setTimeout(() => {
-        marker.setAnimation(null);
-      }, 700);
-    });
-
-    trainers.forEach((trainer, index) => {
-      const markerLatitude = trainer.latitude;
-      const markerLongitude = trainer.longitude;
-      const markerLocation = new window.naver.maps.LatLng(
-        markerLatitude,
-        markerLongitude
-      );
-      trainer.center_name == null ? setIsLoading(true) : setIsLoading(false);
-      const markerElement = document.createElement("div");
-      markerElement.innerHTML = `
-        <div class="markerWrap" data-marker-id="${index}">${trainer.center_name}</div>
-        <div class="markerPin" data-marker-id="${index}"></div>
-      `;
-
       const marker = new window.naver.maps.Marker({
-        position: markerLocation,
+        position: cCenter,
         map: newMap,
         icon: {
           content: markerElement,
         },
       });
 
+      currentLocationMarker.current = marker;
       markers.current.push(marker);
 
       window.naver.maps.Event.addListener(marker, "click", function () {
         const markerWrap = markerElement.querySelector(
-          `.markerWrap[data-marker-id="${index}"]`
+          '.markerWrap[data-marker-id="currentLocation"]'
         );
         const markerPin = markerElement.querySelector(
-          `.markerPin[data-marker-id="${index}"]`
+          '.markerPin[data-marker-id="currentLocation"]'
         );
         if (markerWrap && markerPin) {
           markers.current.forEach((m) => {
@@ -199,20 +137,72 @@ const UndongMap = (props) => {
         setTimeout(() => {
           marker.setAnimation(null);
         }, 700);
-        newMap.panTo(markerLocation);
-
-        setTrainerIndex(index);
       });
-    });
 
-    setIsLoading(false);
-  };
+      trainers.forEach((trainer, index) => {
+        const markerLatitude = trainer.latitude;
+        const markerLongitude = trainer.longitude;
+        const markerLocation = new window.naver.maps.LatLng(
+          markerLatitude,
+          markerLongitude
+        );
+
+        const markerElement = document.createElement("div");
+        markerElement.innerHTML = `
+        <div class="markerWrap" data-marker-id="${index}">${trainer.center_name}</div>
+        <div class="markerPin" data-marker-id="${index}"></div>
+      `;
+
+        const marker = new window.naver.maps.Marker({
+          position: markerLocation,
+          map: newMap,
+          icon: {
+            content: markerElement,
+          },
+        });
+
+        markers.current.push(marker);
+
+        window.naver.maps.Event.addListener(marker, "click", function () {
+          const markerWrap = markerElement.querySelector(
+            `.markerWrap[data-marker-id="${index}"]`
+          );
+          const markerPin = markerElement.querySelector(
+            `.markerPin[data-marker-id="${index}"]`
+          );
+          if (markerWrap && markerPin) {
+            markers.current.forEach((m) => {
+              const wrap = m.icon.content.querySelector(".markerWrap");
+              const pin = m.icon.content.querySelector(".markerPin");
+              wrap.classList.remove("markerActiveWrap");
+              pin.classList.remove("markerActivePin");
+            });
+            if (markerWrap.classList.contains("markerActiveWrap")) {
+              markerWrap.classList.remove("markerActiveWrap");
+              markerPin.classList.remove("markerActivePin");
+            } else {
+              markerWrap.classList.add("markerActiveWrap");
+              markerPin.classList.add("markerActivePin");
+            }
+          }
+          marker.setAnimation(window.naver.maps.Animation.BOUNCE);
+          setTimeout(() => {
+            marker.setAnimation(null);
+          }, 700);
+          newMap.panTo(markerLocation);
+
+          setTrainerIndex(index);
+        });
+      });
+      setIsLoading(false);
+    }
+  }, [currentLatitude, currentLongitude, trainers]);
 
   useEffect(() => {
-    if (map && searchCenter) {
-      map.panTo(searchCenter);
+    if (map && searchCenter[0] && searchCenter[1]) {
+      map.panTo(new window.naver.maps.LatLng(searchCenter[0], searchCenter[1]));
     }
-  }, [map, searchCenter]);
+  }, [searchCenter]);
 
   const getCurrentLocation = async () => {
     if (!navigator.geolocation) {
@@ -223,7 +213,7 @@ const UndongMap = (props) => {
     const position = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, {
         enableHighAccuracy: true,
-        timeout: 15000,
+        timeout: 30000,
         maximumAge: 0,
       });
     });
@@ -234,6 +224,9 @@ const UndongMap = (props) => {
 
   const updateCurrentLocation = async () => {
     try {
+      if (url.search !== "") {
+        window.location = "/trainermap";
+      }
       const { latitude, longitude } = await getCurrentLocation();
 
       setCurrentLatitude(latitude);
@@ -292,62 +285,45 @@ const UndongMap = (props) => {
       // 현재 위치 마커 제거
       currentLocationMarker.current.setMap(null);
 
-      const trainerBounds = new window.naver.maps.LatLngBounds();
-      data.forEach((trainer) => {
-        const markerLocation = new window.naver.maps.LatLng(
-          trainer.latitude,
-          trainer.longitude
-        );
-        trainerBounds.extend(markerLocation);
+      // 기존 마커들 제거
+      markers.current.forEach((marker) => {
+        marker.setMap(null);
       });
-      window.naver.maps.Event.addListener(
-        map,
-        "bounds_changed",
-        function (bounds) {
-          center = new window.naver.maps.LatLng(
-            map.getCenter().y,
-            map.getCenter().x
-          );
-        }
-      );
+      markers.current = [];
 
-      // 트레이너 마커들만 포함하는 새로운 지도 객체 생성
-      const newMapOptions = {
-        center: center, // 트레이너 마커들의 중심 위치
-        zoom: map.getZoom(), // 현재 줌 레벨 유지
-        scrollWheel: true,
-      };
-      const newMap = new window.naver.maps.Map(mapRef.current, newMapOptions);
-      setMap(newMap);
-
-      // 트레이너 마커들을 새로운 지도에 추가
+      // 새로운 마커들 추가
       data.forEach((trainer) => {
         const markerLocation = new window.naver.maps.LatLng(
           trainer.latitude,
           trainer.longitude
         );
+
         const markerElement = document.createElement("div");
         markerElement.innerHTML = `
-          <div class="markerWrap" data-marker-id="${trainer.id}">${trainer.center_name}</div>
-          <div class="markerPin" data-marker-id="${trainer.id}"></div>
+          <div class="markerWrap" data-marker-id="${trainer.user_id}">${trainer.center_name}</div>
+          <div class="markerPin" data-marker-id="${trainer.user_id}"></div>
         `;
 
         const marker = new window.naver.maps.Marker({
           position: markerLocation,
-          map: newMap,
+          map: map, // 기존 map 객체 사용
           icon: {
             content: markerElement,
           },
         });
 
+        markers.current.push(marker);
+
         // 마커 클릭 이벤트 핸들러 추가
         window.naver.maps.Event.addListener(marker, "click", () => {
-          setTrainerIndex(trainer.id);
+          setTrainerIndex(trainer.user_id);
           // 추가 동작 구현...
         });
       });
 
-      newMap.fitBounds(trainerBounds);
+      // 지도 중심 위치 유지
+      const center = new window.naver.maps.LatLng(newCenter[0], newCenter[1]);
+      map.setCenter(center);
     } catch (error) {
       console.error("Error fetching trainers:", error);
     } finally {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { TbAdjustmentsAlt } from "react-icons/tb";
-import { HiMapPin } from "react-icons/hi2";
+import { RiMapPin2Fill } from "react-icons/ri";
 
 const SearchInput = (props) => {
   const [inputValue, setInputValue] = useState("");
@@ -22,11 +22,11 @@ const SearchInput = (props) => {
       });
   }, []);
 
-  useEffect(() => {
-    if (props.searchCenter !== null) {
-      setInputValue(`${props.searchCenter}`);
-    }
-  }, [props.searchCenter]);
+  // useEffect(() => {
+  //   if (props.searchCenter !== null) {
+  //     setInputValue(`${props.searchCenter}`);
+  //   }
+  // }, [props.searchCenter]);
 
   function filterHandler() {
     props.setFilter((prevFilter) => !prevFilter);
@@ -57,6 +57,7 @@ const SearchInput = (props) => {
   const handleSuggestionClick = (suggestion) => {
     setInputValue(`${suggestion.center_name}`);
     setShowSuggestions(false);
+    props.setSearchCenter([suggestion.latitude, suggestion.longitude]);
   };
 
   return (
@@ -95,7 +96,7 @@ const SearchInput = (props) => {
                 onClick={() => handleSuggestionClick(suggestion)}
               >
                 <div className="flexBox">
-                  <HiMapPin className="buildingIcon" size={24} />
+                  <RiMapPin2Fill className="buildingIcon" size={24} />
                   <h4>{suggestion.center_name}</h4>
                 </div>
                 <span className="addressSpan">

@@ -67,6 +67,9 @@ const Search = ({ setSearchCene }) => {
 
     if (scriptStatus === "ready") {
       console.log(scriptStatus);
+      setSearchLocation(
+        new window.naver.maps.LatLng(suggestion.latitude, suggestion.longitude)
+      );
     } else {
       setSearchLocation(
         new window.naver.maps.LatLng(suggestion.latitude, suggestion.longitude)
@@ -82,7 +85,7 @@ const Search = ({ setSearchCene }) => {
   return (
     <div className="search_container">
       <div className="search_contents">
-        <div className="searchType">
+        {/* <div className="searchType">
           <div className="bar" onClick={() => handleSearchTypeChange("선생님")}>
             <span>{searchType}</span>
             <IoMdArrowDropdown />
@@ -101,7 +104,7 @@ const Search = ({ setSearchCene }) => {
               센터
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="searchKeyword">
           <input
             type="text"

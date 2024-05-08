@@ -9,7 +9,7 @@ const TotalTrainer = () => {
   const [currentLatitude, setCurrentLatitude] = useState(37.5665);
   const [currentLongitude, setCurrentLongitude] = useState(126.978);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchCenter, setSearchCenter] = useState(null);
+  const [searchCenter, setSearchCenter] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
