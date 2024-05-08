@@ -1,31 +1,55 @@
 @import "../../common.scss";
 
 .reservationList_page {
+  min-height: 570px;
+  padding: 30px;
   background-color: #f7f9fa;
   color: $black;
-  min-height: 570px;
 }
 
 .reservationList_page_container {
-  max-width: 1136px;
+  max-width: 775px;
   margin: auto;
   padding: 30px;
 }
 
 .reservationList_title {
   padding: 20px 0;
-  border-bottom: 1px solid $lightgray;
 }
-
-.reservationList{ padding: 30px;}
 
 .reservationList_wrap {
-  background-color: $white;
-  padding: 30px;
+  padding: 10px 30px 30px 30px;
   border-radius: $border-radius-4;
+  border: 1px solid $lightgray;
+  background-color: $white;
 }
-.reservationList_date {
+
+.reservationList_option {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: right;
+  padding: 15px 0;
+}
+
+.reservation_cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reservation_card {
+  flex: 1;
+  min-width: 280px;
+  padding: 20px;
+  background: $white;
+  border: 1px solid $green2;
+  border-radius: $border-radius-4;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card_header {
+  padding-bottom: 15px;
+}
+
+.card_body p {
+  color:$green2;
 }
