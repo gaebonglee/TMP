@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import "./InquiryList.scss";
 import { CgCloseO } from "react-icons/cg";
 import { BsArrowReturnRight } from "react-icons/bs";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 const InquiryList = () => {
   const location = useLocation();
@@ -14,8 +16,23 @@ const InquiryList = () => {
   const firstItemIndex = lastItemIndex - itemsPerPage;
   const currentItems = inquiryList.slice(firstItemIndex, lastItemIndex);
   const [answerState, setAnswerState] = useState(currentItems.map(() => false));
-  console.log(answerState)
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    iconColor: 'white',
+    customClass: {
+        popup: 'colored-toast',
+      },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
   useEffect(() => {
     const newPassword = location.state.responseData[0].inquiry_password;
@@ -63,42 +80,54 @@ const InquiryList = () => {
      });
   };
   const deleteInquiry = (index) => {
-    const confirmResult = window.confirm("정말로 삭제하시겠습니까?");
-    if (confirmResult) {
-      fetch("http://localhost:5000/servicecenter/deleteinquirylist", {
-        //요청지
-        method: "POST", //메소드 지정
-        headers: {
-          //데이터 타입 지정
-          Accept: "application/json",
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(inquiryList[index]), //실제 데이터 파싱해서 body에 저장
-      })
-        .then((response) => {
-          console.log(response);
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then(() => {
-          const updatedList = [...inquiryList]; // 현재 리스트 복사
-          updatedList.splice(index, 1);// index 위치의 요소를 제거
 
-          const updatedAnswerState = answerState.filter((_, i) => i !== index);
-
-          setInquiryList(updatedList);
-          setAnswerState(updatedAnswerState); // 상태 업데이트
-          window.scrollTo({ top: 0 });
+    Swal.fire({
+      title: "정말로 삭제하시겠습니까?",
+      showDenyButton: true,
+      confirmButtonText: "네",
+      denyButtonText: `아니오`,
+      confirmButtonColor: "#a2ee94",
+      denyButtonColor: "#ff0000",
+      focusConfirm: false,
+      allowOutsideClick: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch("http://localhost:5000/servicecenter/deleteinquirylist", {
+          //요청지
+          method: "POST", //메소드 지정
+          headers: {
+            //데이터 타입 지정
+            Accept: "application/json",
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(inquiryList[index]), //실제 데이터 파싱해서 body에 저장
         })
-        .catch((error) => {
-          console.error(
-            "There was a problem with your fetch operation:",
-            error
-          );
-        });
-    } else return;
+          .then((response) => {
+            console.log(response);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(() => {
+            const updatedList = [...inquiryList]; // 현재 리스트 복사
+            updatedList.splice(index, 1);// index 위치의 요소를 제거
+  
+            const updatedAnswerState = answerState.filter((_, i) => i !== index);
+            // 동일로직이지만 filter로도 구현가능
+            setInquiryList(updatedList);
+            setAnswerState(updatedAnswerState); // 상태 업데이트
+            window.scrollTo({ top: 0 });
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with your fetch operation:",
+              error
+            );
+          });
+      }
+      else return;
+    })
   };
 
   const toggleAnswerVisibility = (index) => {
@@ -107,8 +136,11 @@ const InquiryList = () => {
         const newState = [...prevState];
         newState[index] = !newState[index];
         return newState;
-      });
-    } else return alert("아직 답변이 등록되지 않았습니다.");
+      }); 
+    } else return Toast.fire({
+      icon: 'error',
+      title: '답변이 등록되지 않았습니다.'
+    });
   };
   return (
     <div className="inquiryList">

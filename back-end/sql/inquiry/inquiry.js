@@ -37,7 +37,7 @@ function inquiryPassword(password){
 }
     
 function inquiryList(password){
-    const sql = `select * from inquiry where inquiry_password = ?`;
+    const sql = `select * from inquiry where inquiry_password = ? order by register_date desc`;
    
     return new Promise((resolve, reject) => {
         mysql.query(sql,[password], (err, result) => {
@@ -71,7 +71,7 @@ function deleteInquiryList(inquiry_id){
 }
 
 function adminInquiryList(){
-    const sql = `select * from inquiry`;
+    const sql = `select * from inquiry order by register_date desc`;
    
     return new Promise((resolve, reject) => {
         mysql.query(sql, (err, result) => {

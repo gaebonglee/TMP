@@ -3,11 +3,30 @@ import "./InquiryPassword.scss"
 import { useState } from 'react';
 import { CgCloseO } from "react-icons/cg";
 import {useNavigate} from 'react-router-dom'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 const InquiryPassword = () => {
 
 const navigate = useNavigate();
 const [password, setPassword] = useState({password: ""})
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    iconColor: 'white',
+    customClass: {
+        popup: 'colored-toast',
+      },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
+
 const passwordHandler = (e) => {
     const {name, value} = e.target
     setPassword((prev) => {
@@ -25,15 +44,22 @@ const passwordButtonHandler = async() => {
     })
     const responseData = await response.json();
     
-   
         if(responseData.length === 0){
-            alert('비밀번호가 일치하지 않습니다.')
+            Toast.fire({
+                icon: 'error',
+                title: '비밀번호가 일치하지 않습니다.'
+              });
             setPassword({password: ""})
         }
         else{
-        alert('문의내역으로 이동합니다.')
-        navigate('/servicecenter/inquirylist',{ state: {responseData}})
-        window.scrollTo({top: 0})
+            Toast.fire({
+                icon: 'success',
+                title: '문의내역으로 이동합니다.'
+              });
+            setTimeout(() => {
+                navigate('/servicecenter/inquirylist', { state: { responseData } });
+                window.scrollTo({top: 0});
+            }, 1500);
         }
 }
 

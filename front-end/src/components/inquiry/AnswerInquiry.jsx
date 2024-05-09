@@ -1,12 +1,31 @@
 import React, {useState} from 'react';
 import "./AnswerInquiry.scss"
 import {useLocation, useNavigate} from "react-router-dom"
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
+
 const AnswerInquiry = (index) => {
 
 const location = useLocation()
 const navigate = useNavigate()
 console.log(location.state.inquiry)
 const [inquiryAnswer, setInquiryAnswer] = useState({inquiry_answer: ""})
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    iconColor: 'white',
+    customClass: {
+        popup: 'colored-toast',
+      },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
 const answerHandler = (e) => {
     const {name, value} = e.target
@@ -39,15 +58,25 @@ const SubmitHandler = (e) => {
         })
         .then(data => {
             console.log(data);
-            alert('답변이 완료되었습니다.')
-            navigate('/servicecenter/inquirylist/admin')
-            window.scrollTo({top: 0})
-    })
+            Toast.fire({
+                icon: 'success',
+                title: '답변이 완료되었습니다.'
+            })
+        })
+        .then(() => {
+            setTimeout(() => {
+                navigate('/servicecenter/inquirylist/admin');
+                window.scrollTo({top: 0});
+            }, 1500);
+        })
         .catch(error => {
             console.error('There was a problem with your fetch operation:', error);
     })}
     else{
-        alert("답변을 입력해주세요.")
+        Toast.fire({
+            icon: 'error',
+            title: '답변을 입력해주세요!'
+          })
     }
     }
 

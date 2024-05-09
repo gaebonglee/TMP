@@ -2,12 +2,30 @@ import React from 'react';
 import { useState } from 'react';
 import "./Inquiry.scss"
 import {useNavigate} from 'react-router-dom'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 const Inquiry = () => {
 
 const [inquiryData, setInquiryData] = useState({inquiry_type: "", inquiry_password: "", inquiry_contents: ""})
 const [checkState, setCheckState] = useState(false)
 const navigate = useNavigate()
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    iconColor: 'white',
+    customClass: {
+        popup: 'colored-toast',
+      },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
 const InputHandler = (e) => {
     const {name, value} = e.target
@@ -35,15 +53,25 @@ const SubmitHandler = (e) => {
     })
     .then(data => {
         console.log(data);
-        alert('접수가 완료되었습니다.')
-        navigate('/')
-        window.scrollTo({top: 0})
-})
+        Toast.fire({
+            icon: 'success',
+            title: '접수가 완료되었습니다.'
+          });     
+    })
+    .then(() => {
+        setTimeout(() => {
+            navigate('/')
+            window.scrollTo({top: 0})
+        }, 1500);
+    })
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
 })}
 else{
-    alert("내용을 입력하신 후 접수하기 버튼을 눌러주세요.")
+    Toast.fire({
+        icon: 'error',
+        title: '접수가 완료된 후 클릭하세요.'
+      });
 }
 }
 console.log(inquiryData)
@@ -75,7 +103,7 @@ console.log(inquiryData)
                                 문의 조회시 사용할 비밀번호<span className='aster'>*</span>
                             </div>
                             <div className='inquiry_password'>
-                                <input type="text" name='inquiry_password' placeholder='필수 입력' value={inquiryData.inquiry_password} onChange={InputHandler}/>
+                                <input type="password" name='inquiry_password' placeholder='필수 입력' value={inquiryData.inquiry_password} onChange={InputHandler}/>
                             </div>
                         </div>
                     </div>
