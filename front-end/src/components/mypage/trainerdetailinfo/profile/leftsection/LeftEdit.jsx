@@ -222,8 +222,6 @@ function LeftEdit({ data, userId }) {
   };
 
   const handleProgramSave = async (newProgram) => {
-    setProgram(newProgram);
-
     const newArr = newProgram.filter((value) => !!!value.program_id);
     const updateArr = newProgram.filter((value) => !!value.program_id);
 

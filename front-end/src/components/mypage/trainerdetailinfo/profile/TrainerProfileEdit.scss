@@ -55,9 +55,56 @@
 .trainer__program__titles {
   margin: 5px;
   padding: 15px;
+  // background-color: $green2;
+  // color: $white;
+  // display: inline-block;
+  border: 2px solid $green2;
+  border-radius: 8px;
+  font-size: $h3;
+}
+
+.trainer__program__title {
+  font-size: 16px;
+  font-weight: $font-weight-1;
+  color: $green2;
+}
+
+.trainer__program__specialties {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.trainer__program__specialty {
+  font-size: 13px;
+  font-weight: $font-weight-1;
   background-color: $green2;
   color: $white;
+  padding: 3px;
   border-radius: 8px;
-  display: inline-block;
-  font-size: $h3;
+}
+
+.trainer__program__hr {
+  margin: 7px 0px;
+}
+
+.trainer__program__imgs {
+  display: flex;
+  gap: 5px;
+}
+
+.trainer__program__imgs__box {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+}
+.trainer__program__img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.trainer__program__exp {
+  font-size: 13px;
+  white-space: pre-wrap;
 }

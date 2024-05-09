@@ -22,6 +22,10 @@ const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
     setPrograms(splitResult);
   }, []);
 
+  useEffect(() => {
+    setContent(programs);
+  }, [programs]);
+
   const handleSpecialtyChange = (programIndex, specialty) => {
     setPrograms((prevPrograms) => {
       const updatedPrograms = [...prevPrograms];
@@ -54,7 +58,6 @@ const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
     updatedPrograms[index][key] = [...updatedPrograms[index][key], ...value];
     setPrograms(updatedPrograms);
     setContent(updatedPrograms);
-    console.log(programs);
   };
 
   const specialtyOptions = [
@@ -94,6 +97,7 @@ const ProgramEdit = ({ content, setContent, userId, deletedArr }) => {
     const updatedPrograms = [...programs];
     updatedPrograms[programIndex].program_img.splice(photoIndex, 1);
     setPrograms(updatedPrograms);
+    setContent(updatedPrograms);
   };
 
   return (

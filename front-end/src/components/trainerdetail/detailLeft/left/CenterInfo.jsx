@@ -29,7 +29,7 @@ const CenterInfo = ({ data, centerPrice, sectionRefs }) => {
       </div>
       <div id="header_section9" ref={sectionRefs.current.header_section9}>
         <h1 className="centerInfo_h1_title">운영 시간</h1>
-        <div className="wrap_container">
+        <div className="wrap_container__2">
           {!!data.center_weekday && (
             <div className="trainer_centerInfo_time">
               <p className="trainer_centerInfo_time_title">평일</p>
@@ -61,7 +61,7 @@ const CenterInfo = ({ data, centerPrice, sectionRefs }) => {
             </div>
           )}
         </div>
-        {!!data.note && <p>{data.note}</p>}
+        {!!data.note && <p className="trainer__center__note">* {data.note}</p>}
       </div>
       {centerPrice.length !== 0 && (
         <div id="header_section10" ref={sectionRefs.current.header_section10}>
