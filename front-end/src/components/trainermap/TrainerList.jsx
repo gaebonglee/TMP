@@ -36,13 +36,15 @@ const TrainerList = (props) => {
         }}
       >
         {filter ? (
-          <>
-            {[...trainers].map((trainer, index) => (
+          trainers.length > 0 ? (
+            trainers.map((trainer, index) => (
               <Link key={index} to={`/trainerDetail/${trainer.user_id}`}>
                 <TrainerListItem key={index} trainer={trainer} />
               </Link>
-            ))}
-          </>
+            ))
+          ) : (
+            <h3>해당되는 트레이너 선생님이 안계셔요</h3>
+          )
         ) : (
           <FilterList
             setFilter={setFilter}

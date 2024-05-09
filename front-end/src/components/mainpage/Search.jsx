@@ -108,21 +108,12 @@ const Search = ({ setSearchCene }) => {
         <div className="searchKeyword">
           <input
             type="text"
-            placeholder={
-              searchKeyword ? "" : "지역, 지하철, 센터, 선생님 검색하기"
-            }
+            placeholder={searchKeyword ? "" : "선생님이 있는 센터 검색하기"}
             maxLength={"20"}
             name="keyword"
             autoComplete="off"
             value={searchKeyword}
             onChange={handleKeywordChange}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                alert("엔터키 누름");
-                handleKeywordChange();
-              }
-            }}
           />
           {searchKeyword && (
             <div className="cancel_icon" onClick={clearKeyword}>

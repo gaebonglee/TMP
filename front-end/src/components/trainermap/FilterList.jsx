@@ -28,6 +28,7 @@ const FilterList = (props) => {
     longitude: currentLongitude,
   });
 
+  console.log(filterData);
   const handleChange = (event) => {
     setValue(Number(event.target.value));
     setFilterData((prevFilterData) => ({
@@ -71,7 +72,6 @@ const FilterList = (props) => {
   };
 
   const handleFilter = () => {
-    
     fetch("http://localhost:5000/filter", {
       method: "POST",
       headers: {
@@ -108,7 +108,7 @@ const FilterList = (props) => {
         </div>
       </div>
       <hr />
-      <div className="filterSort">
+      {/* <div className="filterSort">
         <div className="SORT">정렬</div>
         <div className="sort">
           <div className="defaultSort">
@@ -148,7 +148,7 @@ const FilterList = (props) => {
             </label>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="searchRound">
         <div className="searchRoundTitle">
           <div>검색반경</div>
@@ -194,7 +194,7 @@ const FilterList = (props) => {
       <div className="genderBox">
         <div className="GENDER">성별</div>
         <div className="genderCheck">
-          <label>
+          {/* <label>
             <input
               type="radio"
               name="gender"
@@ -202,7 +202,7 @@ const FilterList = (props) => {
               onChange={() => setFilterData({ ...filterData, gender: "all" })}
             />
             전체
-          </label>
+          </label> */}
           <label>
             <input
               type="radio"
@@ -223,7 +223,7 @@ const FilterList = (props) => {
           </label>
         </div>
       </div>
-      <div className="comfort">
+      {/* <div className="comfort">
         <div>이용편의</div>
         <div className="comfortBox">
           {comfort.map((comfort, index) => (
@@ -232,7 +232,7 @@ const FilterList = (props) => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       <div className="btn_area">
         <button id="filterBtn" onClick={handleFilter}>
           필터 적용하기

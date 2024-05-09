@@ -79,7 +79,7 @@ const SearchInput = (props) => {
             id="searchBar"
             ref={searchBarRef}
             type="text"
-            placeholder="지역,지하철역,센터,선생님 검색하기"
+            placeholder="선생님이 있는 센터 검색하기"
             value={inputValue}
             onChange={handleInputChange}
             autoComplete="off"
