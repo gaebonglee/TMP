@@ -27,7 +27,7 @@ const Search = ({ setSearchCene }) => {
     // 검색 데이터 가져오기
     const fetchSearchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/center/centerall");
+        const response = await fetch("http://localhost:5000/center");
         if (!response.ok) {
           throw new Error(`HTTP 에러 ${response.status}`);
         }

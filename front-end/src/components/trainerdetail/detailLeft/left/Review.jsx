@@ -474,7 +474,7 @@ const Review = () => {
             <img
               src={`${`${
                 process.env.REACT_APP_FILE_SERVER_URL
-              }/review/${sessionUserId}/${
+              }/review/${receivedId}/${
                 reviewList[reviewIndex.current].review_img?.split(",")[
                   expandedImageIndex
                 ] || ""
