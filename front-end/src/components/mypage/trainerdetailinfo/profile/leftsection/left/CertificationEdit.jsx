@@ -44,7 +44,11 @@ const CertificationEdit = ({ content, setContent, userId, deletedArr }) => {
 
   const handleCertificationPhotoChange = (index, photo) => {
     const updatedCertifications = [...certifications];
-    updatedCertifications[index].certification_img = photo;
+    const randomStr = "R" + Math.floor(Math.random() * 10000);
+    const newFile = new File([photo], `${randomStr}${photo.name}`, {
+      type: photo.type,
+    });
+    updatedCertifications[index].certification_img = newFile;
     updatedCertifications[index].showPhoto = true;
     setCertifications(updatedCertifications);
     setContent(updatedCertifications);

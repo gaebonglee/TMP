@@ -154,18 +154,26 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
                     </li>
                     <hr className="trainer__program__hr" />
                     <li className="trainer__program__imgs">
-                      {programImgArr.map((piv, i) => (
-                        <div className="trainer__program__imgs__box" key={i}>
-                          <img
-                            className="trainer__program__img"
-                            src={
-                              piv.includes("blob:")
-                                ? `${piv}`
-                                : `${process.env.REACT_APP_FILE_SERVER_URL}/program/${v.user_id}/${v.program_id}/${piv}`
-                            }
-                          />
-                        </div>
-                      ))}
+                      {programImgArr.map((piv, i) => {
+                        if (piv === null || piv === undefined || piv === "") {
+                          return <div key={i}></div>;
+                        } else
+                          return (
+                            <div
+                              className="trainer__program__imgs__box"
+                              key={i}
+                            >
+                              <img
+                                className="trainer__program__img"
+                                src={
+                                  piv.includes("blob:")
+                                    ? `${piv}`
+                                    : `${process.env.REACT_APP_FILE_SERVER_URL}/program/${v.user_id}/${v.program_id}/${piv}`
+                                }
+                              />
+                            </div>
+                          );
+                      })}
                     </li>
                     <hr className="trainer__program__hr" />
                     <li className="trainer__program__exp">{v.program_exp}</li>

@@ -191,14 +191,20 @@ function LeftEdit({ data, userId }) {
       if (typeof newArr[i].certification_img === "object") {
         newArr[i].certification_img = newArr[i].certification_img.name;
       }
+      const result = await fetch(
+        "http://localhost:5000/file/insert-certifications-db",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: newArr[i], userId }),
+        }
+      );
+
+      const data = await result.json();
+      newArr[i].certification_id = data.result;
     }
-    await fetch("http://localhost:5000/file/insert-certifications-db", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data: newArr, userId }),
-    });
   };
 
   const handleIntroImgSave = (newIntroImg) => {

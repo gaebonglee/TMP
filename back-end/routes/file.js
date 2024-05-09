@@ -259,11 +259,9 @@ router.post("/insert-certifications-db", async (req, res) => {
   try {
     const { data, userId } = req.body;
 
-    for (let i = 0; i < data.length; i++) {
-      await file.insertTrainerCertifications(data[i], userId);
-    }
+    const result = await file.insertTrainerCertifications(data, userId);
 
-    res.send({ result: `Success insert files` });
+    res.send({ result: result.insertId });
   } catch (error) {
     console.error("Error insert files:", error);
     res.status(500).send("Failed to insert files");
