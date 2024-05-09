@@ -5,7 +5,7 @@ import { FaStar } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-
+import { RiDeleteBin5Line } from "react-icons/ri";
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -122,6 +122,8 @@ const Review = () => {
 
     if (!sessionUserId) {
       alert("회원 로그인이 필요합니다.");
+      handleCloseModal();
+
       return;
     }
 
@@ -190,6 +192,34 @@ const Review = () => {
     return totalPoint / reviewList.length;
   };
 
+  function handleDelete() {
+    let conf = window.confirm("리뷰를 삭제하시겠습니까?");
+    if (conf) {
+      fetch(`http://localhost:5000/review/delete/${receivedId}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: sessionUserId,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.message === "SUCCESS") {
+            alert("리뷰가 삭제되었습니다.");
+            window.location.reload();
+          } else {
+            throw new Error(data.message || "리뷰 삭제에 실패했습니다.");
+          }
+        })
+        .catch((error) => {
+          console.error("리뷰 삭제 중 오류 발생:", error);
+          alert("리뷰 삭제에 실패했습니다.");
+        });
+    }
+  }
   return (
     <div className="review" id="intro_page_contents_wrap">
       <h1>후기</h1>
@@ -253,6 +283,13 @@ const Review = () => {
                           <span className="reviewDate">
                             {review.register_date?.slice(0, 10) || ""}
                           </span>
+                          {sessionUserId === review.user_id ? (
+                            <RiDeleteBin5Line
+                              onClick={handleDelete}
+                              className="deleteReview"
+                              size={24}
+                            />
+                          ) : null}
                         </div>
                         <div className="reviewStar">
                           <div className="star_wrap">

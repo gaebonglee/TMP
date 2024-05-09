@@ -96,14 +96,16 @@ const TrainerListItem = (props) => {
       </div>
       <div className="moraeLocation">
         <TbMapPin className="mappin" size={20} />{" "}
-        {trainer.center_address ? trainer.center_address : "-"}
-        <br />{" "}
+        {trainer.center_address ? trainer.center_address.slice(0, 23) : "-"}
+        <br /> <br />
         {trainer.center_street_address ? trainer.center_street_address : ""}
       </div>
       <div className="moraeReview">
         <BsFillStarFill size={18} color="rgb(255,187,51)" /> 후기{" "}
         {reviewCount.review_total_count}개
-        <div>{Number(reviewCount.review_avg_star).toFixed(1)}</div>
+        <div style={{ fontSize: "12px" }}>
+          {Number(reviewCount.review_avg_star).toFixed(1)}
+        </div>
       </div>
       {user && user.user_img === null ? (
         <img

@@ -5,6 +5,7 @@ const upload = multer(); // multer 미들웨어 생성
 
 const selectReviewAll = require("../sql/review/select");
 const insertReviewAll = require("../sql/review/insert");
+const deleteReview = require("../sql/review/delete");
 
 // multer 미들웨어 적용
 router.use(upload.any());
@@ -42,6 +43,20 @@ router.post("/", (req, res) => {
       console.error(err);
       res.status(500).send("Internal Server Error");
     });
+});
+
+router.post("/delete/:trainerId", (req, res) => {
+  const { received_id } = req.params;
+  console.log(received_id);
+  deleteReview.deleteReview(received_id, (err, result) => {
+    if (err) {
+      console.error("err:" + err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).json(result);
+      console.log("delte" + result);
+    }
+  });
 });
 
 module.exports = router;
