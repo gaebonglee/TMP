@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 const UndongMap = (props) => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
-  const [newCenter, setNewCenter] = useState(null);
+
   const {
     trainers,
     setTrainers,
@@ -19,6 +19,7 @@ const UndongMap = (props) => {
     currentLongitude,
     searchCenter,
     setIsLoading,
+    newCenter,
   } = props;
   const markers = useRef([]);
   const currentLocationMarker = useRef(null);
@@ -31,12 +32,11 @@ const UndongMap = (props) => {
   var urlLng = null;
 
   var cCenter;
-  useEffect(() => {
-    if (map) {
-      setNewCenter([map.getCenter().y, map.getCenter().x]);
-      console.log(newCenter);
-    }
-  }, [map]);
+  // useEffect(() => {
+  //   if (map) {
+  //     console.log(newCenter);
+  //   }
+  // }, [newCenter]);
 
   useEffect(() => {
     if (url.search !== "") {
@@ -67,30 +67,52 @@ const UndongMap = (props) => {
         }
       }
     };
+
     if (mapRef.current && window.naver && window.naver.maps) {
       if (urlLat == null) {
-        initMapAfterLocationUpdate();
-      } else if (newCenter.current !== null) {
-        setCurrentLatitude(newCenter.current[0]);
-        setCurrentLongitude(newCenter.current[1]);
-        console.log(newCenter.current);
+        if (newCenter.current !== null) {
+          setCurrentLatitude(newCenter.current[0]);
+          setCurrentLongitude(newCenter.current[1]);
+          console.log("newcenter.current:" + newCenter.current);
+        } else {
+          initMapAfterLocationUpdate();
+          updateCurrentLocation();
+          console.log("initmapafterlocationupdate");
+        }
       } else {
         setCurrentLatitude(urlLat);
         setCurrentLongitude(urlLng);
-
-        console.log(urlLat, urlLng);
+        console.log("urlLat:" + urlLat + "urlLng:" + urlLng);
       }
+      initMap();
     }
-    initMap();
   }, [currentLatitude]);
 
-  const initMap = useCallback(() => {
+  if (map) {
+    window.naver.maps.Event.addListener(map, "bounds_changed", function () {
+      newCenter.current = [map.getCenter().y, map.getCenter().x];
+    });
+  }
+  const initMap = () => {
     if (window.naver && window.naver.maps) {
       cCenter = new window.naver.maps.LatLng(currentLatitude, currentLongitude);
       const mapOptions = {
         center: cCenter,
         zoom: 15,
         scrollWheel: true,
+        draggable: true,
+        disableDoubleClickZoom: false,
+        scaleControl: true,
+        zoomControl: true,
+        zoomControlOptions: {
+          style: window.naver.maps.ZoomControlStyle.SMALL,
+          position: window.naver.maps.Position.TOP_RIGHT,
+        },
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+          style: window.naver.maps.MapTypeControlStyle.BUTTON,
+          position: window.naver.maps.Position.TOP_RIGHT,
+        },
       };
       const newMap = new window.naver.maps.Map(mapRef.current, mapOptions);
       setMap(newMap);
@@ -192,11 +214,12 @@ const UndongMap = (props) => {
           newMap.panTo(markerLocation);
 
           setTrainerIndex(index);
+          console.log("trainerindedx" + index);
         });
       });
       setIsLoading(false);
     }
-  }, [currentLatitude, currentLongitude, trainers]);
+  };
 
   useEffect(() => {
     if (map && searchCenter[0] && searchCenter[1]) {
@@ -320,10 +343,6 @@ const UndongMap = (props) => {
           // 추가 동작 구현...
         });
       });
-
-      // 지도 중심 위치 유지
-      const center = new window.naver.maps.LatLng(newCenter[0], newCenter[1]);
-      map.setCenter(center);
     } catch (error) {
       console.error("Error fetching trainers:", error);
     } finally {
