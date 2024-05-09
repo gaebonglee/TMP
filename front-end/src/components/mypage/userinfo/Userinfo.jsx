@@ -1,6 +1,8 @@
 import React, {useState, useEffect } from 'react';
 import './Userinfo.scss';
 import {useNavigate} from 'react-router-dom'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 const Userinfo = () => {
 
@@ -9,6 +11,22 @@ const [showCertificateButton, setShowCertificateButton] = useState(false);
 const [certificateNumber, setCertificateNumber] = useState(null)
 const [certificateStatus, setCertificateStatus] = useState(false)
 const [shouldNavigate, setShouldNavigate] = useState(false)
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    iconColor: 'white',
+    customClass: {
+        popup: 'colored-toast',
+      },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
 const InputHandler = (e) => {
     const {name, value} = e.target
@@ -73,19 +91,28 @@ const UpdateHandler = (e) => {
         return response.json();
     })
     .then(data => {
-        
         setUserData((prev)=>{
            return {...prev, name: data[0]?.name, email: data[0]?.email, phonenumber: data[0]?.phonenumber, user_id: data[0]?.user_id }
         })
-        alert('업데이트가 완료되었습니다.')
+        Toast.fire({
+            icon: 'success',
+            title: '업데이트가 완료되었습니다.'
+          })
+    })
+    .then(() => {
+        setTimeout(() => {
         setShouldNavigate(true)
-})
+        }, 1500)
+    })
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
 });
     }
     else{
-        alert("휴대폰 인증절차를 완료해주세요.")
+        Toast.fire({
+            icon: 'error',
+            title: '휴대폰 인증절차를 완료해주세요.'
+          })
     }
 };
 
@@ -110,10 +137,16 @@ const GenerateSixDigitNumber = () => {
   const CheckNumber = () => {
     if(certificateNumber === parseInt(userData.certification)){
       setCertificateStatus(true)
-      return alert("번호 인증이 완료되었습니다.")
+      return Toast.fire({
+        icon: 'success',
+        title: '번호 인증이 완료되었습니다.'
+      })
     }
     else{
-      return alert("인증번호가 틀렸습니다. 다시 시도해주세요.")
+      return Toast.fire({
+        icon: 'error',
+        title: '인증번호가 틀렸습니다. 다시 시도해주세요.'
+      })
     }
   }
 
@@ -187,7 +220,6 @@ const GenerateSixDigitNumber = () => {
                     <div className='user_info_button'>
                         <button type='submit'>정보 업데이트</button>
                     </div>
-                    <div className='user_info_cancle'>회원 탈퇴</div>
                 </div>
             </div>
         </form>

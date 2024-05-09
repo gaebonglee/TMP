@@ -3,6 +3,8 @@ import "./Coachinfo.scss";
 import { SlMagnifier } from "react-icons/sl";
 import CenterSearchModal from "./CenterSearch";
 import {useNavigate} from 'react-router-dom'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 const Coachinfo = () => {
   const [coachData, setCoachData] = useState({
@@ -24,6 +26,22 @@ const Coachinfo = () => {
   const [certificateStatus, setCertificateStatus] = useState(false)
   const [shouldNavigate, setShouldNavigate] = useState(false)
   const navigate = useNavigate()
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    iconColor: 'white',
+    customClass: {
+        popup: 'colored-toast',
+      },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
   const ShowModal = () => {
     setModalOpen(true);
@@ -123,15 +141,25 @@ useEffect(()=>{
       })
       .then((data) => {
         console.log(data);
-        alert("업데이트가 완료되었습니다.");
-        setShouldNavigate(true)
+        Toast.fire({
+          icon: 'success',
+          title: '업데이트가 완료되었습니다.'
+        })
+      })
+      .then(() => {
+        setTimeout(() => {
+          setShouldNavigate(true)
+        }, 1500)
       })
       .catch((error) => {
         console.error("There was a problem with your fetch operation:", error);
       });
     }
     else{
-      alert("휴대폰 인증절차를 완료해주세요.")
+      Toast.fire({
+        icon: 'error',
+        title: '휴대폰 인증절차를 완료해주세요.'
+      })
     }
   };
 
@@ -169,29 +197,18 @@ useEffect(()=>{
   const CheckNumber = () => {
     if(certificateNumber === parseInt(coachData.certification)){
       setCertificateStatus(true)
-      return alert("번호 인증이 완료되었습니다.")
+      return Toast.fire({
+        icon: 'success',
+        title: '번호 인증이 완료되었습니다.'
+      })
     }
     else{
-      return alert("인증번호가 틀렸습니다. 다시 시도해주세요.")
+      return Toast.fire({
+        icon: 'error',
+        title: '인증번호가 틀렸습니다. 다시 시도해주세요.'
+      })
     }
   }
-  
-//   const deleteInfo = () => {
-      
-//     fetch("http://localhost:5000/mypage/deleteInfo")
-//       .then((response)=>{
-//         if(!response.ok){
-//           throw new Error(`HTTP error! status: ${response.status}`);
-//         }
-//           return response.json
-//       })
-//       .then((data)=>{
-//         console.log(data)
-//         return console.log("data deleted successfully")
-//       })
-//       .catch(error => {
-//         console.error('There was a problem with your fetch operation:', error);
-// });
 
 
   return (
@@ -328,7 +345,6 @@ useEffect(()=>{
             <div className="coach_info_button">
               <button type="submit">정보 업데이트</button>
             </div>
-            <div className="coach_info_cancle">회원 탈퇴</div>
           </div>
         </div>
       </form>
