@@ -1,5 +1,7 @@
+@import "../../common.scss";
+
 .DetailMainContents {
-  background-color: #f7f9fa;
+  background-color: $background;
 }
 .DetailMain {
   max-width: 1136px;
