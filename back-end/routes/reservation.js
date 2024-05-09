@@ -1,27 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { selectTrainerName } = require("../sql/reservation/selectTrainerName");
 const { saveReservation } = require("../sql/reservation/saveReservation");
 const { selectLesson } = require("../sql/mypage/calendar/selectlesson");
 const { selectMember } = require("../sql/reservation/selectMember");
 const {
   selectReservationList,
 } = require("../sql/reservation/selectReservationList");
+const { allLessonDates } = require ("../sql/mypage/calendar/allLessonDates");
 
-// 트레이너 이름 가져오기
-router.get("/trainer/:userId", (req, res) => {
-  // console.log("Requested user ID:", req.params.userId);
-  const userId = req.params.userId;
-  selectTrainerName(userId, (error, name) => {
-    if (error) {
-      res.status(500).send({ error: "Server error" });
-    } else if (name) {
-      res.json({ name });
-    } else {
-      res.status(404).send({ error: "Trainer not found" });
-    }
-  });
-});
 
 // 예약 정보 저장
 router.post("/saveReservation", (req, res) => {
@@ -50,7 +36,7 @@ router.get("/selectLessonInfo/:reservationDate/:trainerId", (req, res) => {
     } else if (results.length > 0) {
       res.json(results);
     } else {
-      res.json([]); 
+      res.json([]);
     }
   });
 });
