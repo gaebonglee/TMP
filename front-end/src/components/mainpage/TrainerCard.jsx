@@ -18,7 +18,6 @@ const TrainerCard = () => {
   if (isPending) return <div></div>;
 
   if (error) return "An error has occurred: " + error.message;
-  console.log("random trainer :: ", data);
   return (
     <section className="ai_container">
       <div>

@@ -1,6 +1,6 @@
 @import "../../../../common.scss";
 
-.lesson_title {
+.trainerdetail__lesson_title {
   color: $darkgray;
   font-size: $h3;
   padding-bottom: 12px;
@@ -9,7 +9,7 @@
   font-weight: bold;
   border-bottom: 1px solid $lightgray;
 }
-.lesson_li {
+.trainerdetail__lesson_li {
   border-bottom: 1px solid $lightgray;
   display: flex;
   text-align: center;
@@ -18,21 +18,21 @@
   height: 72px;
 }
 
-.lesson_text {
+.trainerdetail__lesson_text {
   color: $darkgray;
 }
 
-.priceCount {
+.trainerdetail__priceCount {
   flex-basis: 70px;
   min-width: 40px;
 }
 
-.pricePer {
+.trainerdetail__pricePer {
   flex-basis: 200px;
   min-width: 110px;
 }
 
-.priceTotal {
+.trainerdetail__priceTotal {
   flex-basis: 150px;
   min-width: 90px;
 }

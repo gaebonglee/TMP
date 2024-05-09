@@ -126,12 +126,50 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
               "아직 작성된 내용이 없습니다."
             ))}
           {title === "프로그램" &&
-            content.map((v, i) => {
+            editedContent.map((v, i) => {
+              const programImgArr =
+                typeof v.program_img === "object"
+                  ? v.program_img.map((v, i) => {
+                      if (typeof v === "object") {
+                        return URL.createObjectURL(v);
+                      } else {
+                        return v;
+                      }
+                    })
+                  : v.program_img.split(",");
+              const programSpecialtyArr =
+                typeof v.specialty === "string"
+                  ? v.specialty.split(",")
+                  : v.specialty;
               if (v.program_id !== null) {
                 return (
-                  <div key={i} className="trainer__program__titles">
-                    🎉 {v.title}
-                  </div>
+                  <ul key={i} className="trainer__program__titles">
+                    <li className="trainer__program__title">{v.title}</li>
+                    <li className="trainer__program__specialties">
+                      {programSpecialtyArr.map((v, i) => (
+                        <p key={i} className="trainer__program__specialty">
+                          {v}
+                        </p>
+                      ))}
+                    </li>
+                    <hr className="trainer__program__hr" />
+                    <li className="trainer__program__imgs">
+                      {programImgArr.map((piv, i) => (
+                        <div className="trainer__program__imgs__box" key={i}>
+                          <img
+                            className="trainer__program__img"
+                            src={
+                              piv.includes("blob:")
+                                ? `${piv}`
+                                : `${process.env.REACT_APP_FILE_SERVER_URL}/program/${v.user_id}/${v.program_id}/${piv}`
+                            }
+                          />
+                        </div>
+                      ))}
+                    </li>
+                    <hr className="trainer__program__hr" />
+                    <li className="trainer__program__exp">{v.program_exp}</li>
+                  </ul>
                 );
               } else {
                 return "아직 작성된 내용이 없습니다.";
@@ -144,12 +182,16 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
                   return;
                 }
                 return (
-                  <li key={i} className="lesson_li">
-                    <div className="priceCount">{v.count}회</div>
-                    <p className="pricePer">
-                      회당 {(v.total_price / v.count).toLocaleString("ko-KR")}원
+                  <li key={i} className="trainerdetail__lesson_li">
+                    <div className="trainerdetail__priceCount">{v.count}회</div>
+                    <p className="trainerdetail__pricePer">
+                      회당{" "}
+                      {(
+                        Math.round(v.total_price / v.count / 1000) * 1000
+                      ).toLocaleString("ko-KR")}
+                      원
                     </p>
-                    <p className="priceTotal">
+                    <p className="trainerdetail__priceTotal">
                       {Number(v.total_price)
                         ? Number(v.total_price).toLocaleString("ko-KR")
                         : 0}
