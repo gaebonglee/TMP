@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import TrainerList from "../components/trainermap/TrainerList";
 import UndongMap from "../components/trainermap/UndongMap";
 import LoadingSpinner from "components/trainermap/LoadingSpinner";
@@ -10,8 +10,9 @@ const TotalTrainer = () => {
   const [currentLongitude, setCurrentLongitude] = useState(126.978);
   const [isLoading, setIsLoading] = useState(false);
   const [searchCenter, setSearchCenter] = useState([]);
-
+  const newCenter = useRef(null);
   useEffect(() => {
+    console.log(newCenter);
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -68,6 +69,7 @@ const TotalTrainer = () => {
           currentLongitude={currentLongitude}
           setCurrentLatitude={setCurrentLatitude}
           setCurrentLongitude={setCurrentLongitude}
+          newCenter={newCenter}
         />
       )}
     </>

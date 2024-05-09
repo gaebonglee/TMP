@@ -10,7 +10,7 @@ const SearchInput = (props) => {
   const searchBarRef = useRef(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/center/centerall")
+    fetch("http://localhost:5000/center")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP 에러 ${response.status}`);

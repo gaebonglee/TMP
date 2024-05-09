@@ -137,18 +137,22 @@ function selectFilter(filter, callback) {
   mysql.query(
     `
     SELECT DISTINCT
-      c.center_id, c.center_name, c.center_address, c.latitude, c.longitude,
-      t.user_id,
-      tp.count, tp.total_price,
-      u.user_name, u.gender
-    FROM center c
-    JOIN trainer t ON c.center_id = t.center_id
-    JOIN trainer_price tp ON t.user_id = tp.user_id
-    JOIN user u ON t.user_id = u.user_id
-    WHERE c.latitude BETWEEN ? AND ?
-      AND c.longitude BETWEEN ? AND ?
-      AND tp.total_price / tp.count <= ?
-      AND (u.gender IN ('m', 'f') OR ? = 'all')
+    c.center_id, c.center_name, c.center_address, c.latitude, c.longitude,
+    t.user_id,
+    tp.count, tp.total_price,
+    u.user_name, u.gender
+FROM center c
+JOIN trainer t ON c.center_id = t.center_id
+JOIN (
+    SELECT user_id, MAX(total_price / count) AS max_price, count, total_price
+    FROM trainer_price
+    GROUP BY user_id
+) tp ON t.user_id = tp.user_id
+JOIN user u ON t.user_id = u.user_id
+WHERE c.latitude BETWEEN ? AND ?
+    AND c.longitude BETWEEN ? AND ?
+    AND tp.max_price <= ?
+    AND (u.gender IN ('m', 'f') OR ? = 'all')
     `,
     [
       filter.latitude - lat,
@@ -163,6 +167,7 @@ function selectFilter(filter, callback) {
         callback(err, null);
       } else {
         callback(null, result);
+        console.log(result);
       }
     }
   );
