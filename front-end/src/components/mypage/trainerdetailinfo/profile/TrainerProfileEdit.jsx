@@ -182,12 +182,16 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
                   return;
                 }
                 return (
-                  <li key={i} className="lesson_li">
-                    <div className="priceCount">{v.count}회</div>
-                    <p className="pricePer">
-                      회당 {(v.total_price / v.count).toLocaleString("ko-KR")}원
+                  <li key={i} className="trainerdetail__lesson_li">
+                    <div className="trainerdetail__priceCount">{v.count}회</div>
+                    <p className="trainerdetail__pricePer">
+                      회당{" "}
+                      {(
+                        Math.round(v.total_price / v.count / 1000) * 1000
+                      ).toLocaleString("ko-KR")}
+                      원
                     </p>
-                    <p className="priceTotal">
+                    <p className="trainerdetail__priceTotal">
                       {Number(v.total_price)
                         ? Number(v.total_price).toLocaleString("ko-KR")
                         : 0}
