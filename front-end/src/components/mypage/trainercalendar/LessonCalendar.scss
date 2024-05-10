@@ -94,10 +94,17 @@
   padding: 25px 0;
 }
 
+.lesson_infoContent {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid $lightgray;
+  border-radius: $border-radius-4;
+  box-shadow: 0px 4px 6px rgba(218, 224, 230, 0.25);
+}
 .reservation_dot {
-  background-color: red;
+  background-color: $red;
   border-radius: 50%;
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   font-weight: $font-weight-2;
 }

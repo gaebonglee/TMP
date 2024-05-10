@@ -129,7 +129,7 @@ const LessonCalendar = () => {
                 <div className="lesson_list">
                   {lessons.length > 0 ? (
                     lessons.map((lesson, idx) => (
-                      <div key={idx}>
+                      <div key={idx} className="lesson_infoContent">
                         <p>회원 이름 : {lesson.user_name}</p>
                         <p>예약 시간 : {lesson.reservation_time}</p>
                         <p>선택 항목 : {lesson.selected_list}</p>
