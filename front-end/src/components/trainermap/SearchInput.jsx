@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { TbAdjustmentsAlt } from "react-icons/tb";
 import { RiMapPin2Fill } from "react-icons/ri";
+import { ImCancelCircle } from "react-icons/im";
+import "./SearchInput.scss";
+import { GiWhistle } from "react-icons/gi";
 
 const SearchInput = (props) => {
   const [inputValue, setInputValue] = useState("");
@@ -22,12 +25,6 @@ const SearchInput = (props) => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   if (props.searchCenter !== null) {
-  //     setInputValue(`${props.searchCenter}`);
-  //   }
-  // }, [props.searchCenter]);
-
   function filterHandler() {
     props.setFilter((prevFilter) => !prevFilter);
   }
@@ -35,24 +32,24 @@ const SearchInput = (props) => {
   function handleInputChange(event) {
     const value = event.target.value;
     setInputValue(value);
+
     if (value.length >= 1) {
       setShowSuggestions(true);
-      const newSuggestions = getSuggestions(value);
-      setSuggestions(newSuggestions);
     } else {
       setShowSuggestions(false);
-      setSuggestions([]);
     }
   }
 
-  function getSuggestions(value) {
-    const suggestions = searchingData.filter((item) => {
-      const itemName =
-        `${item.center_name} ${item.center_address}`.toLowerCase();
-      return itemName.includes(value.toLowerCase());
-    });
-    return suggestions;
-  }
+  const clearKeyword = () => {
+    setInputValue("");
+    setShowSuggestions(false);
+  };
+
+  const filteredSuggestions = searchingData.filter((item) => {
+    const itemName =
+      `${item.center_name} ${item.center_address} ${item.user_name}`.toLowerCase();
+    return itemName.includes(inputValue.toLowerCase());
+  });
 
   const handleSuggestionClick = (suggestion) => {
     setInputValue(`${suggestion.center_name}`);
@@ -79,34 +76,52 @@ const SearchInput = (props) => {
             id="searchBar"
             ref={searchBarRef}
             type="text"
-            placeholder="선생님이 있는 센터 검색하기"
+            placeholder={inputValue ? "" : "선생님이 있는 센터 검색하기"}
+            maxLength={"20"}
             value={inputValue}
             onChange={handleInputChange}
             autoComplete="off"
           />
+          {inputValue && (
+            <div className="cancel_icon" onClick={clearKeyword}>
+              <ImCancelCircle />
+            </div>
+          )}
         </div>
+        {showSuggestions && (
+          <div className="listContainer">
+            {filteredSuggestions.length > 0 ? (
+              <ul className="suggention-item-list">
+                {filteredSuggestions.map((suggestion) => (
+                  <li
+                    className="suggestion-item"
+                    key={suggestion.center_id}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    <h4>
+                      <RiMapPin2Fill className="buildingIcon" />
+                      {suggestion.center_name}
+                    </h4>
+                    <div>
+                      <span className="trainerName">
+                        <GiWhistle className="trainerWhistle" size={21} />
+                        <b>{suggestion.user_name}</b> 선생님
+                      </span>
+                      <span className="addressSpan">
+                        {suggestion.center_address.slice(6, 14)}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="noSearch">
+                <h4>검색 결과가 없습니다.</h4>
+              </div>
+            )}
+          </div>
+        )}
       </div>
-      {showSuggestions && suggestions.length > 0 && (
-        <div className="listContainer">
-          <ul className="suggention-item-list">
-            {suggestions.map((suggestion) => (
-              <li
-                className="suggestion-item"
-                key={suggestion.center_id}
-                onClick={() => handleSuggestionClick(suggestion)}
-              >
-                <div className="flexBox">
-                  <RiMapPin2Fill className="buildingIcon" size={24} />
-                  <h4>{suggestion.center_name}</h4>
-                </div>
-                <span className="addressSpan">
-                  {suggestion.center_address.slice(0, 9)}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };

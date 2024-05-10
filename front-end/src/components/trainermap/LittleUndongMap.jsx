@@ -37,7 +37,7 @@ const LittleUndongMap = ({ lat, longi }) => {
         position: location,
         map: map,
         icon: {
-          content: `<div class="markerWrap markerActiveWrap">선생님</div><div class="markerPin markerActivePin"></div>`,
+          content: `<div class="markerWrap markerActiveWrap">트레이너</div><div class="markerPin markerActivePin"></div>`,
           size: new naver.maps.Size(38, 58),
           anchor: new naver.maps.Point(19, 58),
         },

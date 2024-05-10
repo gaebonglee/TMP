@@ -12,7 +12,7 @@ const TotalTrainer = () => {
   const [searchCenter, setSearchCenter] = useState([]);
   const newCenter = useRef(null);
   useEffect(() => {
-    console.log(newCenter);
+   
     const fetchData = async () => {
       setIsLoading(true);
       try {

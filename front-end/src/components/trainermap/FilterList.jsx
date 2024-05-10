@@ -9,6 +9,7 @@ const FilterList = (props) => {
     setTrainers,
     setFilter,
     setIsloading,
+    trainers,
   } = props;
 
   const [value, setValue] = useState(500);
@@ -22,7 +23,7 @@ const FilterList = (props) => {
     meter: 500,
     price: 4,
     comfort: [],
-    gender: "all",
+    gender: "m",
     sort: "defaultSort",
     latitude: currentLatitude,
     longitude: currentLongitude,
@@ -64,7 +65,7 @@ const FilterList = (props) => {
       meter: 500,
       price: 4,
       comfort: [],
-      gender: "all",
+      gender: "m",
       sort: "defaultSort",
       latitude: currentLatitude,
       longitude: currentLongitude,
@@ -218,6 +219,7 @@ const FilterList = (props) => {
               name="gender"
               checked={filterData.gender === "m"}
               onChange={() => setFilterData({ ...filterData, gender: "m" })}
+              defaultChecked
             />
             남성
           </label>

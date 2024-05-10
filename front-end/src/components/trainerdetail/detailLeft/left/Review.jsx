@@ -297,11 +297,11 @@ const Review = () => {
               </div>
             </>
           ) : (
-            <div className="flexBox">
-              <div
-                className="review_btn"
-                style={{ justifyContent: "flex-end" }}
-              >
+            <div className="flexBox" style={{ flex: 1 }}>
+              <div>
+                <h4>리뷰를 작성해주세요.</h4>
+              </div>
+              <div className="review_btn">
                 <button onClick={handleReview}>
                   <LuPencilLine />
                   <a className="create_review">리뷰 남기기</a>

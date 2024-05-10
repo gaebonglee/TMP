@@ -9,6 +9,7 @@ function selectCenterAll(callback) {
     u.gender,
     MAX(r.point) AS point,
     t.intro_img,
+    t.short_intro,
     c.center_name,
     c.center_address,
     c.latitude,
@@ -137,7 +138,7 @@ function selectFilter(filter, callback) {
   mysql.query(
     `
     SELECT
-    c.center_id, c.center_name, c.center_address, c.latitude, c.longitude,
+    c.center_id, c.center_name, c.center_address, c.center_street_address,c.latitude, c.longitude,t.short_intro,
     t.user_id,
     tp.count, tp.total_price,
     u.user_name, u.gender
@@ -176,7 +177,7 @@ function selectCurrentLocation(currentLocation, callback) {
   mysql.query(
     `
     SELECT DISTINCT
-      c.center_id, c.center_name, c.center_address, c.latitude, c.longitude,
+      c.center_id, c.center_name, c.center_address, c.center_street_address, c.latitude, c.longitude,
       t.user_id,
       u.user_name, u.gender
     FROM center c
@@ -205,7 +206,13 @@ function selectCurrentLocation(currentLocation, callback) {
 function selectUser(user_id, callback) {
   mysql.query(
     `
-    SELECT * FROM user WHERE user_id = ?
+    SELECT * 
+    FROM user u
+    
+    WHERE user_id = ?;
+    
+    ;
+    
     `,
     [user_id],
     (err, result) => {
