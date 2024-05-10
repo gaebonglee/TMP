@@ -40,7 +40,7 @@ const TrainerInfoNav = (props) => {
       </div>
       <div className="myInfoHr"></div>
       <div
-        className="trainerDetailInfoBtn"
+        className="myInfoBtn"
         onClick={() => {
           navigate(`/trainerProfileEdit`);
         }}
@@ -49,7 +49,7 @@ const TrainerInfoNav = (props) => {
       </div>
       <div className="myInfoHr"></div>
       <div
-        className="leesonPageBtn"
+        className="myInfoBtn"
         onClick={() => {
           navigate(`/mypage/lessonpage`);
         }}
