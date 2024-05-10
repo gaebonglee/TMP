@@ -97,7 +97,7 @@ const TrainerListItem = (props) => {
       <div className="moraeLocation">
         <TbMapPin className="mappin" size={20} />{" "}
         {trainer.center_address ? trainer.center_address.slice(0, 23) : "-"}
-        <br /> <br />
+        <br />
         {trainer.center_street_address ? trainer.center_street_address : ""}
       </div>
       <div className="moraeReview">

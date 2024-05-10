@@ -120,7 +120,7 @@ const Search = ({ setSearchCene }) => {
               <ImCancelCircle />
             </div>
           )}
-          {showSuggestions && filteredResults.length > 0 && (
+          {showSuggestions && filteredResults.length > 0 ? (
             <div className="searchListbox">
               <ul className="suggention-item-list">
                 {filteredResults.map((result, index) => (
@@ -142,15 +142,21 @@ const Search = ({ setSearchCene }) => {
                 ))}
               </ul>
             </div>
+          ) : (
+            showSuggestions && (
+              <div className="searchListbox">
+                <h4>검색 결과가 없습니다.</h4>
+              </div>
+            )
           )}
         </div>
         <div className="search_icon">
           <button className="src_btn">
             <FiSearch style={{ paddingTop: "5px" }} />
-            {searchKeyword ? (
+            {searchKeyword && filteredResults.length > 0 && searchLocation ? (
               <Link to={`/trainermap?center=${searchLocation}`}>검색하기</Link>
             ) : (
-              <Link to="/trainermap">검색하기</Link>
+              <span>검색하기</span>
             )}
           </button>
         </div>
