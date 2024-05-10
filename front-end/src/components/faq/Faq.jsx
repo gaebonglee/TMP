@@ -23,19 +23,10 @@ const Faq = () => {
             </div>
           </div>
         </div>
-        {/* <div className="supportButton">
-          <div>
-            <div className="button_Div">
-              <button className="button_ioi">
-                <span>1:1 문의하기</span>
-              </button>
-            </div>
-          </div>
-        </div> */}
         <div className="faqComp">
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(0)}>
-              <div className="title">1회 체험이 뭔가요?</div>
+              <div className="title">TMP는 어떤 서비스인가요?</div>
               <div>
                 {activeIndex === 0 ? (
                   <IoIosArrowUp size={24} />
@@ -57,12 +48,9 @@ const Faq = () => {
               }}
             >
               <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
-                <br />
-                <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
+                트레이너의 정보를 투명하게 공개하여 사진, 소개 글, 가격, 스케줄,
+                자격증을 확인할 수 있고 원하는 트레이너와 회원을 연결해 주는
+                매칭 사이트입니다.
                 <br />
               </div>
             </div>
@@ -70,7 +58,7 @@ const Faq = () => {
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(1)}>
               <div className="title">
-                1회 체험 신청을 취소(환불) 할 수 있나요?
+                등록된 트레이너의 정보를 믿을 수 있나요?
               </div>
               <div>
                 {activeIndex === 1 ? (
@@ -93,19 +81,20 @@ const Faq = () => {
               }}
             >
               <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
+                등록된 정보는 모두 트레이너님이 직접 올린 정보입니다.
                 <br />
                 <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
+                TMP측에서 올바른 정보인지 검토하고 있으며 적합하지 않은 경우
+                해당 트레이너와 직접 소통하여 올바르게 수정하기도 합니다.
                 <br />
               </div>
             </div>
           </div>
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(2)}>
-              <div className="title">TMP는 어떤 서비스인가요?</div>
+              <div className="title">
+                예약 완료 후 트레이너님의 연락이 오지 않아요.
+              </div>
               <div>
                 {activeIndex === 2 ? (
                   <IoIosArrowUp size={24} />
@@ -127,19 +116,20 @@ const Faq = () => {
               }}
             >
               <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
+                트레이너가 예약 내역들을 확인 후 순차적으로 연락을 드리고 있어
+                지연될 수 있습니다.
                 <br />
                 <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
+                계속 연락이 오지 않을 경우 TMP의 고객센터로 문의 부탁드립니다.
                 <br />
               </div>
             </div>
           </div>
           <div className="faqList">
             <div className="faqTitle" onClick={() => toggleCollapse(3)}>
-              <div className="title">회원가입을 하면 어떤 점이 좋나요?</div>
+              <div className="title">
+                홈페이지에 오류나 잘못된 정보가 있어요.
+              </div>
               <div>
                 {activeIndex === 3 ? (
                   <IoIosArrowUp size={24} />
@@ -161,182 +151,8 @@ const Faq = () => {
               }}
             >
               <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
-                <br />
-                <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
-                <br />
-              </div>
-            </div>
-          </div>
-          <div className="faqList">
-            <div className="faqTitle" onClick={() => toggleCollapse(4)}>
-              <div className="title">등록된 센터 정보를 믿을 수 있나요?</div>
-              <div>
-                {activeIndex === 4 ? (
-                  <IoIosArrowUp size={24} />
-                ) : (
-                  <IoIosArrowDown size={24} />
-                )}
-              </div>
-            </div>
-            <div
-              className={`collapse ${activeIndex === 4 ? "show" : ""}`}
-              ref={(el) => (contentRefs.current[4] = el)}
-              style={{
-                maxHeight:
-                  activeIndex === 4
-                    ? `${contentRefs.current[4]?.scrollHeight}px`
-                    : "0",
-                overflow: "hidden",
-                transition: "max-height 0.3s ease-out",
-              }}
-            >
-              <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
-                <br />
-                <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
-                <br />
-              </div>
-            </div>
-          </div>
-          <div className="faqList">
-            <div className="faqTitle" onClick={() => toggleCollapse(5)}>
-              <div className="title">등록된 코치 정보를 믿을 수 있나요?</div>
-              <div>
-                {activeIndex === 5 ? (
-                  <IoIosArrowUp size={24} />
-                ) : (
-                  <IoIosArrowDown size={24} />
-                )}
-              </div>
-            </div>
-            <div
-              className={`collapse ${activeIndex === 5 ? "show" : ""}`}
-              ref={(el) => (contentRefs.current[5] = el)}
-              style={{
-                maxHeight:
-                  activeIndex === 5
-                    ? `${contentRefs.current[5]?.scrollHeight}px`
-                    : "0",
-                overflow: "hidden",
-                transition: "max-height 0.3s ease-out",
-              }}
-            >
-              <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
-                <br />
-                <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
-                <br />
-              </div>
-            </div>
-          </div>
-          <div className="faqList">
-            <div className="faqTitle" onClick={() => toggleCollapse(6)}>
-              <div className="title">센터가 연락이 되지 않아요.</div>
-              <div>
-                {activeIndex === 6 ? (
-                  <IoIosArrowUp size={24} />
-                ) : (
-                  <IoIosArrowDown size={24} />
-                )}
-              </div>
-            </div>
-            <div
-              className={`collapse ${activeIndex === 6 ? "show" : ""}`}
-              ref={(el) => (contentRefs.current[6] = el)}
-              style={{
-                maxHeight:
-                  activeIndex === 6
-                    ? `${contentRefs.current[6]?.scrollHeight}px`
-                    : "0",
-                overflow: "hidden",
-                transition: "max-height 0.3s ease-out",
-              }}
-            >
-              <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
-                <br />
-                <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
-                <br />
-              </div>
-            </div>
-          </div>
-          <div className="faqList">
-            <div className="faqTitle" onClick={() => toggleCollapse(7)}>
-              <div className="title">코치가 연락이 되지 않아요.</div>
-              <div>
-                {activeIndex === 7 ? (
-                  <IoIosArrowUp size={24} />
-                ) : (
-                  <IoIosArrowDown size={24} />
-                )}
-              </div>
-            </div>
-            <div
-              className={`collapse ${activeIndex === 7 ? "show" : ""}`}
-              ref={(el) => (contentRefs.current[7] = el)}
-              style={{
-                maxHeight:
-                  activeIndex === 7
-                    ? `${contentRefs.current[7]?.scrollHeight}px`
-                    : "0",
-                overflow: "hidden",
-                transition: "max-height 0.3s ease-out",
-              }}
-            >
-              <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
-                <br />
-                <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
-                <br />
-              </div>
-            </div>
-          </div>
-          <div className="faqList">
-            <div className="faqTitle" onClick={() => toggleCollapse(8)}>
-              <div className="title">홈페이지가 오류가 나요.</div>
-              <div>
-                {activeIndex === 8 ? (
-                  <IoIosArrowUp size={24} />
-                ) : (
-                  <IoIosArrowDown size={24} />
-                )}
-              </div>
-            </div>
-            <div
-              className={`collapse ${activeIndex === 8 ? "show" : ""}`}
-              ref={(el) => (contentRefs.current[8] = el)}
-              style={{
-                maxHeight:
-                  activeIndex === 8
-                    ? `${contentRefs.current[8]?.scrollHeight}px`
-                    : "0",
-                overflow: "hidden",
-                transition: "max-height 0.3s ease-out",
-              }}
-            >
-              <div className="content">
-                1회 체험 레슨은 2~3만원대 낮은 금액으로 PT를 체험해볼 수 있는
-                서비스입니다.
-                <br />
-                <br />
-                PT 등록 전 1회 체험 수업을 통해 코치님과 한번 운동해보고, PT
-                등록을 고민해 보세요 !
+                오류 또는 잘못된 정보가 있을 경우 고객센터로 전화주시거나 1:1
+                문의하기를 통해 내용을 남겨주시면 빠르게 수정하겠습니다!
                 <br />
               </div>
             </div>
