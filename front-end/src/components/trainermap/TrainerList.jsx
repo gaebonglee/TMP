@@ -18,7 +18,7 @@ const TrainerList = (props) => {
     searchCenter,
     setIsloading,
   } = props;
-
+  console.log(trainers[0]);
   return (
     <div className="listWrap">
       <SearchInput
@@ -43,7 +43,9 @@ const TrainerList = (props) => {
               </Link>
             ))
           ) : (
-            <h3>해당되는 트레이너 선생님이 안계셔요</h3>
+            <h3 style={{ textAlign: "center" }}>
+              해당되는 트레이너 선생님이 안계셔요
+            </h3>
           )
         ) : (
           <FilterList
