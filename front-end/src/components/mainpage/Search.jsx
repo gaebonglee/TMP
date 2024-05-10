@@ -6,6 +6,7 @@ import "./Search.scss";
 import { Link } from "react-router-dom";
 import { RiMapPin2Fill } from "react-icons/ri";
 import useScript from "hooks/useScript";
+import { GiWhistle } from "react-icons/gi";
 
 const Search = ({ setSearchCene }) => {
   const [searchType, setSearchType] = useState("선생님");
@@ -66,7 +67,6 @@ const Search = ({ setSearchCene }) => {
     setShowSuggestions(false);
 
     if (scriptStatus === "ready") {
-      console.log(scriptStatus);
       setSearchLocation(
         new window.naver.maps.LatLng(suggestion.latitude, suggestion.longitude)
       );
@@ -78,7 +78,8 @@ const Search = ({ setSearchCene }) => {
   };
 
   const filteredResults = searchResults.filter((item) => {
-    const itemName = `${item.center_name} ${item.center_address}`.toLowerCase();
+    const itemName =
+      `${item.center_name} ${item.center_address} ${item.user_name}`.toLowerCase();
     return itemName.includes(searchKeyword.toLowerCase());
   });
 
@@ -134,9 +135,15 @@ const Search = ({ setSearchCene }) => {
                         <RiMapPin2Fill className="buildingIcon" />
                         {result.center_name}
                       </h3>
-                      <span className="addressSpan">
-                        {result.center_address.slice(0, 10)}
-                      </span>
+                      <div>
+                        <span className="trainerName">
+                          <GiWhistle className="trainerWhistle" size={21} />
+                          <b>{result.user_name}</b> 선생님
+                        </span>
+                        <span className="addressSpan">
+                          {result.center_address.slice(0, 10)}
+                        </span>
+                      </div>
                     </div>
                   </li>
                 ))}

@@ -9,6 +9,7 @@ const FilterList = (props) => {
     setTrainers,
     setFilter,
     setIsloading,
+    trainers,
   } = props;
 
   const [value, setValue] = useState(500);

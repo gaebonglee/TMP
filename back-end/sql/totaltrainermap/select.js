@@ -138,7 +138,7 @@ function selectFilter(filter, callback) {
   mysql.query(
     `
     SELECT
-    c.center_id, c.center_name, c.center_address, c.center_street_address,c.latitude, c.longitude,
+    c.center_id, c.center_name, c.center_address, c.center_street_address,c.latitude, c.longitude,t.short_intro,
     t.user_id,
     tp.count, tp.total_price,
     u.user_name, u.gender

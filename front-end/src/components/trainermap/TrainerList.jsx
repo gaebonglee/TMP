@@ -18,7 +18,7 @@ const TrainerList = (props) => {
     searchCenter,
     setIsloading,
   } = props;
-  console.log(trainers[0]);
+
   return (
     <div className="listWrap">
       <SearchInput
@@ -37,11 +37,13 @@ const TrainerList = (props) => {
       >
         {filter ? (
           trainers.length > 0 ? (
-            trainers.map((trainer, index) => (
-              <Link key={index} to={`/trainerDetail/${trainer.user_id}`}>
-                <TrainerListItem key={index} trainer={trainer} />
-              </Link>
-            ))
+            trainers.map((trainer, index) =>
+              trainer ? (
+                <Link key={index} to={`/trainerDetail/${trainer.user_id}`}>
+                  <TrainerListItem key={index} trainer={trainer} />
+                </Link>
+              ) : null
+            )
           ) : (
             <h3 style={{ textAlign: "center" }}>
               해당되는 트레이너 선생님이 안계셔요
@@ -49,6 +51,7 @@ const TrainerList = (props) => {
           )
         ) : (
           <FilterList
+            trainers={trainers}
             setFilter={setFilter}
             setIsloading={setIsloading}
             currentLatitude={currentLatitude}

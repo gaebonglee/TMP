@@ -88,7 +88,7 @@ const TrainerListItem = (props) => {
       <div className="moraeTitle">
         <span className="moraeTitleText">
           <p className="trainer_short_intro">
-            <BsChatLeftDotsFill size={15} className="chatIcon" />{" "}
+            <BsChatLeftDotsFill size={11} className="chatIcon" />{" "}
             {trainer.short_intro}
           </p>
         </span>
