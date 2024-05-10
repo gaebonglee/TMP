@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "./DayTime.scss";
 import { FaRegCalendarCheck } from "react-icons/fa";
-import "./CalendarStyle.scss";
+import "../../../../../CalendarStyle.scss";
 
 const isToday = (someDate) => {
   const today = new Date();

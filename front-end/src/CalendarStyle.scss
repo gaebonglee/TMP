@@ -1,4 +1,4 @@
-@import "../../../../../common.scss";
+@import "./common.scss";
 
 .react-calendar__month-view__days__day--neighboringMonth:disabled,
 .react-calendar__decade-view__years__year--neighboringDecade:disabled,
@@ -119,11 +119,16 @@
 }
 
 .react-calendar__tile--active {
-  font-weight: $font-weight-1;
   background: $green1;
 }
 
 .react-calendar__tile--now {
-  border: 1px solid $green2;
   font-weight: $font-weight-1;
+  abbr {
+    background-color: $green2;
+    color: $white;
+    width: 22px;
+    height: 21px;
+    border-radius: 50%;
+  }
 }

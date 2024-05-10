@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "./LessonCalendar.scss";
 
-
 const LessonCalendar = () => {
   const [date, setDate] = useState(new Date());
   const [selectedDateContent, setSelectedDateContent] = useState(
@@ -12,6 +11,7 @@ const LessonCalendar = () => {
   );
   const [lessons, setLessons] = useState([]);
   const [trainerId, setTrainerId] = useState(null);
+  const [reservationDates, setReservationDates] = useState([]);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -21,10 +21,10 @@ const LessonCalendar = () => {
           { credentials: "include" }
         );
         const sessionData = await sessionResponse.json();
-
         if (sessionData && sessionData.user_id) {
           setTrainerId(sessionData.user_id);
           fetchDataForNewDate(date, sessionData.user_id);
+          fetchReservationDates(sessionData.user_id);
         } else {
           console.error("Trainer ID is not available.");
         }
@@ -35,6 +35,23 @@ const LessonCalendar = () => {
 
     checkSession();
   }, []);
+
+  const fetchReservationDates = async (trainerId) => {
+    if (trainerId) {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/reservation/getLessonDates/${trainerId}`,
+          { credentials: "include" }
+        );
+        const data = await response.json();
+        setReservationDates(
+          data.map((item) => new Date(item.reservation_date))
+        );
+      } catch (error) {
+        console.error("Failed to fetch reservation dates:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (trainerId) {
@@ -73,13 +90,19 @@ const LessonCalendar = () => {
     fetchDataForNewDate(date, trainerId);
   };
 
-  const isToday = (date) => {
-    const today = new Date();
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
+  const tileContent = ({ date, view }) => {
+    const isReserved = reservationDates.some(
+      (reservedDate) =>
+        reservedDate.getDate() === date.getDate() &&
+        reservedDate.getMonth() === date.getMonth() &&
+        reservedDate.getFullYear() === date.getFullYear()
     );
+
+    return view === "month" && isReserved ? (
+      <div
+        className="reservation_dot"
+      ></div>
+    ) : null;
   };
 
   return (
@@ -95,11 +118,7 @@ const LessonCalendar = () => {
                 onChange={onDateChange}
                 value={date}
                 formatDay={(locale, date) => date.getDate()}
-                tileContent={({ date, view }) =>
-                  view === "month" && isToday(date) ? (
-                    <p style={{ fontSize: "12px" }}>오늘</p>
-                  ) : null
-                }
+                tileContent={tileContent}
               />
             </div>
             <div className="lesson_content_right">

@@ -1,10 +1,5 @@
 @import "../../../common.scss";
 
-.react-calendar__navigation__prev2-button,
-.react-calendar__navigation__next2-button {
-  display: none;
-}
-
 .react-calendar__month-view__weekdays abbr {
   text-decoration: none;
 }
@@ -97,4 +92,12 @@
 }
 .lesson_list {
   padding: 25px 0;
+}
+
+.reservation_dot {
+  background-color: red;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  font-weight: $font-weight-2;
 }
