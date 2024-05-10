@@ -43,7 +43,7 @@ const passwordButtonHandler = async() => {
         body: JSON.stringify(password)  //실제 데이터 파싱해서 body에 저장
     })
     const responseData = await response.json();
-    
+    console.log(responseData);
         if(responseData.length === 0){
             Toast.fire({
                 icon: 'error',
