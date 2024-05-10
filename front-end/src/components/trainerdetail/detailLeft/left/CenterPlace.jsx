@@ -1,11 +1,31 @@
 import React from "react";
 import LittleUndongMap from "../../../trainermap/LittleUndongMap";
 import "./CenterPlace.scss";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 const CenterPlace = ({ data, sectionRefs }) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
   const copyAddress = (address) => {
     navigator.clipboard.writeText(address);
-    alert("클립보드에 주소가 복사되었습니다.");
+    Toast.fire({
+      icon: "success",
+      title: "클립보드에 주소가 복사되었습니다.",
+    });
   };
   return (
     <div id="header_section6" ref={sectionRefs.current.header_section6}>

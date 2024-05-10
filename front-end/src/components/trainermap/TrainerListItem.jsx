@@ -110,7 +110,7 @@ const TrainerListItem = (props) => {
       {user && user.user_img === null ? (
         <img
           className="trainerImg"
-          src="/image/tmp_mainlogo.png"
+          src="/image/tmp_mainlogo2.png"
           alt="트레이너 이미지"
         />
       ) : (

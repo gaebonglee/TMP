@@ -1,12 +1,29 @@
 import React, { useState } from "react";
 import "./LeftIntroCenter.scss";
 import PhotoViewer from "components/photoViewer/PhotoViewer";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 const LeftIntroCener = ({ data, sectionRefs }) => {
   const [visible, setVisible] = useState(6);
   const [seeMore, setSeeMore] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
 
   const fileNames = data.center_img
     ? data.center_img.includes(",")
@@ -41,7 +58,10 @@ const LeftIntroCener = ({ data, sectionRefs }) => {
 
   const copyAddress = (address) => {
     navigator.clipboard.writeText(address);
-    alert("클립보드에 주소가 복사되었습니다.");
+    Toast.fire({
+      icon: "success",
+      title: "클립보드에 주소가 복사되었습니다.",
+    });
   };
 
   return (

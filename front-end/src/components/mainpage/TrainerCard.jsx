@@ -38,7 +38,7 @@ const TrainerCard = () => {
                           src={
                             v.user_img
                               ? `${process.env.REACT_APP_FILE_SERVER_URL}/user/${v.user_id}/${v.user_img}`
-                              : "/image/tmp_mainlogo.png"
+                              : "/image/tmp_mainlogo2.png"
                           }
                           alt="ai_photo"
                         />

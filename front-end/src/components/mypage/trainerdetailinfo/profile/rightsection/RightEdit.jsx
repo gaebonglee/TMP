@@ -3,7 +3,7 @@ import { FaStar } from "react-icons/fa";
 import "./RightEdit.scss";
 
 // 기본 이미지 경로
-const defaultImagePath = "/image/tmp_mainlogo.png";
+const defaultImagePath = "/image/tmp_mainlogo2.png";
 
 const RightEdit = ({ data }) => {
   const userInfo = data.info1;

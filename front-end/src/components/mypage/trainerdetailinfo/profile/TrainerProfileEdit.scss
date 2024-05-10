@@ -53,12 +53,12 @@
 }
 
 .trainer__program__titles {
-  margin: 5px;
-  padding: 15px;
+  // margin: 5px;
+  // padding: 15px;
   // background-color: $green2;
   // color: $white;
   // display: inline-block;
-  border: 2px solid $green2;
+  // border: 1px solid $green2;
   border-radius: 8px;
   font-size: $h3;
 }
@@ -67,12 +67,14 @@
   font-size: 16px;
   font-weight: $font-weight-1;
   color: $green2;
+  padding: 10px;
 }
 
 .trainer__program__specialties {
   display: flex;
   align-items: center;
   gap: 5px;
+  padding: 0 10px;
 }
 
 .trainer__program__specialty {
@@ -85,12 +87,13 @@
 }
 
 .trainer__program__hr {
-  margin: 7px 0px;
+  margin: 7px 10px;
 }
 
 .trainer__program__imgs {
   display: flex;
   gap: 5px;
+  padding: 0 10px;
 }
 
 .trainer__program__imgs__box {
@@ -107,4 +110,12 @@
 .trainer__program__exp {
   font-size: 13px;
   white-space: pre-wrap;
+  padding: 0 10px 10px 10px;
+}
+
+.trainer__program__hr2 {
+  height: 2px;
+  width: 100%;
+  background-color: $green1;
+  border: none;
 }

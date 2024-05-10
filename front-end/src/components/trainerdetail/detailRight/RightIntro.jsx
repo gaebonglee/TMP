@@ -36,7 +36,7 @@ const RightIntro = ({ data, trainerId, loginInfo }) => {
         src={
           data.info1.user_img
             ? `${process.env.REACT_APP_FILE_SERVER_URL}/user/${data.info1.user_id}/${data.info1.user_img}`
-            : "/image/tmp_mainlogo.png"
+            : "/image/tmp_mainlogo2.png"
         }
         alt="trainer_right_photo"
       />

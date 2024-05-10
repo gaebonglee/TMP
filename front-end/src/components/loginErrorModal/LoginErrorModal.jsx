@@ -1,8 +1,25 @@
 import React from "react";
 import styles from "./LoginErrorModal.module.scss";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 const LoginErrorModal = (props) => {
   const { roles } = props;
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
   window.scrollTo({ top: 0, behavior: "smooth" });
   let txt = "";
   switch (roles) {
@@ -23,7 +40,12 @@ const LoginErrorModal = (props) => {
     default:
       break;
   }
-  return <div className={styles.error__modal}>{txt}</div>;
+
+  Toast.fire({
+    icon: "error",
+    title: txt,
+  });
+  return <></>;
 };
 
 export default LoginErrorModal;
