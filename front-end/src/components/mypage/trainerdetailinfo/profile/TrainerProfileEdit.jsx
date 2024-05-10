@@ -177,6 +177,9 @@ function TrainerProfileEdit({ title, content, onSave, inputComponent }) {
                     </li>
                     <hr className="trainer__program__hr" />
                     <li className="trainer__program__exp">{v.program_exp}</li>
+                    {i !== editedContent.length - 1 && (
+                      <div className="trainer__program__hr2"></div>
+                    )}
                   </ul>
                 );
               } else {

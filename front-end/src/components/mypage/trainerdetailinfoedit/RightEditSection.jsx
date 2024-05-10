@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FaStar } from "react-icons/fa";
 
 // 기본 이미지 경로
-const defaultImagePath = "/image/tmp_mainlogo.png";
+const defaultImagePath = "/image/tmp_mainlogo2.png";
 
 const RightEditSection = () => {
   const [selectedFile, setSelectedFile] = useState(null);

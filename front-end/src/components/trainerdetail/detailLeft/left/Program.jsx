@@ -6,26 +6,28 @@ const Program = ({ data, sectionRefs }) => {
     <div id="header_section4" ref={sectionRefs.current.header_section4}>
       <div className="program" id="intro_page_contents_wrap">
         <h1>프로그램</h1>
-        {data.map((value, index) => {
-          return (
-            <div id="wrap_container" key={index}>
-              <OutputSpecialty specialty={value.specialty} />
-              <div className="program_title">
-                <p>{value.title}</p>
+        <div id="wrap_container">
+          {data.map((value, index) => {
+            return (
+              <div key={index}>
+                <OutputSpecialty specialty={value.specialty} />
+                <div className="program_title">
+                  <p>{value.title}</p>
+                </div>
+                {value.user_id && <hr />}
+                <ProgramPhoto
+                  imgFile={value.program_img}
+                  userId={value.user_id}
+                  programId={value.program_id}
+                />
+                <div className="program_text">
+                  {value.program_exp && <br />}
+                  <p style={{ whiteSpace: "pre-wrap" }}>{value.program_exp}</p>
+                </div>
               </div>
-              {value.user_id && <hr />}
-              <ProgramPhoto
-                imgFile={value.program_img}
-                userId={value.user_id}
-                programId={value.program_id}
-              />
-              <div className="program_text">
-                {value.program_exp && <br />}
-                <p style={{ whiteSpace: "pre-wrap" }}>{value.program_exp}</p>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
