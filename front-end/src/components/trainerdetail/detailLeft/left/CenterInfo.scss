@@ -13,11 +13,9 @@
   background-color: $white;
   border: 3px solid $green1;
   border-radius: 12px;
-  margin-bottom: 64px;
 }
 
 .trainer__center__note {
-  margin-bottom: 64px;
   padding: 7px 13px;
   font-size: 14px;
 }
@@ -79,4 +77,8 @@
 
 .trainer_center_prices_info_total {
   color: $gray;
+}
+
+#header_section9 {
+  margin-bottom: 64px;
 }
