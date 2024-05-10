@@ -4,6 +4,7 @@ import { TbRestore } from "react-icons/tb";
 import { BiTargetLock } from "react-icons/bi";
 import useScript from "hooks/useScript";
 import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const UndongMap = (props) => {
   const mapRef = useRef(null);
@@ -63,7 +64,9 @@ const UndongMap = (props) => {
         setCurrentLongitude(position.coords.longitude);
       } catch (error) {
         if (error.code === 1) {
-          alert("위치 정보 액세스 권한이 거부되었습니다. 권한을 허용해주세요.");
+          Swal.fire(
+            "위치 정보 액세스 권한이 거부되었습니다. 권한을 허용해주세요."
+          );
         }
       }
     };
@@ -105,7 +108,7 @@ const UndongMap = (props) => {
         scaleControl: true,
         zoomControl: true,
         zoomControlOptions: {
-          style: window.naver.maps.ZoomControlStyle.SMALL,
+          style: window.naver.maps.ZoomControlStyle.MEDIUM,
           position: window.naver.maps.Position.TOP_RIGHT,
         },
         mapTypeControl: true,
@@ -214,7 +217,6 @@ const UndongMap = (props) => {
           newMap.panTo(markerLocation);
 
           setTrainerIndex(index);
-          console.log("trainerindedx" + index);
         });
       });
       setIsLoading(false);

@@ -97,6 +97,9 @@
   border: 1px solid $lightgray;
   border-top: none;
   z-index: 1;
+  border-radius: 0.25rem;
+  max-height: 284px;
+  box-shadow: 1px 1px 1px 1px;
 
   .suggention-item-list {
     list-style-type: none;
@@ -152,4 +155,9 @@
   color: $green3;
   padding-left: 5px;
   width: 30px;
+}
+
+.searchListbox {
+  text-align: center;
+  padding: 24px;
 }

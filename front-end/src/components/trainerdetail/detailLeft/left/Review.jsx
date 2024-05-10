@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaPencilAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
@@ -59,7 +60,7 @@ const Review = () => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length + selectedFiles.length > 3) {
-      alert("최대 3개의 사진까지만 등록할 수 있습니다.");
+      Swal.fire("최대 3개의 사진까지만 등록할 수 있습니다.");
       return;
     }
 
@@ -135,12 +136,12 @@ const Review = () => {
 
   const handleFetchReview = async () => {
     if (selectedRating === 0) {
-      alert("별점을 선택해주세요.");
+      Swal.fire("별점을 선택해주세요.");
       return;
     }
 
     if (!sessionUserId) {
-      alert("회원 로그인이 필요합니다.");
+      Swal.fire("회원 로그인이 필요합니다.");
       handleCloseModal();
 
       return;
@@ -170,14 +171,14 @@ const Review = () => {
 
       const data = await response.json();
       if (response.ok && data.message === "SUCCESS") {
-        alert("리뷰가 등록되었습니다.");
+        Swal.fire("리뷰가 등록되었습니다.");
         handleCloseModal();
         window.location.reload();
       } else {
         throw new Error(data.message || "리뷰 등록에 실패했습니다.");
       }
     } catch (error) {
-      alert(error.message);
+      Swal.fire(error.message);
     }
   };
 
@@ -227,10 +228,10 @@ const Review = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.message === "SUCCESS") {
-            alert("리뷰가 삭제되었습니다.");
+            Swal.fire("리뷰가 삭제되었습니다.");
             window.location.reload();
           } else {
-            alert("리뷰 삭제에 실패했습니다.");
+            Swal.fire("리뷰 삭제에 실패했습니다.");
           }
         });
     }
@@ -238,7 +239,7 @@ const Review = () => {
 
   function handleUpdateReview() {
     if (!selectedReview) {
-      alert("수정할 리뷰를 선택해주세요.");
+      Swal.fire("수정할 리뷰를 선택해주세요.");
       return;
     }
 
@@ -257,10 +258,10 @@ const Review = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "SUCCESS") {
-          alert("리뷰가 수정되었습니다.");
+          Swal.fire("리뷰가 수정되었습니다.");
           window.location.reload();
         } else {
-          alert("리뷰 수정에 실패했습니다.");
+          Swal.fire("리뷰 수정에 실패했습니다.");
         }
       });
   }
@@ -297,8 +298,10 @@ const Review = () => {
             </>
           ) : (
             <div className="flexBox">
-              <div>등록된 리뷰가 없습니다.</div>
-              <div className="review_btn">
+              <div
+                className="review_btn"
+                style={{ justifyContent: "flex-end" }}
+              >
                 <button onClick={handleReview}>
                   <LuPencilLine />
                   <a className="create_review">리뷰 남기기</a>
@@ -387,7 +390,10 @@ const Review = () => {
                   </li>
                 ))
               ) : (
-                <li>등록된 리뷰가 없습니다.</li>
+                <li style={{ textAlign: "center", margin: 10, padding: 10 }}>
+                  {" "}
+                  <h3>등록된 리뷰가 없습니다.</h3>
+                </li>
               )}
             </ul>
             <div className="reviewAll_btn">
