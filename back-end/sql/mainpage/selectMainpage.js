@@ -1,6 +1,6 @@
 const connection = require("../../connection/mysqlConnection");
 
-async function selectRandomFourTrainer() {
+function selectRandomFourTrainer() {
   return new Promise((resolve, reject) => {
     const query = `
     SELECT
@@ -13,8 +13,7 @@ async function selectRandomFourTrainer() {
     FROM
       trainer a join user b on a.user_id = b.user_id and b.user_roles = "trainer"
                 left join center c on a.center_id = c.center_id
-    ORDER BY rand() 
-    LIMIT 4`;
+    ORDER BY rand() `;
 
     connection.execute(query, (err, results, fields) => {
       if (err) {
