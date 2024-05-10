@@ -3,6 +3,7 @@ import "./Menu.scss";
 
 const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
   const [activeId, setActiveId] = useState("");
+  const [headerMenu, setHeaderMenu] = useState(0);
   useEffect(() => {
     setTimeout(() => {
       const currentRefs = sectionRefs.current;
@@ -47,13 +48,34 @@ const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
     <div className="detail_menu">
       <div className="detail_menu_top">
         <div className="detail_menu_top_flex">
-          <div className="top_tab" onClick={() => handleTrainerInfo("coach")}>
+          <div
+            className={headerMenu === 0 ? `top_tab on` : `top_tab`}
+            onClick={() => {
+              setHeaderMenu(0);
+              handleTrainerInfo("coach");
+              window.scrollTo({ top: 0 });
+            }}
+          >
             코치
           </div>
-          <div className="top_tab" onClick={() => handleTrainerInfo("center")}>
+          <div
+            className={headerMenu === 1 ? `top_tab on` : `top_tab`}
+            onClick={() => {
+              setHeaderMenu(1);
+              handleTrainerInfo("center");
+              window.scrollTo({ top: 0 });
+            }}
+          >
             센터
           </div>
-          <div className="top_tab" onClick={() => handleTrainerInfo("review")}>
+          <div
+            className={headerMenu === 2 ? `top_tab on` : `top_tab`}
+            onClick={() => {
+              setHeaderMenu(2);
+              handleTrainerInfo("review");
+              window.scrollTo({ top: 0 });
+            }}
+          >
             후기
           </div>
         </div>

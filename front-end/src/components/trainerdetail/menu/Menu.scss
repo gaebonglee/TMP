@@ -23,18 +23,34 @@
   .top_tab {
     position: relative;
     cursor: pointer;
+    flex: 1;
+    text-align: center;
 
-    &:active::after {
+    &::after {
       content: "";
       position: absolute;
       bottom: -1px;
       left: 0;
       right: 0;
       height: 3px;
-      background-color: $green2;
+      background-color: transparent;
       margin: 0 auto;
+      width: 150px;
+      transition: all 0.3s ease;
     }
   }
+}
+
+.top_tab.on::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: $green2;
+  margin: 0 auto;
+  width: 150px;
 }
 
 .detail_menu_bottom {

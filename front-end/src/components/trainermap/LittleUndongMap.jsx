@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinnerSmall from "../../style/LoadingSpinnerSmall";
 import "../../components/trainermap/UnDongMap.scss";
 
 const LittleUndongMap = ({ lat, longi }) => {
@@ -56,7 +56,11 @@ const LittleUndongMap = ({ lat, longi }) => {
 
   return (
     <div className="mapWrap">
-      {isLoading ? <LoadingSpinner /> : <div ref={mapRef} style={mapStyle} />}
+      {isLoading ? (
+        <LoadingSpinnerSmall />
+      ) : (
+        <div ref={mapRef} style={mapStyle} />
+      )}
     </div>
   );
 };
