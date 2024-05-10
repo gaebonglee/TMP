@@ -6,6 +6,7 @@ const upload = multer(); // multer 미들웨어 생성
 const selectReviewAll = require("../sql/review/select");
 const insertReviewAll = require("../sql/review/insert");
 const deleteReview = require("../sql/review/delete");
+const updateReview = require("../sql/review/update");
 
 // multer 미들웨어 적용
 router.use(upload.any());
@@ -45,18 +46,39 @@ router.post("/", (req, res) => {
     });
 });
 
-router.post("/delete/:trainerId", (req, res) => {
-  const { received_id } = req.params;
-  console.log(received_id);
-  deleteReview.deleteReview(received_id, (err, result) => {
-    if (err) {
+router.post("/:review_id/delete", (req, res) => {
+  const { review_id } = req.params;
+  const { user_id } = req.body;
+  deleteReview
+    .deleteReview(review_id, user_id)
+    .then((result) => {
+      if (result.message === "SUCCESS") {
+        res.status(200).json({ message: "SUCCESS" });
+      } else {
+        res.status(404).json({ message: "NO_REVIEW_DELETED" });
+      }
+    })
+    .catch((err) => {
       console.error("err:" + err);
       res.status(500).send("Internal Server Error");
-    } else {
-      res.status(200).json(result);
-      console.log("delte" + result);
-    }
-  });
+    });
+});
+
+router.put("/:review_id/update", (req, res) => {
+  const { review_id } = req.params;
+  const { user_id, point, review } = req.body;
+  updateReview.updateReview(review_id, user_id, point, review)
+    .then((result) => {
+      if (result.message === "SUCCESS") {
+        res.status(200).json({ message: "SUCCESS" });
+      } else {
+        res.status(404).json({ message: "NO_REVIEW_UPDATED" });
+      }
+    })
+    .catch((err) => {
+      console.error("err:" + err);
+      res.status(500).send("Internal Server Error");
+    });
 });
 
 module.exports = router;

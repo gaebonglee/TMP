@@ -6,15 +6,19 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { FaPencilAlt } from "react-icons/fa";
+
 const Review = () => {
   const [reviewList, setReviewList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [previewImages, setPreviewImages] = useState([]);
   const fileInputRef = useRef(null);
   const [reviewContent, setReviewContent] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
   const [sessionUserId, setSessionUserId] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedReview, setSelectedReview] = useState(null);
   const url = useLocation();
   const [expandedImageIndex, setExpandedImageIndex] = useState(null);
   const reviewIndex = useRef(0);
@@ -36,6 +40,20 @@ const Review = () => {
     setSelectedRating(0);
     setSelectedFiles([]);
     setExpandedImageIndex(null);
+    setIsEditModalOpen(false);
+    setSelectedReview(null);
+  }
+
+  function handleEdit(reviewId) {
+    const selectedReview = reviewList.find(
+      (review) => review.review_id === reviewId
+    );
+    setSelectedReview(selectedReview);
+    setIsEditModalOpen(true);
+  }
+
+  function handleCloseEditModal() {
+    setIsEditModalOpen(false);
   }
 
   const handleFileChange = (e) => {
@@ -68,6 +86,7 @@ const Review = () => {
   const handleReviewContentChange = (e) => {
     setReviewContent(e.target.value);
   };
+
   const handleFileUpload = async () => {
     try {
       const filesInfo = selectedFiles.map((file) => ({
@@ -192,10 +211,10 @@ const Review = () => {
     return totalPoint / reviewList.length;
   };
 
-  function handleDelete() {
+  function handleDelete(reviewId) {
     let conf = window.confirm("리뷰를 삭제하시겠습니까?");
     if (conf) {
-      fetch(`http://localhost:5000/review/delete/${receivedId}`, {
+      fetch(`http://localhost:5000/review/${reviewId}/delete`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -211,15 +230,41 @@ const Review = () => {
             alert("리뷰가 삭제되었습니다.");
             window.location.reload();
           } else {
-            throw new Error(data.message || "리뷰 삭제에 실패했습니다.");
+            alert("리뷰 삭제에 실패했습니다.");
           }
-        })
-        .catch((error) => {
-          console.error("리뷰 삭제 중 오류 발생:", error);
-          alert("리뷰 삭제에 실패했습니다.");
         });
     }
   }
+
+  function handleUpdateReview() {
+    if (!selectedReview) {
+      alert("수정할 리뷰를 선택해주세요.");
+      return;
+    }
+
+    fetch(`http://localhost:5000/review/${selectedReview.review_id}/update`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: sessionUserId,
+        point: selectedReview.point,
+        review: selectedReview.review,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "SUCCESS") {
+          alert("리뷰가 수정되었습니다.");
+          window.location.reload();
+        } else {
+          alert("리뷰 수정에 실패했습니다.");
+        }
+      });
+  }
+
   return (
     <div className="review" id="intro_page_contents_wrap">
       <h1>후기</h1>
@@ -284,11 +329,18 @@ const Review = () => {
                             {review.register_date?.slice(0, 10) || ""}
                           </span>
                           {sessionUserId === review.user_id ? (
-                            <RiDeleteBin5Line
-                              onClick={handleDelete}
-                              className="deleteReview"
-                              size={24}
-                            />
+                            <>
+                              <RiDeleteBin5Line
+                                onClick={() => handleDelete(review.review_id)}
+                                className="deleteReview"
+                                size={24}
+                              />
+                              <FaPencilAlt
+                                onClick={() => handleEdit(review.review_id)}
+                                className="editReview"
+                                size={24}
+                              />
+                            </>
                           ) : null}
                         </div>
                         <div className="reviewStar">
@@ -304,26 +356,28 @@ const Review = () => {
                       <div className="review_context">
                         <div className="review_context_photo">
                           {review.review_img
-                            ?.split(",")
-                            .map((img, imgindex) => (
-                              <div key={imgindex} className="reviewImage">
-                                <div className="review_div">
-                                  <div
-                                    className="img_review"
-                                    onClick={() => {
-                                      setExpandedImageIndex(imgindex);
-                                      reviewIndex.current = index;
-                                    }}
-                                  >
-                                    <img
-                                      className="img img_review"
-                                      src={`${process.env.REACT_APP_FILE_SERVER_URL}/review/${receivedId}/${img}`}
-                                      alt={`Review ${index}`}
-                                    />
+                            ? review.review_img
+                                .split(",")
+                                .map((img, imgindex) => (
+                                  <div key={imgindex} className="reviewImage">
+                                    <div className="review_div">
+                                      <div
+                                        className="img_review"
+                                        onClick={() => {
+                                          setExpandedImageIndex(imgindex);
+                                          reviewIndex.current = index;
+                                        }}
+                                      >
+                                        <img
+                                          className="img img_review"
+                                          src={`${process.env.REACT_APP_FILE_SERVER_URL}/review/${receivedId}/${img}`}
+                                          alt={`Review ${index}`}
+                                        />
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                            ))}
+                                ))
+                            : null}
                         </div>
                         <div className="review_context_text">
                           <p>{review.review}</p>
@@ -413,17 +467,8 @@ const Review = () => {
                         <label className="reviewTitle">
                           증빙사진을 올려주세요 (최대 3개)
                         </label>
-                        <div className="flexBox">
-                          <input type="checkbox" name="" id="check_photo" />
-                          <label htmlFor="check_photo"></label>
-                          <label
-                            htmlFor="check_photo"
-                            className="reviewPhotoAuth"
-                          >
-                            사진 공개
-                          </label>
-                        </div>
                       </div>
+
                       <div className="preview-images-container">
                         {previewImages.map((image, index) => (
                           <div key={index} className="preview-image">
@@ -497,6 +542,107 @@ const Review = () => {
         </div>
       )}
       {isModalOpen && <div className="modal-backdrop show fade"></div>}
+
+      {isEditModalOpen && (
+        <div
+          className="modal show fade"
+          onClick={handleCloseEditModal}
+          tabIndex={-1}
+          role="dialog"
+        >
+          <div
+            className="modal-dialog modal-dialog-scrollable"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-content">
+              <div className="modal-body">
+                <div className="modal-component">
+                  <h5 className="headerTitle">
+                    후기 수정하기
+                    <div className="exitButton" onClick={handleCloseEditModal}>
+                      X
+                    </div>
+                  </h5>
+                  <div style={{ marginTop: "12px" }}>
+                    <div className="flexBox reviewWrap">
+                      <div className="ReviewEditModal">
+                        <label className="reviewTitle">
+                          별점을 선택해주세요
+                        </label>
+                        <div className="star-rating">
+                          {[...Array(5)].map((_, index) => (
+                            <FaStar
+                              key={index}
+                              size={36}
+                              className="gostar"
+                              onClick={() =>
+                                setSelectedReview({
+                                  ...selectedReview,
+                                  point: index + 1,
+                                })
+                              }
+                              style={{
+                                color:
+                                  index < selectedReview.point
+                                    ? "rgb(255,187,51)"
+                                    : "darkgray",
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ margin: "24px 0px" }}>
+                      <div
+                        className="reviewWrap"
+                        style={{
+                          paddingBottom: "8px",
+                        }}
+                      >
+                        <label className="reviewTitle">
+                          내용을 작성해주세요.
+                          <div
+                            style={{
+                              float: "right",
+                              fontSize: "14px",
+                              color: "rgb(108,118,128)",
+                            }}
+                          >
+                            {selectedReview.review.length}/400
+                          </div>
+                        </label>
+                      </div>
+                      <textarea
+                        id="review_content"
+                        name="content"
+                        maxLength={400}
+                        placeholder="내용을 입력해주세요"
+                        rows="6"
+                        value={selectedReview.review}
+                        onChange={(e) =>
+                          setSelectedReview({
+                            ...selectedReview,
+                            review: e.target.value,
+                          })
+                        }
+                      ></textarea>
+                    </div>
+                    <div className="button_Div">
+                      <button
+                        onClick={handleUpdateReview}
+                        className="button_Basic active"
+                      >
+                        <span>리뷰 수정 완료</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {isEditModalOpen && <div className="modal-backdrop show fade"></div>}
 
       {/* 이미지 확대 모달 */}
       {expandedImageIndex !== null && reviewList.length > 0 && (

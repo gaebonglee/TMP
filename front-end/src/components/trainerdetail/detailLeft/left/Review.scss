@@ -344,7 +344,7 @@ label[for="check_photo"] {
   padding: 16px;
   border: 1px solid #e4eaf0;
   border-radius: 6px;
-  width: 93%;
+  width: 100%;
   display: block;
   background-color: #fff;
   background-clip: padding-box;
@@ -483,5 +483,9 @@ label[for="check_photo"] {
 
 .deleteReview {
   color: $red;
+  cursor: pointer;
+}
+.editReview {
+  color: $green2;
   cursor: pointer;
 }
