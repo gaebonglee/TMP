@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { saveReservation } = require("../sql/reservation/saveReservation");
-const { selectLesson } = require("../sql/mypage/calendar/selectlesson");
+const { selectLesson } = require("../sql/reservation/selectlesson");
 const { selectMember } = require("../sql/reservation/selectMember");
 const {
   selectReservationList,
 } = require("../sql/reservation/selectReservationList");
-const { allLessonDates } = require ("../sql/mypage/calendar/allLessonDates");
-
+const { selectLessonDates } = require("../sql/reservation/selectLessonDates");
 
 // 예약 정보 저장
 router.post("/saveReservation", (req, res) => {
@@ -65,6 +64,17 @@ router.get("/selectReservationList/:userId", (req, res) => {
       res.json(results);
     } else {
       res.status(404).send({ error: "No reservations found" });
+    }
+  });
+});
+
+router.get("/getLessonDates/:trainerId", (req, res) => {
+  const { trainerId } = req.params;
+  selectLessonDates(trainerId, (error, dates) => {
+    if (error) {
+      res.status(500).send({ error: "Database query failed" });
+    } else {
+      res.json(dates);
     }
   });
 });
