@@ -1,4 +1,4 @@
-const connection = require("../../../connection/mysqlConnection");
+const connection = require("../../connection/mysqlConnection");
 
 function selectLesson(reservationDate, trainerId, callback) {
   console.log("Requested date format:", reservationDate);
@@ -18,5 +18,6 @@ function selectLesson(reservationDate, trainerId, callback) {
     }
   );
 }
+
 
 module.exports = { selectLesson };

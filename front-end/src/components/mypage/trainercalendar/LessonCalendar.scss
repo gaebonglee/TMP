@@ -1,100 +1,108 @@
 @import "../../../common.scss";
 
-.react-calendar__navigation__prev2-button,
-.react-calendar__navigation__next2-button {
-  display: none;
-}
+// .react-calendar__navigation__prev2-button,
+// .react-calendar__navigation__next2-button {
+//   display: none;
+// }
 
-.react-calendar__month-view__weekdays abbr {
-  text-decoration: none;
-}
+// .react-calendar__month-view__weekdays abbr {
+//   text-decoration: none;
+// }
 
-.react-calendar {
-  width: 500px;
-  max-width: 100%;
-  background-color: $white;
-  border: 1px solid $lightgray;
-  border-radius: 8px;
-  padding: 10px;
+// .react-calendar {
+//   width: 500px;
+//   max-width: 100%;
+//   background-color: $white;
+//   border: 1px solid $lightgray;
+//   border-radius: 8px;
+//   padding: 10px;
 
-  .react-calendar__month-view__days__day {
-    width: 50px;
-    height: 60px;
-    border-radius: $border-radius-4;
-  }
-}
+//   .react-calendar__month-view__days__day {
+//     width: 50px;
+//     height: 60px;
+//     border-radius: $border-radius-4;
+//   }
+// }
 
-.react-calendar__month-view__weekdays__weekday--weekend:nth-child(7) abbr {
-  color: red;
-}
+// .react-calendar__month-view__weekdays__weekday--weekend:nth-child(7) abbr {
+//   color: red;
+// }
 
-/*--------------달력부분 공통------------*/
+// /*--------------달력부분 공통------------*/
 
-.lesson_container {
-  background-color: #f7f9fa;
-  color: $black;
-}
+// .lesson_container {
+//   background-color: #f7f9fa;
+//   color: $black;
+// }
 
-.lesson_wrap {
-  max-width: 1136px;
-  margin: auto;
-}
+// .lesson_wrap {
+//   max-width: 1136px;
+//   margin: auto;
+// }
 
-.lesson_page {
-  padding: 30px 0 100px 0;
-}
+// .lesson_page {
+//   padding: 30px 0 100px 0;
+// }
 
-.trainerMemberCalendar_padding {
-  background-color: $white;
-  box-shadow: rgba(218, 224, 230, 0.38) 0px 4px 8px;
-  border-radius: 12px;
-  padding: 24px;
-  position: relative;
-  height: auto;
-}
+// .trainerMemberCalendar_padding {
+//   background-color: $white;
+//   box-shadow: rgba(218, 224, 230, 0.38) 0px 4px 8px;
+//   border-radius: 12px;
+//   padding: 24px;
+//   position: relative;
+//   height: auto;
+// }
 
-.lesson_contents {
-  margin-top: 25px;
-  display: flex;
-}
+// .lesson_contents {
+//   margin-top: 25px;
+//   display: flex;
+// }
 
-.lesson_content_left,
-.lesson_content_right {
-  padding: 0 15px 0 15px;
-}
+// .lesson_content_left,
+// .lesson_content_right {
+//   padding: 0 15px 0 15px;
+// }
 
-/*--------------달력부분 Left------------*/
-.lesson_title {
-  padding: 60px 0 10px 0;
-  border-bottom: 1px solid $lightgray;
-  font-size: $h2;
-  font-weight: $font-weight-1;
-}
+// /*--------------달력부분 Left------------*/
+// .lesson_title {
+//   padding: 60px 0 10px 0;
+//   border-bottom: 1px solid $lightgray;
+//   font-size: $h2;
+//   font-weight: $font-weight-1;
+// }
 
-.trainerMemberCalendar_left {
-  min-width: 40%;
-  width: 100%;
-}
+// .trainerMemberCalendar_left {
+//   min-width: 40%;
+//   width: 100%;
+// }
 
-/*--------------달력부분 Right------------*/
-.lesson_content_right {
-  min-width: 50%;
-  width: 100%;
-}
+// /*--------------달력부분 Right------------*/
+// .lesson_content_right {
+//   min-width: 50%;
+//   width: 100%;
+// }
 
-.lesson_scheduleDate {
-  background-color: $white;
-  border-radius: $border-radius-4;
+// .lesson_scheduleDate {
+//   background-color: $white;
+//   border-radius: $border-radius-4;
+//   font-weight: $font-weight-2;
+//   padding: 20px;
+//   position: relative;
+//   height: auto;
+// }
+
+// .lesson_scheduleDate_today {
+//   padding: 10px 0;
+//   border-bottom: 1px solid $lightgray;
+// }
+// .lesson_list {
+//   padding: 25px 0;
+// }
+
+.reservation_dot {
+  background-color: red;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
   font-weight: $font-weight-2;
-  padding: 20px;
-  position: relative;
-  height: auto;
-}
-
-.lesson_scheduleDate_today {
-  padding: 10px 0;
-  border-bottom: 1px solid $lightgray;
-}
-.lesson_list {
-  padding: 25px 0;
 }

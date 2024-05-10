@@ -1,27 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { selectTrainerName } = require("../sql/reservation/selectTrainerName");
 const { saveReservation } = require("../sql/reservation/saveReservation");
-const { selectLesson } = require("../sql/mypage/calendar/selectLesson");
+const { selectLesson } = require("../sql/reservation/selectlesson");
 const { selectMember } = require("../sql/reservation/selectMember");
 const {
   selectReservationList,
 } = require("../sql/reservation/selectReservationList");
-
-// 트레이너 이름 가져오기
-router.get("/trainer/:userId", (req, res) => {
-  // console.log("Requested user ID:", req.params.userId);
-  const userId = req.params.userId;
-  selectTrainerName(userId, (error, name) => {
-    if (error) {
-      res.status(500).send({ error: "Server error" });
-    } else if (name) {
-      res.json({ name });
-    } else {
-      res.status(404).send({ error: "Trainer not found" });
-    }
-  });
-});
+const { selectLessonDates } = require("../sql/reservation/selectLessonDates");
 
 // 예약 정보 저장
 router.post("/saveReservation", (req, res) => {
@@ -50,9 +35,7 @@ router.get("/selectLessonInfo/:reservationDate/:trainerId", (req, res) => {
     } else if (results.length > 0) {
       res.json(results);
     } else {
-      res.status(404).send({
-        error: "No reservations found for the specified date and trainer.",
-      });
+      res.json([]);
     }
   });
 });
@@ -81,6 +64,17 @@ router.get("/selectReservationList/:userId", (req, res) => {
       res.json(results);
     } else {
       res.status(404).send({ error: "No reservations found" });
+    }
+  });
+});
+
+router.get("/getLessonDates/:trainerId", (req, res) => {
+  const { trainerId } = req.params;
+  selectLessonDates(trainerId, (error, dates) => {
+    if (error) {
+      res.status(500).send({ error: "Database query failed" });
+    } else {
+      res.json(dates);
     }
   });
 });
