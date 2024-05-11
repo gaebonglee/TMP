@@ -43,7 +43,7 @@ const RightIntro = ({ data, trainerId, loginInfo }) => {
       <div className="intro_right_wrap">
         <div className="top_wrap">
           <div className="trainer_name_star">
-            <h2 className="trainer_name">{data.info1.user_name}선생님</h2>
+            <h2 className="trainer_name">{data.info1.user_name} 트레이너</h2>
             <div className="trainer_star">
               <div className="star_wrap">
                 {reviewArr.map((_v, i) => {
