@@ -64,7 +64,7 @@ const CenterListItem = () => {
           </div>
           <div className="locationInfoWrap">
             <TbMapPin />
-            선생님 ?명 - 신논현역 도보 ?분
+            트레이너 ?명 - 신논현역 도보 ?분
           </div>
         </div>
       </div>

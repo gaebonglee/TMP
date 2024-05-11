@@ -76,7 +76,7 @@ const SearchInput = (props) => {
             id="searchBar"
             ref={searchBarRef}
             type="text"
-            placeholder={inputValue ? "" : "선생님이 있는 센터 검색하기"}
+            placeholder={inputValue ? "" : "트레이너 있는 센터 검색하기"}
             maxLength={"20"}
             value={inputValue}
             onChange={handleInputChange}
@@ -105,7 +105,7 @@ const SearchInput = (props) => {
                     <div>
                       <span className="trainerName">
                         <GiWhistle className="trainerWhistle" size={21} />
-                        <b>{suggestion.user_name}</b> 선생님
+                        <b>{suggestion.user_name}</b> 트레이너
                       </span>
                       <span className="addressSpan">
                         {suggestion.center_address.slice(6, 14)}

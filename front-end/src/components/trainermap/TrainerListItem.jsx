@@ -84,7 +84,7 @@ const TrainerListItem = (props) => {
 
   return (
     <div className="TrainerListItem">
-      <div className="morae">{trainer.user_name} 선생님</div>
+      <div className="morae">{trainer.user_name} 트레이너 </div>
       <div className="moraeTitle">
         <span className="moraeTitleText">
           <p className="item_trainer_short_intro">

@@ -9,7 +9,7 @@ import useScript from "hooks/useScript";
 import { GiWhistle } from "react-icons/gi";
 
 const Search = ({ setSearchCene }) => {
-  const [searchType, setSearchType] = useState("선생님");
+  const [searchType, setSearchType] = useState("트레이너");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -109,7 +109,7 @@ const Search = ({ setSearchCene }) => {
         <div className="searchKeyword">
           <input
             type="text"
-            placeholder={searchKeyword ? "" : "선생님이 있는 센터 검색하기"}
+            placeholder={searchKeyword ? "" : "트레이너 있는 센터 검색하기"}
             maxLength={"20"}
             name="keyword"
             autoComplete="off"
@@ -138,7 +138,7 @@ const Search = ({ setSearchCene }) => {
                       <div>
                         <span className="trainerName">
                           <GiWhistle className="trainerWhistle" size={21} />
-                          <b>{result.user_name}</b> 선생님
+                          <b>{result.user_name}</b> 트레이너
                         </span>
                         <span className="addressSpan">
                           {result.center_address.slice(0, 10)}
