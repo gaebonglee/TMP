@@ -42,7 +42,7 @@ const DetailMainContents = ({ trainerInfo, sectionRefs, loginInfo }) => {
             ) : trainerInfo === "center" ? (
               <LeftSectionCenter data={data} sectionRefs={sectionRefs} />
             ) : (
-              <Review />
+              <Review sectionRefs={sectionRefs} />
             )}
           </div>
           <div className="RightIntro">

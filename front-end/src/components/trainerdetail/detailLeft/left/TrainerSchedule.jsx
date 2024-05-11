@@ -2,9 +2,11 @@ import React from "react";
 import "./TrainerSchedule.scss";
 const TrainerSchedule = ({ data, sectionRefs }) => {
   return (
-    <div id="header_section3" ref={sectionRefs.current.header_section3}>
+    <div>
       <div id="intro_page_contents_wrap" className="trainer_schedule">
-        <h1>레슨 스케줄</h1>
+        <h1 id="header_section3" ref={sectionRefs.current.header_section3}>
+          레슨 스케줄
+        </h1>
         <ul id="wrap_container">
           {!!data.weekday && (
             <li className="trainerScheduleList">

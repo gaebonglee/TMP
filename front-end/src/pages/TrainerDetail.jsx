@@ -18,6 +18,7 @@ const TrainerDetail = ({ loginInfo }) => {
     header_section8: createRef(),
     header_section9: createRef(),
     header_section10: createRef(),
+    header_section11: createRef(),
     // 추가 섹션이 있다면 여기에 더 추가
   });
   return (

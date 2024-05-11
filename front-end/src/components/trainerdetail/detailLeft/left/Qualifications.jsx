@@ -28,10 +28,12 @@ const Qualifications = ({ data, sectionRefs }) => {
   };
 
   return (
-    <div id="header_section2" ref={sectionRefs.current.header_section2}>
+    <div>
       <div id="intro_page_contents_wrap" className="qualifications">
         <div className="title_wrap">
-          <h1>검증된 자격사항</h1>
+          <h1 id="header_section2" ref={sectionRefs.current.header_section2}>
+            검증된 자격사항
+          </h1>
           {/* <div className="trainer_check_btn">
             <div className="check_btn_wrap">
               <IoCheckmarkDoneSharp />

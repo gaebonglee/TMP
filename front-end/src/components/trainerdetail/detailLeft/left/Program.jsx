@@ -3,9 +3,11 @@ import "./Program.scss";
 
 const Program = ({ data, sectionRefs }) => {
   return (
-    <div id="header_section4" ref={sectionRefs.current.header_section4}>
+    <div>
       <div className="program" id="intro_page_contents_wrap">
-        <h1>프로그램</h1>
+        <h1 id="header_section4" ref={sectionRefs.current.header_section4}>
+          프로그램
+        </h1>
         <div id="wrap_container">
           {data.map((value, index) => {
             return (

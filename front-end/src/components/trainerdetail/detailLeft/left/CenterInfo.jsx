@@ -10,8 +10,14 @@ const CenterInfo = ({ data, centerPrice, sectionRefs }) => {
       <div className="wrap_container" style={{ whiteSpace: "pre-wrap" }}>
         {data.center_intro}
       </div>
-      <div id="header_section8" ref={sectionRefs.current.header_section8}>
-        <h1 className="centerInfo_h1_title">이용 정보</h1>
+      <div>
+        <h1
+          id="header_section8"
+          ref={sectionRefs.current.header_section8}
+          className="centerInfo_h1_title"
+        >
+          이용 정보
+        </h1>
         <div className="wrap_container">
           <div className="center_info_clothesLocker">
             <span className="center_info_clothesLocker_icon">
@@ -27,8 +33,14 @@ const CenterInfo = ({ data, centerPrice, sectionRefs }) => {
           </div>
         </div>
       </div>
-      <div id="header_section9" ref={sectionRefs.current.header_section9}>
-        <h1 className="centerInfo_h1_title">운영 시간</h1>
+      <div>
+        <h1
+          className="centerInfo_h1_title"
+          id="header_section9"
+          ref={sectionRefs.current.header_section9}
+        >
+          운영 시간
+        </h1>
         <div className="wrap_container__2">
           {!!data.center_weekday && (
             <div className="trainer_centerInfo_time">
@@ -64,8 +76,14 @@ const CenterInfo = ({ data, centerPrice, sectionRefs }) => {
         {!!data.note && <p className="trainer__center__note">* {data.note}</p>}
       </div>
       {centerPrice.length !== 0 && (
-        <div id="header_section10" ref={sectionRefs.current.header_section10}>
-          <h1 className="centerInfo_h1_title">센터 이용 가격</h1>
+        <div>
+          <h1
+            className="centerInfo_h1_title centerPriceSection"
+            id="header_section10"
+            ref={sectionRefs.current.header_section10}
+          >
+            센터 이용 가격
+          </h1>
           <div className="wrap_container">
             <h3>회원권 비용</h3>
             {centerPrice.map((value, index) => {

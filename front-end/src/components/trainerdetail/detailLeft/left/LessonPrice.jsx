@@ -2,9 +2,11 @@ import React from "react";
 import "./LessonPrice.scss";
 const LessonPrice = ({ data, sectionRefs }) => {
   return (
-    <div id="header_section5" ref={sectionRefs.current.header_section5}>
+    <div>
       <div className="trainer_lesson_price" id="intro_page_contents_wrap">
-        <h1>레슨 이용 가격</h1>
+        <h1 id="header_section5" ref={sectionRefs.current.header_section5}>
+          레슨 이용 가격
+        </h1>
         <div id="wrap_container">
           <div className="trainerdetail__lesson_title">
             <p>1:1 PT</p>

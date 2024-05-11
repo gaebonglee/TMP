@@ -16,8 +16,8 @@ const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
           });
         },
         {
-          rootMargin: "0px",
-          threshold: 0.7, // 70%의 요소가 보일 때 활성화 상태로 변경
+          rootMargin: "-100px 0px -550px 0px",
+          threshold: 0.9, // 70%의 요소가 보일 때 활성화 상태로 변경
         }
       );
 
@@ -41,7 +41,12 @@ const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
 
   const scrollToSection = (ref) => {
     if (ref && ref.current) {
-      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      const topPosition =
+        ref.current.getBoundingClientRect().top + window.scrollY - 140;
+      window.scrollTo({
+        top: topPosition,
+        behavior: "smooth", // for smooth scrolling
+      });
     }
   };
   return (
@@ -52,6 +57,7 @@ const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
             className={headerMenu === 0 ? `top_tab on` : `top_tab`}
             onClick={() => {
               setHeaderMenu(0);
+              setActiveId("none");
               handleTrainerInfo("coach");
               window.scrollTo({ top: 0 });
             }}
@@ -62,6 +68,7 @@ const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
             className={headerMenu === 1 ? `top_tab on` : `top_tab`}
             onClick={() => {
               setHeaderMenu(1);
+              setActiveId("none");
               handleTrainerInfo("center");
               window.scrollTo({ top: 0 });
             }}
@@ -72,6 +79,7 @@ const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
             className={headerMenu === 2 ? `top_tab on` : `top_tab`}
             onClick={() => {
               setHeaderMenu(2);
+              setActiveId("none");
               handleTrainerInfo("review");
               window.scrollTo({ top: 0 });
             }}
@@ -224,7 +232,15 @@ const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
           )}
           {trainerInfo === "review" && (
             <ul>
-              <li className="bottom_tab">최근 후기 확인하기</li>
+              <li
+                className={
+                  activeId === "header_section11"
+                    ? "bottom_tab active"
+                    : "bottom_tab"
+                }
+              >
+                최근 후기 확인하기
+              </li>
             </ul>
           )}
         </div>
