@@ -1,0 +1,27 @@
+@import "../../common.scss";
+
+.mainScreen {
+  padding: 50px 0 30px 0;
+}
+
+.mainPage_container {
+  margin: 0 auto;
+  min-height: 570px;
+  min-width: 1136px;
+  background-color: $background;
+  > p {
+    text-align: center;
+    font-size: 80px;
+    font-weight: 800;
+    color: $green2;
+    font-family: fantasy;
+    z-index: 5;
+  }
+}
+.mainScreen_img {
+  top: -30px;
+  margin: auto;
+  display: block;
+  width: 350px;
+  z-index: 10;
+}
