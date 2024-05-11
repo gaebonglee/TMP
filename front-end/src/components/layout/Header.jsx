@@ -56,9 +56,9 @@ const Header = () => {
           <Link to="/trainermap" className="find_trainer">
             트레이너 찾기
           </Link>
-          {/* <Link to="/centermap" className="find_center">
-            센터 찾기
-          </Link> */}
+          <Link to="/servicecenter" className="inquiry_link">
+            1:1 문의하기
+          </Link>
         </div>
         <div className="account_container">
           {loginInfo.role === "admin" ? (
