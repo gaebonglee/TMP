@@ -178,7 +178,7 @@ function selectCurrentLocation(currentLocation, callback) {
     `
     SELECT DISTINCT
       c.center_id, c.center_name, c.center_address, c.center_street_address, c.latitude, c.longitude,
-      t.user_id,
+      t.user_id,t.short_intro,
       u.user_name, u.gender
     FROM center c
     JOIN trainer t ON c.center_id = t.center_id

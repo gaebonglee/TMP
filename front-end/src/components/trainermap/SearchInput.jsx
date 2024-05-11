@@ -7,7 +7,7 @@ import { GiWhistle } from "react-icons/gi";
 
 const SearchInput = (props) => {
   const [inputValue, setInputValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+ 
   const [searchingData, setSearchingData] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchBarRef = useRef(null);
