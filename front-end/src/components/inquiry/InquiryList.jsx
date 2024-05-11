@@ -118,6 +118,10 @@ const InquiryList = () => {
             setInquiryList(updatedList);
             setAnswerState(updatedAnswerState); // 상태 업데이트
             window.scrollTo({ top: 0 });
+            Toast.fire({
+              icon: 'success',
+              title: '삭제되었습니다.'
+            });
           })
           .catch((error) => {
             console.error(

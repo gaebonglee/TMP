@@ -24,7 +24,6 @@ router.get("/trainer/:userId", (req, res) => {
   });
 });
 
-
 // 예약 정보 저장
 router.post("/saveReservation", (req, res) => {
   const reservationData = req.body;
@@ -96,6 +95,5 @@ router.get("/getLessonDates/:trainerId", (req, res) => {
     }
   });
 });
-
 
 module.exports = router;

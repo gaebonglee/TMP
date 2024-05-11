@@ -87,7 +87,7 @@ const TrainerListItem = (props) => {
       <div className="morae">{trainer.user_name} 선생님</div>
       <div className="moraeTitle">
         <span className="moraeTitleText">
-          <p className="trainer_short_intro">
+          <p className="item_trainer_short_intro">
             <BsChatLeftDotsFill size={11} className="chatIcon" />{" "}
             {trainer.short_intro}
           </p>
