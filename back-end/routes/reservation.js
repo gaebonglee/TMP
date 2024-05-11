@@ -8,7 +8,6 @@ const {
   selectReservationList,
 } = require("../sql/reservation/selectReservationList");
 const { selectLessonDates } = require("../sql/reservation/selectLessonDates");
-const { selectTime } = require("../sql/reservation/selectTime");
 
 // Confirmation.jsx 트레이너 이름 가져오기
 router.get("/trainer/:userId", (req, res) => {
@@ -98,16 +97,5 @@ router.get("/getLessonDates/:trainerId", (req, res) => {
   });
 });
 
-//DayTime.jsx에서 이미 선택된 시간 비활성화 처리
-router.get("/getReservedTimes", (req, res) => {
-  const { date, trainerId } = req.query;
-  selectTime(date, trainerId, (error, times) => {
-    if (error) {
-      res.status(500).send({ error: "Error fetching reserved times" });
-    } else {
-      res.json(times);
-    }
-  });
-});
 
 module.exports = router;
