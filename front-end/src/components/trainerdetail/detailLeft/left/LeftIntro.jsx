@@ -39,9 +39,11 @@ const LeftIntro = ({ data, sectionRefs }) => {
   };
 
   return (
-    <div id="header_section1" ref={sectionRefs.current.header_section1}>
+    <div>
       <div className="intro_detail" id="intro_page_contents_wrap">
-        <h1>선생님 소개</h1>
+        <h1 id="header_section1" ref={sectionRefs.current.header_section1}>
+          트레이너 소개
+        </h1>
         <div id="wrap_container">
           <div className="intro_photo">
             {fileNames.slice(0, visible).map((result, index) => (

@@ -10,7 +10,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 
-const Review = () => {
+const Review = ({ sectionRefs }) => {
   const [reviewList, setReviewList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -299,7 +299,13 @@ const Review = () => {
 
   return (
     <div className="review" id="intro_page_contents_wrap">
-      <h1>후기</h1>
+      <h1
+        className="centerInfo_h1_title"
+        id="header_section11"
+        ref={sectionRefs.current.header_section11}
+      >
+        후기
+      </h1>
       <div id="wrap_container">
         <div className="review_wrap">
           {reviewList.length > 0 ? (

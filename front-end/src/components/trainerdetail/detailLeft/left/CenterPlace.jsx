@@ -28,9 +28,11 @@ const CenterPlace = ({ data, sectionRefs }) => {
     });
   };
   return (
-    <div id="header_section6" ref={sectionRefs.current.header_section6}>
+    <div>
       <div className="trainer_location_center" id="intro_page_contents_wrap">
-        <h1>위치</h1>
+        <h1 id="header_section6" ref={sectionRefs.current.header_section6}>
+          위치
+        </h1>
         <div className="contentWrap">
           <div>
             <div className="flexBoxStart">

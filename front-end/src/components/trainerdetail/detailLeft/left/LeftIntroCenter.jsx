@@ -65,7 +65,14 @@ const LeftIntroCener = ({ data, sectionRefs }) => {
   };
 
   return (
-    <div id="header_section7" ref={sectionRefs.current.header_section7}>
+    <div>
+      <h1
+        className="centerInfo_h1_title"
+        id="header_section7"
+        ref={sectionRefs.current.header_section7}
+      >
+        기본 정보
+      </h1>
       <div className="intro_detail" id="intro_page_contents_wrap">
         <div id="wrap_container">
           <div>

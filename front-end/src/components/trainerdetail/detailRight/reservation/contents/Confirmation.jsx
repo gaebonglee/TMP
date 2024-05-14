@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./Confirmation.scss";
 import { IoIosArrowDown } from "react-icons/io";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 const Confirmation = () => {
   const { trainerId } = useParams();
@@ -86,12 +87,25 @@ const Confirmation = () => {
         return response.json();
       })
       .then((data) => {
-        alert("예약이 완료되었습니다. 예약 내역 페이지로 이동합니다");
-        navigate(`/reservationList/${userId}`);
+        Swal.fire({
+          icon: "success",
+          title: "예약 완료!",
+          text: "예약이 완료되었습니다. 예약 내역 페이지로 이동합니다",
+          confirmButtonText: "확인",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(`/reservationList/${userId}`);
+          }
+        });
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert("예약에 실패했습니다: " + error.message);
+        Swal.fire({
+          icon: "error",
+          title: "예약 실패",
+          text: "예약에 실패했습니다: " + error.message,
+          confirmButtonText: "닫기",
+        });
       });
   };
 

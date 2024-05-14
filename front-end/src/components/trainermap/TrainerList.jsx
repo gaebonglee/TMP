@@ -46,7 +46,7 @@ const TrainerList = (props) => {
             )
           ) : (
             <h3 style={{ textAlign: "center" }}>
-              해당되는 트레이너 선생님이 안계셔요
+              해당되는 트레이너가 없습니다
             </h3>
           )
         ) : (

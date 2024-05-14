@@ -9,7 +9,7 @@ const IntroTextEdit = ({ content, setContent }) => {
       <div className="precautions_wrap">
         <ul>
           <li>
-            • 선생님으로서 목표, 레슨 방향성 또는 신념, 좋은 트레이닝을 위한
+            • 트레이너로서 목표, 레슨 방향성 또는 신념, 좋은 트레이닝을 위한
             노력들, 마음가짐 등 자세한 이야기를 담아주세요.
           </li>
         </ul>
