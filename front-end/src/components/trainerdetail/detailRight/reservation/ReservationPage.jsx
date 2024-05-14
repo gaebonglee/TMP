@@ -25,6 +25,7 @@ const ReservationPage = () => {
     navigate(`/confirmation/${trainerId}`, {
       state: { date, time, subCategories, trainerName, trainerId },
     });
+    window.scrollTo({top: 0});
   };
 
   return (
