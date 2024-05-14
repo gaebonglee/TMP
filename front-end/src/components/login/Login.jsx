@@ -44,7 +44,7 @@ const Login = () => {
   return (
     <div className={styles.loginBox}>
       <h1 className={styles.loginTitle}>
-        {memberDivision === "user" ? "회원" : "코치"} 로그인
+        {memberDivision === "user" ? "회원" : "트레이너"} 로그인
       </h1>
 
       <div className={styles.loginBtns}>
@@ -88,7 +88,7 @@ const Login = () => {
           onClick={memberDivisionHandler}
           value={"trainer"}
         >
-          코치 로그인
+          트레이너 로그인
         </button>
       </div>
     </div>
