@@ -36,7 +36,7 @@ ORDER BY RAND();
 
 function selectPrice(user_id, callback) {
   mysql.query(
-    `SELECT count, total_price FROM trainer_price WHERE user_id = ?`,
+    `SELECT count, total_price FROM trainer_price WHERE user_id = ?;`,
     [user_id],
     (err, result) => {
       if (err) {
@@ -152,6 +152,7 @@ function selectFilter(filter, callback) {
     AND tp.total_price / tp.count <= ?
     AND u.gender = ?
     AND user_roles = 'trainer'
+    
   GROUP BY
     c.center_id, t.user_id;
     `,
