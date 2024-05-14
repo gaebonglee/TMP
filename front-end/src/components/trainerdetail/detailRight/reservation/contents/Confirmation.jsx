@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./Confirmation.scss";
 import { IoIosArrowDown } from "react-icons/io";
-import Swal from "sweetalert2/dist/sweetalert2.js";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 const Confirmation = () => {
   const { trainerId } = useParams();
@@ -14,6 +15,22 @@ const Confirmation = () => {
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
 
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    iconColor: 'white',
+    customClass: {
+        popup: 'colored-toast',
+      },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
   // 사용자 세션 정보 가져오기
   useEffect(() => {
     const fetchUserId = async () => {
@@ -87,24 +104,22 @@ const Confirmation = () => {
         return response.json();
       })
       .then((data) => {
-        Swal.fire({
+        Toast.fire({
           icon: "success",
-          title: "예약 완료!",
-          text: "예약이 완료되었습니다. 예약 내역 페이지로 이동합니다",
-          confirmButtonText: "확인",
-        }).then((result) => {
-          if (result.isConfirmed) {
+          title: "예약이 완료되었습니다. 예약 내역 페이지로 이동합니다",
+        })
+        .then(() => {
+          setTimeout(() => {
             navigate(`/reservationList/${userId}`);
-          }
+            window.scrollTo({top: 0});
+        }, 1500);
         });
       })
       .catch((error) => {
         console.error("Error:", error);
-        Swal.fire({
+        Toast.fire({
           icon: "error",
-          title: "예약 실패",
-          text: "예약에 실패했습니다: " + error.message,
-          confirmButtonText: "닫기",
+          title: "예약에 실패했습니다: " + error.message,
         });
       });
   };
