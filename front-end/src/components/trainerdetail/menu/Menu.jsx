@@ -62,7 +62,7 @@ const Menu = ({ trainerInfo, handleTrainerInfo, sectionRefs }) => {
               window.scrollTo({ top: 0 });
             }}
           >
-            코치
+            트레이너
           </div>
           <div
             className={headerMenu === 1 ? `top_tab on` : `top_tab`}
