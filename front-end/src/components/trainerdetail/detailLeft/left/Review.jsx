@@ -75,7 +75,10 @@ const Review = ({ sectionRefs }) => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length + selectedFiles.length > 3) {
-      Swal.fire("최대 3개의 사진까지만 등록할 수 있습니다.");
+      Toast.fire({
+        icon: "info",
+        title: "최대 3개의 사진까지 업로드 가능합니다.",
+      });
       return;
     }
 
@@ -151,12 +154,18 @@ const Review = ({ sectionRefs }) => {
 
   const handleFetchReview = async () => {
     if (selectedRating === 0) {
-      Swal.fire("별점을 선택해주세요.");
+      Toast.fire({
+        icon: "info",
+        title: "별점을 선택해주세요.",
+      });
       return;
     }
 
     if (!sessionUserId) {
-      Swal.fire("회원 로그인이 필요합니다.");
+      Toast.fire({
+        icon: "info",
+        title: "회원 로그인이 필요합니다.",
+      });
       handleCloseModal();
 
       return;
@@ -186,7 +195,10 @@ const Review = ({ sectionRefs }) => {
 
       const data = await response.json();
       if (response.ok && data.message === "SUCCESS") {
-        Swal.fire("리뷰가 등록되었습니다.");
+        Toast.fire({
+          icon: "success",
+          title: "리뷰가 등록되었습니다.",
+        });
         handleCloseModal();
         window.location.reload();
       } else {
@@ -270,7 +282,10 @@ const Review = ({ sectionRefs }) => {
 
   function handleUpdateReview() {
     if (!selectedReview) {
-      Swal.fire("수정할 리뷰를 선택해주세요.");
+      Toast.fire({
+        icon: "info",
+        title: "수정할 리뷰를 선택해주세요",
+      });
       return;
     }
 
@@ -289,10 +304,16 @@ const Review = ({ sectionRefs }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "SUCCESS") {
-          Swal.fire("리뷰가 수정되었습니다.");
+          Toast.fire({
+            icon: "success",
+            title: "리뷰 수정에 성공하였습니다",
+          });
           window.location.reload();
         } else {
-          Swal.fire("리뷰 수정에 실패했습니다.");
+          Toast.fire({
+            icon: "info",
+            title: "수정할 리뷰를 선택해주세요",
+          });
         }
       });
   }
