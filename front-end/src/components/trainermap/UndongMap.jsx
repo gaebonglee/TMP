@@ -21,6 +21,8 @@ const UndongMap = (props) => {
     searchCenter,
     setIsLoading,
     newCenter,
+    clickedTrainers,
+    setClickedTrainers,
   } = props;
   const markers = useRef([]);
   const currentLocationMarker = useRef(null);
@@ -76,16 +78,13 @@ const UndongMap = (props) => {
         if (newCenter.current !== null) {
           setCurrentLatitude(newCenter.current[0]);
           setCurrentLongitude(newCenter.current[1]);
-          console.log("newcenter.current:" + newCenter.current);
         } else {
           initMapAfterLocationUpdate();
           updateCurrentLocation();
-          console.log("initmapafterlocationupdate");
         }
       } else {
         setCurrentLatitude(urlLat);
         setCurrentLongitude(urlLng);
-        console.log("urlLat:" + urlLat + "urlLng:" + urlLng);
       }
       initMap();
     }
@@ -217,6 +216,8 @@ const UndongMap = (props) => {
           newMap.panTo(markerLocation);
 
           setTrainerIndex(index);
+          setClickedTrainers(...clickedTrainers, index);
+          console.log("index:" + clickedTrainers);
         });
       });
       setIsLoading(false);
@@ -340,10 +341,10 @@ const UndongMap = (props) => {
         markers.current.push(marker);
 
         // 마커 클릭 이벤트 핸들러 추가
-        window.naver.maps.Event.addListener(marker, "click", () => {
-          setTrainerIndex(trainer.user_id);
-          // 추가 동작 구현...
-        });
+        // window.naver.maps.Event.addListener(marker, "click", () => {
+        //   setTrainerIndex(trainer.user_id);
+        //   // 추가 동작 구현...
+        // });
       });
     } catch (error) {
       console.error("Error fetching trainers:", error);

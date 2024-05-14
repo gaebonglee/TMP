@@ -11,8 +11,8 @@ const TotalTrainer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchCenter, setSearchCenter] = useState([]);
   const newCenter = useRef(null);
+  const [clickedTrainers, setClickedTrainers] = useState([]);
   useEffect(() => {
-   
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -59,6 +59,8 @@ const TotalTrainer = () => {
         <LoadingSpinner />
       ) : (
         <UndongMap
+          clickedTrainers={clickedTrainers}
+          setClickedTrainers={setClickedTrainers}
           setSearchCenter={setSearchCenter}
           searchCenter={searchCenter}
           setIsLoading={setIsLoading}

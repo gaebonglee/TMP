@@ -197,12 +197,12 @@ const Review = ({ sectionRefs }) => {
       if (response.ok && data.message === "SUCCESS") {
         Toast.fire({
           icon: "success",
-          title: "리뷰가 등록되었습니다.",
+          title: "후기가 등록되었습니다.",
         });
         handleCloseModal();
         window.location.reload();
       } else {
-        throw new Error(data.message || "리뷰 등록에 실패했습니다.");
+        throw new Error(data.message || "후기 등록에 실패했습니다.");
       }
     } catch (error) {
       Swal.fire(error.message);
@@ -284,7 +284,7 @@ const Review = ({ sectionRefs }) => {
     if (!selectedReview) {
       Toast.fire({
         icon: "info",
-        title: "수정할 리뷰를 선택해주세요",
+        title: "수정할 후기를 선택해주세요",
       });
       return;
     }
@@ -306,13 +306,13 @@ const Review = ({ sectionRefs }) => {
         if (data.message === "SUCCESS") {
           Toast.fire({
             icon: "success",
-            title: "리뷰 수정에 성공하였습니다",
+            title: "후기 수정에 성공하였습니다",
           });
           window.location.reload();
         } else {
           Toast.fire({
             icon: "info",
-            title: "수정할 리뷰를 선택해주세요",
+            title: "수정할 후기를 선택해주세요",
           });
         }
       });
@@ -350,19 +350,19 @@ const Review = ({ sectionRefs }) => {
               <div className="review_btn">
                 <button onClick={handleReview}>
                   <LuPencilLine />
-                  <a className="create_review">리뷰 남기기</a>
+                  <a className="create_review">후기 남기기</a>
                 </button>
               </div>
             </>
           ) : (
             <div className="flexBox" style={{ flex: 1 }}>
               <div>
-                <h4>리뷰를 작성해주세요.</h4>
+                <h4>후기를 작성해주세요.</h4>
               </div>
               <div className="review_btn">
                 <button onClick={handleReview}>
                   <LuPencilLine />
-                  <a className="create_review">리뷰 남기기</a>
+                  <a className="create_review">후기 남기기</a>
                 </button>
               </div>
             </div>
@@ -450,7 +450,7 @@ const Review = ({ sectionRefs }) => {
               ) : (
                 <li style={{ textAlign: "center", margin: 10, padding: 10 }}>
                   {" "}
-                  <h3>등록된 리뷰가 없습니다.</h3>
+                  <h3>등록된 후기가 없습니다.</h3>
                 </li>
               )}
             </ul>
@@ -595,7 +595,7 @@ const Review = ({ sectionRefs }) => {
                         }`}
                         disabled={reviewContent.length === 0}
                       >
-                        <span>리뷰 작성 완료</span>
+                        <span>후기 작성 완료</span>
                       </button>
                     </div>
                   </div>
@@ -696,7 +696,7 @@ const Review = ({ sectionRefs }) => {
                         onClick={handleUpdateReview}
                         className="button_Basic active"
                       >
-                        <span>리뷰 수정 완료</span>
+                        <span>후기 수정 완료</span>
                       </button>
                     </div>
                   </div>

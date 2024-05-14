@@ -109,7 +109,9 @@ const Search = ({ setSearchCene }) => {
         <div className="searchKeyword">
           <input
             type="text"
-            placeholder={searchKeyword ? "" : "트레이너 있는 센터 검색하기"}
+            placeholder={
+              searchKeyword ? "" : "트레이너 및 트레이너가 속한 센터 검색"
+            }
             maxLength={"20"}
             name="keyword"
             autoComplete="off"
