@@ -21,7 +21,8 @@ LEFT JOIN review r ON u.user_id = r.received_id
 LEFT JOIN trainer t ON u.user_id = t.user_id
 LEFT JOIN center c ON t.center_id = c.center_id
 WHERE u.user_roles = 'trainer'
-GROUP BY u.user_id, u.user_name, u.gender, t.intro_img, c.center_name, c.center_address, c.latitude, c.longitude, c.center_street_address;
+GROUP BY u.user_id, u.user_name, u.gender, t.intro_img, c.center_name, c.center_address, c.latitude, c.longitude, c.center_street_address
+ORDER BY RAND();
     `,
     (err, result) => {
       if (err) {

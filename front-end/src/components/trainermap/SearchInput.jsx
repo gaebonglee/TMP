@@ -7,7 +7,7 @@ import { GiWhistle } from "react-icons/gi";
 
 const SearchInput = (props) => {
   const [inputValue, setInputValue] = useState("");
- 
+
   const [searchingData, setSearchingData] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchBarRef = useRef(null);
@@ -76,7 +76,9 @@ const SearchInput = (props) => {
             id="searchBar"
             ref={searchBarRef}
             type="text"
-            placeholder={inputValue ? "" : "트레이너 있는 센터 검색하기"}
+            placeholder={
+              inputValue ? "" : "트레이너 및 트레이너가 속한 센터 검색"
+            }
             maxLength={"20"}
             value={inputValue}
             onChange={handleInputChange}
