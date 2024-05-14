@@ -7,7 +7,8 @@ import { useLocation } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaPencilAlt } from "react-icons/fa";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 const Review = ({ sectionRefs }) => {
   const [reviewList, setReviewList] = useState([]);
@@ -29,7 +30,21 @@ const Review = ({ sectionRefs }) => {
   const handleStarClick = (rating) => {
     setSelectedRating(rating);
   };
-
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
   function handleReview() {
     setIsModalOpen(true);
   }
@@ -60,7 +75,10 @@ const Review = ({ sectionRefs }) => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length + selectedFiles.length > 3) {
-      Swal.fire("최대 3개의 사진까지만 등록할 수 있습니다.");
+      Toast.fire({
+        icon: "info",
+        title: "최대 3개의 사진까지 업로드 가능합니다.",
+      });
       return;
     }
 
@@ -136,12 +154,18 @@ const Review = ({ sectionRefs }) => {
 
   const handleFetchReview = async () => {
     if (selectedRating === 0) {
-      Swal.fire("별점을 선택해주세요.");
+      Toast.fire({
+        icon: "info",
+        title: "별점을 선택해주세요.",
+      });
       return;
     }
 
     if (!sessionUserId) {
-      Swal.fire("회원 로그인이 필요합니다.");
+      Toast.fire({
+        icon: "info",
+        title: "회원 로그인이 필요합니다.",
+      });
       handleCloseModal();
 
       return;
@@ -171,7 +195,10 @@ const Review = ({ sectionRefs }) => {
 
       const data = await response.json();
       if (response.ok && data.message === "SUCCESS") {
-        Swal.fire("리뷰가 등록되었습니다.");
+        Toast.fire({
+          icon: "success",
+          title: "리뷰가 등록되었습니다.",
+        });
         handleCloseModal();
         window.location.reload();
       } else {
@@ -213,33 +240,52 @@ const Review = ({ sectionRefs }) => {
   };
 
   function handleDelete(reviewId) {
-    let conf = window.confirm("리뷰를 삭제하시겠습니까?");
-    if (conf) {
-      fetch(`http://localhost:5000/review/${reviewId}/delete`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: sessionUserId,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.message === "SUCCESS") {
-            Swal.fire("리뷰가 삭제되었습니다.");
-            window.location.reload();
-          } else {
-            Swal.fire("리뷰 삭제에 실패했습니다.");
-          }
-        });
-    }
+    Swal.fire({
+      title: "정말로 삭제하시겠습니까?",
+      showDenyButton: true,
+      confirmButtonText: "네",
+      denyButtonText: `아니오`,
+      confirmButtonColor: "#a2ee94",
+      denyButtonColor: "#ff0000",
+      focusConfirm: false,
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/review/${reviewId}/delete`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: sessionUserId,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.message === "SUCCESS") {
+              Toast.fire({
+                icon: "success",
+                title: "삭제되었습니다.",
+              });
+              window.location.reload();
+            } else {
+              Toast.fire({
+                icon: "info",
+                title: "취소되었습니다.",
+              });
+            }
+          });
+      }
+    });
   }
 
   function handleUpdateReview() {
     if (!selectedReview) {
-      Swal.fire("수정할 리뷰를 선택해주세요.");
+      Toast.fire({
+        icon: "info",
+        title: "수정할 리뷰를 선택해주세요",
+      });
       return;
     }
 
@@ -258,10 +304,16 @@ const Review = ({ sectionRefs }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "SUCCESS") {
-          Swal.fire("리뷰가 수정되었습니다.");
+          Toast.fire({
+            icon: "success",
+            title: "리뷰 수정에 성공하였습니다",
+          });
           window.location.reload();
         } else {
-          Swal.fire("리뷰 수정에 실패했습니다.");
+          Toast.fire({
+            icon: "info",
+            title: "수정할 리뷰를 선택해주세요",
+          });
         }
       });
   }
