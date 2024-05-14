@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./Confirmation.scss";
 import { IoIosArrowDown } from "react-icons/io";
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
 
 const Confirmation = () => {
   const { trainerId } = useParams();
@@ -15,22 +15,21 @@ const Confirmation = () => {
   const [userName, setUserName] = useState("");
   const [userPhone, setUserPhone] = useState("");
 
-
   const Toast = Swal.mixin({
     toast: true,
-    position: 'top',
+    position: "top",
     showConfirmButton: false,
-    iconColor: 'white',
+    iconColor: "white",
     customClass: {
-        popup: 'colored-toast',
-      },
+      popup: "colored-toast",
+    },
     timer: 1500,
     timerProgressBar: true,
     didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-  })
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
   // 사용자 세션 정보 가져오기
   useEffect(() => {
     const fetchUserId = async () => {
@@ -87,41 +86,47 @@ const Confirmation = () => {
       received_trainer_id: trainerId,
       selected_list: state.subCategories.join(", "),
     };
-
-    fetch("http://localhost:5000/reservation/saveReservation", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(reservationData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.text().then((text) => {
-            throw new Error(text);
-          });
-        }
-        return response.json();
+    console.log(reservationData.selected_list);
+    if (reservationData.selected_list) {
+      fetch("http://localhost:5000/reservation/saveReservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reservationData),
       })
-      .then((data) => {
-        Toast.fire({
-          icon: "success",
-          title: "예약이 완료되었습니다. 예약 내역 페이지로 이동합니다",
+        .then((response) => {
+          if (!response.ok) {
+            return response.text().then((text) => {
+              throw new Error(text);
+            });
+          }
+          return response.json();
         })
-        .then(() => {
-          setTimeout(() => {
-            navigate(`/reservationList/${userId}`);
-            window.scrollTo({top: 0});
-        }, 1500);
+        .then((data) => {
+          Toast.fire({
+            icon: "success",
+            title: "예약이 완료되었습니다. 예약 내역 페이지로 이동합니다",
+          }).then(() => {
+            setTimeout(() => {
+              navigate(`/reservationList/${userId}`);
+              window.scrollTo({ top: 0 });
+            }, 1500);
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          Toast.fire({
+            icon: "error",
+            title: "예약에 실패했습니다: " + error.message,
+          });
         });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        Toast.fire({
-          icon: "error",
-          title: "예약에 실패했습니다: " + error.message,
-        });
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "선택항목을 선택해주세요",
       });
+    }
   };
 
   const [showPersonalInfoDetails, setShowPersonalInfoDetails] = useState(false);
@@ -153,12 +158,20 @@ const Confirmation = () => {
               시간 : <span>{state.time || "시간이 선택되지 않았습니다."}</span>
             </p>
           </div>
-          <p className="reservation_subCategory_check">
+          {/* <p className="reservation_subCategory_check"> */}
+          <div>
             선택 항목 :{" "}
-            {state.subCategories.length > 0
-              ? state.subCategories.join(", ")
-              : "항목이 선택되지 않았습니다."}
-          </p>
+            {state.subCategories.length > 0 ? (
+              <span className="reservation_subCategory_check">
+                {state.subCategories.join(", ")}
+              </span>
+            ) : (
+              <span className="reservation_subCategory_check2">
+                항목이 선택되지 않았습니다.
+              </span>
+            )}
+          </div>
+          {/* </p> */}
           <div className="reservation_member_check">
             <a>이름 : {userName}</a>
             <a>휴대폰 번호 : {userPhone}</a>
