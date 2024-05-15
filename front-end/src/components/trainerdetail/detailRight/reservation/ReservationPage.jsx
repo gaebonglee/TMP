@@ -4,6 +4,7 @@ import Purpose from "./contents/Purpose";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./ReservationPage.scss";
+import Swal from "sweetalert2";
 
 const ReservationPage = () => {
   const [date, setDate] = useState(null);
@@ -12,6 +13,23 @@ const ReservationPage = () => {
   const [trainerName, setTrainerName] = useState("");
   const { trainerId } = useParams();
   const navigate = useNavigate();
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
 
   useEffect(() => {
     fetch(`http://localhost:5000/reservation/trainer/${trainerId}`)
@@ -22,10 +40,17 @@ const ReservationPage = () => {
   }, [trainerId]);
 
   const handleNext = () => {
-    navigate(`/confirmation/${trainerId}`, {
-      state: { date, time, subCategories, trainerName, trainerId },
-    });
-    window.scrollTo({top: 0});
+    if (!date || !time || subCategories.length === 0) {
+      Toast.fire({
+        icon: "error",
+        title: "선택사항을 다시 확인해주세요.",
+      });
+    } else {
+      navigate(`/confirmation/${trainerId}`, {
+        state: { date, time, subCategories, trainerName, trainerId },
+      });
+      window.scrollTo({ top: 0 });
+    }
   };
 
   return (
