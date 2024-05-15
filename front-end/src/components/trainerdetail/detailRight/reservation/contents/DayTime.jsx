@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "./DayTime.scss";
 import { FaRegCalendarCheck } from "react-icons/fa";
@@ -14,8 +14,13 @@ const isToday = (someDate) => {
 };
 
 const DayTime = (props) => {
-  const [date, setDate] = useState(new Date());
+  const today = new Date();
+  const [date, setDate] = useState(today);
   const [time, setTime] = useState("");
+
+  useEffect(() => {
+    props.setDate(today);
+  }, []);
 
   const availableTimes = [
     "이른 아침 (06 ~ 09시)",
@@ -29,7 +34,7 @@ const DayTime = (props) => {
 
   const onDateChange = (newDate) => {
     setDate(newDate);
-    props.setDate(newDate); // 상태 업데이트
+    props.setDate(newDate);
     setTime("");
     props.setTime("");
   };
