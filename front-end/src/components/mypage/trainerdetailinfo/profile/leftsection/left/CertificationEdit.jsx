@@ -69,12 +69,11 @@ const CertificationEdit = ({ content, setContent, userId, deletedArr }) => {
       </div>
       <div className="precautions_wrap">
         <ul>
-          <li>• 증명서 또는 관련 사진이 확인된 후 게시됩니다.</li>
-          <li>• 항목 작성 후 게시요청 버튼을 꼭 눌러주세요.</li>
+          <li>• 항목 작성 후 저장 버튼을 꼭 눌러주세요.</li>
           <li>
-            • 승인 또는 반려 관련하여 트레이너님께 직접 연락드릴 수 있습니다.
+            • 증명서 또는 관련 사진이 정상적이지 않을 시 삭제 처리될 수
+            있습니다.
           </li>
-          <li>• 도용방지 차원으로 TMP워터마크가 사진에 추가됩니다.</li>
         </ul>
       </div>
       <button
