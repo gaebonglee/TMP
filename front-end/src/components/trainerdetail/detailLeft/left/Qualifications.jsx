@@ -27,6 +27,13 @@ const Qualifications = ({ data, sectionRefs }) => {
     );
   };
 
+  const rows = 20;
+  const cols = 20;
+
+  const getOffset = (rowIndex) => {
+    // 줄마다 다른 오프셋을 설정합니다.
+    return `${rowIndex % 2 === 0 ? 0 : -90}px`;
+  };
   return (
     <div>
       <div id="intro_page_contents_wrap" className="qualifications">
@@ -69,11 +76,31 @@ const Qualifications = ({ data, sectionRefs }) => {
             totalCount={data.length}
           >
             <ArrowButton direction="left" onClick={prevImage} />
-            <img
-              src={`${process.env.REACT_APP_FILE_SERVER_URL}/certification/${data[selectedIndex].user_id}/${data[selectedIndex].certification_img}`}
-              alt="certification_img"
-              className="certification_img"
-            />
+            <div className="certification_img_container">
+              <img
+                src={`${process.env.REACT_APP_FILE_SERVER_URL}/certification/${data[selectedIndex].user_id}/${data[selectedIndex].certification_img}`}
+                alt="certification_img"
+                className="certification_img"
+              />
+              <div className="watermark-overlay">
+                {Array.from({ length: rows }).map((_, rowIndex) => (
+                  <div
+                    className="watermark-row"
+                    key={rowIndex}
+                    style={{
+                      top: `${rowIndex * 20 - 25}%`,
+                      left: getOffset(rowIndex),
+                    }}
+                  >
+                    {Array.from({ length: cols }).map((_, colIndex) => (
+                      <div className="watermark-text" key={colIndex}>
+                        TMP
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
             <ArrowButton direction="right" onClick={nextImage} />
           </Modal>
         )}
